@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yunpai-customer-service"
+version = "0.1.0"
+description = "Standalone intelligent customer-service module: chat, memory, script matching, and self-evolution"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.28,<1.0",
+  "langgraph>=1.2,<2.0",
+  "langgraph-checkpoint-sqlite>=3.1,<4.0",
+  "pydantic>=2.10,<3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9.0",
+]
+
+[project.urls]
+Source = "https://github.com/a1024053774/yunpai-customer-service"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+yunpai_customer_service = ["*.json", "fixtures/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
