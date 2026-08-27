@@ -304,6 +304,45 @@ def test_vision_gateway_passes_unverified_order_candidate_to_deepseek(
     )
 
 
+def test_vision_gateway_drops_sensitive_order_reference(tmp_path) -> None:
+    def handler(_: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "message": {
+                            "content": json.dumps(
+                                {
+                                    "description": "截图显示退款申请正在处理。",
+                                    "order_candidate": {
+                                        "order_reference": "13800138000",
+                                        "refund_status": "refund_approved",
+                                    },
+                                    "uncertainties": [],
+                                },
+                                ensure_ascii=False,
+                            )
+                        }
+                    }
+                ]
+            },
+        )
+
+    gateway = VisionGateway(
+        _vision_settings(tmp_path),
+        transport=httpx.MockTransport(handler),
+    )
+    try:
+        result = gateway.describe(image=_png_image(), user_message="退款到账了吗")
+    finally:
+        gateway.close()
+
+    assert result.order_candidate == {"refund_status": "refund_approved"}
+    assert "13800138000" not in json.dumps(result.media_evidence(), ensure_ascii=False)
+    assert "订单引用包含敏感信息，已忽略。" in result.uncertainties
+
+
 def test_vision_gateway_disabled_never_calls_http(tmp_path) -> None:
     calls = 0
 
@@ -482,6 +521,71 @@ def test_failed_unpersisted_media_cleanup_is_queued_without_masking_error(
         assert queue_count == 0
         assert not media_files[0].exists()
     finally:
+        core.message_media.remove = original_remove  # type: ignore[method-assign]
+        core.close()
+
+
+def test_successful_idempotent_retry_reclaims_media_from_deletion_queue(
+    tmp_path,
+) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    principal = principal_for_core(core)
+    original_audit = core.db.audit
+    original_remove = core.message_media.remove
+    failed = False
+
+    def fail_first_vision_audit(*args: Any, **kwargs: Any) -> str:
+        nonlocal failed
+        if not failed and args[0] == "media.vision":
+            failed = True
+            raise RuntimeError("audit unavailable")
+        return original_audit(*args, **kwargs)
+
+    def fail_remove(_value):
+        raise OSError("media delete denied")
+
+    core.db.audit = fail_first_vision_audit  # type: ignore[method-assign]
+    core.message_media.remove = fail_remove  # type: ignore[method-assign]
+    image = _png_image(b"idempotent-retry-media")
+    try:
+        with pytest.raises(RuntimeError, match="audit unavailable"):
+            core.chat(
+                principal,
+                "vision-idempotent-retry",
+                "请说明图片",
+                idempotency_key="vision-idempotent-retry-1",
+                image=image,
+            )
+        with core.db.connect() as conn:
+            assert conn.execute(
+                "SELECT COUNT(*) FROM media_deletion_queue"
+            ).fetchone()[0] == 1
+
+        core.db.audit = original_audit  # type: ignore[method-assign]
+        core.message_media.remove = original_remove  # type: ignore[method-assign]
+        response = core.chat(
+            principal,
+            "vision-idempotent-retry",
+            "请说明图片",
+            idempotency_key="vision-idempotent-retry-1",
+            image=image,
+        )
+        with core.db.connect() as conn:
+            media = conn.execute(
+                "SELECT storage_ref FROM message_media"
+            ).fetchone()
+            queued = conn.execute(
+                "SELECT COUNT(*) FROM media_deletion_queue"
+            ).fetchone()[0]
+        stored_path = core.settings.data_dir / media["storage_ref"]
+
+        assert response.answer
+        assert queued == 0
+        assert stored_path.is_file()
+        core.purge_expired(actor="test", dry_run=False)
+        assert stored_path.is_file()
+    finally:
+        core.db.audit = original_audit  # type: ignore[method-assign]
         core.message_media.remove = original_remove  # type: ignore[method-assign]
         core.close()
 

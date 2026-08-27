@@ -267,20 +267,21 @@ def _parse_vision_output(
     parsed = _VisionStructuredResponse.model_validate(extract_json_object(content))
 
     candidate = None
-    if parsed.order_candidate is not None:
-        values = parsed.order_candidate.model_dump(exclude_none=True)
-        if values:
-            candidate = {
-                key: (
-                    value
-                    if key == "order_reference"
-                    else redact_sensitive(value)[0]
-                )
-                for key, value in values.items()
-            }
-    uncertainties = tuple(
+    uncertainty_items = [
         redact_sensitive(str(item)[:300])[0].strip()
         for item in parsed.uncertainties
         if str(item).strip()
-    )
-    return parsed.description, candidate, uncertainties
+    ]
+    if parsed.order_candidate is not None:
+        values = parsed.order_candidate.model_dump(exclude_none=True)
+        if values:
+            candidate = {}
+            for key, value in values.items():
+                sanitized, was_redacted = redact_sensitive(value)
+                if key == "order_reference" and was_redacted:
+                    uncertainty_items.append("订单引用包含敏感信息，已忽略。")
+                    continue
+                candidate[key] = sanitized
+            if not candidate:
+                candidate = None
+    return parsed.description, candidate, tuple(uncertainty_items)

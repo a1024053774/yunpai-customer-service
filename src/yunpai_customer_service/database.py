@@ -3486,7 +3486,6 @@ class Database:
         from .message_media import (
             non_media_sources,
             parse_message_media,
-            persist_message_media,
         )
 
         rows = conn.execute(
@@ -3496,12 +3495,26 @@ class Database:
             media = parse_message_media(row["sources_json"])
             if not media:
                 continue
-            persist_message_media(
-                conn,
-                message_id=str(row["id"]),
-                media=media,
-                created_at=str(row["created_at"]),
-            )
+            for item in media:
+                conn.execute(
+                    """
+                    INSERT INTO message_media(
+                        message_id, id, mime_type, size_bytes, storage_ref,
+                        vision_description, created_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(message_id, id) DO UPDATE SET
+                        vision_description=excluded.vision_description
+                    """,
+                    (
+                        row["id"],
+                        item["id"],
+                        item["mime_type"],
+                        item["size_bytes"],
+                        item["storage_ref"],
+                        item.get("vision_description"),
+                        row["created_at"],
+                    ),
+                )
             conn.execute(
                 "UPDATE messages SET sources_json=? WHERE id=?",
                 (

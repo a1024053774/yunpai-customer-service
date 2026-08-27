@@ -182,6 +182,10 @@ def persist_message_media(
                 created_at,
             ),
         )
+        conn.execute(
+            "DELETE FROM media_deletion_queue WHERE storage_ref=?",
+            (item["storage_ref"],),
+        )
 
 
 def enqueue_media_deletions(
