@@ -233,3 +233,123 @@ def test_candidate_failing_the_gate_cannot_be_approved(tmp_path) -> None:
             )
     finally:
         core.close()
+
+
+def test_exact_question_match_ranks_before_a_shorter_generic_match(tmp_path) -> None:
+    settings = make_settings(tmp_path)
+    core = build_core(tmp_path, settings=settings, seed_knowledge=False)
+    question = f"{FIXTURE_MARKER}起球后怎么护理"
+    try:
+        exact_id = core.knowledge.add_document(
+            category="进化话术",
+            intent="product",
+            question=question,
+            answer=(
+                "建议使用毛球修剪器轻柔处理，避免用力拉扯；若面料异常破损，"
+                "请保留照片并联系人工核对。除此之外还应按照商品洗护标签进行护理，"
+                "并保持干燥通风。"
+            ),
+            keywords=question,
+            risk_level="low",
+            source="evolution:candidate-exact-ranking",
+            tenant_id=settings.bootstrap_tenant_id,
+        )
+        core.knowledge.add_document(
+            category="商品护理",
+            intent="product",
+            question="商品起球怎么护理",
+            answer="起球后用毛球修剪器护理。",
+            keywords="商品 起球 护理 毛球修剪器",
+            risk_level="low",
+            source="fixture:generic-ranking",
+            tenant_id=settings.bootstrap_tenant_id,
+        )
+
+        documents = core.knowledge.retrieve(
+            question,
+            top_k=2,
+            min_score=0.05,
+            intent="product",
+            tenant_id=settings.bootstrap_tenant_id,
+        )
+
+        assert documents[0]["id"] == exact_id
+    finally:
+        core.close()
+
+
+def test_repeated_correction_reuses_the_existing_evolution_candidate(tmp_path) -> None:
+    settings = make_settings(tmp_path)
+    model = TableDrivenModel(settings)
+    core = build_core(tmp_path, settings=settings, model=model)
+    try:
+        principal = principal_for_core(core)
+        first = core.chat(principal, "evo-dedup-a", LEARNED_QUESTION)
+        second = core.chat(principal, "evo-dedup-b", LEARNED_QUESTION)
+        request_kwargs = {
+            "rating": -1,
+            "corrected_answer": LEARNED_ANSWER,
+            "evidence_source": "人工复核：羊毛商品护理说明",
+            "submitted_by": "qa",
+        }
+
+        first_feedback = core.evolution.submit_feedback(
+            FeedbackRequest(message_id=first.message_id, **request_kwargs),
+            tenant_id=principal.tenant_id,
+        )
+        second_feedback = core.evolution.submit_feedback(
+            FeedbackRequest(message_id=second.message_id, **request_kwargs),
+            tenant_id=principal.tenant_id,
+        )
+
+        assert second_feedback.candidate_id == first_feedback.candidate_id
+        with core.db.connect() as conn:
+            candidate_count = conn.execute(
+                """
+                SELECT COUNT(*) FROM evolution_candidates
+                WHERE tenant_id=? AND question=? AND proposed_answer=?
+                """,
+                (principal.tenant_id, LEARNED_QUESTION, LEARNED_ANSWER),
+            ).fetchone()[0]
+        assert candidate_count == 1
+    finally:
+        core.close()
+
+
+def test_repeated_correction_reports_an_existing_approved_candidate(tmp_path) -> None:
+    settings = make_settings(tmp_path)
+    model = TableDrivenModel(settings)
+    core = build_core(tmp_path, settings=settings, model=model)
+    try:
+        principal = principal_for_core(core)
+        first = core.chat(principal, "evo-status-a", LEARNED_QUESTION)
+        request_kwargs = {
+            "rating": -1,
+            "corrected_answer": LEARNED_ANSWER,
+            "evidence_source": "人工复核：羊毛商品护理说明",
+            "submitted_by": "qa",
+        }
+        submitted = core.evolution.submit_feedback(
+            FeedbackRequest(message_id=first.message_id, **request_kwargs),
+            tenant_id=principal.tenant_id,
+        )
+        core.evolution.evaluate(
+            submitted.candidate_id, tenant_id=principal.tenant_id
+        )
+        core.evolution.approve(
+            submitted.candidate_id,
+            "reviewer",
+            "verified",
+            tenant_id=principal.tenant_id,
+        )
+
+        second = core.chat(principal, "evo-status-b", LEARNED_QUESTION)
+        repeated = core.evolution.submit_feedback(
+            FeedbackRequest(message_id=second.message_id, **request_kwargs),
+            tenant_id=principal.tenant_id,
+        )
+
+        assert repeated.candidate_id == submitted.candidate_id
+        assert repeated.status == "candidate_approved"
+    finally:
+        core.close()

@@ -48,6 +48,8 @@ class ModelGateway:
             timeout=settings.model_timeout_seconds,
             limits=httpx.Limits(max_connections=8, max_keepalive_connections=4),
             transport=transport,
+            # mock 不访问外网；忽略 NO_PROXY 里的 `::1` 等条目，避免 httpx 把它们当成代理 URL
+            trust_env=False if settings.model_mock_mode else True,
         )
 
     @property

@@ -31,6 +31,11 @@ class EvolutionService:
         user_message, assistant_message = pair
         feedback_id = f"feedback-{uuid.uuid4().hex}"
         corrected = normalize_text(request.corrected_answer or "") or None
+        question = normalize_text(str(user_message["content"]))
+        intent = str(assistant_message.get("intent") or "general")
+        candidate_id: str | None = None
+        candidate_status: str | None = None
+        candidate_reused = False
         with self.db._write_lock, self.db.connect() as conn:
             conn.execute(
                 """
@@ -45,38 +50,78 @@ class EvolutionService:
                     utc_now(), tenant_id,
                 ),
             )
-
-        candidate_id: str | None = None
-        if request.rating == -1 and corrected:
-            candidate_id = f"candidate-{uuid.uuid4().hex}"
-            with self.db._write_lock, self.db.connect() as conn:
-                conn.execute(
-                    """
-                    INSERT INTO evolution_candidates(
-                        id, feedback_id, question, proposed_answer, evidence_source, intent,
-                        source_message_id, status, gate_passed, gate_report_json,
-                        resulting_knowledge_id, created_at, decided_at, decided_by,
-                        decision_note, tenant_id
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NULL, NULL, NULL, ?, NULL, NULL, NULL, ?)
-                    """,
-                    (
-                        candidate_id, feedback_id, user_message["content"], corrected,
-                        request.evidence_source,
-                        assistant_message.get("intent") or "general", request.message_id,
-                        utc_now(), tenant_id,
-                    ),
+            if request.rating == -1 and corrected:
+                tenant_clause = (
+                    "ec.tenant_id IS NULL"
+                    if tenant_id is None
+                    else "ec.tenant_id=?"
                 )
+                params: tuple[Any, ...] = (
+                    (question, corrected, intent)
+                    if tenant_id is None
+                    else (question, corrected, intent, tenant_id)
+                )
+                existing = conn.execute(
+                    f"""
+                    SELECT ec.id, ec.status, ec.evidence_source
+                    FROM evolution_candidates ec
+                    LEFT JOIN knowledge k ON k.id=ec.resulting_knowledge_id
+                    WHERE ec.question=? AND ec.proposed_answer=? AND ec.intent=?
+                      AND {tenant_clause}
+                      AND (
+                        ec.status IN ('pending','evaluated')
+                        OR (ec.status='approved' AND k.status='active')
+                      )
+                    ORDER BY
+                      CASE ec.status WHEN 'approved' THEN 2 WHEN 'evaluated' THEN 1 ELSE 0 END DESC,
+                      ec.created_at DESC
+                    LIMIT 1
+                    """,
+                    params,
+                ).fetchone()
+                if existing is not None:
+                    candidate_id = str(existing["id"])
+                    candidate_status = str(existing["status"])
+                    candidate_reused = True
+                    if not existing["evidence_source"] and request.evidence_source:
+                        conn.execute(
+                            "UPDATE evolution_candidates SET evidence_source=? WHERE id=?",
+                            (request.evidence_source, candidate_id),
+                        )
+                else:
+                    candidate_id = f"candidate-{uuid.uuid4().hex}"
+                    candidate_status = "pending"
+                    conn.execute(
+                        """
+                        INSERT INTO evolution_candidates(
+                            id, feedback_id, question, proposed_answer, evidence_source, intent,
+                            source_message_id, status, gate_passed, gate_report_json,
+                            resulting_knowledge_id, created_at, decided_at, decided_by,
+                            decision_note, tenant_id
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NULL, NULL, NULL, ?, NULL, NULL, NULL, ?)
+                        """,
+                        (
+                            candidate_id, feedback_id, question, corrected,
+                            request.evidence_source,
+                            intent, request.message_id,
+                            utc_now(), tenant_id,
+                        ),
+                    )
         self.db.audit(
             "feedback.submitted",
             request.submitted_by,
             feedback_id,
-            {"rating": request.rating, "candidate_id": candidate_id},
+            {
+                "rating": request.rating,
+                "candidate_id": candidate_id,
+                "candidate_reused": candidate_reused,
+            },
             tenant_id,
         )
         return FeedbackResponse(
             feedback_id=feedback_id,
             candidate_id=candidate_id,
-            status="candidate_pending" if candidate_id else "recorded",
+            status=(f"candidate_{candidate_status}" if candidate_status else "recorded"),
         )
 
     def list_candidates(

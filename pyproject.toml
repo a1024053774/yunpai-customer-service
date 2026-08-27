@@ -17,8 +17,18 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  "fastapi>=0.115,<1.0",
   "pytest>=8.3,<9.0",
+  "pytest-playwright>=0.9,<1.0",
+  "uvicorn[standard]>=0.34,<1.0",
 ]
+demo = [
+  "fastapi>=0.115,<1.0",
+  "uvicorn[standard]>=0.34,<1.0",
+]
+
+[project.scripts]
+yunpai-cs-demo = "yunpai_customer_service.demo.app:main"
 
 [project.urls]
 Source = "https://github.com/a1024053774/yunpai-customer-service"
@@ -30,7 +40,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-yunpai_customer_service = ["*.json", "fixtures/*.json"]
+yunpai_customer_service = ["*.json", "fixtures/*.json", "demo/static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,9 +1,37 @@
 from __future__ import annotations
 
+import base64
+import binascii
 from datetime import datetime, timedelta
 from typing import Any, Literal, TypedDict
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+
+MAX_CHAT_IMAGE_BYTES = 5 * 1024 * 1024
+MAX_CHAT_IMAGE_BASE64_CHARS = ((MAX_CHAT_IMAGE_BYTES + 2) // 3) * 4
+MAX_CHAT_IMAGE_REQUEST_BODY_BYTES = MAX_CHAT_IMAGE_BASE64_CHARS + 32_768
+ALLOWED_CHAT_IMAGE_MIME_TYPES = ("image/png", "image/jpeg", "image/webp")
+
+
+def _decode_chat_image(data_base64: str) -> bytes:
+    try:
+        decoded = base64.b64decode(data_base64, validate=True)
+    except (binascii.Error, ValueError) as exc:
+        raise ValueError("image data_base64 must be valid base64") from exc
+    if not decoded:
+        raise ValueError("image data must not be empty")
+    if len(decoded) > MAX_CHAT_IMAGE_BYTES:
+        raise ValueError("image exceeds the 5 MiB limit")
+    return decoded
+
+
+def _matches_image_type(data: bytes, mime_type: str) -> bool:
+    if mime_type == "image/png":
+        return data.startswith(b"\x89PNG\r\n\x1a\n")
+    if mime_type == "image/jpeg":
+        return data.startswith(b"\xff\xd8\xff")
+    return len(data) >= 12 and data.startswith(b"RIFF") and data[8:12] == b"WEBP"
 
 
 class RetrievedDocument(TypedDict):
@@ -29,12 +57,14 @@ class AgentState(TypedDict, total=False):
     external_session_id: str
     tenant_id: str
     client_id: str
+    subject_hash: str
     execution_mode: str
     invocation_id: str | None
     user_message_id: str
     user_input: str
     input_redacted: bool
     normalized_input: str
+    retrieval_query: str
     context: dict[str, Any]
     intent: str
     customer_intent: str | None
@@ -48,6 +78,12 @@ class AgentState(TypedDict, total=False):
     retrieved: list[RetrievedDocument]
     knowledge_error: str | None
     draft: str
+    media_evidence: dict[str, Any]
+    message_media: list[dict[str, Any]]
+    vision_status: str
+    vision_model: str | None
+    vision_latency_ms: int | None
+    vision_image_count: int
     answer: str
     citations: list[str]
     requires_human: bool
@@ -74,10 +110,35 @@ class AgentState(TypedDict, total=False):
     context_conflicts: list[dict[str, Any]]
 
 
+class ChatImageInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    mime_type: str = Field(max_length=32)
+    data_base64: str = Field(min_length=4, max_length=MAX_CHAT_IMAGE_BASE64_CHARS)
+
+    @model_validator(mode="after")
+    def validate_image_content(self) -> "ChatImageInput":
+        if self.mime_type not in ALLOWED_CHAT_IMAGE_MIME_TYPES:
+            raise ValueError("unsupported image mime_type")
+        if not _matches_image_type(self.decoded_bytes(), self.mime_type):
+            raise ValueError("image bytes do not match mime_type")
+        return self
+
+    def decoded_bytes(self) -> bytes:
+        return _decode_chat_image(self.data_base64)
+
+
 class ChatRequest(BaseModel):
     session_id: str = Field(min_length=1, max_length=128, pattern=r"^[A-Za-z0-9_.:-]+$")
-    message: str = Field(min_length=1, max_length=4000)
+    message: str = Field(default="", max_length=4000)
     context: dict[str, Any] = Field(default_factory=dict, max_length=16)
+    image: ChatImageInput | None = None
+
+    @model_validator(mode="after")
+    def require_message_or_image(self) -> "ChatRequest":
+        if not self.message.strip() and self.image is None:
+            raise ValueError("message or image is required")
+        return self
 
 
 class ChatMessageRequest(BaseModel):
@@ -104,6 +165,10 @@ class ChatResponse(BaseModel):
     reason: str
     sources: list[SourceItem]
     model_fallback: bool = False
+    vision_status: str = "not_applicable"
+    vision_model: str | None = None
+    vision_latency_ms: int | None = None
+    vision_image_count: int = 0
     handoff_id: str | None = None
     handoff_status: str | None = None
     sop_id: str | None = None
@@ -111,6 +176,51 @@ class ChatResponse(BaseModel):
     context_snapshot_id: str | None = None
     context_readiness: str | None = None
     evidence_ids: list[str] = Field(default_factory=list)
+    trace: list[str] = Field(default_factory=list)
+    decision_mode: str | None = None
+    decision_tool: str | None = None
+
+
+def chat_response_from_state(state: dict[str, Any], session_id: str) -> ChatResponse:
+    """Build the public response once for live, streaming, and idempotent paths."""
+
+    sources = [
+        SourceItem(
+            id=document["id"],
+            category=document["category"],
+            source=document["source"],
+            version=document["version"],
+            score=document["score"],
+        )
+        for document in state.get("retrieved", [])
+    ]
+    decision = state.get("decision") or {}
+    return ChatResponse(
+        message_id=state["message_id"],
+        trace_id=state["trace_id"],
+        session_id=session_id,
+        answer=state["answer"],
+        intent=state["intent"],
+        risk_level=state["risk_level"],
+        requires_human=state["requires_human"],
+        reason=state["route_reason"],
+        sources=sources,
+        model_fallback=state["model_fallback"],
+        vision_status=state.get("vision_status", "not_applicable"),
+        vision_model=state.get("vision_model"),
+        vision_latency_ms=state.get("vision_latency_ms"),
+        vision_image_count=int(state.get("vision_image_count") or 0),
+        handoff_id=state.get("handoff_id"),
+        handoff_status=state.get("handoff_status"),
+        sop_id=(state.get("active_sop") or {}).get("id"),
+        sop_version=(state.get("active_sop") or {}).get("version"),
+        context_snapshot_id=state.get("context_snapshot_id"),
+        context_readiness=state.get("context_readiness"),
+        evidence_ids=state.get("context_evidence_ids", []),
+        trace=list(state.get("trace") or []),
+        decision_mode=decision.get("mode"),
+        decision_tool=decision.get("tool_name"),
+    )
 
 
 class CustomerTestChatRequest(BaseModel):

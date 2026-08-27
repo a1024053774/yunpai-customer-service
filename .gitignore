@@ -4,9 +4,13 @@ __pycache__/
 .coverage
 .venv/
 .env
+env.md
+env_*.md
 data/
 tmp/
 *.egg-info/
+build/
 *.sqlite3
 *.db
 .idea/
+.DS_Store

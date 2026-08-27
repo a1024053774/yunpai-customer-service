@@ -20,14 +20,27 @@ from ..context_builder import ContextBuilder
 from ..database import Database, SessionScopeError, utc_now
 from ..evolution import EvolutionService
 from ..handoff import HandoffService
-from ..llm import ModelGateway
+from ..llm import ModelError, ModelGateway
+from ..message_media import (
+    MessageMediaStore,
+    attach_vision_description,
+    clear_media_deletions,
+    enqueue_media_deletions,
+    mark_media_deletion_failed,
+)
 from ..policy import sanitize_context
 from ..rag import KnowledgeBase
-from ..schemas import ChatResponse, SourceItem
+from ..schemas import ChatImageInput, ChatResponse, chat_response_from_state
 from ..sops import SopService
 from ..text_utils import redact_sensitive
 from ..tools import ToolRegistry
-from .generation import BRANCH_MODEL, GenerationPlan, plan_generation
+from ..vision import VisionGateway, VisionResult
+from .generation import (
+    BRANCH_MODEL,
+    GenerationPlan,
+    plan_generation,
+    recover_model_failure,
+)
 
 if TYPE_CHECKING:
     from ..knowledge_engine.memory_service import KnowledgeMemoryService
@@ -59,6 +72,8 @@ class CustomerServiceCore:
         memory: "KnowledgeMemoryService | None" = None,
         checkpointer: Any | None = None,
         graph: Any | None = None,
+        vision: VisionGateway | None = None,
+        message_media: MessageMediaStore | None = None,
     ):
         self.db = db
         self.settings = settings
@@ -73,6 +88,11 @@ class CustomerServiceCore:
         self.memory = memory
         self.checkpointer = checkpointer
         self._owned_closers: list[Callable[[], None]] = []
+        if vision is None:
+            vision = VisionGateway(settings)
+            self._owned_closers.append(vision.close)
+        self.vision = vision
+        self.message_media = message_media or MessageMediaStore(settings.data_dir)
         self.graph = graph if graph is not None else self._compile_graph()
 
     @classmethod
@@ -90,12 +110,17 @@ class CustomerServiceCore:
         evolution: EvolutionService | None = None,
         memory: "KnowledgeMemoryService | None" = None,
         checkpointer: Any | None = None,
+        vision: VisionGateway | None = None,
+        message_media: MessageMediaStore | None = None,
     ) -> "CustomerServiceCore":
         """装配默认协作对象；未注入的部分由本方法创建并在 `close()` 中释放。"""
         owned: list[Callable[[], None]] = []
         if model is None:
             model = ModelGateway(settings)
             owned.append(model.close)
+        if vision is None:
+            vision = VisionGateway(settings)
+            owned.append(vision.close)
         if tools is None:
             tools = ToolRegistry()
             owned.append(tools.close)
@@ -103,6 +128,7 @@ class CustomerServiceCore:
         contexts = contexts or ContextBuilder(db)
         handoffs = handoffs or HandoffService(db)
         sops = sops or SopService(db, tools)
+        message_media = message_media or MessageMediaStore(settings.data_dir)
         if memory is None:
             # 延迟导入：knowledge_engine 包 __init__ → graph_api → service 会成环
             from ..knowledge_engine.memory_service import KnowledgeMemoryService
@@ -129,6 +155,8 @@ class CustomerServiceCore:
             evolution=evolution,
             memory=memory,
             checkpointer=checkpointer,
+            vision=vision,
+            message_media=message_media,
         )
         core._owned_closers.extend(owned)
         return core
@@ -166,6 +194,7 @@ class CustomerServiceCore:
         execution_mode: str = "live",
         source_type: str = "api",
         source_reference: str | None = None,
+        image: ChatImageInput | None = None,
     ) -> ChatResponse:
         if execution_mode not in {"live", "shadow"}:
             raise ValueError("agent execution mode must be live or shadow")
@@ -177,8 +206,9 @@ class CustomerServiceCore:
             source_type=source_type,
             source_reference=source_reference,
         )
-        safe_message, input_redacted = redact_sensitive(message)
-        trusted_context = self._trusted_context(principal, context)
+        safe_message, input_redacted, trusted_context, image_digest = (
+            self._prepare_chat_content(principal, message, context, image)
+        )
 
         invocation: dict[str, Any] | None = None
         if idempotency_key is not None:
@@ -189,26 +219,53 @@ class CustomerServiceCore:
                 safe_message=safe_message,
                 trusted_context=trusted_context,
                 execution_mode=execution_mode,
+                image_digest=image_digest,
             )
             if invocation["status"] == "completed":
                 return self.invocation_response(invocation)
-
+        user_message_id = (
+            str(invocation["user_message_id"])
+            if invocation
+            else f"msg-user-{uuid.uuid4().hex}"
+        )
+        message_media: list[dict[str, Any]] = []
         started = time.perf_counter()
+        trace_id = (
+            str(invocation["trace_id"])
+            if invocation
+            else f"trace-{uuid.uuid4().hex}"
+        )
         try:
+            if image is not None:
+                message_media = [self.message_media.persist(user_message_id, image)]
+            vision_state = self._prepare_vision_state(
+                image=image,
+                safe_message=safe_message,
+                trace_id=trace_id,
+                tenant_id=principal.tenant_id,
+                message_media=message_media,
+            )
             state = self.graph.invoke(
-                self._graph_input(
-                    principal=principal,
-                    internal_session_id=internal_session_id,
-                    session_id=session_id,
-                    execution_mode=execution_mode,
-                    invocation=invocation,
-                    safe_message=safe_message,
-                    input_redacted=input_redacted,
-                    trusted_context=trusted_context,
-                ),
+                {
+                    **self._graph_input(
+                        principal=principal,
+                        internal_session_id=internal_session_id,
+                        session_id=session_id,
+                        execution_mode=execution_mode,
+                        invocation=invocation,
+                        safe_message=safe_message,
+                        input_redacted=input_redacted,
+                        trusted_context=trusted_context,
+                    ),
+                    "trace_id": trace_id,
+                    "user_message_id": user_message_id,
+                    "message_media": message_media,
+                    **vision_state,
+                },
                 config={"configurable": {"thread_id": internal_session_id}},
             )
         except Exception as exc:
+            self._cleanup_unpersisted_message_media(user_message_id, message_media)
             duration_ms = (time.perf_counter() - started) * 1000
             failure_trace = f"trace-error-{uuid.uuid4().hex}"
             self.db.record_metric(
@@ -276,6 +333,9 @@ class CustomerServiceCore:
         context: dict[str, Any] | None = None,
         *,
         idempotency_key: str | None,
+        source_type: str = "api",
+        source_reference: str | None = None,
+        image: ChatImageInput | None = None,
     ) -> Iterator[dict[str, Any]]:
         # 延迟导入：见 _compile_graph
         from ..graph import verify_response
@@ -285,9 +345,12 @@ class CustomerServiceCore:
             client_id=principal.client_id,
             external_session_id=session_id,
             subject_hash=principal.subject_hash,
+            source_type=source_type,
+            source_reference=source_reference,
         )
-        safe_message, input_redacted = redact_sensitive(message)
-        trusted_context = self._trusted_context(principal, context)
+        safe_message, input_redacted, trusted_context, image_digest = (
+            self._prepare_chat_content(principal, message, context, image)
+        )
 
         invocation: dict[str, Any] | None = None
         if idempotency_key is not None:
@@ -298,6 +361,7 @@ class CustomerServiceCore:
                 safe_message=safe_message,
                 trusted_context=trusted_context,
                 execution_mode="live",
+                image_digest=image_digest,
             )
             if invocation["status"] == "completed":
                 response = self.invocation_response(invocation)
@@ -306,6 +370,9 @@ class CustomerServiceCore:
                     "session_id": response.session_id,
                     "message_id": response.message_id,
                     "trace_id": response.trace_id,
+                    "vision_status": response.vision_status,
+                    "vision_model": response.vision_model,
+                    "vision_latency_ms": response.vision_latency_ms,
                 }
                 yield {
                     "event": "delta",
@@ -314,57 +381,99 @@ class CustomerServiceCore:
                 }
                 yield {"event": "result", "response": response.model_dump()}
                 return
-
+        user_message_id = (
+            str(invocation["user_message_id"])
+            if invocation
+            else f"msg-user-{uuid.uuid4().hex}"
+        )
+        message_media: list[dict[str, Any]] = []
         config = {"configurable": {"thread_id": internal_session_id}}
         started = time.perf_counter()
-        state = self.graph.invoke(
-            self._graph_input(
-                principal=principal,
-                internal_session_id=internal_session_id,
-                session_id=session_id,
-                execution_mode="live",
-                invocation=invocation,
-                safe_message=safe_message,
-                input_redacted=input_redacted,
-                trusted_context=trusted_context,
-            ),
-            config=config,
-            interrupt_before=["generate"],
+        trace_id = (
+            str(invocation["trace_id"])
+            if invocation
+            else f"trace-{uuid.uuid4().hex}"
         )
-        yield {
-            "event": "meta",
-            "session_id": session_id,
-            "message_id": state["message_id"],
-            "trace_id": state["trace_id"],
-        }
-
-        if "generate" in self.graph.get_state(config).next:
-            deltas, model_fallback, trace_step = self.generation_deltas(state)
-            parts: list[str] = []
-            for delta in deltas:
-                parts.append(delta)
-                yield {"event": "delta", "text": delta}
-            draft = "".join(parts).strip()
-            generation_state = {
-                **state,
-                "draft": draft,
-                "model_fallback": model_fallback,
-                "model_retry_advised": False,
-                "trace": [*state["trace"], trace_step],
-            }
-            verified = verify_response(generation_state)
-            self.graph.update_state(
-                config,
+        try:
+            if image is not None:
+                message_media = [self.message_media.persist(user_message_id, image)]
+            vision_state = self._prepare_vision_state(
+                image=image,
+                safe_message=safe_message,
+                trace_id=trace_id,
+                tenant_id=principal.tenant_id,
+                message_media=message_media,
+            )
+            state = self.graph.invoke(
                 {
+                    **self._graph_input(
+                        principal=principal,
+                        internal_session_id=internal_session_id,
+                        session_id=session_id,
+                        execution_mode="live",
+                        invocation=invocation,
+                        safe_message=safe_message,
+                        input_redacted=input_redacted,
+                        trusted_context=trusted_context,
+                    ),
+                    "trace_id": trace_id,
+                    "user_message_id": user_message_id,
+                    "message_media": message_media,
+                    **vision_state,
+                },
+                config=config,
+                interrupt_before=["generate"],
+            )
+            yield {
+                "event": "meta",
+                "session_id": session_id,
+                "message_id": state["message_id"],
+                "trace_id": state["trace_id"],
+                "vision_status": state.get("vision_status", "not_applicable"),
+                "vision_model": state.get("vision_model"),
+                "vision_latency_ms": state.get("vision_latency_ms"),
+            }
+
+            if "generate" in self.graph.get_state(config).next:
+                plan = self.plan_generation(state)
+                parts: list[str] = []
+                retry_advised = False
+                try:
+                    deltas, model_fallback, trace_step = self.generation_deltas(state)
+                    for delta in deltas:
+                        parts.append(delta)
+                    draft = "".join(parts).strip()
+                except ModelError as exc:
+                    recovery = recover_model_failure(state, exc, db=self.db)
+                    draft = recovery.draft
+                    model_fallback = recovery.model_fallback
+                    retry_advised = recovery.retry_advised
+                    trace_step = recovery.trace_step
+                generation_trace = [*state["trace"]]
+                if plan.budget_trace:
+                    generation_trace.append(plan.budget_trace)
+                generation_trace.append(trace_step)
+                generation_update = {
                     "draft": draft,
                     "model_fallback": model_fallback,
-                    "model_retry_advised": False,
-                    "trace": generation_state["trace"],
-                    **verified,
-                },
-                as_node="verify",
-            )
-            state = self.graph.invoke(None, config=config)
+                    "model_retry_advised": retry_advised,
+                    "trace": generation_trace,
+                }
+                if retry_advised:
+                    self.graph.update_state(config, generation_update, as_node="generate")
+                    state = self.graph.invoke(None, config=config)
+                else:
+                    verified = verify_response({**state, **generation_update})
+                    self.graph.update_state(
+                        config,
+                        {**generation_update, **verified},
+                        as_node="verify",
+                    )
+                    state = self.graph.invoke(None, config=config)
+            yield {"event": "delta", "text": state["answer"]}
+        except BaseException:
+            self._cleanup_unpersisted_message_media(user_message_id, message_media)
+            raise
 
         duration_ms = (time.perf_counter() - started) * 1000
         self.db.record_metric(
@@ -409,6 +518,119 @@ class CustomerServiceCore:
                 trusted_context.pop(field, None)
         return trusted_context
 
+    def _prepare_chat_content(
+        self,
+        principal: Principal,
+        message: str,
+        context: dict[str, Any] | None,
+        image: ChatImageInput | None,
+    ) -> tuple[str, bool, dict[str, Any], str | None]:
+        effective_message = message
+        if not effective_message.strip():
+            if image is None:
+                raise ValueError("message or image is required")
+            effective_message = "请根据我发送的图片说明相关信息。"
+        safe_message, input_redacted = redact_sensitive(effective_message)
+        trusted_context = self._trusted_context(principal, context)
+        image_digest = (
+            hashlib.sha256(image.decoded_bytes()).hexdigest()
+            if image is not None
+            else None
+        )
+        return safe_message, input_redacted, trusted_context, image_digest
+
+    def _cleanup_unpersisted_message_media(
+        self,
+        user_message_id: str,
+        media: list[dict[str, Any]],
+    ) -> None:
+        if not media:
+            return
+        with self.db._write_lock, self.db.connect() as conn:
+            persisted = conn.execute(
+                "SELECT 1 FROM messages WHERE id=?",
+                (user_message_id,),
+            ).fetchone()
+            if persisted is not None:
+                return
+            enqueue_media_deletions(conn, media, queued_at=utc_now())
+        storage_refs = [str(item["storage_ref"]) for item in media]
+        try:
+            self.message_media.remove(media)
+        except (OSError, ValueError) as exc:
+            with self.db._write_lock, self.db.connect() as conn:
+                for storage_ref in storage_refs:
+                    mark_media_deletion_failed(
+                        conn,
+                        storage_ref=storage_ref,
+                        error=exc,
+                        updated_at=utc_now(),
+                    )
+            return
+        with self.db._write_lock, self.db.connect() as conn:
+            clear_media_deletions(conn, storage_refs)
+
+    def _prepare_vision_state(
+        self,
+        *,
+        image: ChatImageInput | None,
+        safe_message: str,
+        trace_id: str,
+        tenant_id: str,
+        message_media: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        if image is None:
+            return {
+                "media_evidence": {},
+                "vision_status": "not_applicable",
+                "vision_model": None,
+                "vision_latency_ms": None,
+                "vision_image_count": 0,
+            }
+        started = time.perf_counter()
+        try:
+            result = self.vision.describe(image=image, user_message=safe_message)
+        except Exception as exc:
+            result = VisionResult(
+                description="",
+                status="error",
+                applied=False,
+                latency_ms=max(0, round((time.perf_counter() - started) * 1000)),
+                model=(
+                    self.settings.vision_model_name
+                    if self.settings.vision_enabled
+                    else None
+                ),
+                image_count=1,
+                error_type=type(exc).__name__,
+            )
+        self.db.audit(
+            "media.vision",
+            "system",
+            trace_id,
+            result.audit_detail(),
+            tenant_id,
+        )
+        if result.applied and result.description and message_media:
+            # 观察随消息媒体元数据留存，后续轮次的历史可以带回图片内容
+            attach_vision_description(message_media, result.description)
+        return {
+            "media_evidence": result.media_evidence(),
+            "vision_status": result.status,
+            "vision_model": result.model,
+            "vision_latency_ms": result.latency_ms,
+            "vision_image_count": result.image_count,
+        }
+
+    def purge_expired(self, *, actor: str, dry_run: bool) -> dict[str, Any]:
+        from ..maintenance import MaintenanceService
+
+        return MaintenanceService(
+            self.db,
+            self.settings,
+            media_store=self.message_media,
+        ).purge_expired(actor=actor, dry_run=dry_run)
+
     @staticmethod
     def _graph_input(
         *,
@@ -426,6 +648,7 @@ class CustomerServiceCore:
             "external_session_id": session_id,
             "tenant_id": principal.tenant_id,
             "client_id": principal.client_id,
+            "subject_hash": principal.subject_hash,
             "execution_mode": execution_mode,
             "invocation_id": invocation["id"] if invocation else None,
             "trace_id": invocation["trace_id"] if invocation else None,
@@ -441,35 +664,7 @@ class CustomerServiceCore:
         state: dict[str, Any],
         session_id: str,
     ) -> ChatResponse:
-        sources = [
-            SourceItem(
-                id=document["id"],
-                category=document["category"],
-                source=document["source"],
-                version=document["version"],
-                score=document["score"],
-            )
-            for document in state.get("retrieved", [])
-        ]
-        return ChatResponse(
-            message_id=state["message_id"],
-            trace_id=state["trace_id"],
-            session_id=session_id,
-            answer=state["answer"],
-            intent=state["intent"],
-            risk_level=state["risk_level"],
-            requires_human=state["requires_human"],
-            reason=state["route_reason"],
-            sources=sources,
-            model_fallback=state["model_fallback"],
-            handoff_id=state.get("handoff_id"),
-            handoff_status=state.get("handoff_status"),
-            sop_id=(state.get("active_sop") or {}).get("id"),
-            sop_version=(state.get("active_sop") or {}).get("version"),
-            context_snapshot_id=state.get("context_snapshot_id"),
-            context_readiness=state.get("context_readiness"),
-            evidence_ids=state.get("context_evidence_ids", []),
-        )
+        return chat_response_from_state(state, session_id)
 
     def prepare_invocation(
         self,
@@ -480,6 +675,7 @@ class CustomerServiceCore:
         safe_message: str,
         trusted_context: dict[str, Any],
         execution_mode: str,
+        image_digest: str | None = None,
     ) -> dict[str, Any]:
         if not idempotency_key or len(idempotency_key) > 200:
             raise ValueError("agent idempotency key must contain 1 to 200 characters")
@@ -490,6 +686,7 @@ class CustomerServiceCore:
                     "message": safe_message,
                     "context": trusted_context,
                     "execution_mode": execution_mode,
+                    "image_digest": image_digest,
                 },
                 ensure_ascii=False,
                 sort_keys=True,

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 import uuid
 from typing import TYPE_CHECKING, Any
@@ -12,7 +13,9 @@ from .config import Settings
 from .context_builder import ContextBuilder
 from .customer_service.generation import (
     BRANCH_MODEL,
+    has_media_observation,
     plan_generation,
+    recover_model_failure,
 )
 from .customer_service.generation import (
     budgeted_history as plan_budgeted_history,
@@ -28,6 +31,7 @@ from .decision import AgentDecision
 from .handoff import HandoffService
 from .intent import classify, routing_for_intent
 from .llm import ModelError, ModelGateway, ModelUnavailableError
+from .message_media import persist_message_media
 from .policy import (
     asks_for_internal_identifier,
     customer_facing_missing_fields,
@@ -42,7 +46,7 @@ from .prompts import (
     build_decision_messages,
 )
 from .rag import KnowledgeBase
-from .schemas import AgentState
+from .schemas import AgentState, chat_response_from_state
 from .sops import SopService
 from .text_utils import normalize_text, redact_sensitive
 from .tools import ToolExecutionContext, ToolRegistry, ToolResult
@@ -59,6 +63,10 @@ MODEL_UNAVAILABLE_HANDOFF_ANSWER = (
 # 连续低质回复判定集合（对齐 origin/main：连续 2 次低质 → 强制转人工）
 LOW_QUALITY_ROUTE_REASONS = frozenset(
     {"model_unavailable", "low_confidence_handoff", "no_evidence"}
+)
+
+_CONTEXT_REFERENCE_HINTS = re.compile(
+    r"它|这个|这款|那个|那款|该商品|该产品|这单|那单|上述|前面提到|刚才提到"
 )
 
 
@@ -141,13 +149,14 @@ def persist_response(
                 route_reason, sources_json, model_fallback, created_at,
                 tenant_id, client_id, redacted, context_snapshot_id,
                 customer_intent, intent_confidence, intent_method
-            ) VALUES (?, ?, ?, 'user', ?, NULL, NULL, NULL, '[]', 0, ?, ?, ?, ?, NULL, ?, ?, ?)
+            ) VALUES (?, ?, ?, 'user', ?, NULL, NULL, NULL, ?, 0, ?, ?, ?, ?, NULL, ?, ?, ?)
             """,
             (
                 user_message_id,
                 state["trace_id"],
                 state["session_id"],
                 safe_user,
+                "[]",
                 now,
                 state["tenant_id"],
                 state["client_id"],
@@ -156,6 +165,12 @@ def persist_response(
                 state.get("intent_confidence"),
                 state.get("intent_method"),
             ),
+        )
+        persist_message_media(
+            conn,
+            message_id=user_message_id,
+            media=state.get("message_media") or [],
+            created_at=now,
         )
         conn.execute(
             """
@@ -188,25 +203,10 @@ def persist_response(
         )
         invocation_id = state.get("invocation_id")
         if invocation_id:
-            response = {
-                "message_id": state["message_id"],
-                "trace_id": state["trace_id"],
-                "session_id": state.get("external_session_id") or state["session_id"],
-                "answer": safe_answer,
-                "intent": state["intent"],
-                "risk_level": state["risk_level"],
-                "requires_human": state["requires_human"],
-                "reason": state["route_reason"],
-                "sources": sources,
-                "model_fallback": state["model_fallback"],
-                "handoff_id": state.get("handoff_id"),
-                "handoff_status": state.get("handoff_status"),
-                "sop_id": (state.get("active_sop") or {}).get("id"),
-                "sop_version": (state.get("active_sop") or {}).get("version"),
-                "context_snapshot_id": state.get("context_snapshot_id"),
-                "context_readiness": state.get("context_readiness"),
-                "evidence_ids": state.get("context_evidence_ids", []),
-            }
+            response = chat_response_from_state(
+                {**state, "answer": safe_answer},
+                state.get("external_session_id") or state["session_id"],
+            )
             cursor = conn.execute(
                 """
                 UPDATE agent_invocations
@@ -215,7 +215,7 @@ def persist_response(
                 WHERE id=? AND tenant_id=? AND status='running'
                 """,
                 (
-                    json.dumps(response, ensure_ascii=False),
+                    json.dumps(response.model_dump(mode="json"), ensure_ascii=False),
                     utc_now(),
                     utc_now(),
                     invocation_id,
@@ -300,6 +300,7 @@ def build_graph(
             message = message[: settings.max_input_chars]
         return {
             "normalized_input": message,
+            "retrieval_query": message,
             "context": sanitize_context(state.get("context", {})),
             "execution_mode": state.get("execution_mode") or "live",
             "intent": "general",
@@ -417,18 +418,46 @@ def build_graph(
                 "citations": [],
                 "trace": [*state["trace"], f"guard:{scope_decision.reason}"],
             }
-        # R4 修复：检索失败可观测（此前异常直接抛出，failures_total 恒为 0）
-        try:
-            documents = knowledge.retrieve(
-                state["normalized_input"],
+        retrieval_query = state["normalized_input"]
+        contextual_retrieval = False
+
+        def search(query: str) -> list[dict[str, Any]]:
+            return knowledge.retrieve(
+                query,
                 top_k=settings.rag_top_k,
                 min_score=settings.rag_min_score,
                 intent=intent_routing["knowledge_intent"],
                 tenant_id=state["tenant_id"],
-                store_id=effective_context.get("store_id") or effective_context.get("shop_id"),
+                store_id=(
+                    effective_context.get("store_id")
+                    or effective_context.get("shop_id")
+                ),
                 sku_id=effective_context.get("sku_id"),
                 rollout_unit=state["session_id"],
             )
+
+        # R4 修复：检索失败可观测（此前异常直接抛出，failures_total 恒为 0）
+        try:
+            documents = search(retrieval_query)
+            if not documents and _CONTEXT_REFERENCE_HINTS.search(retrieval_query):
+                history = db.recent_messages(
+                    state["session_id"], settings.session_history_limit
+                )
+                previous_user = next(
+                    (
+                        normalize_text(str(item.get("content") or ""))
+                        for item in reversed(history)
+                        if item.get("role") == "user"
+                    ),
+                    "",
+                )
+                if previous_user:
+                    contextual_query = f"{previous_user}\n{retrieval_query}"
+                    retrieval_query = contextual_query
+                    contextual_retrieval = True
+                    contextual_documents = search(contextual_query)
+                    if contextual_documents:
+                        documents = contextual_documents
         except Exception as exc:
             observer.record_search(
                 tenant_id=state["tenant_id"],
@@ -476,39 +505,59 @@ def build_graph(
             _clean_docs.append(_doc_dict)
         documents = _clean_docs
         # A2：店铺长期记忆并入检索（记忆默认隔离，这里主动召回作为补充证据）
-        store_id = state["context"].get("store_id") or state["context"].get("shop_id")
+        store_id = effective_context.get("store_id") or effective_context.get("shop_id")
         _memory_recalled = 0
         if memory is not None and store_id:
             try:
                 memory_rows = memory.recall(
                     str(store_id),
-                    query=state["normalized_input"],
+                    query=retrieval_query,
                     limit=settings.rag_top_k,
                     tenant_id=state["tenant_id"],
+                    subject_hash=state.get("subject_hash"),
                 )
-                _memory_recalled = len(memory_rows)
                 for row in memory_rows:
                     _mem_doc = {
                         "id": row["id"],
+                        "knowledge_key": row["knowledge_key"],
                         "source": f"memory:{row['knowledge_key']}",
                         "question": row["question"],
                         "answer": row["answer"],
-                        "score": 0.0,  # 记忆不参与 RAG 打分（显式召回）
-                        "layer": "evolution",
-                        # 下游 build_messages/_knowledge_block/SourceItem 需要
+                        "score": float(row.get("score") or 0.0),
+                        "layer": "memory",
                         "category": row["category"] or "店铺记忆",
                         "intent": row["intent"] or "memory",
-                        "version": 1,
+                        "version": int(row.get("version") or 1),
+                        "store_id": row.get("store_id"),
+                        "sku_id": None,
+                        "tenant_id": row.get("tenant_id"),
                     }
                     # A3 修复：记忆召回同样过安全护栏（此前完全绕过扫描）
-                    _mem_result = guard.inspect_item(dict(_mem_doc))
+                    _mem_result = guard.inspect_item(_mem_doc)
                     if _mem_result.status in ("injected", "sensitive"):
                         _guard_blocks += 1
                         continue
+                    if _mem_result.status == "sanitized":
+                        _mem_doc["_guard_sanitized"] = True
                     documents.append(_mem_doc)
+                    _memory_recalled += 1
             except Exception:
                 # B 修复：记忆召回失败不再静默吞掉（记录 trace，仍不阻塞回答）
                 state["trace"] = [*state["trace"], "memory:recall_failed"]
+        normalized_input = normalize_text(state["normalized_input"])
+        documents.sort(
+            key=lambda item: (
+                int(
+                    normalize_text(str(item.get("question") or ""))
+                    == normalized_input
+                ),
+                float(item.get("score") or 0.0),
+                int(item.get("layer") != "memory"),
+            ),
+            reverse=True,
+        )
+        documents = documents[: settings.rag_top_k]
+
         # P1-2 可观测性：记录检索统计
         observer.record_search(
             tenant_id=state["tenant_id"],
@@ -522,10 +571,12 @@ def build_graph(
         return {
             "route": "build_decision_context",
             "context": effective_context,
+            "retrieval_query": retrieval_query,
             "retrieved": documents,
             "citations": [document["id"] for document in documents],
             "trace": [
                 *state["trace"],
+                *(["retrieve:contextual"] if contextual_retrieval else []),
                 f"retrieve:initial:{len(documents)}",
                 f"guard:blocked:{_guard_blocks}",
                 f"memory:recalled:{_memory_recalled}",
@@ -552,6 +603,7 @@ def build_graph(
             history=history,
             history_budget_tokens=history_budget,
             tool_result=state.get("tool_result") or None,
+            media_evidence=state.get("media_evidence") or None,
             parent_snapshot_id=state.get("context_snapshot_id"),
         )
         route = "handoff" if snapshot.readiness == "handoff_required" else "deliberate"
@@ -590,6 +642,7 @@ def build_graph(
             # 导致高分但问题不匹配的文档被错误复用，绕过模型决策）
             and normalize_text(top_document["question"])
             == normalize_text(state["normalized_input"])
+            and not has_media_observation(state)
         ):
             decision = AgentDecision(
                 intent=top_document["intent"],
@@ -715,7 +768,14 @@ def build_graph(
                 route = "handoff"
                 reason = "tool_result_not_verified"
         if route == "answer":
-            reason = "knowledge_answer_allowed"
+            if has_media_observation(state):
+                reason = (
+                    "media_and_knowledge_answer_allowed"
+                    if state.get("retrieved")
+                    else "media_observation_answer_allowed"
+                )
+            else:
+                reason = "knowledge_answer_allowed"
         elif route == "clarify":
             reason = "llm_clarification_required"
         elif route == "finish":
@@ -803,13 +863,14 @@ def build_graph(
         observer = get_observer(db)
         guard = get_security_guard()
         _start = time.monotonic()
+        retrieval_query = state.get("retrieval_query") or state["normalized_input"]
         # R1 修复：精化检索前复查意图门（此前绕过，block 请求仍会重新检索）
         _scope = guard.classify_request(state["normalized_input"])
         if not _scope.allowed:
             observer.record_search(
                 tenant_id=state["tenant_id"],
                 store_id=state["context"].get("store_id") or state["context"].get("shop_id") or "",
-                query=state["normalized_input"],
+                query=retrieval_query,
                 hits=0,
                 guard_scope_block=True,
                 latency_ms=(time.monotonic() - _start) * 1000,
@@ -825,7 +886,7 @@ def build_graph(
         # R4 修复：精化检索失败也可观测
         try:
             documents = knowledge.retrieve(
-                state["normalized_input"],
+                retrieval_query,
                 top_k=settings.rag_top_k,
                 min_score=settings.rag_min_score,
                 intent=state["intent"],
@@ -838,7 +899,7 @@ def build_graph(
             observer.record_search(
                 tenant_id=state["tenant_id"],
                 store_id=state["context"].get("store_id") or state["context"].get("shop_id") or "",
-                query=state["normalized_input"],
+                query=retrieval_query,
                 hits=0,
                 failed=True,
                 latency_ms=(time.monotonic() - _start) * 1000,
@@ -863,11 +924,31 @@ def build_graph(
             if result.status == "sanitized":
                 _doc_dict["_guard_sanitized"] = True
             _clean.append(_doc_dict)
+        known_ids = {str(item["id"]) for item in _clean}
+        for item in state.get("retrieved", []):
+            if item.get("layer") != "memory" or str(item["id"]) in known_ids:
+                continue
+            _clean.append(dict(item))
+            known_ids.add(str(item["id"]))
+        normalized_input = normalize_text(state["normalized_input"])
+        _clean.sort(
+            key=lambda item: (
+                int(
+                    normalize_text(str(item.get("question") or ""))
+                    == normalized_input
+                ),
+                float(item.get("score") or 0.0),
+                int(item.get("layer") != "memory"),
+            ),
+            reverse=True,
+        )
+        _clean = _clean[: settings.rag_top_k]
+
         # 可观测：记录精化检索统计
         observer.record_search(
             tenant_id=state["tenant_id"],
             store_id=state["context"].get("store_id") or state["context"].get("shop_id") or "",
-            query=state["normalized_input"],
+            query=retrieval_query,
             hits=len(_clean),
             guard_blocks=_guard_blocks,
             latency_ms=(time.monotonic() - _start) * 1000,
@@ -1057,6 +1138,7 @@ def build_graph(
             history=history,
             history_budget_tokens=history_budget,
             tool_result=state.get("tool_result") or None,
+            media_evidence=state.get("media_evidence") or None,
             parent_snapshot_id=state.get("context_snapshot_id"),
         )
         route = "handoff" if snapshot.readiness == "handoff_required" else "generate"
@@ -1093,7 +1175,6 @@ def build_graph(
                 "model_fallback": plan.model_fallback,
                 "trace": [*state["trace"], plan.trace_step],
             }
-        verified_result = plan_verified_tool_result(state)
         budget_trace = plan.budget_trace
         try:
             draft = model.generate(plan.messages or [])
@@ -1101,25 +1182,11 @@ def build_graph(
             trace_step = "generate:model"
             retry_advised = False
         except ModelError as exc:
-            retry_advised = False
-            if verified_result:
-                draft = "操作已完成，业务系统已经确认处理结果。"
-                trace_step = "generate:verified_result_fallback"
-            elif isinstance(exc, ModelUnavailableError):
-                draft = ""
-                trace_step = "generate:model_temporarily_unavailable"
-                retry_advised = True
-            else:
-                draft = "当前模型暂时不可用，我会为您转人工客服，避免给出不准确的信息。"
-                trace_step = "generate:fallback"
-            fallback = True
-            db.audit(
-                "model.failure",
-                "system",
-                state["trace_id"],
-                {"error_type": type(exc).__name__, "error": str(exc)[:300]},
-                state["tenant_id"],
-            )
+            recovery = recover_model_failure(state, exc, db=db)
+            draft = recovery.draft
+            fallback = recovery.model_fallback
+            retry_advised = recovery.retry_advised
+            trace_step = recovery.trace_step
         return {
             "draft": draft,
             "model_fallback": fallback,

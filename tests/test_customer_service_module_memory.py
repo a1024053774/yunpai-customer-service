@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+import pytest
+
 from yunpai_customer_service.customer_service import BRANCH_MODEL, plan_generation
+from yunpai_customer_service.database import Database
 
 from conftest import make_settings
 from customer_service_fixtures import (
@@ -117,5 +120,281 @@ def test_history_does_not_leak_between_sessions(tmp_path) -> None:
         latest_prompt = model.generation_prompts[-1][-1]["content"]
         assert SECOND_TURN in latest_prompt
         assert "清洁方式" not in latest_prompt
+    finally:
+        core.close()
+
+
+def test_follow_up_retrieval_uses_the_previous_user_turn_when_needed(tmp_path) -> None:
+    settings = replace(make_settings(tmp_path), rag_min_score=0.3)
+    model = TableDrivenModel(settings)
+    core = build_core(
+        tmp_path, settings=settings, model=model, seed_knowledge=False
+    )
+    try:
+        document_id = add_fixture_document(
+            core,
+            question=f"{FIXTURE_MARKER}的保修政策是什么",
+            answer=f"{FIXTURE_MARKER}提供十二个月保修，具体范围按商品说明核对。",
+            tenant_id=settings.bootstrap_tenant_id,
+            keywords=f"{FIXTURE_MARKER} 保修 质保 十二个月",
+        )
+        principal = principal_for_core(core)
+
+        first = core.chat(
+            principal, "memory-contextual-retrieval", f"{FIXTURE_MARKER}的保修政策是什么"
+        )
+        follow_up = core.chat(
+            principal, "memory-contextual-retrieval", "那这个呢？"
+        )
+
+        assert document_id in {item.id for item in first.sources}
+        assert document_id in {item.id for item in follow_up.sources}
+        assert "retrieve:contextual" in follow_up.trace
+    finally:
+        core.close()
+
+
+def test_standard_knowledge_retrieval_does_not_mix_in_long_term_memory(
+    tmp_path,
+) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    try:
+        assert core.memory is not None
+        memory_id = core.memory.record(
+            "store-memory-isolation",
+            fact="本店退货高峰集中在周三。",
+            tenant_id=core.settings.bootstrap_tenant_id,
+        )
+
+        documents = core.knowledge.retrieve(
+            "本店退货高峰集中在周三",
+            top_k=5,
+            min_score=0.01,
+            tenant_id=core.settings.bootstrap_tenant_id,
+            store_id="store-memory-isolation",
+        )
+
+        assert memory_id not in {item["knowledge_key"] for item in documents}
+    finally:
+        core.close()
+
+
+def test_long_term_memory_recall_uses_relevance_instead_of_full_sentence_like(
+    tmp_path,
+) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    try:
+        assert core.memory is not None
+        relevant_id = core.memory.record(
+            "store-memory-ranking",
+            fact="本店退货高峰集中在周三。",
+            tenant_id=core.settings.bootstrap_tenant_id,
+        )
+        core.memory.record(
+            "store-memory-ranking",
+            fact="本店换货通常在周五完成。",
+            tenant_id=core.settings.bootstrap_tenant_id,
+        )
+
+        recalled = core.memory.recall(
+            "store-memory-ranking",
+            query="退货最多是哪一天",
+            limit=1,
+            tenant_id=core.settings.bootstrap_tenant_id,
+        )
+
+        assert recalled[0]["knowledge_key"] == relevant_id
+        assert recalled[0]["score"] > 0
+    finally:
+        core.close()
+
+
+def test_buyer_preference_memory_is_scoped_to_the_authenticated_subject(
+    tmp_path,
+) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    try:
+        assert core.memory is not None
+        buyer_a = principal_for_core(core, "buyer-a")
+        buyer_b = principal_for_core(core, "buyer-b")
+
+        with pytest.raises(ValueError, match="subject_hash"):
+            core.memory.record(
+                "store-buyer-memory",
+                fact="顾客偏好静音款。",
+                category="buyer_preference",
+                tenant_id=buyer_a.tenant_id,
+            )
+        with pytest.raises(ValueError, match="unsupported memory category"):
+            core.memory.record(
+                "store-buyer-memory",
+                fact="顾客偏好静音款。",
+                category="买家偏好",
+                tenant_id=buyer_a.tenant_id,
+            )
+
+        preference_id = core.memory.record(
+            "store-buyer-memory",
+            fact="顾客偏好静音款。",
+            category="buyer_preference",
+            tenant_id=buyer_a.tenant_id,
+            subject_hash=buyer_a.subject_hash,
+        )
+        shared_id = core.memory.record(
+            "store-buyer-memory",
+            fact="本店周末咨询量较高。",
+            category="frequent_issue",
+            tenant_id=buyer_a.tenant_id,
+        )
+
+        buyer_a_rows = core.memory.recall(
+            "store-buyer-memory",
+            tenant_id=buyer_a.tenant_id,
+            subject_hash=buyer_a.subject_hash,
+        )
+        buyer_b_rows = core.memory.recall(
+            "store-buyer-memory",
+            tenant_id=buyer_b.tenant_id,
+            subject_hash=buyer_b.subject_hash,
+        )
+
+        assert {row["knowledge_key"] for row in buyer_a_rows} >= {
+            preference_id,
+            shared_id,
+        }
+        assert preference_id not in {row["knowledge_key"] for row in buyer_b_rows}
+        assert shared_id in {row["knowledge_key"] for row in buyer_b_rows}
+    finally:
+        core.close()
+
+
+def test_subject_scoped_memory_survives_refined_retrieval_in_chat(tmp_path) -> None:
+    settings = make_settings(tmp_path)
+    model = TableDrivenModel(settings)
+    core = build_core(
+        tmp_path, settings=settings, model=model, seed_knowledge=False
+    )
+    try:
+        assert core.memory is not None
+        buyer_a = principal_for_core(core, "buyer-memory-owner")
+        buyer_b = principal_for_core(core, "buyer-memory-other")
+        memory_id = core.memory.record(
+            "store-memory-chat",
+            fact="顾客偏好静音款空气炸锅。",
+            category="buyer_preference",
+            tenant_id=buyer_a.tenant_id,
+            subject_hash=buyer_a.subject_hash,
+        )
+        context = {"store_id": "store-memory-chat"}
+
+        owner_response = core.chat(
+            buyer_a, "memory-owner-chat", "静音款适合我吗？", context
+        )
+        other_response = core.chat(
+            buyer_b, "memory-other-chat", "静音款适合我吗？", context
+        )
+
+        memory_source = f"memory:{memory_id}"
+        assert memory_source in {item.source for item in owner_response.sources}
+        assert memory_source not in {item.source for item in other_response.sources}
+    finally:
+        core.close()
+
+
+def test_memory_is_redacted_before_storage_and_prompt_use(tmp_path) -> None:
+    settings = make_settings(tmp_path)
+    model = TableDrivenModel(settings)
+    core = build_core(
+        tmp_path, settings=settings, model=model, seed_knowledge=False
+    )
+    try:
+        assert core.memory is not None
+        principal = principal_for_core(core, "buyer-memory-redaction")
+        memory_id = core.memory.record(
+            "store-memory-redaction",
+            fact="顾客偏好静音款，联系电话是 13812345678。",
+            category="buyer_preference",
+            tenant_id=principal.tenant_id,
+            subject_hash=principal.subject_hash,
+        )
+
+        response = core.chat(
+            principal,
+            "memory-redaction-chat",
+            "静音款适合我吗？",
+            {"store_id": "store-memory-redaction"},
+        )
+        with core.db.connect() as conn:
+            stored = conn.execute(
+                "SELECT answer FROM knowledge WHERE knowledge_key=?",
+                (memory_id,),
+            ).fetchone()[0]
+
+        assert "13812345678" not in stored
+        assert "13812345678" not in model.generation_prompts[-1][-1]["content"]
+        assert f"memory:{memory_id}" in {item.source for item in response.sources}
+    finally:
+        core.close()
+
+
+def test_migration_retires_legacy_unscoped_buyer_preferences(tmp_path) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    try:
+        legacy_id = core.knowledge.add_document(
+            category="买家偏好",
+            intent="memory-buyer_preference",
+            question="顾客偏好静音款。",
+            answer="顾客偏好静音款。",
+            keywords="买家偏好 静音款",
+            risk_level="low",
+            source="memory://legacy",
+            tenant_id=core.settings.bootstrap_tenant_id,
+            knowledge_key="kg-memory-legacy-buyer",
+            layer="evolution",
+            store_id="store-legacy-buyer",
+        )
+        with core.db._write_lock, core.db.connect() as conn:
+            Database._apply_v36(conn)
+            row = conn.execute(
+                "SELECT layer, status FROM knowledge WHERE id=?",
+                (legacy_id,),
+            ).fetchone()
+
+        assert dict(row) == {"layer": "memory", "status": "retired"}
+    finally:
+        core.close()
+
+
+def test_recording_an_expired_memory_renews_its_ttl(tmp_path) -> None:
+    core = build_core(tmp_path, seed_knowledge=False)
+    try:
+        assert core.memory is not None
+        memory_id = core.memory.record(
+            "store-memory-renewal",
+            fact="本店周三咨询量较高。",
+            tenant_id=core.settings.bootstrap_tenant_id,
+            ttl_days=1,
+        )
+        with core.db._write_lock, core.db.connect() as conn:
+            conn.execute(
+                "UPDATE knowledge SET effective_to='2000-01-01T00:00:00+00:00' "
+                "WHERE knowledge_key=?",
+                (memory_id,),
+            )
+
+        renewed_id = core.memory.record(
+            "store-memory-renewal",
+            fact="本店周三咨询量较高。",
+            tenant_id=core.settings.bootstrap_tenant_id,
+            ttl_days=30,
+        )
+        recalled = core.memory.recall(
+            "store-memory-renewal",
+            query="周几咨询量高",
+            tenant_id=core.settings.bootstrap_tenant_id,
+        )
+
+        assert renewed_id == memory_id
+        assert memory_id in {row["knowledge_key"] for row in recalled}
     finally:
         core.close()

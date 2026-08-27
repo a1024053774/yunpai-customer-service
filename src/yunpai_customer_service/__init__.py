@@ -14,6 +14,7 @@ from .customer_service import (
     plan_generation,
     verified_tool_result,
 )
+from .schemas import ChatImageInput
 
 __version__ = "0.1.0"
 
@@ -23,6 +24,7 @@ __all__ = [
     "BRANCH_NO_EVIDENCE",
     "NO_EVIDENCE_DRAFT",
     "CustomerServiceCore",
+    "ChatImageInput",
     "GenerationPlan",
     "approved_direct_document",
     "budgeted_history",

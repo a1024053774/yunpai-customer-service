@@ -74,6 +74,13 @@ class Settings:
     kg_dream_worker_enabled: bool = True
     customer_test_enabled: bool = False
     model_allow_coding_plan: bool = False
+    vision_enabled: bool = False
+    vision_base_url: str = ""
+    vision_model_name: str = "deepseek-v4-flash-vision-exp"
+    vision_api_key: str = ""
+    vision_timeout_seconds: float = 45.0
+    vision_max_output_tokens: int = 512
+    vision_temperature: float = 0.0
     max_react_steps: int = 4
     taobao_enabled: bool = False
     taobao_auto_reply_enabled: bool = False
@@ -145,14 +152,14 @@ class Settings:
     def from_env(cls) -> "Settings":
         return cls(
             data_dir=Path(os.getenv("DATA_DIR", "./data")).resolve(),
-            model_provider=os.getenv("MODEL_PROVIDER", "glm").strip().lower(),
+            model_provider=os.getenv("MODEL_PROVIDER", "deepseek").strip().lower(),
             model_base_url=os.getenv(
-                "MODEL_BASE_URL", "https://open.bigmodel.cn/api/paas/v4"
+                "MODEL_BASE_URL", "https://api.deepseek.com"
             ).rstrip("/"),
-            model_name=os.getenv("MODEL_NAME", "glm-4.7-flash"),
+            model_name=os.getenv("MODEL_NAME", "deepseek-v4-flash"),
             model_api_key=os.getenv("MODEL_API_KEY", "").strip(),
             model_timeout_seconds=float(os.getenv("MODEL_TIMEOUT_SECONDS", "45")),
-            model_max_output_tokens=int(os.getenv("MODEL_MAX_OUTPUT_TOKENS", "240")),
+            model_max_output_tokens=int(os.getenv("MODEL_MAX_OUTPUT_TOKENS", "4096")),
             model_temperature=float(os.getenv("MODEL_TEMPERATURE", "0.2")),
             model_thinking_enabled=_as_bool(os.getenv("MODEL_THINKING_ENABLED")),
             model_streaming=_as_bool(os.getenv("MODEL_STREAMING"), default=True),
@@ -225,6 +232,21 @@ class Settings:
             model_allow_coding_plan=_as_bool(
                 os.getenv("MODEL_ALLOW_CODING_PLAN"), default=False
             ),
+            vision_enabled=_as_bool(os.getenv("VISION_ENABLED"), default=False),
+            vision_base_url=os.getenv("VISION_BASE_URL", "").strip().rstrip("/"),
+            vision_model_name=os.getenv(
+                "VISION_MODEL_NAME", "deepseek-v4-flash-vision-exp"
+            ).strip(),
+            vision_api_key=(
+                os.getenv("VISION_API_KEY") or os.getenv("MODEL_API_KEY", "")
+            ).strip(),
+            vision_timeout_seconds=max(
+                0.001, float(os.getenv("VISION_TIMEOUT_SECONDS", "45.0"))
+            ),
+            vision_max_output_tokens=max(
+                1, int(os.getenv("VISION_MAX_OUTPUT_TOKENS", "512"))
+            ),
+            vision_temperature=float(os.getenv("VISION_TEMPERATURE", "0.0")),
             max_react_steps=max(1, min(8, int(os.getenv("MAX_REACT_STEPS", "4")))),
             taobao_enabled=_as_bool(os.getenv("TAOBAO_ENABLED")),
             taobao_auto_reply_enabled=_as_bool(os.getenv("TAOBAO_AUTO_REPLY_ENABLED")),

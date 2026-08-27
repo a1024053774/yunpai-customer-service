@@ -12,6 +12,7 @@ from .text_utils import (
     checksum,
     cosine_similarity,
     hash_embedding,
+    normalize_text,
     search_terms,
     search_text,
     vector_to_blob,
@@ -71,6 +72,7 @@ class KnowledgeBase:
         layer: str = "industry",
         store_id: str | None = None,
         sku_id: str | None = None,
+        subject_hash: str | None = None,
         review_status: str | None = None,
     ) -> str:
         document_id = id or f"kb-{uuid.uuid4().hex}"
@@ -80,7 +82,7 @@ class KnowledgeBase:
         now = datetime.now(UTC).isoformat()
         digest = checksum(
             question, answer, source, str(version), tenant_id or "global",
-            layer, store_id or "", sku_id or "",
+            layer, store_id or "", sku_id or "", subject_hash or "",
         )
         lifecycle = review_status or ("approved" if status == "active" else "draft")
         with self.db._write_lock, self.db.connect() as conn:
@@ -90,16 +92,16 @@ class KnowledgeBase:
                     id, category, intent, question, answer, keywords, search_text,
                     embedding, risk_level, source, version, status, effective_from,
                     effective_to, approved_by, checksum, created_at, tenant_id,
-                    knowledge_key, layer, store_id, sku_id, review_status,
+                    knowledge_key, layer, store_id, sku_id, subject_hash, review_status,
                     record_version, updated_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?,
-                          ?, ?, ?, ?, ?, 1, ?)
+                          ?, ?, ?, ?, ?, ?, 1, ?)
                 """,
                 (
                     document_id, category, intent, question, answer, keywords,
                     indexed_text, embedding, risk_level, source, version, status,
                     now, approved_by, digest, now, tenant_id,
-                    document_key, layer, store_id, sku_id, lifecycle, now,
+                    document_key, layer, store_id, sku_id, subject_hash, lifecycle, now,
                 ),
             )
             conn.execute(
@@ -122,6 +124,7 @@ class KnowledgeBase:
     ) -> list[RetrievedDocument]:
         query_terms = set(search_terms(query))
         query_vector = hash_embedding(query)
+        normalized_query = normalize_text(query)
         now = datetime.now(UTC).isoformat()
         with self.db.connect() as conn:
             tenant_clause = (
@@ -154,6 +157,9 @@ class KnowledgeBase:
                 FROM knowledge
                 WHERE status='active' AND effective_from <= ?
                   AND (effective_to IS NULL OR effective_to > ?)
+                  AND subject_hash IS NULL
+                  AND layer <> 'memory'
+                  AND knowledge_key NOT LIKE 'kg-memory-%'
                   {tenant_clause}
                   {' '.join(scope_clauses)}
                 """,
@@ -184,6 +190,7 @@ class KnowledgeBase:
             )
         ranked.sort(
             key=lambda item: (
+                int(normalize_text(item["question"]) == normalized_query),
                 item["score"],
                 # ① 多租户 tiebreak：本租户行优先于全局行（影子编辑生效的前提）。
                 # 此前本租户影子行与全局行同分同 store NULL 同 version 时排序
@@ -242,6 +249,9 @@ class KnowledgeBase:
                        sku_id, tenant_id
                 FROM knowledge
                 WHERE status='candidate' AND tenant_id=? AND id IN ({placeholders})
+                  AND subject_hash IS NULL
+                  AND layer <> 'memory'
+                  AND knowledge_key NOT LIKE 'kg-memory-%'
                   {' '.join(scope_clauses)}
                 """,
                 (tenant_id, *chosen.values(), *scope_params),

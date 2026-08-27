@@ -15,6 +15,7 @@ from yunpai_customer_service.customer_service import (
     NO_EVIDENCE_DRAFT,
     plan_generation,
 )
+from yunpai_customer_service.llm import ModelUnavailableError
 
 from conftest import make_settings
 from customer_service_fixtures import (
@@ -128,6 +129,42 @@ def test_idempotent_invocation_replays_the_stored_response(tmp_path) -> None:
         assert assistant_count == 1
     finally:
         core.close()
+
+
+def test_stream_model_failure_returns_and_persists_retry_response(tmp_path) -> None:
+    core = build_core(tmp_path)
+    principal = principal_for_core(core)
+
+    def fail_stream(_messages):
+        yield "已为您确认退款成功。"
+        raise ModelUnavailableError("model stream unavailable")
+
+    core.model.stream_generate = fail_stream  # type: ignore[method-assign]
+    try:
+        events = list(
+            core.chat_stream(
+                principal,
+                "stream-model-failure",
+                "尺码怎么选",
+                idempotency_key="stream-model-failure-1",
+            )
+        )
+        response = events[-1]["response"]
+        with core.db.connect() as conn:
+            invocation = conn.execute(
+                "SELECT status, response_json FROM agent_invocations"
+            ).fetchone()
+    finally:
+        core.close()
+
+    assert events[-1]["event"] == "result"
+    deltas = [event["text"] for event in events if event["event"] == "delta"]
+    assert deltas == [response["answer"]]
+    assert "已为您确认退款成功" not in response["answer"]
+    assert response["reason"] == "model_temporarily_unavailable"
+    assert response["model_fallback"] is True
+    assert invocation["status"] == "completed"
+    assert invocation["response_json"]
 
 
 def test_sync_and_stream_share_the_generated_answer(tmp_path) -> None:

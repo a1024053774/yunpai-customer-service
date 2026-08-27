@@ -14,6 +14,7 @@ from typing import Any
 
 from ..config import Settings
 from ..database import Database
+from ..llm import ModelError, ModelUnavailableError
 from ..prompts import SYSTEM_PROMPT, build_messages
 from ..text_utils import normalize_text
 from ..tokens import count_tokens, truncate_history
@@ -41,6 +42,14 @@ class GenerationPlan:
     scene: str | None = None
     scene_applied: bool = False
     evidence_source: str | None = None
+
+
+@dataclass(frozen=True)
+class ModelFailureRecovery:
+    draft: str
+    model_fallback: bool
+    retry_advised: bool
+    trace_step: str
 
 
 def map_scene(intent: str) -> str:
@@ -100,6 +109,11 @@ def verified_tool_result(state: dict[str, Any]) -> dict[str, Any] | None:
     return tool_result if tool_result.get("postcondition_met") else None
 
 
+def has_media_observation(state: dict[str, Any]) -> bool:
+    media = state.get("media_evidence") or {}
+    return media.get("status") == "applied" and bool(media.get("description"))
+
+
 def approved_direct_document(
     state: dict[str, Any],
     *,
@@ -111,6 +125,8 @@ def approved_direct_document(
     来源、normalize 后问题与请求完全相等。分数过线不是资格。
     """
     documents = state.get("retrieved") or []
+    if has_media_observation(state):
+        return None
     if not documents or not settings.rag_direct_approved_answer:
         return None
     top_document = documents[0]
@@ -123,6 +139,44 @@ def approved_direct_document(
     ):
         return None
     return top_document
+
+
+def recover_model_failure(
+    state: dict[str, Any],
+    error: ModelError,
+    *,
+    db: Database,
+) -> ModelFailureRecovery:
+    verified_result = verified_tool_result(state)
+    if verified_result:
+        recovery = ModelFailureRecovery(
+            draft="操作已完成，业务系统已经确认处理结果。",
+            model_fallback=True,
+            retry_advised=False,
+            trace_step="generate:verified_result_fallback",
+        )
+    elif isinstance(error, ModelUnavailableError):
+        recovery = ModelFailureRecovery(
+            draft="",
+            model_fallback=True,
+            retry_advised=True,
+            trace_step="generate:model_temporarily_unavailable",
+        )
+    else:
+        recovery = ModelFailureRecovery(
+            draft="当前模型暂时不可用，我会为您转人工客服，避免给出不准确的信息。",
+            model_fallback=True,
+            retry_advised=False,
+            trace_step="generate:fallback",
+        )
+    db.audit(
+        "model.failure",
+        "system",
+        state["trace_id"],
+        {"error_type": type(error).__name__, "error": str(error)[:300]},
+        state["tenant_id"],
+    )
+    return recovery
 
 
 def _with_scene_prompt(
@@ -168,7 +222,7 @@ def plan_generation(
 ) -> GenerationPlan:
     documents = state.get("retrieved") or []
     tool_result = verified_tool_result(state)
-    if not documents and not tool_result:
+    if not documents and not tool_result and not has_media_observation(state):
         return GenerationPlan(
             branch=BRANCH_NO_EVIDENCE,
             model_fallback=True,

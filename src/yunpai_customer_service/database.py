@@ -45,9 +45,10 @@ class SessionScopeError(ValueError):
 class Database:
     # 占号裁定（负责人 08-13）：v31 归 PR #11、v32 归 F-322/负责人分支（均已合入
     # main）、v33 归 knowledge/retrieval、v34 归 M7-R WP1 readonly data、
-    # v35 归 M7-R WP3 product identity。
+    # v35 归 M7-R WP3 product identity；v36 归独立客服包的长期记忆作用域；
+    # v37 归独立客服包的消息媒体元数据；v38 归媒体保留删除队列。
     # 防同名方法静默覆盖事故，见 CONTRIBUTING「Schema 版本号占用登记」。
-    SCHEMA_VERSION = 35
+    SCHEMA_VERSION = 38
 
     def __init__(self, path: Path):
         self.path = path
@@ -190,6 +191,15 @@ class Database:
             if 35 not in applied:
                 self._apply_v35(conn)
                 conn.execute("INSERT INTO schema_migrations VALUES (35, ?)", (utc_now(),))
+            if 36 not in applied:
+                self._apply_v36(conn)
+                conn.execute("INSERT INTO schema_migrations VALUES (36, ?)", (utc_now(),))
+            if 37 not in applied:
+                self._apply_v37(conn)
+                conn.execute("INSERT INTO schema_migrations VALUES (37, ?)", (utc_now(),))
+            if 38 not in applied:
+                self._apply_v38(conn)
+                conn.execute("INSERT INTO schema_migrations VALUES (38, ?)", (utc_now(),))
             conn.execute(f"PRAGMA user_version = {self.SCHEMA_VERSION}")
             self._validate_schema(conn)
 
@@ -3420,6 +3430,107 @@ class Database:
             """
         )
 
+    @classmethod
+    def _apply_v36(cls, conn: sqlite3.Connection) -> None:
+        """Separate long-term memory from ordinary knowledge and scope buyer facts."""
+
+        cls._ensure_column(conn, "knowledge", "subject_hash", "TEXT")
+        retired_at = utc_now()
+        conn.execute(
+            """
+            UPDATE knowledge
+            SET layer='memory', status='retired', effective_to=?, updated_at=?,
+                record_version=record_version+1
+            WHERE layer='evolution' AND subject_hash IS NULL AND status='active'
+              AND (knowledge_key LIKE 'kg-memory-%' OR source LIKE 'memory://%')
+              AND (intent='memory-buyer_preference' OR category='买家偏好')
+            """,
+            (retired_at, retired_at),
+        )
+        conn.execute(
+            """
+            UPDATE knowledge SET layer='memory'
+            WHERE layer='evolution'
+              AND (knowledge_key LIKE 'kg-memory-%' OR source LIKE 'memory://%')
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_knowledge_memory_scope
+            ON knowledge(tenant_id, layer, store_id, subject_hash, status, effective_to)
+            """
+        )
+
+    @staticmethod
+    def _apply_v37(conn: sqlite3.Connection) -> None:
+        """Move customer image metadata out of citation sources."""
+
+        conn.executescript(
+            """
+            CREATE TABLE IF NOT EXISTS message_media (
+                message_id TEXT NOT NULL,
+                id TEXT NOT NULL,
+                mime_type TEXT NOT NULL
+                    CHECK(mime_type IN ('image/png','image/jpeg','image/webp')),
+                size_bytes INTEGER NOT NULL CHECK(size_bytes > 0),
+                storage_ref TEXT NOT NULL,
+                vision_description TEXT,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY(message_id, id),
+                FOREIGN KEY(message_id) REFERENCES messages(id) ON DELETE CASCADE
+            );
+            CREATE INDEX IF NOT EXISTS idx_message_media_message
+                ON message_media(message_id, created_at, id);
+            """
+        )
+        from .message_media import (
+            non_media_sources,
+            parse_message_media,
+            persist_message_media,
+        )
+
+        rows = conn.execute(
+            "SELECT id, sources_json, created_at FROM messages WHERE sources_json <> '[]'"
+        ).fetchall()
+        for row in rows:
+            media = parse_message_media(row["sources_json"])
+            if not media:
+                continue
+            persist_message_media(
+                conn,
+                message_id=str(row["id"]),
+                media=media,
+                created_at=str(row["created_at"]),
+            )
+            conn.execute(
+                "UPDATE messages SET sources_json=? WHERE id=?",
+                (
+                    json.dumps(non_media_sources(row["sources_json"]), ensure_ascii=False),
+                    row["id"],
+                ),
+            )
+
+    @staticmethod
+    def _apply_v38(conn: sqlite3.Connection) -> None:
+        """Persist media deletion ownership until the file is actually removed."""
+
+        conn.executescript(
+            """
+            CREATE TABLE IF NOT EXISTS media_deletion_queue (
+                storage_ref TEXT PRIMARY KEY,
+                media_id TEXT NOT NULL,
+                mime_type TEXT NOT NULL,
+                size_bytes INTEGER NOT NULL CHECK(size_bytes > 0),
+                attempt_count INTEGER NOT NULL DEFAULT 0,
+                last_error TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_media_deletion_queue_updated
+                ON media_deletion_queue(updated_at, storage_ref);
+            """
+        )
+
     @staticmethod
     def _ensure_column(conn: sqlite3.Connection, table: str, column: str, declaration: str) -> None:
         columns = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
@@ -3430,6 +3541,25 @@ class Database:
     def _validate_schema(conn: sqlite3.Connection) -> None:
         required = {
             "sessions": {"tenant_id", "source_type", "source_reference"},
+            "message_media": {
+                "message_id",
+                "id",
+                "mime_type",
+                "size_bytes",
+                "storage_ref",
+                "vision_description",
+                "created_at",
+            },
+            "media_deletion_queue": {
+                "storage_ref",
+                "media_id",
+                "mime_type",
+                "size_bytes",
+                "attempt_count",
+                "last_error",
+                "created_at",
+                "updated_at",
+            },
             "marketing_campaign_metrics": {
                 "tenant_id", "connector_id", "store_id", "campaign_id", "metric_date",
                 "spend", "attributed_revenue", "source_type", "payload_hash", "version",
@@ -3448,7 +3578,10 @@ class Database:
             "reconciliation_tasks": {
                 "tenant_id", "statement_id", "status", "difference_amount", "record_version",
             },
-            "knowledge": {"knowledge_key", "layer", "review_status", "record_version"},
+            "knowledge": {
+                "knowledge_key", "layer", "subject_hash", "review_status",
+                "record_version",
+            },
             "ops_operation_records": {
                 "tenant_id", "dataset_key", "store_id", "record_date", "channel",
                 "visitors", "orders", "sales_amount", "ad_spend", "source_format",
@@ -4018,15 +4151,51 @@ class Database:
         return [str(row["route_reason"]) for row in rows if row["route_reason"]]
 
     def recent_messages(self, session_id: str, limit: int) -> list[dict[str, Any]]:
+        from .message_media import annotate_history_content
+
         with self.connect() as conn:
             rows = conn.execute(
                 """
-                SELECT role, content, created_at FROM messages
+                SELECT id, role, content, created_at FROM messages
                 WHERE session_id = ? ORDER BY created_at DESC, rowid DESC LIMIT ?
                 """,
                 (session_id, limit),
             ).fetchall()
-        return [dict(row) for row in reversed(rows)]
+        media_by_message = self.message_media_for_messages(
+            [str(row["id"]) for row in rows]
+        )
+        return [
+            {
+                "role": row["role"],
+                "content": annotate_history_content(
+                    row["content"], media_by_message.get(str(row["id"]), [])
+                ),
+                "created_at": row["created_at"],
+            }
+            for row in reversed(rows)
+        ]
+
+    def message_media_for_messages(
+        self, message_ids: list[str]
+    ) -> dict[str, list[dict[str, Any]]]:
+        if not message_ids:
+            return {}
+        placeholders = ",".join("?" for _ in message_ids)
+        with self.connect() as conn:
+            rows = conn.execute(
+                f"""
+                SELECT message_id, id, mime_type, size_bytes, storage_ref,
+                       vision_description, created_at
+                FROM message_media
+                WHERE message_id IN ({placeholders})
+                ORDER BY created_at, id
+                """,
+                tuple(message_ids),
+            ).fetchall()
+        grouped: dict[str, list[dict[str, Any]]] = {}
+        for row in rows:
+            grouped.setdefault(str(row["message_id"]), []).append(dict(row))
+        return grouped
 
     def paginated_messages(
         self,
