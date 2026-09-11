@@ -1,0 +1,32 @@
+{
+  "file": "env.md",
+  "exists": true,
+  "sha256": "2aa41532d2f4d8ec0318495789cdeb03f39495e4069c070fc8f70c51f93dad94",
+  "variable_names": [
+    "AUTH_REQUIRED",
+    "BUSINESS_DOMAIN",
+    "DATA_DIR",
+    "INTENT_CLASSIFY_TIMEOUT_SECONDS",
+    "KG_DREAM_WORKER_ENABLED",
+    "KG_IMPORT_ENABLED",
+    "MODEL_API_KEY",
+    "MODEL_BASE_URL",
+    "MODEL_ENABLED",
+    "MODEL_MAX_OUTPUT_TOKENS",
+    "MODEL_MOCK_MODE",
+    "MODEL_NAME",
+    "MODEL_PROVIDER",
+    "MODEL_STREAMING",
+    "MODEL_TIMEOUT_SECONDS",
+    "RAG_EMBEDDING_MODEL",
+    "RAG_EMBEDDING_PROVIDER",
+    "VISION_BASE_URL",
+    "VISION_ENABLED",
+    "VISION_MAX_OUTPUT_TOKENS",
+    "VISION_MODEL_NAME",
+    "VISION_TEMPERATURE",
+    "VISION_TIMEOUT_SECONDS"
+  ],
+  "contains_DATA_DIR": true,
+  "note": "values omitted; ISO-001: source env.md then export DATA_DIR under /tmp"
+}

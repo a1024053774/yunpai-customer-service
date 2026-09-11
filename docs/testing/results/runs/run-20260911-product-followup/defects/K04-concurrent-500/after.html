@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>K04 concurrent green</title>
+<style>
+  html,body { background:#ffffff; color:#111111; font-family: sans-serif; margin:0; }
+  body { padding:24px; }
+  h1 { font-size:22px; }
+  pre { background:#f5f6f8; padding:12px; border:1px solid #ddd; }
+</style>
+</head>
+<body>
+<h1>K04 green: concurrent same idempotency key</h1>
+<p>Expected and observed: both HTTP 200, same message_id, no 500. TestClient after persist_response loser-complete path. Live uvicorn green is a separate file after restart.</p>
+<pre>{
+  "saved_utc": "2026-09-11T09:31:17.545207+00:00",
+  "id": "K04",
+  "phase": "green",
+  "status_codes": [
+    200,
+    200
+  ],
+  "message_ids": [
+    "msg-dc12bfef691b5ea79285eb2ee1ce96ae",
+    "msg-dc12bfef691b5ea79285eb2ee1ce96ae"
+  ],
+  "same_message_id": true,
+  "has_500": false,
+  "status": "PASS",
+  "bodies": [
+    "{\"message_id\":\"msg-dc12bfef691b5ea79285eb2ee1ce96ae\",\"trace_id\":\"trace-dc12bfef691b5ea79285eb2ee1ce96ae\",\"session_id\":\"k04sess-83323d397e\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0005\"",
+    "{\"message_id\":\"msg-dc12bfef691b5ea79285eb2ee1ce96ae\",\"trace_id\":\"trace-dc12bfef691b5ea79285eb2ee1ce96ae\",\"session_id\":\"k04sess-83323d397e\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0005\""
+  ]
+}</pre>
+</body>
+</html>

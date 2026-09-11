@@ -1,0 +1,19 @@
+{
+  "saved_utc": "2026-09-11T09:27:47.506352+00:00",
+  "id": "K04",
+  "phase": "red",
+  "status_codes": [
+    200,
+    500
+  ],
+  "bodies": [
+    "{\"message_id\":\"msg-1c165c52a6f65349956ff27d607f401e\",\"trace_id\":\"trace-1c165c52a6f65349956ff27d607f401e\",\"session_id\":\"k04sess-ab77279162\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0005\",\"category\":\"商品\",\"source\":\"builtin:ecommerce-sop-v1\",\"version\":1,\"score\":0.1952},{\"id\":\"seed-0007\",\"",
+    "Internal Server Error"
+  ],
+  "has_500": true,
+  "status": "FAIL",
+  "expected": "both 200 same message_id; never 500",
+  "notes": [
+    "live L3 also saw 200+500 with RuntimeError agent invocation completion was not persisted"
+  ]
+}

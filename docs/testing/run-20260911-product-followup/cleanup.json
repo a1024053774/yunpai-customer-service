@@ -1,0 +1,13 @@
+{
+  "saved_utc": "2026-09-11T10:07:43.161180+00:00",
+  "pid": 37044,
+  "pid_was_present": false,
+  "pid_present_after_sigterm": false,
+  "ports": {
+    "55722": "closed",
+    "55723": "closed"
+  },
+  "data_dir": "/private/tmp/yunpai-followup-20260911",
+  "workspace_data_touched": false,
+  "credentials_copied_to_evidence": false
+}

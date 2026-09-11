@@ -1,0 +1,17 @@
+{
+  ".txt": {
+    "name": "DIR-AUDIT-20260911-ALPHA.txt",
+    "sha256": "9980e909c78a359bd53a6b856da70ab68d4eb0932aeea537acb2f6de2218614a",
+    "bytes": 151
+  },
+  ".md": {
+    "name": "DIR-AUDIT-20260911-ALPHA.md",
+    "sha256": "c77f3da0511926e34a773df5f68bfde8f74d1e922301cb60150b68c3bedb6525",
+    "bytes": 137
+  },
+  ".pdf": {
+    "name": "DIR-AUDIT-20260911-ALPHA.pdf",
+    "sha256": "b29f630ce19fd8291dbf0b0fbeea7b23924107ab70f0fb84e42b525080ace249",
+    "bytes": 1540
+  }
+}

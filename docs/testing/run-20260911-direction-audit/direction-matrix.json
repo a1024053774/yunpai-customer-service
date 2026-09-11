@@ -1,0 +1,137 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "candidate_commit": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+  "dirty_diff_sha256": "f724096387857662530373438ac49d7b009882bd0d2a422f7db03bc97c3dff75",
+  "decision_vocabulary": [
+    "保持方向",
+    "已证明",
+    "仅切片",
+    "未证明",
+    "阻塞"
+  ],
+  "rows": [
+    {
+      "id": "D01",
+      "goal": "DeepSeek Flash 文本/视觉模型",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L0/L3",
+      "evidence": [
+        "runtime.json",
+        "raw/probe-results.json"
+      ],
+      "finding": "文本配置为 deepseek-v4-flash，live host API 调用成功；视觉配置存在，但本次图片请求 vision_status=error，未证明成功识图；实际返回 model_reported/model_name 未提供。"
+    },
+    {
+      "id": "D02",
+      "goal": "本地免费检索而非收费 RAG",
+      "direction": "保持方向",
+      "status": "已证明",
+      "evidence_level": "L0/L2/L3",
+      "evidence": [
+        "raw/static-path-facts.json",
+        "raw/dependencies.json",
+        "states/knowledge-after-import.json",
+        "raw/probe-results.json"
+      ],
+      "finding": "运行时为 FastEmbed BAAI/bge-small-zh-v1.5，检索含 BM25/SQLite；收费向量库包未见。DeepSeek 文本/视觉是单独的云模型成本未知。"
+    },
+    {
+      "id": "D03",
+      "goal": "多轮对话",
+      "direction": "保持方向",
+      "status": "已证明",
+      "evidence_level": "L3",
+      "evidence": [
+        "raw/probe-results.json",
+        "states/messages-after.json"
+      ],
+      "finding": "同一 session 两轮均 200，第二轮“它”回到第一轮资料并返回相同事实，intent_method=model，SQLite 有 10 条对应消息。仅代表本机切片。"
+    },
+    {
+      "id": "D04",
+      "goal": "图片输入",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L3",
+      "evidence": [
+        "raw/probe-results.json",
+        "states/messages-after.json"
+      ],
+      "finding": "真实带图请求进入视觉路径并返回 vision_status=error、vision_image_count=1，安全降级可见；成功视觉理解未证明。"
+    },
+    {
+      "id": "D05",
+      "goal": "歧义意图识别",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L3",
+      "evidence": [
+        "raw/probe-results.json",
+        "states/messages-after.json"
+      ],
+      "finding": "“这个可以吗？”返回澄清答复，intent_method=model，route_reason=llm_clarification_required；单一歧义样本不能证明全量质量。"
+    },
+    {
+      "id": "D06",
+      "goal": "非关键词写死路由",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L0/L3",
+      "evidence": [
+        "raw/static-path-facts.json",
+        "raw/probe-results.json"
+      ],
+      "finding": "静态调用链显示模型意图字段，非关键词问法被路由为 product/product_inquiry 并检索资料；仍未完成变异测试和大样本反例。"
+    },
+    {
+      "id": "D07",
+      "goal": "PDF/TXT/Markdown 资料导入与知识库管理",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L3",
+      "evidence": [
+        "raw/probe-results.json",
+        "states/knowledge-after-import.json",
+        "raw/fixture-digests.json"
+      ],
+      "finding": "三种文件均通过真实导入并产生 active、tenant、source、version、embedding_model 条目；本次 PDF 是可抽取文本单页，未证明复杂版式/全页面管理及完整 UI 后态。"
+    },
+    {
+      "id": "D08",
+      "goal": "语料库",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L2/L3",
+      "evidence": [
+        "states/knowledge-after-import.json",
+        "raw/probe-results.json"
+      ],
+      "finding": "导入资料形成 3 条可追溯来源/版本/租户条目并被检索；不能外推真实业务语料规模、权限质量或 L4 语料治理。"
+    },
+    {
+      "id": "D09",
+      "goal": "自进化与经验沉淀",
+      "direction": "保持方向",
+      "status": "仅切片",
+      "evidence_level": "L3",
+      "evidence": [
+        "states/evolution-after.json",
+        "raw/probe-results.json"
+      ],
+      "finding": "feedback→candidate→evaluate→approve→rollback API 200；SQLite 中候选 approved、结果知识 retired，API/SQLite 这部分对齐；页面回归未执行，历史页面/API/DB 一致性问题仍不关闭。"
+    },
+    {
+      "id": "D10",
+      "goal": "handbook 10.2 交付边界",
+      "direction": "保持方向",
+      "status": "阻塞",
+      "evidence_level": "L3/L4/L5",
+      "evidence": [
+        "raw/10.2-remaining.json",
+        "verdict.md"
+      ],
+      "finding": "L3 仅本机切片；L4/L5、独立站、HR、真实反代、真实业务账本、clean runtime、成本门禁和长稳恢复均未满足或未知。"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ def _png_image(suffix: bytes = b"test-image") -> ChatImageInput:
 def _vision_settings(tmp_path):
     return replace(
         make_settings(tmp_path),
+        model_provider="deepseek",
         vision_enabled=True,
         vision_base_url="https://api.deepseek.com",
         vision_model_name="deepseek-v4-flash-vision-exp-test",
@@ -211,12 +212,49 @@ def test_vision_gateway_uses_openai_multimodal_payload_and_redacts_output(
     assert captured["authorization"] == "Bearer vision-secret"
     payload = captured["payload"]
     assert payload["model"] == "deepseek-v4-flash-vision-exp-test"
+    assert payload["thinking"] == {"type": "disabled"}
     content = payload["messages"][1]["content"]
     assert [item["type"] for item in content] == ["text", "image_url"]
     assert content[1]["image_url"]["url"] == (
         f"data:image/png;base64,{image.data_base64}"
     )
     assert result.media_evidence()["business_execution_authority"] is False
+
+
+def test_vision_gateway_omits_deepseek_thinking_field_for_other_providers(tmp_path) -> None:
+    captured: dict[str, Any] = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured["payload"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "message": {
+                            "content": json.dumps(
+                                {
+                                    "description": "图片中是一个商品截图。",
+                                    "order_candidate": None,
+                                    "uncertainties": [],
+                                },
+                                ensure_ascii=False,
+                            )
+                        }
+                    }
+                ]
+            },
+        )
+
+    settings = replace(_vision_settings(tmp_path), model_provider="glm")
+    gateway = VisionGateway(settings, transport=httpx.MockTransport(handler))
+    try:
+        result = gateway.describe(image=_png_image(), user_message="这是什么？")
+    finally:
+        gateway.close()
+
+    assert result.status == "applied"
+    assert "thinking" not in captured["payload"]
 
 
 def test_vision_gateway_rejects_unstructured_model_output(tmp_path) -> None:

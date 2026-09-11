@@ -1,0 +1,151 @@
+{
+  "phase": "before-fix",
+  "saved_utc": "2026-09-11T02:55:54.781605+00:00",
+  "approve_reject": {
+    "rejected_plus_active": 8,
+    "both_ok": 8,
+    "trials": [
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-7cbe05c5c1b342b48dfda627528307ba"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-350ce9d4d52a4d9eb579ffdf9bba1f55"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-2625de43ba2c4cc3afbd5fed7e6efedf"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-fdf18e73376b4228a74c4e4787e1b70c"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-379ef14caec14d5c80e1ecf1326ebab7"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-ec7394854c074eb8a67a13a2f5a307cc"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-bf5a477f6ff44872a85830d02120df42"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      },
+      {
+        "events": [
+          "approve-ok",
+          "reject-ok"
+        ],
+        "candidate": {
+          "status": "rejected",
+          "resulting_knowledge_id": "kb-66943c93be1d4dbc8e2968606ff459aa"
+        },
+        "active": 1,
+        "rejected_plus_active": true
+      }
+    ]
+  },
+  "leftover_retry": {
+    "orphan": "kb-2f281dab5515408bbec75c517c798a1d",
+    "retry": "ok",
+    "err": null,
+    "candidate": {
+      "status": "approved",
+      "resulting_knowledge_id": "kb-303eb156fa6b432da97988071ac4b886"
+    },
+    "active": [
+      {
+        "id": "kb-2f281dab5515408bbec75c517c798a1d",
+        "status": "active",
+        "source": "evolution:candidate-beb1b799d6ba492282743211d946e121",
+        "version": 1
+      },
+      {
+        "id": "kb-303eb156fa6b432da97988071ac4b886",
+        "status": "active",
+        "source": "evolution:candidate-beb1b799d6ba492282743211d946e121",
+        "version": 9
+      }
+    ],
+    "duplicate_active": true
+  },
+  "double_approve": {
+    "ok": [
+      "a"
+    ],
+    "errors": [
+      "b:EvolutionError:candidate must pass evaluation before approval"
+    ],
+    "active": [
+      {
+        "id": "kb-a435770c517d43b9afbfe1b822c9250b",
+        "status": "active",
+        "source": "evolution:candidate-5fa0631fab14441b8028614421f946b4",
+        "version": 1
+      }
+    ],
+    "candidate": {
+      "status": "approved",
+      "resulting_knowledge_id": "kb-a435770c517d43b9afbfe1b822c9250b"
+    }
+  },
+  "handbook_fail": true
+}

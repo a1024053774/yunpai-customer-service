@@ -1,0 +1,11 @@
+python /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+package /var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/yunpai-test-candidate-cbjhzex3/src/yunpai_customer_service/__init__.py
+graph /var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/yunpai-test-candidate-cbjhzex3/src/yunpai_customer_service/graph.py
+intent /var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/yunpai-test-candidate-cbjhzex3/src/yunpai_customer_service/intent.py
+pytest 8.4.2
+langgraph 1.2.11
+pydantic 2.13.4
+fastapi 0.141.1
+httpx 0.28.1
+pdfplumber 0.11.10
+sqlite 3.53.3

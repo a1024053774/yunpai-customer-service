@@ -1,0 +1,65 @@
+{
+  "saved_utc": "2026-09-11T08:55:30.528191+00:00",
+  "probe": "k05-handbook-factors",
+  "level": "L1-TestClient",
+  "model": "TableDrivenModel",
+  "data_dir": "/tmp/yunpai-review-k05-prw99yzg",
+  "not_live_l3": true,
+  "rows": [
+    {
+      "factor": "message",
+      "first_status": 200,
+      "replay_status": 200,
+      "same_message_id": true,
+      "conflict_status": 409,
+      "conflict_code": "idempotency_key_conflict",
+      "has_answer": false,
+      "stream_status": 409,
+      "stream_code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "store_id",
+      "first_status": 200,
+      "conflict_status": 409,
+      "conflict_code": "idempotency_key_conflict",
+      "has_answer": false
+    },
+    {
+      "factor": "image",
+      "first_status": 200,
+      "conflict_status": 409,
+      "conflict_code": "idempotency_key_conflict",
+      "image_error_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "subject_same_session",
+      "first_status": 200,
+      "conflict_status": 409,
+      "conflict_code": "session_scope_conflict"
+    },
+    {
+      "factor": "subject_new_session_same_key",
+      "first_status": 200,
+      "conflict_status": 409,
+      "conflict_code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "different_client_same_key",
+      "first_status": 200,
+      "second_status": 401,
+      "second_code": null,
+      "isolated_success": false
+    },
+    {
+      "factor": "K11-empty-message-no-image",
+      "status": 422,
+      "note": "handbook K11 HTTP schema; executable without L4 ledger"
+    },
+    {
+      "factor": "K11-wrong-content-type",
+      "status": 422,
+      "preview": "{\"detail\":[{\"type\":\"model_attributes_type\",\"loc\":[\"body\"],\"msg\":\"Input should be a valid dictionary or object to extract fields from\",\"input\":\"not-json\"}]}"
+    }
+  ],
+  "mapping_present": true
+}

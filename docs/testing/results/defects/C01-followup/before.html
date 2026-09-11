@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>C01 before</title>
+<style>
+body { font-family: ui-sans-serif, sans-serif; margin: 24px; background:#f6f7f8; color:#111; }
+.card { background:#fff; border:1px solid #ddd; border-radius:12px; padding:16px; margin:12px 0; }
+.FAIL { border-color:#c0392b; }
+.PASS { border-color:#1e7a46; }
+h1 { font-size:20px; }
+h2 { font-size:16px; display:flex; justify-content:space-between; }
+span { font-size:12px; padding:2px 8px; border-radius:99px; background:#eee; }
+.FAIL span { background:#fde8e8; color:#8b1e1e; }
+.q,.a { white-space:pre-wrap; line-height:1.45; }
+</style>
+<h1>C01 before · live Grok 4.6 · 2026-09-10</h1>
+<p>同会话 r2-d01exact-6cbd8a33。第一轮已答米白；追问丢对象。trace kept2。</p>
+
+<section class="card PASS">
+  <h2>D01 exact <span>PASS</span></h2>
+  <p class="q"><b>Q</b> QA-GROK-2C2668E3 孤岛验收电热水壶的容量是多少，颜色是什么？</p>
+  <p class="a"><b>A</b> 您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，随时告诉我～</p>
+  
+</section>
+
+
+<section class="card FAIL">
+  <h2>C01 follow-up <span>FAIL</span></h2>
+  <p class="q"><b>Q</b> 这个颜色是什么</p>
+  <p class="a"><b>A</b> 您问的是哪款商品的颜色呢？可以发一下商品名称或链接，我帮您核对具体颜色～</p>
+  <p>sources: seed-0014, seed-0007, seed-0004</p>
+</section>
+

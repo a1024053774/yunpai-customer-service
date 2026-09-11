@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>L01 after</title>
+<style>
+body { font-family: ui-sans-serif, sans-serif; margin: 24px; background:#f6f7f8; color:#111; }
+.card { background:#fff; border:1px solid #1e7a46; border-radius:12px; padding:16px; }
+h1 { font-size:20px; }
+span { font-size:12px; padding:2px 8px; border-radius:99px; background:#e7f6ee; color:#14532d; }
+.warn { color:#7c2d12; }
+</style>
+<h1>L01 after · FastEmbed retrieve (implementer dump)</h1>
+<p>问句里的连字符型号若出现在文档原文，检索加 0.2，避免 FastEmbed 把 容量/颜色 问句送给材质 SOP / 晴川 AF50。</p>
+<p class="warn">实现者自测不算通过。承诺的是 FastEmbed top-1 为导入文档，不是 live 模型成文。</p>
+<section class="card">
+  <h2>ID + capacity/color retrieve <span>PASS</span></h2>
+  <p>Q QA-GROK-2C2668E3 容量和颜色是什么？</p>
+  <p>top-1: imported synthetic（不再是 seed-0007）</p>
+  <p>Signal: pytest tests/test_l01_product_identifier.py</p>
+</section>

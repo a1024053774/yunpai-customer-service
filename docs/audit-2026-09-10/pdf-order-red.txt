@@ -1,0 +1,21 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_mixed_native_and_scanned_pdf_pages_keep_reading_order __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109d891d0>
+
+    def test_mixed_native_and_scanned_pdf_pages_keep_reading_order(monkeypatch):
+        import yunpai_customer_service.knowledge_ingest as ingestion
+        monkeypatch.setattr(ingestion, '_extract_pdf_docling', lambda _: [(1, '扫描页内容', 0), (2, '结构化第二页', 1)])
+        monkeypatch.setattr(ingestion, '_extract_pdf_pdfplumber', lambda _: [(2, '原生第二页', 1)])
+        result = ingestion._extract_pdf(b'parser-boundary-fixture')
+>       assert [page for page, _, _ in result] == [1, 2]
+E       assert [2, 1] == [1, 2]
+E         
+E         At index 0 diff: 2 != 1
+E         Use -v to get more diff
+
+tests/test_knowledge_ingest.py:142: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_knowledge_ingest.py::test_mixed_native_and_scanned_pdf_pages_keep_reading_order
+1 failed, 4 deselected in 0.07s

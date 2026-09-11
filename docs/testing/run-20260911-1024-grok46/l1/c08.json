@@ -1,0 +1,27 @@
+{
+  "id": "C08",
+  "priority": "P1",
+  "level": "L1",
+  "status": "INCOMPLETE",
+  "expected": "completed result readable after restart; mid-generate crash not double-applied",
+  "actual": {
+    "first_message_id": "msg-8cf29c72b1cd4990891134c7a880c0e6",
+    "rows_after_reopen": [
+      {
+        "role": "assistant",
+        "content": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      {
+        "role": "user",
+        "content": "c08-complete-marker"
+      }
+    ],
+    "second_message_id": "msg-f8491ac474494069b32de58f5a96a987",
+    "completed_readable": true,
+    "mid_generation_crash": false
+  },
+  "notes": [
+    "same DATA_DIR reopen after close; interrupt-before-persist / process-crash not run"
+  ],
+  "saved_utc": "2026-09-11T02:48:27.882774+00:00"
+}

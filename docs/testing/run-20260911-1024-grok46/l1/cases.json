@@ -1,0 +1,634 @@
+{
+  "saved_utc": "2026-09-11T02:32:23.410741+00:00",
+  "run_id": "run-20260911-1024-grok46",
+  "level": "L0/L1",
+  "cases": [
+    {
+      "id": "A09",
+      "priority": "P1",
+      "level": "L0",
+      "status": "PASS",
+      "expected": "unused copied config not described as delivered; delivered knobs change runtime",
+      "actual": {
+        "todo_count": 0,
+        "todo_sample": [],
+        "empty_pass_sample": [
+          "src/yunpai_customer_service/auth.py:15:pass",
+          "src/yunpai_customer_service/knowledge_ingest.py:33:pass",
+          "src/yunpai_customer_service/knowledge_ingest.py:137:pass",
+          "src/yunpai_customer_service/knowledge_ingest.py:141:pass",
+          "src/yunpai_customer_service/handoff.py:24:pass",
+          "src/yunpai_customer_service/handoff_staffing.py:28:pass",
+          "src/yunpai_customer_service/evolution.py:17:pass",
+          "src/yunpai_customer_service/llm.py:18:pass",
+          "src/yunpai_customer_service/message_media.py:330:pass",
+          "src/yunpai_customer_service/handoff_dispatch.py:22:pass",
+          "src/yunpai_customer_service/sops.py:17:pass"
+        ],
+        "residual": {
+          "taobao_settings_exist": true,
+          "readme_excludes_taobao": true,
+          "readme_says_sqlite": true,
+          "readme_claims_postgres_instead": false,
+          "env_example_has_neo4j": false
+        },
+        "rag_top_k_diff": true,
+        "long_input_answers": {
+          "tight": "表驱动替身模型的固定回复，仅用于验收。",
+          "wide": "表驱动替身模型的固定回复，仅用于验收。"
+        },
+        "truncated_or_different": true
+      },
+      "notes": [
+        "README excludes Taobao; SQLite is stated",
+        "taobao_*/neo4j_* settings exist as residual, not claimed delivered",
+        "changed rag_top_k and max_input_chars on two cores"
+      ]
+    },
+    {
+      "id": "J05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "decoded 5 MiB N-1 and N accepted; N+1 rejected",
+      "actual": {
+        "n_minus_1": {
+          "size": 5242879,
+          "accepted": true,
+          "error": null
+        },
+        "n": {
+          "size": 5242880,
+          "accepted": true,
+          "error": null
+        },
+        "n_plus_1": {
+          "size": 5242881,
+          "accepted": false,
+          "error": "ValidationError: 1 validation error for ChatImageInput\n  Value error, image exceeds the 5 MiB limit [type=value_error, input_value={'mime_type': 'image/png'...AAAAAAAAAAAAAAAAAAAAAA'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+        }
+      },
+      "notes": [
+        "ChatImageInput decoded-bytes gate; Demo HTTP body not posted"
+      ]
+    },
+    {
+      "id": "A03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "tool-fail branch still reviewed and persisted; no unaudited draft",
+      "actual": {
+        "answer": "当前无法可靠完成自动处理，我会把现有信息和执行记录转给人工客服。",
+        "requires_human": true,
+        "reason": "react_step_limit_reached",
+        "trace": [
+          "intake",
+          "intent:model:product_inquiry",
+          "precheck:deliberate",
+          "retrieve:initial:5",
+          "guard:blocked:0",
+          "memory:recalled:0",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:model:observe",
+          "decision_gate:observe",
+          "tool_gate:execute",
+          "tool_execute:failing_lookup:failed",
+          "postcondition:deliberate",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:model:observe",
+          "decision_gate:observe",
+          "tool_gate:execute",
+          "tool_execute:failing_lookup:failed",
+          "postcondition:deliberate",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:model:observe",
+          "decision_gate:observe",
+          "tool_gate:execute",
+          "tool_execute:failing_lookup:failed",
+          "postcondition:deliberate",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:model:observe",
+          "decision_gate:observe",
+          "tool_gate:execute",
+          "tool_execute:failing_lookup:failed",
+          "postcondition:handoff",
+          "terminal_output:passed",
+          "human_handoff",
+          "postcondition:handoff_proposed",
+          "persist"
+        ],
+        "tool_traced": true,
+        "persisted": [
+          "当前无法可靠完成自动处理，我会把现有信息和执行记录转给人工客服。"
+        ],
+        "leaked_risky": false,
+        "leaked_sse": false,
+        "sse_count": 3
+      },
+      "notes": [
+        "clarify/handoff/refuse already in 1739; this run adds tool-fail",
+        "table-driven observe loops a failing read tool until react limit/handoff"
+      ]
+    },
+    {
+      "id": "A04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "timeout/embedding/parser switch changes actual callee",
+      "actual": {
+        "timeout": {
+          "fast_ok": false,
+          "fast_err": "ModelUnavailableError",
+          "fast_dt": 0.052,
+          "slow_ok": true,
+          "slow_err": null,
+          "slow_text": "ok-timeout-probe",
+          "slow_dt": 0.287,
+          "client_timeout_fast": "Timeout(timeout=0.05)",
+          "client_timeout_slow": "Timeout(timeout=2.0)"
+        },
+        "timeout_ok": true,
+        "embedding": {
+          "hash_name": "hash",
+          "hash_identity": "hash",
+          "fastembed_class_name": "fastembed",
+          "hash_class_name": "hash",
+          "unknown_provider_error": "unsupported RAG embedding provider: not-a-provider"
+        },
+        "embed_switched": true,
+        "parser_calls": {
+          "docling": 1,
+          "pdfplumber": 1
+        },
+        "parser_error": "DocumentIngestError: PDF 解析失败：PdfminerException"
+      },
+      "notes": [
+        "injected-model slice already in B11/1739",
+        "no dedicated parser settings field; observed docling/pdfplumber callees"
+      ]
+    },
+    {
+      "id": "A05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "disabled model + nonce does not fake live catalog answers",
+      "actual": {
+        "raised": false,
+        "answer": "当前无法可靠完成自动处理，我会把现有信息和执行记录转给人工客服。",
+        "reason": "model_unavailable",
+        "requires_human": true,
+        "model_fallback": true,
+        "trace": [
+          "intake",
+          "intent:default:chitchat:model_call_failed:ModelError",
+          "precheck:deliberate",
+          "retrieve:initial:5",
+          "guard:blocked:0",
+          "memory:recalled:0",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:fallback",
+          "decision_gate:handoff",
+          "terminal_output:passed",
+          "human_handoff",
+          "postcondition:handoff_proposed",
+          "persist"
+        ],
+        "catalogish": false
+      },
+      "notes": [
+        "ModelGateway model_enabled=False model_mock_mode=False; no injected table model"
+      ]
+    },
+    {
+      "id": "G01",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "every SSE frame and persist omit bank-card/password solicitation",
+      "actual": {
+        "sse_count": 3,
+        "events": [
+          {
+            "event": "meta",
+            "text": null,
+            "answer": null
+          },
+          {
+            "event": "delta",
+            "text": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+            "answer": null
+          },
+          {
+            "event": "result",
+            "text": null,
+            "answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。"
+          }
+        ],
+        "sync_answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+        "persisted": [
+          "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。"
+        ],
+        "leaked_sse": false,
+        "leaked_persist": false
+      },
+      "notes": [
+        "every emitted frame inspected, not only last event"
+      ]
+    },
+    {
+      "id": "G03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "HTML/script and sensitive missing_fields do not reach the user",
+      "actual": {
+        "answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+        "leaked_script": false,
+        "leaked_secret": false
+      },
+      "notes": [
+        "HTML missing_fields path that 1739 skipped"
+      ]
+    },
+    {
+      "id": "F01",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "like/empty stay feedback-only; full correction creates candidate",
+      "actual": {
+        "like": {
+          "feedback_id": "feedback-b5487a7839d2410a80a3c1b6bcf6041f",
+          "candidate_id": null,
+          "status": "recorded"
+        },
+        "empty": {
+          "feedback_id": "feedback-59b56a84cf3e4c0f843273d695ac59f3",
+          "candidate_id": null,
+          "status": "recorded"
+        },
+        "full": {
+          "feedback_id": "feedback-fdbab81e6a354969a8d7ffdd482e7ce5",
+          "candidate_id": "candidate-3787abe690b14bcc8b2155ca9fd4994b",
+          "status": "candidate_pending"
+        }
+      }
+    },
+    {
+      "id": "F05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "non-empty fake source is not sufficient to pass evaluate",
+      "actual": {
+        "candidate_id": "candidate-2cf8969faf3d454993155383f898b358",
+        "gate_passed": true,
+        "source_traceable": true,
+        "checks": {
+          "source_traceable": true,
+          "output_policy": true,
+          "semantic_alignment": true,
+          "candidate_retrievable": true
+        }
+      },
+      "notes": [
+        "non-empty fake source contributed to a passed gate",
+        "no file/version/assertion verification implemented"
+      ]
+    },
+    {
+      "id": "F06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "unevidenced 95%/1.99 rejected; ordinal list is a separate candidate",
+      "actual": {
+        "ordinal_gate": true,
+        "numeric_gate": false,
+        "numeric_reason": "numeric_claim_without_evidence"
+      },
+      "notes": [
+        "ordinal candidate may still fail other gate checks; numeric must not pass"
+      ]
+    },
+    {
+      "id": "B07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "explicit product B reaches generation after history about A",
+      "actual": {
+        "has_bravo": true,
+        "alpha_only": false,
+        "json_tasks": [
+          "intent_classification",
+          "agent_decision",
+          "intent_classification",
+          "agent_decision"
+        ]
+      },
+      "notes": [
+        "L1 prompt wiring; not live referent quality"
+      ]
+    },
+    {
+      "id": "B09",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "two-intent message reaches model intact; not keyword-truncated",
+      "actual": {
+        "reached_generate": true,
+        "json_tasks": [
+          "intent_classification",
+          "agent_decision"
+        ]
+      },
+      "notes": [
+        "L1 wiring only; live two-intent coverage not claimed"
+      ]
+    },
+    {
+      "id": "C06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "two concurrent same-session requests do not lose both writes",
+      "actual": {
+        "errors": [],
+        "answers": {
+          "b": "表驱动替身模型的固定回复，仅用于验收。",
+          "a": "表驱动替身模型的固定回复，仅用于验收。"
+        },
+        "persisted": [
+          {
+            "role": "user",
+            "content": "question B about capacity"
+          },
+          {
+            "role": "assistant",
+            "content": "表驱动替身模型的固定回复，仅用于验收。"
+          },
+          {
+            "role": "user",
+            "content": "question A about color"
+          },
+          {
+            "role": "assistant",
+            "content": "表驱动替身模型的固定回复，仅用于验收。"
+          }
+        ]
+      },
+      "notes": [
+        "in-process threads; no frozen conflict contract beyond persist"
+      ]
+    },
+    {
+      "id": "C07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "repeat clarify stays handled; no crash",
+      "actual": {
+        "first": "为了继续处理，请补充：order id。",
+        "second": "为了继续处理，请补充：order id。"
+      },
+      "notes": [
+        "sensitive refuse not separately injected"
+      ]
+    },
+    {
+      "id": "D04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "expired/retired row not retrieved; current remains; conflict not silently dropped as expired",
+      "actual": {
+        "answers": [
+          "conflicting color is blue",
+          "current authorized color is rice-white"
+        ],
+        "expired_leaked": false,
+        "has_current": true
+      },
+      "notes": [
+        "no authority-rank resolver; conflict may both appear"
+      ]
+    },
+    {
+      "id": "D09",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "after authorized update, new fact is retrieved and retired 5L is not",
+      "actual": {
+        "before": [
+          "capacity is 5L",
+          "conflicting color is blue",
+          "current authorized color is rice-white"
+        ],
+        "after": [
+          "capacity is 7L after authorized update",
+          "conflicting color is blue",
+          "current authorized color is rice-white"
+        ]
+      }
+    },
+    {
+      "id": "D10",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "title 5L with body 7L does not surface 5L as the fact",
+      "actual": {
+        "answers": [
+          "Do not use 5L. The true capacity is 7L only.",
+          "capacity is 7L after authorized update",
+          "conflicting color is blue"
+        ],
+        "title_only_win": false
+      },
+      "notes": [
+        "retrieve body contains the contradiction; generation truth not live-judged"
+      ]
+    },
+    {
+      "id": "E06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "empty/wrong-ext/corrupt/20MiB+ rejected without crash",
+      "actual": {
+        "empty.pdf": {
+          "ok": false,
+          "error": "文件不能为空且不得超过 20 MiB"
+        },
+        "bad.exe": {
+          "ok": false,
+          "error": "仅支持 PDF、TXT 或 Markdown 文件"
+        },
+        "corrupt.pdf": {
+          "ok": false,
+          "error": "PDF 解析失败：PdfminerException"
+        },
+        "oversize.pdf": {
+          "ok": false,
+          "error": "文件不能为空且不得超过 20 MiB"
+        }
+      }
+    },
+    {
+      "id": "E07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "identical import idempotent; rename and content change are distinct",
+      "actual": {
+        "first": [
+          "kb-aaa28b064e654948bb30ea94b2129316"
+        ],
+        "second": [
+          "kb-aaa28b064e654948bb30ea94b2129316"
+        ],
+        "renamed": [
+          "kb-779e54343081463d82f7486c598d4ef7"
+        ],
+        "changed": [
+          "kb-bec462de34294a5f8ea35cefd2955bd1"
+        ],
+        "idempotent": true
+      }
+    },
+    {
+      "id": "E08",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "own file downloads; traversal and other digest 404",
+      "actual": {
+        "listed": [
+          "bbbbbbbbbbbbbbbb-own.txt"
+        ],
+        "own_get": 200,
+        "other_get": 404,
+        "trav": 404
+      }
+    },
+    {
+      "id": "I11",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "script/SQL not executed; Demo display escaped; CSP observed if present",
+      "actual": {
+        "chat_status": 200,
+        "answer_preview": "晴川空气炸锅 QC-AF50 标称容量 5L、功率 1500W，颜色米白，标配烤架和接油盘。适合 3–4 人家庭；1–2 人也可看 3.5L 的 QC-AF35。页面价格 329 元，实际支付以结算页为准。",
+        "csp": null,
+        "has_escapeHtml": true
+      },
+      "notes": [
+        "browser XSS/CSP still required for PASS; this is the server/static slice"
+      ]
+    },
+    {
+      "id": "I12",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "CORS/CSRF/rate/body-limit matrix",
+      "actual": {
+        "options_cors": 405,
+        "options_acao": null,
+        "oversize": 422,
+        "csp": null
+      },
+      "notes": [
+        "single oversize + OPTIONS sample; not a full matrix"
+      ]
+    },
+    {
+      "id": "F04",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "customer cannot approve; actor from real identity",
+      "actual": {
+        "feedback": 200,
+        "evaluate": 200,
+        "approve": 200,
+        "approve_body": {
+          "id": "candidate-76581bcd2dde436e8ade17e55e5629f3",
+          "question": "hello color",
+          "proposed_answer": "rice-white is the color",
+          "evidence_source": "fixture:f04",
+          "intent": "general",
+          "status": "approved",
+          "gate_passed": true,
+          "gate_report": {
+            "passed": true,
+            "checks": {
+              "length": true,
+              "no_sensitive_numbers": true,
+              "source_traceable": true,
+              "candidate_retrievable": true,
+              "candidate_retrieval_score": 0.6234,
+              "retrieval_fit": true,
+              "nearest_documents": [
+                "seed-0075",
+                "seed-0071",
+                "seed-0034"
+              ],
+              "output_policy": true,
+              "output_policy_reason": "output_policy_passed",
+              "high_risk_handoff_preserved": true,
+              "semantic_alignment": true,
+              "semantic_alignment_score": 0.1212,
+              "lexical_evidence_overlap": 0.0,
+              "no_contradiction_markers": true,
+              "retrieval_collision_free": true,
+              "retrieval_collision_failures": [],
+              "baseline_regression": true
+            },
+            "baseline": {
+              "total": 20,
+              "passed": 20,
+              "failed": 0
+            }
+          },
+          "created_at": "2026-09-11T02:32:23.118291+00:00"
+        },
+        "demo_has_no_role_split": true
+      },
+      "notes": [
+        "Demo loopback principal can evaluate/approve; not a host RBAC proof"
+      ]
+    },
+    {
+      "id": "I07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "wrong/rotated client key cannot chat",
+      "actual": {
+        "good": 200,
+        "bad_key": 401
+      },
+      "notes": [
+        "wrong key probe; live key-rotation ceremony not run"
+      ]
+    }
+  ]
+}

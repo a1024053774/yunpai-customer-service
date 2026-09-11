@@ -1,0 +1,58 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/customer_service/core.py	2026-09-10 12:51:36
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/customer_service/core.py	2026-09-10 17:56:54
+@@ -40,6 +40,7 @@
+     GenerationPlan,
+     plan_generation,
+     generation_deltas as planned_generation_deltas,
++    recover_model_failure,
+ )
+ 
+ if TYPE_CHECKING:
+@@ -441,9 +442,44 @@
+             }
+ 
+             if "generate" in self.graph.get_state(config).next:
+-                # Resume the compiled graph. Generation and verification must execute
+-                # their registered nodes in both transports; the API only emits events.
+-                state = self.graph.invoke(None, config=config)
++                # MUTATION G / 7.1 step 5: historical SSE fork — generate outside
++                # the graph, call verify_response as a function, update_state as_node=verify.
++                from ..graph import verify_response
++                plan = self.plan_generation(state)
++                parts: list[str] = []
++                retry_advised = False
++                try:
++                    deltas, model_fallback, trace_step = self.generation_deltas(state)
++                    for delta in deltas:
++                        parts.append(delta)
++                    draft = "".join(parts).strip()
++                except ModelError as exc:
++                    recovery = recover_model_failure(state, exc, db=self.db)
++                    draft = recovery.draft
++                    model_fallback = recovery.model_fallback
++                    retry_advised = recovery.retry_advised
++                    trace_step = recovery.trace_step
++                generation_trace = [*state["trace"]]
++                if plan.budget_trace:
++                    generation_trace.append(plan.budget_trace)
++                generation_trace.append(trace_step)
++                generation_update = {
++                    "draft": draft,
++                    "model_fallback": model_fallback,
++                    "model_retry_advised": retry_advised,
++                    "trace": generation_trace,
++                }
++                if retry_advised:
++                    self.graph.update_state(config, generation_update, as_node="generate")
++                    state = self.graph.invoke(None, config=config)
++                else:
++                    verified = verify_response({**state, **generation_update})
++                    self.graph.update_state(
++                        config,
++                        {**generation_update, **verified},
++                        as_node="verify",
++                    )
++                    state = self.graph.invoke(None, config=config)
+             yield {"event": "delta", "text": state["answer"]}
+         except BaseException:
+             self._cleanup_unpersisted_message_media(user_message_id, message_media)

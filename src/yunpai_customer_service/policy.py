@@ -45,9 +45,44 @@ UNAUTHORIZED_DATA_PATTERNS = (
 FORBIDDEN_OUTPUT_PATTERNS = (
     r"(已经|已为您|现已).{0,8}(退款|退钱|改价|改地址|取消订单|补发|赔付|开票)",
     r"(保证|承诺|一定|百分之百).{0,12}(到货|发货|有效|成功|退款)",
-    r"(请提供|发送).{0,6}(密码|验证码|完整身份证|银行卡密码)",
+    r"(请提供|请补充|请填写|请输入|发送).{0,12}(密码|验证码|完整身份证|银行卡密码)",
     r"(加我微信|转到私人账户|站外支付)",
 )
+
+# Same numeral with a different unit (5L vs 5 years) is not a supported claim.
+_NUMBER_UNIT_PATTERN = re.compile(
+    r"(\d+(?:\.\d+)?)\s*-?\s*(years?|months?|days?|hours?|liters?|watts?|"
+    r"L|W|kg|ml|mm|cm|"
+    r"\u5e74|\u4e2a\u6708|\u6708|\u5929|\u5c0f\u65f6|\u5143|\u6beb\u5347)",
+    re.IGNORECASE,
+)
+_UNIT_CANON = {
+    "year": "year",
+    "years": "year",
+    "month": "month",
+    "months": "month",
+    "day": "day",
+    "days": "day",
+    "hour": "hour",
+    "hours": "hour",
+    "liter": "L",
+    "liters": "L",
+    "l": "L",
+    "watt": "W",
+    "watts": "W",
+    "w": "W",
+    "kg": "kg",
+    "ml": "ml",
+    "mm": "mm",
+    "cm": "cm",
+    "\u5e74": "year",
+    "\u4e2a\u6708": "month",
+    "\u6708": "month",
+    "\u5929": "day",
+    "\u5c0f\u65f6": "hour",
+    "\u5143": "CNY",
+    "\u6beb\u5347": "ml",
+}
 
 # Internal identifiers a shopper cannot be expected to know. The agent must resolve
 # them from the wording the customer already used instead of asking for them.
@@ -171,10 +206,34 @@ def review_output(answer: str, evidence: str) -> tuple[bool, str]:
     unsupported_numbers = _normalized_numbers(answer) - _normalized_numbers(evidence)
     if unsupported_numbers:
         return False, "numeric_claim_without_evidence"
+    unsupported_units = _number_units(answer) - _number_units(evidence)
+    if unsupported_units:
+        return False, "numeric_unit_mismatch"
     return True, "output_policy_passed"
 
 
+def _canon_unit(unit: str) -> str:
+    return _UNIT_CANON.get(unit.lower(), unit.lower())
+
+
+def _number_units(text: str) -> set[tuple[str, str]]:
+    pairs: set[tuple[str, str]] = set()
+    for raw, unit in _NUMBER_UNIT_PATTERN.findall(text):
+        try:
+            number = format(Decimal(raw).normalize(), "f")
+        except InvalidOperation:
+            continue
+        pairs.add((number, _canon_unit(unit)))
+    return pairs
+
+
 def _normalized_numbers(text: str) -> set[str]:
+    # Numbered-list ordinals are formatting, not prices/counts/percentages. Remove
+    # only a marker at a line or punctuation boundary, retaining factual numbers.
+    text = re.sub(
+        r"(?m)(^|[：:；;])\s*(?:[（(]?\d+[）)]|\d+[.、](?=\s))\s*",
+        r"\1", text,
+    )
     values: set[str] = set()
     for raw in re.findall(r"\d+(?:\.\d+)?%?", text):
         percent = raw.endswith("%")

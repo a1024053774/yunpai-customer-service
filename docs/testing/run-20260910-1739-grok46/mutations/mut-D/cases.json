@@ -1,0 +1,49 @@
+{
+  "mutation": "mut-D",
+  "claim": "P02 verifier always true",
+  "wrong_implementation": "review_output always (True, output_policy_passed); verify_response always accepts draft",
+  "exit_code": 1,
+  "result": "12 failed, 10 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "P02-always-true-terminal-policy",
+      "priority": "P0",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy",
+      "expected": "unsafe bank-card / already-refunded text blocked",
+      "actual": "unsafe strings present in response['answer']",
+      "evidence_files": ["fail.log", "diff.txt"]
+    },
+    {
+      "id": "P02-always-true-business-numbers",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_business_numbers_still_require_evidence",
+      "expected": "(False, numeric_claim_without_evidence)",
+      "actual": "AssertionError: (True, 'output_policy_passed') == (False, 'numeric_claim_without_evidence')",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "7.2-step4-unsupported-numbers",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "notes": "Manual 7.2 step 4 (1.99 / 95%) is caught by test_business_numbers_still_require_evidence.",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P02-always-true-graph-node-count",
+      "priority": "P1",
+      "level": "L1",
+      "status": "GAP",
+      "command": "pytest tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes",
+      "expected": "not required to fail for always-true verifier",
+      "actual": "PASSED: verify node still runs; this test counts calls, it does not check review outcome",
+      "notes": "Not a P02-always-true miss: output-policy tests caught it. Do not treat node-count green as policy green.",
+      "evidence_files": ["fail.log"]
+    }
+  ]
+}

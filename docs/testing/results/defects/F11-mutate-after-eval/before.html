@@ -1,0 +1,72 @@
+<!doctype html><meta charset=utf-8><title>F11 before</title><pre>{
+  "id": "F11",
+  "priority": "P1",
+  "level": "L1",
+  "status": "FAIL",
+  "expected": "mutating candidate after evaluate cannot approve/publish the new text on old gate",
+  "actual": {
+    "evaluate_passed": true,
+    "row_before_mutate": {
+      "status": "evaluated",
+      "gate_passed": 1,
+      "proposed_answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+    },
+    "row_after_mutate": {
+      "status": "evaluated",
+      "gate_passed": 1,
+      "proposed_answer": "MUTATED-AFTER-EVALUATE microwave allowed 99999 units"
+    },
+    "approve_error": null,
+    "approved": {
+      "id": "candidate-f374cab5e2c64b2c913f153146220f7b",
+      "question": "虚拟测试商品是羊毛衫，起球后怎么护理",
+      "proposed_answer": "MUTATED-AFTER-EVALUATE microwave allowed 99999 units",
+      "evidence_source": "人工复核：羊毛商品护理说明",
+      "intent": "product",
+      "status": "approved",
+      "gate_passed": true,
+      "gate_report": {
+        "passed": true,
+        "checks": {
+          "length": true,
+          "no_sensitive_numbers": true,
+          "source_traceable": true,
+          "candidate_retrievable": true,
+          "candidate_retrieval_score": 0.8063,
+          "retrieval_fit": true,
+          "nearest_documents": [
+            "seed-0020",
+            "seed-0025",
+            "seed-0147"
+          ],
+          "output_policy": true,
+          "output_policy_reason": "output_policy_passed",
+          "high_risk_handoff_preserved": true,
+          "semantic_alignment": true,
+          "semantic_alignment_score": 0.1687,
+          "lexical_evidence_overlap": 0.0833,
+          "no_contradiction_markers": true,
+          "retrieval_collision_free": true,
+          "retrieval_collision_failures": [],
+          "baseline_regression": true
+        },
+        "baseline": {
+          "total": 20,
+          "passed": 20,
+          "failed": 0
+        }
+      },
+      "created_at": "2026-09-11T02:39:42.591095+00:00"
+    },
+    "published": [
+      "MUTATED-AFTER-EVALUATE microwave allowed 99999 units",
+      "商品来源与正品保障以店铺资质、商品页承诺和可提供的凭证为准。如需核验防伪方式或授权材料，我可以转人工处理。",
+      "使用、清洗和保养请优先遵循商品说明书、洗涤标或包装标识。若说明缺失，请提供商品名称和具体问题后再核对。",
+      "是否包含安装、上门或调试服务以商品页服务说明和覆盖地区为准。未标注的服务不能默认承诺，特殊需求请先转人工确认。",
+      "我可以依据当前商品详情说明功能和参数。请发商品名称、链接或规格；未出现在商品详情中的能力，我不会自行承诺。",
+      "MUTATED-AFTER-EVALUATE microwave allowed 99999 units"
+    ],
+    "leaked_mutated": true
+  },
+  "saved_utc": "2026-09-11T02:39:42.734442+00:00"
+}</pre>

@@ -1,0 +1,23 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+____________ test_fastembed_provider_keeps_concrete_model_identity _____________
+tests/test_embedding_identity.py:29: in test_fastembed_provider_keeps_concrete_model_identity
+    assert "self.model_name" in init_src
+E   assert 'self.model_name' in '    def __init__(self, model_name: str):\n        try:\n            from fastembed import TextEmbedding\n        exce... optional \'fastembed\' package"\n            ) from exc\n        self._model = TextEmbedding(model_name=model_name)\n'
+_____________ test_same_dimension_different_model_is_not_retrieved _____________
+tests/test_embedding_identity.py:50: in test_same_dimension_different_model_is_not_retrieved
+    assert stored.get("embedding_model") == "model-a"
+E   AssertionError: assert None == 'model-a'
+E    +  where None = <built-in method get of dict object at 0x10b1bfc00>('embedding_model')
+E    +    where <built-in method get of dict object at 0x10b1bfc00> = {'answer': '容量 5L', 'approved_by': None, 'category': 'probe', 'checksum': '00a6d407e1519fb8fe834d890607851ee83c374fcef285518e3db744e8930936', ...}.get
+___________________ test_hash_provider_identity_is_explicit ____________________
+tests/test_embedding_identity.py:79: in test_hash_provider_identity_is_explicit
+    assert getattr(provider, "identity", None) == "hash"
+E   AssertionError: assert None == 'hash'
+E    +  where None = getattr(<yunpai_customer_service.embeddings.HashEmbeddingProvider object at 0x10b1f8550>, 'identity', None)
+=========================== short test summary info ============================
+FAILED tests/test_embedding_identity.py::test_fastembed_provider_keeps_concrete_model_identity
+FAILED tests/test_embedding_identity.py::test_same_dimension_different_model_is_not_retrieved
+FAILED tests/test_embedding_identity.py::test_hash_provider_identity_is_explicit
+3 failed in 0.27s
+EXIT:1

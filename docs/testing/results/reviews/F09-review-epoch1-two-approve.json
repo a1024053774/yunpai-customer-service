@@ -1,0 +1,51 @@
+{
+  "id": "F09",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "luna": false,
+  "status": "PASS",
+  "target": "frozen F09 candidate (dirty evolution.py approve lock, sha256 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf)",
+  "contract": "two concurrent approve/reject/rollback must not make mutually exclusive states true at once, must not create duplicate versions, and must not silently approve something that cannot be retrieved; required probe: two threads approve the same evaluated candidate, at most one success and at most one active knowledge row",
+  "report": "STATUS: PASS\nTARGET: frozen F09 candidate (dirty evolution.py approve lock, sha256 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf)\nEVIDENCE:\n- Handbook F09 (`docs/agent-testing-manual.md`): two concurrent approve/reject/rollback must not make mutually exclusive states true at once, must not create duplicate versions, and must not silently approve something that cannot be retrieved. Required probe for this review: two threads approve the same evaluated candidate; PASS only if at most one success and at most one active knowledge row.\n- Frozen file `src/yunpai_customer_service/evolution.py` sha256 UTF-8 text `9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf` matched before the probe, after the probe, and immediately before writing this report.\n- Implementer `docs/testing/results/defects/F09-concurrent-approve/after.json`, `how-fixed.md`, and `success.png` are labeled PASS. Inspected only; not accepted as the oracle.\n- Historical `before.json`: successes `[op-b, op-a]`, two active knowledge rows, `duplicate=true`. Used as the known-bad shape, not as after-fix proof.\n- Independent probe `/tmp/f09-review-probe/probe_f09.py` imported workspace `evolution.py` (not the implementer script). Isolated `DATA_DIR`, `TableDrivenModel`, unique session/evidence nonce, `threading.Barrier`, two threads calling `EvolutionService.approve` on one evaluated candidate.\n- Locked result: evaluate_passed=true; successes=`[op-b:approved]`; errors=`[op-a:EvolutionError:candidate must pass evaluation before approval]`; active_count=1; knowledge id `kb-39aabf74ce4a4f179c5b17ff3b12f101`; candidate.status=`approved`; `resulting_knowledge_id` equals that id; `get_document` status=`active`; `retrieve()` hit the same id (score 0.8801). Verdict PASS.\n- Public entry exercised: `EvolutionService.approve`, the same method as Demo `POST /api/evolution/candidates/{candidate_id}/approve`.\n- Structural gates on the lock: reachability is the real approve caller; ownership stays on `EvolutionService` plus existing `Database._write_lock` (RLock); no new wrapper, fallback, compatibility branch, or second approve API. `approve()` holds `_write_lock` around get + `add_document` + conditional `UPDATE ... WHERE id=? AND status='evaluated' AND gate_passed=1`; `rowcount != 1` retires the just-written document. `add_document` / `retire_document` / `audit` re-enter the same RLock, which is why RLock is required.\nFINDINGS:\n- none confirmed on the frozen concurrent-approve path\nCOUNTEREXAMPLE:\n- `/tmp/f09-counterfactual/src` copy only; workspace product source was not edited. `approve()` outer lock and claim `UPDATE` removed; bind check left in place. Same two-thread probe imported `/tmp/f09-counterfactual/src/yunpai_customer_service/evolution.py`.\n- Unlocked result: evaluate_passed=true; successes=`[op-b:approved, op-a:approved]`; errors=`[]`; active_count=2; ids `kb-39f4d250c24b4b3d9b234d25e30b129a` and `kb-d1822004492c4ab18dc312721ff35c32`; both `status=active`, both `version=1`, same `evolution:` source. Candidate points at only one row. Verdict FAIL. This is the known-bad implementation the lock/claim must reject, and it matches `before.json`.\nLIMITATIONS:\n- Handbook F09 also names concurrent reject/rollback and mid-publish DB crash; those were not re-probed.\n- `reject()` still reads status outside the lock and `UPDATE`s without a status predicate. That is pre-existing, not introduced by this approve lock, and was not scored as FAIL on this approve-only snapshot.\n- `_write_lock` is process-local. Two OS processes were not probed. The claim `UPDATE` plus retire is the cross-process backstop and was not independently executed (the in-process loser failed at the status check before `add_document`).\n- L1 in-process threads + table-driven model + hash embedding. Not L3 HTTP/UI.\n- Implementer `after.json` IDs differ from this probe and were ignored as acceptance.\n",
+  "evidence": [
+    "handbook F09 in docs/agent-testing-manual.md",
+    "frozen evolution.py sha256 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf matched before, after, and at write",
+    "implementer after.json/how-fixed.md/success.png inspected only; not the oracle",
+    "before.json historical red: 2 successes, 2 active rows",
+    "independent /tmp/f09-review-probe/probe_f09.py: 1 success op-b, 1 EvolutionError op-a, 1 active kb-39aabf74ce4a4f179c5b17ff3b12f101, retrievable score 0.8801",
+    "public entry EvolutionService.approve / Demo POST approve",
+    "structural: existing RLock held around get+add_document+claim UPDATE; no wrapper/fallback/compat branch"
+  ],
+  "findings": [],
+  "counterexample": [
+    "/tmp/f09-counterfactual/src only; workspace src not edited",
+    "approve lock and claim UPDATE removed; bind check kept",
+    "same probe: 2 successes, 0 errors, 2 active rows both version=1 (kb-39f4d250c24b4b3d9b234d25e30b129a, kb-d1822004492c4ab18dc312721ff35c32)",
+    "matches before.json known-bad shape"
+  ],
+  "limitations": [
+    "concurrent reject/rollback and mid-publish crash not re-probed",
+    "reject() still updates without a status predicate; pre-existing; not scored FAIL here",
+    "process-local lock; multi-process claim+retire path not executed",
+    "L1 threads + TableDrivenModel + hash embedding; not L3 HTTP/UI",
+    "implementer after.json IDs ignored"
+  ],
+  "hashes": {
+    "frozen": "9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+    "at_write": "9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf"
+  },
+  "probe": {
+    "locked_verdict": "PASS",
+    "unlocked_verdict": "FAIL",
+    "locked_successes": [
+      "op-b:approved"
+    ],
+    "locked_active_count": 1,
+    "locked_knowledge_id": "kb-39aabf74ce4a4f179c5b17ff3b12f101",
+    "unlocked_successes": [
+      "op-b:approved",
+      "op-a:approved"
+    ],
+    "unlocked_active_count": 2
+  }
+}

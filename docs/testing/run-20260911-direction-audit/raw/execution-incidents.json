@@ -1,0 +1,18 @@
+{
+  "background_launcher_attempt": {
+    "status": "execution_failure",
+    "detail": "background launcher exited when exec shell returned; health/import then saw connection refused; no product conclusion drawn",
+    "preserved_in": "commentary and final verdict"
+  },
+  "first_probe_attempt": {
+    "status": "fixture_and_harness_failure",
+    "detail": "import used unsupported intent=product (HTTP 422); post-state query assumed messages.external_session_id; fresh rerun corrected both without product edits",
+    "preserved_in": "raw probe outputs where available, states/evolution-after.json, final verdict"
+  },
+  "final_probe_attempt": {
+    "status": "completed",
+    "data_dir": "/private/tmp/yunpai-direction-audit-20260911-rerun1",
+    "service_pid": 51538,
+    "ports_closed": true
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/architecture/current-customer-service.json",
+  "output": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/architecture/current-customer-service.html",
+  "specification": {
+    "sha256": "7e13492bbc73473e4829c942e36a2bc2c59dfe72733af22b3753918b33e51790",
+    "bytes": 4782
+  },
+  "artifact": {
+    "sha256": "d369b5cc10f3102ad9e31ef23fb5f9aa864b6c77583c7e0a4611054f2594249f",
+    "bytes": 808360
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}

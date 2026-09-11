@@ -1,0 +1,29 @@
+{
+  "saved_utc": "2026-09-11T09:43:02.326617+00:00",
+  "run_id": "run-20260911-product-followup",
+  "release": "NO_GO",
+  "handbook_10_2": "INCOMPLETE",
+  "executed": {
+    "I01": "PASS",
+    "I08": "INCOMPLETE",
+    "K01-host-demo-http": "PASS-slice",
+    "K01-sse": "INCOMPLETE",
+    "C01": "INCOMPLETE",
+    "K04": "INCOMPLETE",
+    "K05": "INCOMPLETE",
+    "K06": "PASS-L1-framework",
+    "K11": "PASS",
+    "B01": "INCOMPLETE",
+    "L04": "INCOMPLETE",
+    "L05": "labels-only"
+  },
+  "p1_this_run": [
+    "K04-concurrent-500"
+  ],
+  "independent_review": {
+    "K04": "PASS"
+  },
+  "cost_amount": null,
+  "k04_defect": "REVIEW_PASS",
+  "k04_handbook": "INCOMPLETE"
+}

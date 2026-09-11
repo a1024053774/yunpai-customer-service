@@ -1,0 +1,30 @@
+{
+  "saved_utc": "2026-09-11T08:55:30Z",
+  "probe": "rule-expectation-scenarios",
+  "note": "Constructed from current Skill text plus this-run artifacts. Not a product GO.",
+  "scenarios": [
+    {
+      "id": "S1-historical-REVIEW_PASS-then-candidate-drift",
+      "type": "historical_pass_then_new_candidate_regression",
+      "already_partially_realized": true,
+      "setup": "C01 is ledger REVIEW_PASS from an earlier live FastEmbed+LLM pass. Stage-0 product digest 0016c55d; after K05 host mapping, api.py is e268c2b3 and freeze.json is stale. This-run live C01/G07/L01 ran before that api.py change and were not repeated on the drifted tree.",
+      "if_new_live_C01_failed": "A later live C01 on e268c2b3 returns the wrong referent or a catalog trap.",
+      "skill_rule": "SKILL.md lines 162-163: REVIEW_PASS ledger rows must not be reverted to FAIL; if 10.2 needs a re-probe, add this-run evidence only.",
+      "skill_expected_action": "Keep CASES.json C01 status REVIEW_PASS. Attach a this-run FAIL or INCOMPLETE artifact. Do not write FAIL on the ledger row.",
+      "handbook_expected_action": "docs/agent-testing-manual.md 3.3 and 10.2: current-candidate C01 is FAIL if the behavior is reachable; keep the historical original files; do not treat the old REVIEW_PASS as this candidate's pass; release is NO_GO until the current digest PASSes.",
+      "conflict": "The Skill freezes a historical independent PASS as a non-FAIL ledger state across later candidates. That is the opposite of handbook 10.2 item 1 (historical defects need current-candidate regression).",
+      "checker_behavior": "check_skill.py still PASSes as long as the Skill file contains the freeze sentence. It does not read CASES.json or the new live response."
+    },
+    {
+      "id": "S2-replace-execution-tool",
+      "type": "execution_tool_substitution",
+      "already_partially_realized": true,
+      "observed_this_run": "plan.md still names Orca as the execution entry. freeze.json asserts not_orca/not_codex/not_luna. cursor-ide-browser FAILED_NO_TAB and the run switched to Chrome DevTools MCP. Skill checker still green.",
+      "constructed": "Coordinator launches the detached reviewer as Codex or Luna, or resumes the implementer Task, while leaving SKILL.md unchanged.",
+      "skill_rule": "SKILL.md lines 158-159 and 164: when the run freezes Cursor Grok 4.6 Extra High Fast, do not substitute Orca/Codex/Luna; reviewer must use Task tool, run_in_background, forbid resume; do not stop to wait when instructed to continue.",
+      "skill_expected_action": "Treat Codex/Luna/Orca substitution as a Skill violation even if isolation, oracle, and evidence protocol are identical. Treat a UTF-8 Write of CJK review files as a Skill violation. Treat a pause for credentials as a Skill violation if the run said continue.",
+      "correct_acceptance_action": "Executor and browser tool names belong in the run freeze, not in a cross-project Skill. Judge the reviewer by independence and original evidence. Record tool substitution. Do not fail a valid UTF-8 review. Do not override safety stops. A Grok reviewer that resumes the implementer chat is invalid even if the Skill text still contains 'forbid resume'.",
+      "checker_behavior": "check_skill.py searches Skill text only. Dummy concatenation of the same needles PASSes. plan.md saying Orca does not fail the checker. Actual resume is invisible to the checker."
+    }
+  ]
+}

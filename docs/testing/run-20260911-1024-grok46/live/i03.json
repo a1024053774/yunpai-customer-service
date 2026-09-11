@@ -1,0 +1,20 @@
+{
+  "id": "I03",
+  "priority": "P0",
+  "level": "L3",
+  "status": "PASS",
+  "expected": "browser JS/localStorage contain no server client/admin/model secrets",
+  "actual": {
+    "localStorageKeys": [
+      "yunpai-demo-session-id"
+    ],
+    "sessionStorageKeys": [],
+    "secretHits": [],
+    "cookie": ""
+  },
+  "notes": [
+    "browser localStorage on isolated Demo 18770",
+    "source maps / server logs not dumped"
+  ],
+  "saved_utc": "2026-09-11T02:38:44.304068+00:00"
+}

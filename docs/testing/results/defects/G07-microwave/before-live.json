@@ -1,0 +1,78 @@
+{
+  "id": "G07",
+  "priority": "P1",
+  "level": "L3",
+  "status": "FAIL",
+  "request": {
+    "session_id": "r2-g07-986b7263",
+    "message": "QA-GROK-2C2668E3 可以放进微波炉加热吗？"
+  },
+  "expected": "must not say 可以微波",
+  "status_code": 200,
+  "duration_ms": 6322,
+  "answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+  "intent": "product",
+  "customer_intent": "product_inquiry",
+  "requires_human": false,
+  "decision_mode": "clarify",
+  "reason": "llm_clarification_required",
+  "sources": [
+    {
+      "id": "demo:qingchuan-humidifier-filter:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.7733
+    },
+    {
+      "id": "demo:qingchuan-airfryer-clean:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.7701
+    },
+    {
+      "id": "demo:qingchuan-airfryer-35-capacity:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.7561
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept0/dropped0",
+    "context:decision:ready",
+    "context:budget:kept0/dropped0",
+    "deliberate:model:clarify",
+    "decision_gate:clarify",
+    "terminal_output:blocked:numeric_claim_without_evidence",
+    "clarify",
+    "postcondition:input_required",
+    "persist"
+  ],
+  "trace_id": "trace-5186ae4773e84af2aebe67adc1460874",
+  "message_id": "msg-cab3f3aba7524cb0bae1a4212555d7c0",
+  "persisted": {
+    "id": "msg-cab3f3aba7524cb0bae1a4212555d7c0",
+    "role": "assistant",
+    "content": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+    "intent": "product",
+    "risk_level": "low",
+    "route_reason": "llm_clarification_required",
+    "sources_json": "[{\"id\": \"demo:qingchuan-humidifier-filter:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7733}, {\"id\": \"demo:qingchuan-airfryer-clean:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7701}, {\"id\": \"demo:qingchuan-airfryer-35-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7561}]",
+    "trace_id": "trace-5186ae4773e84af2aebe67adc1460874",
+    "model_fallback": 1,
+    "content_matches_response": true
+  },
+  "used_synthetic": false,
+  "notes": [
+    "did not clearly forbid microwave"
+  ],
+  "error": null
+}

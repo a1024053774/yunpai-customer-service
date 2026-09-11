@@ -1,0 +1,31 @@
+{
+  "order": "source env.md then export DATA_DIR",
+  "env_names": [
+    "AUTH_REQUIRED",
+    "BUSINESS_DOMAIN",
+    "DATA_DIR",
+    "INTENT_CLASSIFY_TIMEOUT_SECONDS",
+    "KG_DREAM_WORKER_ENABLED",
+    "KG_IMPORT_ENABLED",
+    "MODEL_API_KEY",
+    "MODEL_BASE_URL",
+    "MODEL_ENABLED",
+    "MODEL_MAX_OUTPUT_TOKENS",
+    "MODEL_MOCK_MODE",
+    "MODEL_NAME",
+    "MODEL_PROVIDER",
+    "MODEL_STREAMING",
+    "MODEL_TIMEOUT_SECONDS",
+    "RAG_EMBEDDING_MODEL",
+    "RAG_EMBEDDING_PROVIDER",
+    "VISION_BASE_URL",
+    "VISION_ENABLED",
+    "VISION_MAX_OUTPUT_TOKENS",
+    "VISION_MODEL_NAME",
+    "VISION_TEMPERATURE",
+    "VISION_TIMEOUT_SECONDS"
+  ],
+  "data_dir_after_override": "/tmp/yunpai-handoff-20260911",
+  "workspace_data": "/Users/luckye/Documents/Code/yunpai-customer-service/data",
+  "iso_001": "override after source; refuse workspace data/"
+}

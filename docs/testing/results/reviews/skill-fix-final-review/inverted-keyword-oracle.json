@@ -1,0 +1,37 @@
+{
+  "saved_utc": "2026-09-11T10:02:25Z",
+  "probe": "old-substring-checker-is-inverted-and-not-skill-go",
+  "is_skill_go": false,
+  "checker": "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+  "dummy_needles": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt",
+  "historical_text_only_probe": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/skill-checker-text-only.json",
+  "this_reviewer_recomputed": true,
+  "old_needles_present_in_current_skill_plus_ops": [
+    "REVIEW_PASS",
+    "NO_GO"
+  ],
+  "old_needles_missing_from_current_skill_plus_ops": [
+    "source env.md then export DATA_DIR",
+    "refuse workspace data/",
+    "do not substitute Orca",
+    "Codex",
+    "Luna",
+    "Task tool",
+    "run_in_background",
+    "forbid resume",
+    "unicode escapes",
+    "Path.write_text",
+    "file://",
+    "localhost HTTP",
+    "must not be reverted to FAIL",
+    "do not edit CASES.json during freeze",
+    "skill_sha256",
+    "product candidate digest",
+    "do not stop to wait for the user when instructed to continue",
+    "incomplete 10.2"
+  ],
+  "would_old_checker_pass_current_skill": false,
+  "would_old_checker_pass_dummy_needles_file": true,
+  "why_behavioral": "The same substring oracle PASSes a concatenated needles file with no agent action, and FAILs the portable Skill that deleted those pins. Using that FAIL/PASS as Skill GO would invert the real contract.",
+  "required_action": "Do not treat check_skill.py, needle presence, or needle absence as Skill GO. This file is a counterexample only."
+}

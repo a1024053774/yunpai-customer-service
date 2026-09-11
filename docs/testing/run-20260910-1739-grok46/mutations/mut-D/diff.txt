@@ -1,0 +1,26 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/graph.py	2026-09-10 13:31:21
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/graph.py	2026-09-10 17:52:04
+@@ -88,6 +88,12 @@
+ 
+ 
+ def verify_response(state: AgentState) -> dict[str, Any]:
++    # MUTATION D: graph verify always accepts the draft.
++    return {
++        "answer": state["draft"],
++        "review_route": "pass",
++        "trace": [*state["trace"], "verify:always_true", "postcondition:answer"],
++    }
+     evidence = " ".join(document["answer"] for document in state["retrieved"])
+     evidence += " " + json.dumps(state["context_bundle"], ensure_ascii=False)
+     passed, reason = review_output(state["draft"], evidence)
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/policy.py	2026-09-10 13:26:10
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/policy.py	2026-09-10 17:52:04
+@@ -159,6 +159,8 @@
+ 
+ 
+ def review_output(answer: str, evidence: str) -> tuple[bool, str]:
++    # MUTATION D P02: verifier always accepts, including bank-card / already-refunded text.
++    return True, "output_policy_passed"
+     if not answer.strip():
+         return False, "empty_model_output"
+     verified_business_result = bool(

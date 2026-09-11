@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>D07 after</title>
+<style>
+body { font-family: ui-sans-serif, sans-serif; margin: 24px; background:#f6f7f8; color:#111; }
+.card { background:#fff; border:1px solid #1e7a46; border-radius:12px; padding:16px; }
+h1 { font-size:20px; }
+span { font-size:12px; padding:2px 8px; border-radius:99px; background:#e7f6ee; color:#14532d; }
+.warn { color:#7c2d12; }
+</style>
+<h1>D07 after · focused contract (implementer dump)</h1>
+<p>知识行写入 embedding_model；检索跳过身份不一致的行；rebuild_embeddings 会改写向量和身份。</p>
+<p class="warn">实现者自测不算通过。未做 live FastEmbed 双模型下载对照。</p>
+<section class="card">
+  <h2>same-dimension mix <span>PASS</span></h2>
+  <p>Signal: pytest tests/test_embedding_identity.py</p>
+  <p>schema v39 knowledge.embedding_model；FastEmbedProvider.model_name / identity。</p>
+</section>

@@ -1,0 +1,193 @@
+{
+  "review_id": "skill-acceptance-handoff-review",
+  "reviewed_utc": "2026-09-11T08:56:00Z",
+  "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+  "resumed_implementer_thread": false,
+  "edited_code": false,
+  "edited_skill": false,
+  "edited_ledger": false,
+  "skill_instructions_not_binding": true,
+  "keyword_checker_is_not_behavioral_proof": true,
+  "status": "INCOMPLETE",
+  "target": {
+    "run": "docs/testing/run-20260911-acceptance-handoff",
+    "ledger": "docs/testing/results",
+    "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+    "skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+    "skill_sha256_verified": true,
+    "codex_copy_identical": true,
+    "product_head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+    "stage0_digest": "0016c55d33fe645d01843de11fe56e451f4569e06f9df54e3b7c63db01bc8156",
+    "api_py_stage0": "29db7335e4cdc3b9d6adc8b54f40752a642299f3dc1ffa15b887dca692476d4f",
+    "api_py_now": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+    "product_digest_drift": true
+  },
+  "verdicts": {
+    "skill_reusable_cross_project": "FAIL",
+    "evidence_pack": "INCOMPLETE",
+    "product_release": "NO_GO"
+  },
+  "k05": {
+    "handbook_id": "K05",
+    "priority": "P1",
+    "run_ledger_status": "REVIEW_PASS",
+    "independent_status_for_handbook_row": "INCOMPLETE",
+    "supported_contract": [
+      "Host /v1/chat and first-frame /v1/chat/stream: same client + same Idempotency-Key + different message must not be HTTP 500; current mapping returns 409 idempotency_key_conflict and does not return the previous answer as success.",
+      "Identical replay may return 200 and reuse message_id.",
+      "Current core request_hash includes session_id, message, sanitized context (store_id allowed), execution_mode, image_digest. Unique key is tenant_id+client_id+idempotency_key. subject_hash is not in the hash; same session + different subject raises session_scope_conflict."
+    ],
+    "not_supported": [
+      "Full handbook K05 PASS (run only probed message change).",
+      "Demo path (idempotency_key=None).",
+      "Two-host-client isolation (this probe used admin_api_key and got 401).",
+      "Live L3 for image/store_id/subject.",
+      "Mid-SSE SessionScopeError after the first frame.",
+      "Concurrency.",
+      "test_api.py regression (two existing tests only).",
+      "Product GO."
+    ],
+    "run_evidence": {
+      "red_live_500_kept": "docs/testing/run-20260911-acceptance-handoff/live/live-results.json",
+      "red_testclient": "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/before.json",
+      "green_testclient": "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/after.json",
+      "independent_reviewer_testclient": "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/review-green.json",
+      "independent_review_limitations_stale_vs_restart": true,
+      "implementer_live_restart_409": "docs/testing/run-20260911-acceptance-handoff/live/restart.json",
+      "historical_core_l1_pass": "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+    },
+    "this_review_l1_matrix": {
+      "path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/k05-factor-matrix.json",
+      "level": "L1-TestClient",
+      "message": "409 idempotency_key_conflict",
+      "store_id": "409 idempotency_key_conflict",
+      "image": "409 idempotency_key_conflict",
+      "subject_same_session": "409 session_scope_conflict",
+      "subject_new_session": "409 idempotency_key_conflict",
+      "second_client": "401 probe-setup-failure",
+      "k11_empty": 422,
+      "k11_wrong_content_type": 422,
+      "does_not_upgrade_handbook_k05_to_pass": true
+    }
+  },
+  "evidence_pack_findings": [
+    {
+      "severity": "P1",
+      "id": "candidate-drift",
+      "detail": "Stage-0 digest 0016c55d is not current; api.py moved to e268c2b3. C01/G07/L01 live ran before the mapping change and were not repeated."
+    },
+    {
+      "severity": "P1",
+      "id": "k05-handbook-overclaim",
+      "detail": "CASES.json K05 REVIEW_PASS collapses handbook message+image+identity+store_id onto host-500 mapping for message only."
+    },
+    {
+      "severity": "P1",
+      "id": "k06-k13-overblock",
+      "detail": "K11 HTTP schema is executable at L1 (422 observed). Bundling K06-K13 as L4 BLOCKED hid that work."
+    },
+    {
+      "severity": "P1",
+      "id": "historical-subset-pass",
+      "detail": "L04 ledger PASS from 1739 admin-load; this-run L04 INCOMPLETE. B01 ledger PASS from 1739; this-run INCOMPLETE. 1024 core K05 PASS did not cover host 500."
+    },
+    {
+      "severity": "P2",
+      "id": "this-run-label-drift",
+      "detail": "I08 this-run PASS is not a real reverse proxy. K01-sse PASS is not handbook K01. D02 probe FAIL rejudged PASS is acceptable for the stock-regex oracle, not a general D02 program pass."
+    },
+    {
+      "severity": "P2",
+      "id": "ledger-write-timing",
+      "detail": "cases-this-run.json claimed CASES/INDEX/README were not edited; those files later contain K05 and this review pointer. CASES.json run field still run-20260911-1416-grok46."
+    }
+  ],
+  "skill_findings": [
+    {
+      "severity": "P1",
+      "file": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "lines": "162-163",
+      "rule": "REVIEW_PASS ledger rows must not be reverted to FAIL",
+      "detail": "Preserving historical files is required. Freezing ledger status across a new digest can hide a current-candidate FAIL and contradicts handbook 10.2 item 1."
+    },
+    {
+      "severity": "P1",
+      "file": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "lines": "157",
+      "rule": "source env.md then export DATA_DIR",
+      "detail": "This-repo secret bootstrap. ISO-001 already clobbered DATA_DIR. A reusable skill must not instruct sourcing env.md."
+    },
+    {
+      "severity": "P1",
+      "file": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "lines": "158-159",
+      "rule": "Grok pin; Task tool; run_in_background; forbid resume; no Orca/Codex/Luna",
+      "detail": "Vendor and Cursor Task API. plan.md still names Orca. Checker cannot see actual resume or substitution."
+    },
+    {
+      "severity": "P1",
+      "file": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "lines": "160",
+      "rule": "CJK unicode escapes; ban Write/StrReplace",
+      "detail": "Repo editor constraint. A valid UTF-8 review would be a false Skill miss."
+    },
+    {
+      "severity": "P1",
+      "file": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "lines": "164",
+      "rule": "do not stop to wait when instructed to continue",
+      "detail": "Generalized stop override; can conflict with credential and production stops."
+    },
+    {
+      "severity": "P1",
+      "file": "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+      "detail": "Substring search of Skill.md. Dummy needles file satisfies the same oracle. Not behavioral proof."
+    }
+  ],
+  "scenarios": {
+    "path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json",
+    "S1_historical_pass_then_regression": {
+      "skill_expected": "Keep C01 REVIEW_PASS; add this-run evidence only even if new digest fails.",
+      "handbook_expected": "Current-candidate FAIL; keep historical originals; NO_GO.",
+      "already_structurally_true": true
+    },
+    "S2_replace_execution_tool": {
+      "observed": "cursor-ide-browser replaced by Chrome DevTools MCP; plan.md names Orca; freeze asserts not_orca.",
+      "skill_expected": "Codex/Luna/Orca substitution is a Skill miss; UTF-8 CJK Write is a Skill miss.",
+      "correct_expected": "Record the tool; judge independence; do not override safety stops; resume is invalid even if Skill text still says forbid resume.",
+      "checker": "Still green; does not read plan.md or actual Task resume."
+    }
+  },
+  "counterexample": [
+    "Unmapped SessionScopeError on host /v1/chat ? HTTP 500 (before.json, live K05 500).",
+    "Skill file or dummy needles concatenation ? check_skill.py PASS with no agent behavior."
+  ],
+  "limitations": [
+    "Did not restart live uvicorn or source env.md.",
+    "New factor matrix is L1 TestClient + TableDrivenModel.",
+    "Second host client not constructed.",
+    "Did not re-run the full 161 handbook rows."
+  ],
+  "priority_continue": [
+    "Freeze a new product digest that includes api.py e268c2b3.",
+    "Re-probe C01, K04, host K01, I01 on that digest; if C01 fails, current-candidate status is FAIL and historical files stay.",
+    "Split defect K05-host-500 from handbook K05; live L3 image/store_id/subject before claiming K05.",
+    "Unbundle K11 and K06 framework from K06-K13 L4 BLOCKED and execute them.",
+    "Relabel this-run I08/K01-sse/L04/B01 against handbook text; do not forward 1739 subset PASS.",
+    "Coordinator Skill edit: move lines 153-165 to this-repo AGENTS.md; drop REVIEW_PASS freeze, source env.md, unicode-escape mandate, vendor/Task pins, no-wait override; replace keyword checker. This review did not edit the Skill.",
+    "Optional product: test_api.py conflict mapping; second host client isolation.",
+    "Product release remains NO_GO until handbook 10.2 holds on one frozen digest."
+  ],
+  "evidence_written_this_review": [
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.md",
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/probe_independent.py",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/candidate-hashes.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/k05-factor-matrix.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/skill-checker-text-only.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/summary.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json"
+  ],
+  "historical_originals_not_overwritten": true
+}

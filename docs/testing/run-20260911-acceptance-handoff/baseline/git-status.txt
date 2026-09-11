@@ -1,0 +1,39 @@
+ M README.md
+ M env.example.md
+ M pyproject.toml
+ M src/yunpai_customer_service/config.py
+ M src/yunpai_customer_service/customer_service/core.py
+ M src/yunpai_customer_service/customer_service/generation.py
+ M src/yunpai_customer_service/database.py
+ M src/yunpai_customer_service/demo/app.py
+ M src/yunpai_customer_service/demo/catalog.py
+ M src/yunpai_customer_service/demo/runtime.py
+ M src/yunpai_customer_service/demo/static/index.html
+ M src/yunpai_customer_service/evolution.py
+ M src/yunpai_customer_service/graph.py
+ M src/yunpai_customer_service/intent.py
+ M src/yunpai_customer_service/knowledge_engine/security_guard.py
+ M src/yunpai_customer_service/llm.py
+ M src/yunpai_customer_service/policy.py
+ M src/yunpai_customer_service/rag.py
+ M src/yunpai_customer_service/schemas.py
+ M src/yunpai_customer_service/text_utils.py
+ M tests/customer_service_fixtures.py
+ M tests/test_customer_service_module_memory.py
+ M tests/test_demo_chat.py
+?? docs/
+?? src/yunpai_customer_service/api.py
+?? src/yunpai_customer_service/demo/static/admin.html
+?? src/yunpai_customer_service/domain_profiles.json
+?? src/yunpai_customer_service/domain_profiles.py
+?? src/yunpai_customer_service/embeddings.py
+?? src/yunpai_customer_service/knowledge_ingest.py
+?? tests/test_api.py
+?? tests/test_domain_profiles.py
+?? tests/test_embedding_identity.py
+?? tests/test_embeddings.py
+?? tests/test_framework_audit.py
+?? tests/test_intent.py
+?? tests/test_knowledge_ingest.py
+?? tests/test_l01_product_identifier.py
+?? tests/test_product_id_retrieval.py

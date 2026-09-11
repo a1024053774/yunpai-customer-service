@@ -8,6 +8,7 @@ from collections.abc import Iterable
 
 
 _CJK_OR_WORD = re.compile(r"[\u4e00-\u9fff]+|[A-Za-z]+|\d+(?:\.\d+)?")
+_PRODUCT_ID = re.compile(r"[A-Za-z][A-Za-z0-9]*(?:[-_][A-Za-z0-9]+)+")
 _SPACE = re.compile(r"\s+")
 
 # \u7535\u5546\u5ba2\u670d\u9886\u57df\u540c\u4e49\u8bcd\u8868\uff08P2-1 \u4fee\u590d\uff1a\u8bcd\u9762 n-gram \u65e0\u6cd5\u5339\u914d\u540c\u4e49\u8868\u8fbe\uff0c\u5982"\u4fdd\u4fee\u2194\u8d28\u4fdd"\uff09
@@ -62,6 +63,11 @@ def redact_sensitive(text: str) -> tuple[str, bool]:
     for pattern, replacement in _SENSITIVE_PATTERNS:
         redacted = pattern.sub(replacement, redacted)
     return redacted, redacted != text
+
+
+def product_identifiers(text: str) -> list[str]:
+    """Keep hyphenated SKUs intact; search_terms splits QA-GROK-2C2668E3 into scraps."""
+    return list(dict.fromkeys(_PRODUCT_ID.findall(normalize_text(text).lower())))
 
 
 def search_terms(text: str) -> list[str]:

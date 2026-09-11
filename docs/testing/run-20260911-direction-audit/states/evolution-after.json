@@ -1,0 +1,209 @@
+{
+  "candidate_id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+  "feedback": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "feedback_id": "feedback-e53cfaeef15440ddb02734c7468ee26d",
+      "candidate_id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "status": "candidate_pending"
+    }
+  },
+  "list_before": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+          "question": "请查 DIR-AUDIT-20260911-ALPHA-TXT 的容量。",
+          "proposed_answer": "DIR-AUDIT-20260911-ALPHA-TXT 的容量是 7L，颜色是薄荷绿。",
+          "evidence_source": "local:DIR-AUDIT-20260911-ALPHA.txt",
+          "intent": "product",
+          "status": "pending",
+          "gate_passed": null,
+          "gate_report": null,
+          "created_at": "2026-09-11T11:17:34.205600+00:00"
+        }
+      ]
+    }
+  },
+  "evaluate": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "question": "请查 DIR-AUDIT-20260911-ALPHA-TXT 的容量。",
+      "proposed_answer": "DIR-AUDIT-20260911-ALPHA-TXT 的容量是 7L，颜色是薄荷绿。",
+      "evidence_source": "local:DIR-AUDIT-20260911-ALPHA.txt",
+      "intent": "product",
+      "status": "evaluated",
+      "gate_passed": true,
+      "gate_report": {
+        "passed": true,
+        "checks": {
+          "length": true,
+          "no_sensitive_numbers": true,
+          "source_traceable": true,
+          "candidate_retrievable": true,
+          "candidate_retrieval_score": 1.1367,
+          "retrieval_fit": true,
+          "nearest_documents": [
+            "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "kb-bad593a473714ca09d1691dd228e5109"
+          ],
+          "output_policy": true,
+          "output_policy_reason": "output_policy_passed",
+          "high_risk_handoff_preserved": true,
+          "semantic_alignment": true,
+          "semantic_alignment_score": 0.6054,
+          "lexical_evidence_overlap": 0.7143,
+          "no_contradiction_markers": true,
+          "retrieval_collision_free": true,
+          "retrieval_collision_failures": [],
+          "baseline_regression": true
+        },
+        "baseline": {
+          "total": 20,
+          "passed": 20,
+          "failed": 0
+        },
+        "bound_content": "b084a34077bf13dc22b8047c9f79e6cbcf6fb584ebda7a87e2701f0f985f17f7"
+      },
+      "created_at": "2026-09-11T11:17:34.205600+00:00"
+    }
+  },
+  "approve": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "question": "请查 DIR-AUDIT-20260911-ALPHA-TXT 的容量。",
+      "proposed_answer": "DIR-AUDIT-20260911-ALPHA-TXT 的容量是 7L，颜色是薄荷绿。",
+      "evidence_source": "local:DIR-AUDIT-20260911-ALPHA.txt",
+      "intent": "product",
+      "status": "approved",
+      "gate_passed": true,
+      "gate_report": {
+        "passed": true,
+        "checks": {
+          "length": true,
+          "no_sensitive_numbers": true,
+          "source_traceable": true,
+          "candidate_retrievable": true,
+          "candidate_retrieval_score": 1.1367,
+          "retrieval_fit": true,
+          "nearest_documents": [
+            "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "kb-bad593a473714ca09d1691dd228e5109"
+          ],
+          "output_policy": true,
+          "output_policy_reason": "output_policy_passed",
+          "high_risk_handoff_preserved": true,
+          "semantic_alignment": true,
+          "semantic_alignment_score": 0.6054,
+          "lexical_evidence_overlap": 0.7143,
+          "no_contradiction_markers": true,
+          "retrieval_collision_free": true,
+          "retrieval_collision_failures": [],
+          "baseline_regression": true
+        },
+        "baseline": {
+          "total": 20,
+          "passed": 20,
+          "failed": 0
+        },
+        "bound_content": "b084a34077bf13dc22b8047c9f79e6cbcf6fb584ebda7a87e2701f0f985f17f7"
+      },
+      "created_at": "2026-09-11T11:17:34.205600+00:00"
+    }
+  },
+  "rollback": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "candidate_id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "rolled_back": true
+    }
+  },
+  "list_after": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+          "question": "请查 DIR-AUDIT-20260911-ALPHA-TXT 的容量。",
+          "proposed_answer": "DIR-AUDIT-20260911-ALPHA-TXT 的容量是 7L，颜色是薄荷绿。",
+          "evidence_source": "local:DIR-AUDIT-20260911-ALPHA.txt",
+          "intent": "product",
+          "status": "approved",
+          "gate_passed": true,
+          "gate_report": {
+            "passed": true,
+            "checks": {
+              "length": true,
+              "no_sensitive_numbers": true,
+              "source_traceable": true,
+              "candidate_retrievable": true,
+              "candidate_retrieval_score": 1.1367,
+              "retrieval_fit": true,
+              "nearest_documents": [
+                "kb-1f18ed174ded4a66b4b1407ef104a354",
+                "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+                "kb-bad593a473714ca09d1691dd228e5109"
+              ],
+              "output_policy": true,
+              "output_policy_reason": "output_policy_passed",
+              "high_risk_handoff_preserved": true,
+              "semantic_alignment": true,
+              "semantic_alignment_score": 0.6054,
+              "lexical_evidence_overlap": 0.7143,
+              "no_contradiction_markers": true,
+              "retrieval_collision_free": true,
+              "retrieval_collision_failures": [],
+              "baseline_regression": true
+            },
+            "baseline": {
+              "total": 20,
+              "passed": 20,
+              "failed": 0
+            },
+            "bound_content": "b084a34077bf13dc22b8047c9f79e6cbcf6fb584ebda7a87e2701f0f985f17f7"
+          },
+          "created_at": "2026-09-11T11:17:34.205600+00:00"
+        }
+      ]
+    }
+  },
+  "sqlite_candidate": [
+    {
+      "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "status": "approved",
+      "gate_passed": 1,
+      "resulting_knowledge_id": "kb-4d4ca97079a44a009dda7169dc0f0938",
+      "decided_by": "followup-l3-client"
+    }
+  ],
+  "sqlite_knowledge": [
+    {
+      "id": "kb-4d4ca97079a44a009dda7169dc0f0938",
+      "status": "retired",
+      "source": "evolution:candidate-f9b2694141fc413bb56e0550cfdbbfe7"
+    }
+  ]
+}

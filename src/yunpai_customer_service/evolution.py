@@ -10,11 +10,33 @@ from .evals import RETRIEVAL_CASES, run_offline_evaluation
 from .policy import is_business_action_request, review_output
 from .rag import KnowledgeBase
 from .schemas import CandidateView, FeedbackRequest, FeedbackResponse
-from .text_utils import cosine_similarity, hash_embedding, normalize_text, search_terms
+from .text_utils import checksum, cosine_similarity, hash_embedding, normalize_text, search_terms
 
 
 class EvolutionError(ValueError):
     pass
+
+
+_URL_EVIDENCE_SOURCE = re.compile(r"^https?://", re.IGNORECASE)
+
+
+def _candidate_content_bind(candidate: dict[str, Any]) -> str:
+    return checksum(
+        str(candidate.get("question") or ""),
+        str(candidate.get("proposed_answer") or ""),
+        str(candidate.get("evidence_source") or ""),
+        str(candidate.get("intent") or ""),
+    )
+
+
+def _source_traceable(evidence_source: str) -> bool:
+    text = normalize_text(evidence_source or "")
+    if not text:
+        return False
+    # A URL is not a verified citation. Free-text sources stay nonempty-traceable.
+    if _URL_EVIDENCE_SOURCE.match(text):
+        return False
+    return True
 
 
 class EvolutionService:
@@ -141,7 +163,36 @@ class EvolutionService:
         query += " ORDER BY created_at DESC"
         with self.db.connect() as conn:
             rows = conn.execute(query, tuple(params)).fetchall()
-        return [self._view(dict(row)) for row in rows]
+            candidates = [dict(row) for row in rows]
+            knowledge_ids = [
+                str(row["resulting_knowledge_id"])
+                for row in candidates
+                if row.get("status") == "approved" and row.get("resulting_knowledge_id")
+            ]
+            knowledge_status: dict[str, str] = {}
+            if knowledge_ids:
+                placeholders = ",".join("?" for _ in knowledge_ids)
+                knowledge_status = {
+                    str(item["id"]): str(item["status"])
+                    for item in conn.execute(
+                        f"SELECT id, status FROM knowledge WHERE id IN ({placeholders})",
+                        tuple(knowledge_ids),
+                    ).fetchall()
+                }
+        views: list[CandidateView] = []
+        for candidate in candidates:
+            view = self._view(candidate)
+            if candidate.get("status") == "approved" and candidate.get(
+                "resulting_knowledge_id"
+            ):
+                resulting_id = str(candidate["resulting_knowledge_id"])
+                resulting_status = knowledge_status.get(resulting_id)
+                if resulting_status == "retired":
+                    view = view.model_copy(update={"status": "rolled_back"})
+                elif resulting_status is None:
+                    view = view.model_copy(update={"status": "state_inconsistent"})
+            views.append(view)
+        return views
 
     def evaluate(self, candidate_id: str, tenant_id: str | None = None) -> CandidateView:
         candidate = self._get_candidate(candidate_id, tenant_id)
@@ -162,7 +213,7 @@ class EvolutionService:
             intent=candidate["intent"],
             tenant_id=tenant_id,
         )
-        source_traceable = bool(normalize_text(candidate.get("evidence_source") or ""))
+        source_traceable = _source_traceable(str(candidate.get("evidence_source") or ""))
         candidate_score = self.knowledge.candidate_score(
             question,
             intent=candidate["intent"],
@@ -200,11 +251,7 @@ class EvolutionService:
         contradiction = bool(
             re.search(r"完全相反|无视.{0,6}(规则|说明)|忽略.{0,6}(规则|尺寸表)|随便选择", answer)
         )
-        checks["semantic_alignment"] = (
-            alignment >= 0.08
-            or lexical_overlap >= 0.15
-            or (source_traceable and candidate_score >= 0.35)
-        )
+        checks["semantic_alignment"] = alignment >= 0.08 or lexical_overlap >= 0.15
         checks["semantic_alignment_score"] = round(alignment, 4)
         checks["lexical_evidence_overlap"] = round(lexical_overlap, 4)
         checks["no_contradiction_markers"] = not contradiction
@@ -241,7 +288,12 @@ class EvolutionService:
                 "candidate_retrieval_score", "retrieval_collision_failures",
             }
         )
-        report = {"passed": gate_passed, "checks": checks, "baseline": regression["summary"]}
+        report = {
+            "passed": gate_passed,
+            "checks": checks,
+            "baseline": regression["summary"],
+            "bound_content": _candidate_content_bind(candidate),
+        }
         run_id = f"evolution-run-{uuid.uuid4().hex}"
         with self.db._write_lock, self.db.connect() as conn:
             conn.execute(
@@ -270,58 +322,94 @@ class EvolutionService:
     def approve(
         self, candidate_id: str, operator: str, note: str | None, tenant_id: str | None = None
     ) -> CandidateView:
-        candidate = self._get_candidate(candidate_id, tenant_id)
-        if candidate["status"] != "evaluated" or candidate["gate_passed"] != 1:
-            raise EvolutionError("candidate must pass evaluation before approval")
-        knowledge_id = self.knowledge.add_document(
-            category="进化话术",
-            intent=candidate["intent"],
-            question=candidate["question"],
-            answer=candidate["proposed_answer"],
-            keywords=candidate["question"],
-            risk_level="low",
-            source=f"evolution:{candidate_id}",
-            version=self.knowledge.next_version(candidate["intent"], tenant_id),
-            status="active",
-            approved_by=operator,
-            tenant_id=tenant_id,
-        )
-        with self.db._write_lock, self.db.connect() as conn:
-            conn.execute(
-                """
-                UPDATE evolution_candidates
-                SET status='approved', resulting_knowledge_id=?, decided_at=?,
-                    decided_by=?, decision_note=? WHERE id=?
-                """,
-                (knowledge_id, utc_now(), operator, note, candidate_id),
+        with self.db._write_lock:
+            candidate = self._get_candidate(candidate_id, tenant_id)
+            if candidate["status"] != "evaluated" or candidate["gate_passed"] != 1:
+                raise EvolutionError("candidate must pass evaluation before approval")
+            raw_report = candidate.get("gate_report_json")
+            try:
+                report = json.loads(raw_report) if raw_report else {}
+            except json.JSONDecodeError:
+                report = {}
+            bound = report.get("bound_content") if isinstance(report, dict) else None
+            if not bound or bound != _candidate_content_bind(candidate):
+                raise EvolutionError("candidate changed after evaluation")
+            source = f"evolution:{candidate_id}"
+            with self.db.connect() as conn:
+                if tenant_id is None:
+                    leftover = conn.execute(
+                        "SELECT id FROM knowledge WHERE source=? AND status='active' "
+                        "AND tenant_id IS NULL LIMIT 1",
+                        (source,),
+                    ).fetchone()
+                else:
+                    leftover = conn.execute(
+                        "SELECT id FROM knowledge WHERE source=? AND status='active' "
+                        "AND tenant_id=? LIMIT 1",
+                        (source, tenant_id),
+                    ).fetchone()
+            inserted = leftover is None
+            if leftover is not None:
+                knowledge_id = str(leftover["id"])
+            else:
+                knowledge_id = self.knowledge.add_document(
+                    category="进化话术",
+                    intent=candidate["intent"],
+                    question=candidate["question"],
+                    answer=candidate["proposed_answer"],
+                    keywords=candidate["question"],
+                    risk_level="low",
+                    source=source,
+                    version=self.knowledge.next_version(candidate["intent"], tenant_id),
+                    status="active",
+                    approved_by=operator,
+                    tenant_id=tenant_id,
+                )
+            with self.db.connect() as conn:
+                claimed = conn.execute(
+                    """
+                    UPDATE evolution_candidates
+                    SET status='approved', resulting_knowledge_id=?, decided_at=?,
+                        decided_by=?, decision_note=?
+                    WHERE id=? AND status='evaluated' AND gate_passed=1
+                    """,
+                    (knowledge_id, utc_now(), operator, note, candidate_id),
+                )
+                if claimed.rowcount != 1:
+                    if inserted:
+                        self.knowledge.retire_document(knowledge_id, operator, tenant_id)
+                    raise EvolutionError("candidate already decided")
+            self.db.audit(
+                "evolution.approved",
+                operator,
+                candidate_id,
+                {"knowledge_id": knowledge_id, "note": note},
+                candidate.get("tenant_id"),
             )
-        self.db.audit(
-            "evolution.approved",
-            operator,
-            candidate_id,
-            {"knowledge_id": knowledge_id, "note": note},
-            candidate.get("tenant_id"),
-        )
-        return self._view(self._get_candidate(candidate_id, tenant_id))
+            return self._view(self._get_candidate(candidate_id, tenant_id))
 
     def reject(
         self, candidate_id: str, operator: str, note: str | None, tenant_id: str | None = None
     ) -> CandidateView:
-        candidate = self._get_candidate(candidate_id, tenant_id)
-        if candidate["status"] == "approved":
-            raise EvolutionError("approved candidate must be rolled back through its knowledge version")
-        with self.db._write_lock, self.db.connect() as conn:
-            conn.execute(
-                """
-                UPDATE evolution_candidates SET status='rejected', decided_at=?,
-                    decided_by=?, decision_note=? WHERE id=?
-                """,
-                (utc_now(), operator, note, candidate_id),
+        with self.db._write_lock:
+            candidate = self._get_candidate(candidate_id, tenant_id)
+            if candidate["status"] == "approved":
+                raise EvolutionError("approved candidate must be rolled back through its knowledge version")
+            with self.db.connect() as conn:
+                claimed = conn.execute(
+                    """
+                    UPDATE evolution_candidates SET status='rejected', decided_at=?,
+                        decided_by=?, decision_note=?
+                    WHERE id=? AND status IN ('pending', 'evaluated')
+                    """,
+                    (utc_now(), operator, note, candidate_id),
+                )
+                if claimed.rowcount != 1:
+                    raise EvolutionError("candidate already decided")
+            self.db.audit(
+                "evolution.rejected", operator, candidate_id, {"note": note}, candidate.get("tenant_id")
             )
-        self.db.audit(
-            "evolution.rejected", operator, candidate_id, {"note": note}, candidate.get("tenant_id")
-        )
-        return self._view(self._get_candidate(candidate_id, tenant_id))
+            return self._view(self._get_candidate(candidate_id, tenant_id))
 
     def rollback(
         self,

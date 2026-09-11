@@ -1,0 +1,15 @@
+{
+  "status": "INCOMPLETE",
+  "invocation_created": "invocation-343421244d6a51dd97ba13f5cfc47f8b",
+  "restart_error": {
+    "type": "SessionScopeError",
+    "message": "session id is already bound to another source reference"
+  },
+  "elapsed_seconds": 0.002,
+  "after_state": {
+    "status": "running",
+    "last_error": null
+  },
+  "expected_next_step": "define and test an explicit crash-owner recovery/lease policy",
+  "scope": "isolated L1; no production or external business writes"
+}

@@ -15,6 +15,7 @@ from .customer_service.generation import (
     BRANCH_MODEL,
     has_media_observation,
     plan_generation,
+    generation_deltas,
     recover_model_failure,
 )
 from .customer_service.generation import (
@@ -35,7 +36,6 @@ from .message_media import persist_message_media
 from .policy import (
     asks_for_internal_identifier,
     customer_facing_missing_fields,
-    is_business_action_request,
     precheck_request,
     review_output,
     sanitize_context,
@@ -90,7 +90,20 @@ def _bounded_product_context_ready(state: AgentState) -> bool:
 def verify_response(state: AgentState) -> dict[str, Any]:
     evidence = " ".join(document["answer"] for document in state["retrieved"])
     evidence += " " + json.dumps(state["context_bundle"], ensure_ascii=False)
-    passed, reason = review_output(state["draft"], evidence)
+    try:
+        passed, reason = review_output(state["draft"], evidence)
+    except Exception as exc:
+        return {
+            "answer": "为避免给出未经核实的承诺，我会将这个问题转给人工客服。",
+            "requires_human": True,
+            "review_route": "handoff",
+            "route_reason": "verify_error",
+            "trace": [
+                *state["trace"],
+                f"verify:error:{type(exc).__name__}",
+                "postcondition:handoff",
+            ],
+        }
     verified_result = state.get("tool_result", {}).get("postcondition_met") is True
     if state.get("model_retry_advised") and not verified_result:
         return {
@@ -223,7 +236,19 @@ def persist_response(
                 ),
             )
             if cursor.rowcount != 1:
-                raise RuntimeError("agent invocation completion was not persisted")
+                saved = conn.execute(
+                    """
+                    SELECT status, response_json FROM agent_invocations
+                    WHERE id=? AND tenant_id=?
+                    """,
+                    (invocation_id, state["tenant_id"]),
+                ).fetchone()
+                if (
+                    saved is None
+                    or saved["status"] != "completed"
+                    or not saved["response_json"]
+                ):
+                    raise RuntimeError("agent invocation completion was not persisted")
     db.audit(
         "chat.completed",
         "agent",
@@ -359,8 +384,11 @@ def build_graph(
                     f"precheck:{decision.route}",
                 ],
             }
-        classifier_model = model if (settings.model_enabled or settings.model_mock_mode) else None
-        classified = classify(state["normalized_input"], model=classifier_model)
+        classified = classify(
+            state["normalized_input"], model=model,
+            history=db.recent_messages(state["session_id"], settings.session_history_limit),
+            media_observation=state.get("media_evidence"),
+        )
         intent_routing = routing_for_intent(classified.intent)
         complaint = classified.intent == "complaint"
         route = "retrieve"
@@ -396,7 +424,7 @@ def build_graph(
         intent_routing = state.get("intent_routing") or routing_for_intent(
             state.get("customer_intent") or "chitchat"
         )
-        # P0-1 安全护栏：检索前意图门（超范围请求→拒绝/升级，不进检索）
+        # P0-1 安全护栏：检索前私密访问校验（超范围请求→拒绝/升级，不进检索）
         from .knowledge_engine.security_guard import get_security_guard
         guard = get_security_guard()
         scope_decision = guard.classify_request(state["normalized_input"])
@@ -439,7 +467,8 @@ def build_graph(
         # R4 修复：检索失败可观测（此前异常直接抛出，failures_total 恒为 0）
         try:
             documents = search(retrieval_query)
-            if not documents and _CONTEXT_REFERENCE_HINTS.search(retrieval_query):
+            current_query = normalize_text(retrieval_query)
+            if _CONTEXT_REFERENCE_HINTS.search(retrieval_query):
                 history = db.recent_messages(
                     state["session_id"], settings.session_history_limit
                 )
@@ -448,15 +477,17 @@ def build_graph(
                         normalize_text(str(item.get("content") or ""))
                         for item in reversed(history)
                         if item.get("role") == "user"
+                        and normalize_text(str(item.get("content") or ""))
+                        != current_query
                     ),
                     "",
                 )
                 if previous_user:
                     contextual_query = f"{previous_user}\n{retrieval_query}"
-                    retrieval_query = contextual_query
-                    contextual_retrieval = True
                     contextual_documents = search(contextual_query)
                     if contextual_documents:
+                        retrieval_query = contextual_query
+                        contextual_retrieval = True
                         documents = contextual_documents
         except Exception as exc:
             observer.record_search(
@@ -784,12 +815,8 @@ def build_graph(
                 reason = "verified_tool_result_missing"
             else:
                 reason = "verified_tool_result_complete"
-        business_action = is_business_action_request(state["normalized_input"])
-        if business_action and route != "refuse":
-            risk_level = "high"
-        if business_action and route not in {"act", "handoff", "refuse", "finish"}:
-            route = "handoff"
-            reason = "business_action_requires_verified_execution"
+        # Semantic modes come from the model. Executable actions are validated below
+        # against registered tools, SOP, authority and postconditions, never user keywords.
         # M6 基线：低置信度 answer/finish → 转人工（对齐 origin/main decision_gate）
         if (
             decision.confidence < settings.handoff_confidence_threshold
@@ -864,7 +891,7 @@ def build_graph(
         guard = get_security_guard()
         _start = time.monotonic()
         retrieval_query = state.get("retrieval_query") or state["normalized_input"]
-        # R1 修复：精化检索前复查意图门（此前绕过，block 请求仍会重新检索）
+        # R1 修复：精化检索前复查私密访问校验（此前绕过，block 请求仍会重新检索）
         _scope = guard.classify_request(state["normalized_input"])
         if not _scope.allowed:
             observer.record_search(
@@ -1166,8 +1193,7 @@ def build_graph(
         }
 
     def generate(state: AgentState) -> dict[str, Any]:
-        # 分支决定与 prompt 装配由 customer_service.generation 单点提供，
-        # `/v1/chat/stream` 消费同一份（审计 P0-2：禁止手抄本节点分支）
+        # Both HTTP transports execute this node and the graph's verify node.
         plan = plan_generation(state, settings=settings, db=db)
         if plan.branch != BRANCH_MODEL:
             return {
@@ -1177,9 +1203,10 @@ def build_graph(
             }
         budget_trace = plan.budget_trace
         try:
-            draft = model.generate(plan.messages or [])
-            fallback = False
-            trace_step = "generate:model"
+            deltas, fallback, trace_step = generation_deltas(
+                plan, model=model, stream=bool(state.get("stream_response"))
+            )
+            draft = "".join(deltas).strip()
             retry_advised = False
         except ModelError as exc:
             recovery = recover_model_failure(state, exc, db=db)
@@ -1210,6 +1237,24 @@ def build_graph(
             "trace": [*state["trace"], "retry_later", "postcondition:retry_later"],
         }
 
+    def safe_terminal_output(state: AgentState, answer: str) -> tuple[str, str]:
+        # Terminal prose and missing_fields also come from the model. Review them
+        # before either returning or persisting; handoff does not make prose trusted.
+        evidence = " ".join(document["answer"] for document in state.get("retrieved", []))
+        try:
+            passed, reason = review_output(answer, evidence)
+        except Exception as exc:
+            return (
+                "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+                f"terminal_output:error:{type(exc).__name__}",
+            )
+        if passed:
+            return answer, "terminal_output:passed"
+        return (
+            "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+            f"terminal_output:blocked:{reason}",
+        )
+
     def clarify(state: AgentState) -> dict[str, Any]:
         decision = AgentDecision.model_validate(state["decision"])
         missing = customer_facing_missing_fields(decision.missing_fields) or [
@@ -1221,10 +1266,13 @@ def build_graph(
             # The model drafted a question about SKU/item ids a shopper cannot
             # answer; ask for what they can actually provide instead.
             answer = fallback
+        answer, output_trace = safe_terminal_output(state, answer)
+        output_fallback = output_trace.startswith("terminal_output:blocked:")
         return {
             "answer": answer,
+            "model_fallback": bool(state.get("model_fallback")) or output_fallback,
             "requires_human": False,
-            "trace": [*state["trace"], "clarify", "postcondition:input_required"],
+            "trace": [*state["trace"], output_trace, "clarify", "postcondition:input_required"],
         }
 
     def handoff(state: AgentState) -> dict[str, Any]:
@@ -1259,13 +1307,16 @@ def build_graph(
         else:
             decision_response = state.get("decision", {}).get("response")
             answer = decision_response or state.get("answer") or "当前问题存在无法自动消除的不确定性，我会为您转接人工客服。"
+        answer, output_trace = safe_terminal_output(state, answer)
+        output_fallback = output_trace.startswith("terminal_output:blocked:")
         if state.get("execution_mode") == "shadow":
             return {
                 "answer": answer,
+                "model_fallback": bool(state.get("model_fallback")) or output_fallback,
                 "requires_human": True,
                 "handoff_id": None,
                 "handoff_status": None,
-                "trace": [*state["trace"], "shadow_handoff_observed"],
+                "trace": [*state["trace"], output_trace, "shadow_handoff_observed"],
             }
         safe_question, _ = redact_sensitive(state["normalized_input"])
         tool_arguments = state.get("tool_arguments") or {}
@@ -1316,10 +1367,11 @@ def build_graph(
         )
         return {
             "answer": answer,
+            "model_fallback": bool(state.get("model_fallback")) or output_fallback,
             "requires_human": True,
             "handoff_id": task.id,
             "handoff_status": task.status,
-            "trace": [*state["trace"], "human_handoff", f"postcondition:handoff_{task.status}"],
+            "trace": [*state["trace"], output_trace, "human_handoff", f"postcondition:handoff_{task.status}"],
         }
 
     def refuse(state: AgentState) -> dict[str, Any]:
@@ -1327,10 +1379,13 @@ def build_graph(
             answer = "我只能使用本店已授权的信息，不能提供其他店铺或其他买家的非公开数据。"
         else:
             answer = state.get("decision", {}).get("response") or "我不能更改系统规则、披露内部提示或绕过权限，但可以继续帮助您处理正常的商品、订单和售后问题。"
+        answer, output_trace = safe_terminal_output(state, answer)
+        output_fallback = output_trace.startswith("terminal_output:blocked:")
         return {
             "answer": answer,
+            "model_fallback": bool(state.get("model_fallback")) or output_fallback,
             "requires_human": False,
-            "trace": [*state["trace"], "refuse", "postcondition:blocked"],
+            "trace": [*state["trace"], output_trace, "refuse", "postcondition:blocked"],
         }
 
     def persist(state: AgentState) -> dict[str, Any]:
@@ -1396,7 +1451,7 @@ def build_graph(
             "refuse": "refuse",
         },
     )
-    # R1 修复：refine_retrieval 的意图门复查结果（refuse/handoff）也应被尊重
+    # R1 修复：refine_retrieval 的访问校验结果（refuse/handoff）也应被尊重
     builder.add_conditional_edges(
         "refine_retrieval",
         lambda state: state["route"],

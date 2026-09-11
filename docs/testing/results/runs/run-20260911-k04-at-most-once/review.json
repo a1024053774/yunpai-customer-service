@@ -1,0 +1,8 @@
+{
+  "status": "INCOMPLETE",
+  "slice_verdict": "PASS",
+  "scope": "L1 same-process concurrent graph duplication",
+  "full_handbook_k04": "INCOMPLETE",
+  "review_type": "read_only_targeted_review",
+  "unclaimed": ["crash_recovery", "cross_process_ownership", "sse_cross_replay", "business_side_effect_ledger"]
+}

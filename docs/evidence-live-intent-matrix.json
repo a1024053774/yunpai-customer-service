@@ -1,0 +1,121 @@
+[
+  {
+    "case": "greeting",
+    "message": "你好，今天在吗？",
+    "expected": "chitchat",
+    "customer_intent": "chitchat",
+    "intent_method": "model",
+    "confidence": 0.9,
+    "decision_mode": "answer",
+    "requires_human": false,
+    "answer": "您好，我是店铺智能客服，今天一直在的😊 您可以告诉我想了解的商品、订单或售后问题；涉及退款、赔付、改价、改地址等操作时，我会为您转人工确认。",
+    "trace_tail": [
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  {
+    "case": "product",
+    "message": "这款空气炸锅适合几个人？",
+    "expected": "product_inquiry",
+    "customer_intent": "product_inquiry",
+    "intent_method": "model",
+    "confidence": 0.95,
+    "decision_mode": "answer",
+    "requires_human": false,
+    "answer": "您看的是哪一款呢？如果是晴川空气炸锅 QC-AF35（3.5L），更适合 1–2 人使用；如果是家庭人数 3–4 人，建议选择 5L 的 QC-AF50。两款都是即插即用、无需上门安装的～您可以告诉我具体型号，我再帮您确认。",
+    "trace_tail": [
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  {
+    "case": "after_sales",
+    "message": "我刚收到货，机器不通电，怎么处理？",
+    "expected": "after_sales",
+    "customer_intent": "after_sales",
+    "intent_method": "model",
+    "confidence": 0.95,
+    "decision_mode": "clarify",
+    "requires_human": false,
+    "answer": "您好，很抱歉给您带来不便。为了尽快帮您处理机器不通电的问题，请您提供订单编号，并拍摄一段故障视频或清晰照片（包括电源连接处），我们会尽快为您核实处理。",
+    "trace_tail": [
+      "decision_gate:clarify",
+      "clarify",
+      "postcondition:input_required",
+      "persist"
+    ]
+  },
+  {
+    "case": "complaint",
+    "message": "你们客服反复推诿，之前答应的处理一直没兑现，我要投诉。",
+    "expected": "complaint",
+    "customer_intent": "complaint",
+    "intent_method": "model",
+    "confidence": 1.0,
+    "decision_mode": "handoff",
+    "requires_human": true,
+    "answer": "非常抱歉给您带来这样的体验。您反映的客服反复推诿、承诺未兑现的情况，需要人工进一步核实处理。请您提供订单号和具体问题描述，我们会尽快为您跟进。",
+    "trace_tail": [
+      "decision_gate:handoff",
+      "human_handoff",
+      "postcondition:handoff_proposed",
+      "persist"
+    ]
+  },
+  {
+    "case": "hypothetical",
+    "message": "如果以后需要退款，通常需要满足哪些条件？",
+    "expected": "product_inquiry",
+    "customer_intent": "product_inquiry",
+    "intent_method": "model",
+    "confidence": 0.97,
+    "decision_mode": "answer",
+    "requires_human": false,
+    "answer": "您好，退款通常需要在平台订单的售后入口提交申请，具体是否符合退款条件，以平台审核结果和售后页面显示为准。退款会改变交易和资金状态，智能客服无法代为执行。如果您在申请过程中需要协助，可以提供必要的订单信息，我会帮您转人工处理。退款审核通过后，一般按原支付路径退回，到账时间由平台、银行或支付机构决定。",
+    "trace_tail": [
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  {
+    "case": "negation",
+    "message": "不用办理退货了，多谢。",
+    "expected": "chitchat",
+    "customer_intent": "chitchat",
+    "intent_method": "model",
+    "confidence": 0.9,
+    "decision_mode": "answer",
+    "requires_human": false,
+    "answer": "好的，那就先不办理退货了，已了解～如果之后改变主意，退货通常需保持商品、配件、赠品、包装和凭证完整，不影响二次销售，具体标准可以平台售后页和商品说明为准。有其他需要随时找我哦。",
+    "trace_tail": [
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  {
+    "case": "compound",
+    "message": "这款多少钱？如果不合适我想退掉，先告诉我价格。",
+    "expected": "product_inquiry",
+    "customer_intent": "product_inquiry",
+    "intent_method": "model",
+    "confidence": 0.95,
+    "decision_mode": "clarify",
+    "requires_human": false,
+    "answer": "您好，请问您指的是哪款商品呢？可以告诉我商品名称或型号，我来帮您查询价格和退换政策。",
+    "trace_tail": [
+      "decision_gate:clarify",
+      "clarify",
+      "postcondition:input_required",
+      "persist"
+    ]
+  }
+]

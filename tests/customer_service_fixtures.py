@@ -44,7 +44,7 @@ class TableDrivenModel:
         self.json_tasks: list[str] = []
         self._table: dict[str, dict[str, Any]] = {
             "intent_classification": {
-                # 真实 glm 会把结果套信封，替身保持同样形状
+                # 真实模型可能把结果套信封，替身保持同样形状
                 "answer": {"intent": intent, "confidence": 0.82}
             },
             "agent_decision": {

@@ -1,0 +1,59 @@
+FFF...............FFFF                                                   [100%]
+=================================== FAILURES ===================================
+______ test_sync_and_sse_execute_the_registered_generate_and_verify_nodes ______
+tests/test_framework_audit.py:40: in test_sync_and_sse_execute_the_registered_generate_and_verify_nodes
+    assert calls == ['generate', 'verify']
+E   AssertionError: assert [] == ['generate', 'verify']
+E     
+E     Right contains 2 more items, first extra item: 'generate'
+E     Use -v to get more diff
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f] _
+tests/test_framework_audit.py:61: in test_model_policy_answer_is_not_overridden_by_lexical_routing
+    assert response.requires_human is False, response.reason
+E   AssertionError: mutation_always_handoff
+E   assert True is False
+E    +  where True = ChatResponse(message_id='msg-d38c28b58bd34629bc5fad55ed562593', trace_id='trace-06d2595c88034da99052d3b824896a49', ses...ut:passed', 'human_handoff', 'postcondition:handoff_proposed', 'persist'], decision_mode='handoff', decision_tool=None).requires_human
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f] _
+tests/test_framework_audit.py:61: in test_model_policy_answer_is_not_overridden_by_lexical_routing
+    assert response.requires_human is False, response.reason
+E   AssertionError: mutation_always_handoff
+E   assert True is False
+E    +  where True = ChatResponse(message_id='msg-414cf561d4a64cc09d60110fe3d80b45', trace_id='trace-b343a2ef31da434789e9eaa8f287dd38', ses...ut:passed', 'human_handoff', 'postcondition:handoff_proposed', 'persist'], decision_mode='handoff', decision_tool=None).requires_human
+_______________ test_sync_and_stream_share_the_generated_answer ________________
+tests/test_customer_service_module.py:184: in test_sync_and_stream_share_the_generated_answer
+    assert expected.answer == TABLE_MODEL_ANSWER
+E   AssertionError: assert '当前问题存在无法自动消除...性，我会为您转接人工客服。' == '表驱动替身模型的固定回复，仅用于验收。'
+E     
+E     - 表驱动替身模型的固定回复，仅用于验收。
+E     + 当前问题存在无法自动消除的不确定性，我会为您转接人工客服。
+____ test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model _____
+tests/test_customer_service_module.py:287: in test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model
+    assert response.answer == TABLE_MODEL_ANSWER
+E   AssertionError: assert '当前问题存在无法自动消除...性，我会为您转接人工客服。' == '表驱动替身模型的固定回复，仅用于验收。'
+E     
+E     - 表驱动替身模型的固定回复，仅用于验收。
+E     + 当前问题存在无法自动消除的不确定性，我会为您转接人工客服。
+_________ test_core_answers_a_knowledge_question_without_agent_service _________
+tests/test_customer_service_module.py:72: in test_core_answers_a_knowledge_question_without_agent_service
+    assert response.requires_human is False
+E   AssertionError: assert True is False
+E    +  where True = ChatResponse(message_id='msg-65f786550a764caeb7660bf12820f731', trace_id='trace-aa3dda2d13be488686ad8fc2747bef72', ses...ut:passed', 'human_handoff', 'postcondition:handoff_proposed', 'persist'], decision_mode='handoff', decision_tool=None).requires_human
+___________________ test_demo_chat_answers_airfryer_capacity ___________________
+tests/test_demo_chat.py:149: in test_demo_chat_answers_airfryer_capacity
+    assert "5L" in body["answer"]
+E   AssertionError: assert '5L' in '当前问题存在无法自动消除的不确定性，我会为您转接人工客服。'
+=============================== warnings summary ===============================
+../../../Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f]
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f]
+FAILED tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer
+FAILED tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model
+FAILED tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service
+FAILED tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity - As...
+7 failed, 15 passed, 1 warning in 30.57s

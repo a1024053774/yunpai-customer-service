@@ -46,9 +46,10 @@ class Database:
     # 占号裁定（负责人 08-13）：v31 归 PR #11、v32 归 F-322/负责人分支（均已合入
     # main）、v33 归 knowledge/retrieval、v34 归 M7-R WP1 readonly data、
     # v35 归 M7-R WP3 product identity；v36 归独立客服包的长期记忆作用域；
-    # v37 归独立客服包的消息媒体元数据；v38 归媒体保留删除队列。
+    # v37 归独立客服包的消息媒体元数据；v38 归媒体保留删除队列；
+    # v39 归知识行 embedding 模型身份（同维不同模型不可混检索）。
     # 防同名方法静默覆盖事故，见 CONTRIBUTING「Schema 版本号占用登记」。
-    SCHEMA_VERSION = 38
+    SCHEMA_VERSION = 39
 
     def __init__(self, path: Path):
         self.path = path
@@ -200,6 +201,9 @@ class Database:
             if 38 not in applied:
                 self._apply_v38(conn)
                 conn.execute("INSERT INTO schema_migrations VALUES (38, ?)", (utc_now(),))
+            if 39 not in applied:
+                self._apply_v39(conn)
+                conn.execute("INSERT INTO schema_migrations VALUES (39, ?)", (utc_now(),))
             conn.execute(f"PRAGMA user_version = {self.SCHEMA_VERSION}")
             self._validate_schema(conn)
 
@@ -3545,6 +3549,11 @@ class Database:
         )
 
     @staticmethod
+    def _apply_v39(conn: sqlite3.Connection) -> None:
+        """Persist which embedding model wrote each knowledge vector."""
+        Database._ensure_column(conn, "knowledge", "embedding_model", "TEXT")
+
+    @staticmethod
     def _ensure_column(conn: sqlite3.Connection, table: str, column: str, declaration: str) -> None:
         columns = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
         if column not in columns:
@@ -3593,7 +3602,7 @@ class Database:
             },
             "knowledge": {
                 "knowledge_key", "layer", "subject_hash", "review_status",
-                "record_version",
+                "record_version", "embedding_model",
             },
             "ops_operation_records": {
                 "tenant_id", "dataset_key", "store_id", "record_date", "channel",

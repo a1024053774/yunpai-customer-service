@@ -1,0 +1,101 @@
+{
+  "saved_utc": "2026-09-11T09:21:32.504956+00:00",
+  "id": "K05",
+  "level": "L1",
+  "handbook_claim": false,
+  "summary": {
+    "status": "PASS",
+    "fail_count": 0,
+    "incomplete_count": 0,
+    "notes": [
+      "This is the factor matrix for handbook K05, not a product GO",
+      "K05-host-500 mapping slice remains historically REVIEW_PASS",
+      "L1 table model cannot close live L3 image/subject/store_id",
+      "L1 factors passed; handbook K05 still needs live L3 to claim full PASS"
+    ]
+  },
+  "rows": [
+    {
+      "factor": "identical_replay",
+      "first": 200,
+      "second": 200,
+      "same_message_id": true,
+      "status": "PASS"
+    },
+    {
+      "factor": "different_message",
+      "status_code": 409,
+      "detail_code": "idempotency_key_conflict",
+      "has_answer": false,
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "different_store_id",
+      "status_code": 409,
+      "detail_code": "idempotency_key_conflict",
+      "has_answer": false,
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "add_image",
+      "status_code": 409,
+      "detail_code": "idempotency_key_conflict",
+      "has_answer": false,
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "different_subject_same_session",
+      "status_code": 409,
+      "detail_code": "session_scope_conflict",
+      "has_answer": false,
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"session_scope_conflict\",\"message\":\"session id is already bound to another authenticated scope\"}}"
+    },
+    {
+      "factor": "different_subject_new_session",
+      "status_code": 409,
+      "detail_code": "idempotency_key_conflict",
+      "has_answer": false,
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "second_host_client_same_key",
+      "status_code": 200,
+      "isolated_message_id": true,
+      "status": "PASS",
+      "body_preview": "{\"message_id\":\"msg-1eac88822a1750b58573324cda8fecee\",\"trace_id\":\"trace-1eac88822a1750b58573324cda8fecee\",\"session_id\":\"k05sess-c2-614ed625\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk",
+      "notes": "uniqueness is tenant+client+key; second client must not inherit first answer"
+    },
+    {
+      "factor": "stream_conflict_after_bound_key",
+      "status_code": 409,
+      "detail_code": "idempotency_key_conflict",
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+    },
+    {
+      "factor": "concurrent_different_messages",
+      "status_codes": [
+        409,
+        200
+      ],
+      "errors": [],
+      "status": "PASS",
+      "notes": "TestClient threads are best-effort; live L3 repeats this"
+    },
+    {
+      "factor": "mid_sse_second_request",
+      "stream_frames": 1,
+      "conflict_status": 409,
+      "detail_code": "idempotency_key_conflict",
+      "stream_errors": [],
+      "status": "PASS",
+      "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}",
+      "notes": "second request after first stream frame; must not return first answer"
+    }
+  ]
+}

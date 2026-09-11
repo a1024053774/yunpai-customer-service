@@ -1,0 +1,20 @@
+source env.md then export DATA_DIR
+refuse workspace data/
+do not substitute Orca
+Codex
+Luna
+Task tool
+run_in_background
+forbid resume
+unicode escapes
+Path.write_text
+file://
+localhost HTTP
+REVIEW_PASS
+must not be reverted to FAIL
+do not edit CASES.json during freeze
+skill_sha256
+product candidate digest
+do not stop to wait for the user when instructed to continue
+incomplete 10.2
+NO_GO

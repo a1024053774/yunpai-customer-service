@@ -55,6 +55,7 @@ class RetrievedDocument(TypedDict):
 class AgentState(TypedDict, total=False):
     session_id: str
     external_session_id: str
+    stream_response: bool
     tenant_id: str
     client_id: str
     subject_hash: str
@@ -160,6 +161,10 @@ class ChatResponse(BaseModel):
     session_id: str
     answer: str
     intent: str
+    customer_intent: str | None = None
+    intent_confidence: float | None = None
+    intent_method: str | None = None
+    intent_error: str | None = None
     risk_level: str
     requires_human: bool
     reason: str
@@ -201,6 +206,10 @@ def chat_response_from_state(state: dict[str, Any], session_id: str) -> ChatResp
         session_id=session_id,
         answer=state["answer"],
         intent=state["intent"],
+        customer_intent=state.get("customer_intent"),
+        intent_confidence=state.get("intent_confidence"),
+        intent_method=state.get("intent_method"),
+        intent_error=state.get("intent_error"),
         risk_level=state["risk_level"],
         requires_human=state["requires_human"],
         reason=state["route_reason"],

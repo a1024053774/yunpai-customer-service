@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>G07 after</title>
+<style>
+body { font-family: ui-sans-serif, sans-serif; margin: 24px; background:#f6f7f8; color:#111; }
+.card { background:#fff; border:1px solid #1e7a46; border-radius:12px; padding:16px; margin:12px 0; }
+h1 { font-size:20px; }
+h2 { font-size:16px; display:flex; justify-content:space-between; }
+span { font-size:12px; padding:2px 8px; border-radius:99px; background:#e7f6ee; color:#14532d; }
+.warn { color:#7c2d12; }
+.q { white-space:pre-wrap; line-height:1.45; }
+</style>
+<h1>G07 after · focused retrieve (implementer dump)</h1>
+<p>导入把 customer intent 写成 knowledge intent；已入库的 product_inquiry 行在打分时也按 knowledge intent 对齐。</p>
+<p class="warn">实现者自测不算通过。hash embedding，不是 live FastEmbed；承诺的是检索第一名是导入文档，不是模型成文。</p>
+<section class="card">
+  <h2>product-id microwave retrieve <span>PASS</span></h2>
+  <p class="q"><b>Q</b> QA-FIX-G07A1 可以放进微波炉加热吗？</p>
+  <p>stored intent: product（不再是 product_inquiry）</p>
+  <p>top-1: imported synthetic doc（晴川清洗话术不再排第一）</p>
+  <p>Signal: pytest tests/test_product_id_retrieval.py</p>
+</section>

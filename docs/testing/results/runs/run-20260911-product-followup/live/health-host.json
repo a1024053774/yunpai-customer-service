@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "model_mode": "configured",
+  "model_provider": "deepseek",
+  "model_name": "deepseek-v4-flash",
+  "vision_model": "deepseek-v4-flash-vision-exp",
+  "embedding_provider": "fastembed",
+  "business_domain": "ecommerce"
+}

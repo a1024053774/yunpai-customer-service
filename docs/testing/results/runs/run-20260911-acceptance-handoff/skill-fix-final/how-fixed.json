@@ -1,0 +1,55 @@
+{
+  "saved_utc": "2026-09-11T09:54:00Z",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "codex_copy": "/Users/luckye/.codex/skills/agent-acceptance-testing/SKILL.md",
+  "same_inode": true,
+  "skill_sha256_before": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "skill_sha256_after": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+  "product_not_changed": true,
+  "old_skill_fix_not_modified": true,
+  "skill_fix_2_not_modified": true,
+  "historical_reviews_not_modified": true,
+  "red": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/red.json",
+  "how_failed": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/how-failed.json",
+  "green": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/green.json",
+  "diff": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/SKILL.diff",
+  "removed_or_generalized": [
+    "one-shot candidate freeze that survived product-source edits",
+    "lumped L4/L5 table and missing local-demo vs production / framework vs ledger split",
+    "appendix: secret-bootstrap file, data-dir variable name, editor encoding recipe, capture-URI workaround, vendor/model/launcher API pins",
+    "REVIEW_PASS must not be reverted to FAIL",
+    "continue must not wait / grilling override",
+    "CASES.json and 109-passed wording",
+    "fresh verifier as a name plus host-launcher pins",
+    "substring Skill-fix GO"
+  ],
+  "added": [
+    "re-freeze every phase and every product-source drift; mixed-digest unre-run claims are INCOMPLETE",
+    "product digest, Skill sha, and review sha recorded separately",
+    "catalog row vs named slice; historical PASS/REVIEW_PASS originals stay; current candidate may FAIL/INCOMPLETE",
+    "fresh verifier executable properties; receipt on disk before unique-ledger update; launch method from project rules or manifest",
+    "live defect: red -> owning-layer fix -> live restart green -> detached review; TestClient green does not close live",
+    "page/API/database agreement after approve/rollback; display of prior status is not PASS",
+    "unknown cost is INCOMPLETE cost evidence",
+    "safety stop outranks continue",
+    "Skill eval by behavioral counterexample or independent review",
+    "Skill text frozen during a product run; premature Skill-fix evidence kept; Skill revision is not product GO"
+  ],
+  "kept": [
+    "HEAD + dirty candidate identity",
+    "independent oracle",
+    "red-before-green",
+    "counterfactual when the fix came first",
+    "BLOCKED/INCOMPLETE/FAIL/N/A",
+    "P0/P1 risk grades",
+    "10.2-style NO_GO when P0/P1 or real boundaries are missing",
+    "mutation table for wrong implementations"
+  ],
+  "root_cause": "The reusable 0-7 outline did not operationalize digest identity after edits, row vs slice, detached review-before-ledger, live restart, unknown cost, or layer split. The this-repo appendix then injected non-portable pins and a historical-status freeze that conflicted with current-candidate regression.",
+  "smallest_fix": "Keep sections 0-7, delete the appendix, and add only the portable rules that the completed handoff + followup cycle actually broke.",
+  "limitations": [
+    "No post-edit fresh reviewer on sha d386bbb1.",
+    "Product release remains NO_GO from run-20260911-product-followup.",
+    "Did not copy project isolation/executor rules into a new AGENTS.md (none requested)."
+  ]
+}

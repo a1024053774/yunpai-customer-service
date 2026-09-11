@@ -1,0 +1,9 @@
+{
+  "id": "G07",
+  "verdict": "PASS",
+  "pytest_exit": 0,
+  "counterfactual_failed_as_expected": true,
+  "live_fastembed_reprobed": false,
+  "covers_l01_retrieve_rank": true,
+  "notes": "工作区 pytest 7 passed EXIT:0。/tmp 反证 2 failed EXIT:1：入库 intent=product_inquiry；微波炉问句第一名 demo:qingchuan-airfryer-clean (0.6396, product)，导入行 0.586 product_inquiry。测试确实 seed 晴川、合成正文 5L/米白/329、ingest product_inquiry、retrieve knowledge_intent=product、store_id=demo-qingchuan-shop。未做 live FastEmbed/LLM 复测；hash embedding 不是 live FastEmbed 证明。实现者 green.txt/success.png 不作验收。ID+容量颜色在旧代码下导入也不第一；仅 ID 在 hash 旧代码下导入仍第一，不能单独当该根因的红态。"
+}

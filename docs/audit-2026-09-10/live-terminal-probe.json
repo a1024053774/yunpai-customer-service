@@ -1,0 +1,95 @@
+{
+  "decisions": [
+    {
+      "intent": "after_sales",
+      "mode": "clarify",
+      "tool_name": null,
+      "arguments": null,
+      "missing_fields": [
+        "订单号或购买渠道",
+        "机器型号",
+        "是否已尝试更换插座/检查电源"
+      ],
+      "expected_outcome": "获取订单与型号信息，以便判断是否属于七天无理由或质量问题退换，并给出具体处理路径",
+      "response": "很抱歉给您带来不便。为了帮您尽快处理，请提供以下信息：1）订单号或购买渠道；2）机器型号（机身或包装上的型号）；3）是否已尝试更换插座、确认电源开关已打开。收到后我会帮您判断是换货、退货还是报修。",
+      "reason": "用户反馈新机不通电，属于售后质量问题，但缺少订单、型号等必要信息，需先澄清。",
+      "confidence": 0.82
+    }
+  ],
+  "response": {
+    "message_id": "msg-bec48617b358433cb627cbbe6f93f464",
+    "trace_id": "trace-3eec2b52e8c14e79a2741ac758f2d0cb",
+    "session_id": "audit-terminal-live",
+    "answer": "很抱歉给您带来不便。为了帮您尽快处理，请提供以下信息：1）订单号或购买渠道；2）机器型号（机身或包装上的型号）；3）是否已尝试更换插座、确认电源开关已打开。收到后我会帮您判断是换货、退货还是报修。",
+    "intent": "after_sales",
+    "customer_intent": "after_sales",
+    "intent_confidence": 0.95,
+    "intent_method": "model",
+    "intent_error": null,
+    "risk_level": "low",
+    "requires_human": false,
+    "reason": "llm_clarification_required",
+    "sources": [
+      {
+        "id": "demo:qingchuan-humidifier-filter:b3b8914a",
+        "category": "商品",
+        "source": "demo:qingchuan-catalog-v1",
+        "version": 1,
+        "score": 0.5291
+      },
+      {
+        "id": "demo:qingchuan-airfryer-clean:b3b8914a",
+        "category": "商品",
+        "source": "demo:qingchuan-catalog-v1",
+        "version": 1,
+        "score": 0.5177
+      },
+      {
+        "id": "demo:qingchuan-return:b3b8914a",
+        "category": "售后",
+        "source": "demo:qingchuan-catalog-v1",
+        "version": 1,
+        "score": 0.2852
+      }
+    ],
+    "model_fallback": false,
+    "vision_status": "not_applicable",
+    "vision_model": null,
+    "vision_latency_ms": null,
+    "vision_image_count": 0,
+    "handoff_id": null,
+    "handoff_status": null,
+    "sop_id": null,
+    "sop_version": null,
+    "context_snapshot_id": "ctx-1309d77619ce4743be2965a47b9359fe",
+    "context_readiness": "ready",
+    "evidence_ids": [
+      "ev-fddb25930b5505d13e2e3018",
+      "ev-bfc20bf5e87bfbf805f68a3f",
+      "ev-9473e1e305b6ee47f0993a00",
+      "ev-32c9b02751c52e9f2c87ada0",
+      "ev-fb44627e3e2d3b8da5684275",
+      "ev-80cf52dae686566abd0770e4",
+      "ev-afd0f373b77dc4c82fd8640d"
+    ],
+    "trace": [
+      "intake",
+      "intent:model:after_sales",
+      "precheck:deliberate",
+      "retrieve:initial:3",
+      "guard:blocked:0",
+      "memory:recalled:0",
+      "context:budget:kept0/dropped0",
+      "context:decision:ready",
+      "context:budget:kept0/dropped0",
+      "deliberate:model:clarify",
+      "decision_gate:clarify",
+      "terminal_output:passed",
+      "clarify",
+      "postcondition:input_required",
+      "persist"
+    ],
+    "decision_mode": "clarify",
+    "decision_tool": null
+  }
+}

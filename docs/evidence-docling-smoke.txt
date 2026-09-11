@@ -1,0 +1,8 @@
+Command: instantiate Docling DocumentConverter and parse a two-page PDF with a table.
+
+This raw-parser run intentionally records the sparse-page edge case that the merged
+ingestor fixes; it is not the final import result.
+
+Observed:
+pages= 1
+page= 1 tables= 1 text= nnnn nn 5L nnn 3-4 n nnnn nnnnnn |  | | nn   | 5L   | | |------|------|

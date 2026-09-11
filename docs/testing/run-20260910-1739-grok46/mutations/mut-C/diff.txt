@@ -1,0 +1,48 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/graph.py	2026-09-10 13:31:21
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/graph.py	2026-09-10 17:51:08
+@@ -1170,6 +1170,8 @@
+         if plan.branch != BRANCH_MODEL:
+             return {
+                 "draft": plan.text,
++                "answer": plan.text,
++                "review_route": "pass",
+                 "model_fallback": plan.model_fallback,
+                 "trace": [*state["trace"], plan.trace_step],
+             }
+@@ -1188,6 +1190,8 @@
+             trace_step = recovery.trace_step
+         return {
+             "draft": draft,
++            "answer": draft,
++            "review_route": "pass",
+             "model_fallback": fallback,
+             "model_retry_advised": retry_advised,
+             "trace": [*state["trace"], budget_trace, trace_step],
+@@ -1210,16 +1214,8 @@
+         }
+ 
+     def safe_terminal_output(state: AgentState, answer: str) -> tuple[str, str]:
+-        # Terminal prose and missing_fields also come from the model. Review them
+-        # before either returning or persisting; handoff does not make prose trusted.
+-        evidence = " ".join(document["answer"] for document in state.get("retrieved", []))
+-        passed, reason = review_output(answer, evidence)
+-        if passed:
+-            return answer, "terminal_output:passed"
+-        return (
+-            "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+-            f"terminal_output:blocked:{reason}",
+-        )
++        # MUTATION C P02: skip output review so unreviewed drafts reach the user.
++        return answer, "terminal_output:skipped"
+ 
+     def clarify(state: AgentState) -> dict[str, Any]:
+         decision = AgentDecision.model_validate(state["decision"])
+@@ -1448,7 +1444,7 @@
+         lambda state: state["route"],
+         {"deliberate": "build_decision_context", "handoff": "handoff"},
+     )
+-    builder.add_edge("generate", "verify")
++    builder.add_edge("generate", "persist")  # MUTATION C: skip verify node
+     builder.add_conditional_edges(
+         "verify",
+         lambda state: state["review_route"],

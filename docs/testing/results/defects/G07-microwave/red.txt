@@ -1,0 +1,22 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_import_stores_knowledge_intent_not_customer_intent ____________
+tests/test_product_id_retrieval.py:53: in test_import_stores_knowledge_intent_not_customer_intent
+    assert row["intent"] == expected
+E   AssertionError: assert 'product_inquiry' == 'product'
+E     
+E     - product
+E     + product_inquiry
+_______ test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan _______
+tests/test_product_id_retrieval.py:72: in test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan
+    assert rows[0]["id"] == doc_id, (
+E   AssertionError: ('QA-FIX-G07A1 可以放进微波炉加热吗？', [('demo:qingchuan-airfryer-clean:15b07900', 0.6396, 'product'), ('kb-0e7510a8b6714f76a6483a7f0cfda208', 0.586, 'product_inquiry'), ('seed-0004', 0.539, 'product')])
+E   assert 'demo:qingchu...lean:15b07900' == 'kb-0e7510a8b...83a7f0cfda208'
+E     
+E     - kb-0e7510a8b6714f76a6483a7f0cfda208
+E     + demo:qingchuan-airfryer-clean:15b07900
+=========================== short test summary info ============================
+FAILED tests/test_product_id_retrieval.py::test_import_stores_knowledge_intent_not_customer_intent
+FAILED tests/test_product_id_retrieval.py::test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan
+2 failed in 1.40s
+EXIT:1

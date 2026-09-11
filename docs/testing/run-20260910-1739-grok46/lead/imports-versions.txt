@@ -1,0 +1,10 @@
+python 3.11.14 (main, Oct  9 2025, 16:16:55) [Clang 17.0.0 (clang-1700.4.4.1)]
+platform macOS-27.0-arm64-arm-64bit
+fastapi 0.141.1 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/__init__.py
+httpx 0.28.1 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/httpx/__init__.py
+pydantic 2.13.4 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/pydantic/__init__.py
+langgraph present None
+docling 2.126.0 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/docling/__init__.py
+fastembed 0.8.0 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastembed/__init__.py
+reportlab 5.0.1 /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/reportlab/__init__.py
+yunpai_customer_service 0.1.0 /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/__init__.py

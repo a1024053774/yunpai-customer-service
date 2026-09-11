@@ -1,0 +1,21 @@
+{
+  "saved_utc": "2026-09-10T17:48:01.611204+00:00",
+  "tool": "chrome-devtools MCP snapshot (not cursor-ide-browser)",
+  "url": "http://127.0.0.1:18765/",
+  "health_label": "真实模型 · deepseek-v4-flash · 检索 fastembed",
+  "sessions": [
+    "l01-689d3a9a",
+    "g07-b3f1d6e6",
+    "d02-323dc115",
+    "c01-216ee2db"
+  ],
+  "c01_ui": {
+    "session": "c01-216ee2db",
+    "turn1": "5L / 米白 + synthetic source",
+    "turn2": "这个颜色是什么 -> 孤岛验收电热水壶 米白 + synthetic source"
+  },
+  "d02_ui": {
+    "session": "d02-323dc115",
+    "answer": "资料没有记载库存/销量/到账数字; synthetic source listed"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "saved_utc": "2026-09-11T09:26:16.589975+00:00",
+  "run_id": "run-20260911-product-followup",
+  "quota_stop": false,
+  "product": "QA-FU-11SEP26",
+  "cases": [
+    {
+      "id": "L05-health",
+      "level": "L3",
+      "status": "PASS",
+      "demo": {
+        "ok": true,
+        "model_mode": "live",
+        "model_name": "deepseek-v4-flash",
+        "model_provider": "deepseek",
+        "vision_enabled": true,
+        "vision_model": "deepseek-v4-flash-vision-exp",
+        "embedding_provider": "fastembed",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store_name": "晴川小家电（模拟店）",
+        "tenant_id": "followup-l3-tenant",
+        "business_domain": "ecommerce",
+        "business_domain_label": "电商销售",
+        "context": {
+          "store_id": "demo-qingchuan-shop",
+          "platform": "demo"
+        }
+      },
+      "host_ok": true,
+      "notes": [
+        "health labels only; not full L05"
+      ]
+    },
+    {
+      "id": "E-import-txt",
+      "status": "PASS",
+      "status_code": 200,
+      "count": 1
+    },
+    {
+      "id": "I01",
+      "level": "L3",
+      "status": "PASS",
+      "unauth": 401,
+      "wrong_key": 401,
+      "missing_subject": 401,
+      "notes": [
+        "expired/disabled client keys not matrixed this run"
+      ]
+    },
+    {
+      "id": "I08",
+      "level": "L3-header-only",
+      "status": "INCOMPLETE",
+      "bad_host": 403,
+      "forwarded": 403,
+      "origin": 403,
+      "local": 200,
+      "notes": [
+        "header construction only; not a real reverse proxy",
+        "handbook I08 requires actual proxy path; N03 remains BLOCKED"
+      ]
+    },
+    {
+      "id": "K11-live-host",
+      "level": "L3",
+      "status": "PASS",
+      "empty": 422,
+      "plain": 422,
+      "malformed_stream": 422,
+      "notes": [
+        "live socket schema; complements L1 K11"
+      ]
+    },
+    {
+      "id": "K01-host-demo-http",
+      "level": "L3",
+      "status": "PASS",
+      "demo_sync": 200,
+      "host_sync": 200,
+      "demo_sse": 200,
+      "host_sse": 200,
+      "fields": {
+        "demo_sync": {
+          "has_answer": true,
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "risk_level": "low",
+          "requires_human": false,
+          "source_count": 3,
+          "mentions_product": true,
+          "mentions_color": true,
+          "mentions_cap": true,
+          "message_id_present": true
+        },
+        "host_sync": {
+          "has_answer": true,
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "risk_level": "low",
+          "requires_human": false,
+          "source_count": 3,
+          "mentions_product": true,
+          "mentions_color": true,
+          "mentions_cap": true,
+          "message_id_present": true
+        },
+        "demo_sse": {
+          "has_answer": true,
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "risk_level": "low",
+          "requires_human": false,
+          "source_count": 3,
+          "mentions_product": true,
+          "mentions_color": true,
+          "mentions_cap": true,
+          "message_id_present": true
+        },
+        "host_sse": {
+          "has_answer": true,
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "risk_level": "low",
+          "requires_human": false,
+          "source_count": 3,
+          "mentions_product": true,
+          "mentions_color": true,
+          "mentions_cap": true,
+          "message_id_present": true
+        }
+      },
+      "demo_sse_events": [
+        "meta",
+        "delta",
+        "result"
+      ],
+      "host_sse_events": [
+        "meta",
+        "delta",
+        "result"
+      ],
+      "notes": [
+        "in-process core not invoked on this DATA_DIR; handbook K01 still incomplete without core",
+        "compared color/capacity/sources presence; IDs may differ"
+      ]
+    },
+    {
+      "id": "K01-sse",
+      "level": "L3",
+      "status": "INCOMPLETE",
+      "demo_frame_events": [
+        "meta",
+        "delta",
+        "result"
+      ],
+      "host_frame_events": [
+        "meta",
+        "delta",
+        "result"
+      ],
+      "leaked_unverified_draft": false,
+      "notes": [
+        "handbook K01 requires core+Demo+host sync+SSE field compare",
+        "this card is SSE frames only and must not close K01"
+      ]
+    },
+    {
+      "id": "B01",
+      "level": "L3",
+      "status": "INCOMPLETE",
+      "status_code": 200,
+      "answer": "您好，退款会改变交易和资金状态，智能客服不能代为执行，也无法直接审核材料。依据平台退款政策，后续申请退款请从平台订单的“售后”入口提交；具体需要哪些材料或凭证，政策中没有固定清单，请以售后入口页面显示的要求为准。退款通过平台审核后，通常按原支付路径退回，到账时间由平台、银行或支付机构决定。\n\n如果申请时遇到不确定的地方，我可以帮您转人工核对，人工侧一般只需提供必要的订单编号。",
+      "used_synthetic": false,
+      "sources": [
+        {
+          "id": "seed-0109",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.9027
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:0ded6dcf",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8801
+        },
+        {
+          "id": "seed-0107",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8618
+        }
+      ],
+      "requires_human": false,
+      "notes": [
+        "independent this-run; 1739 PASS not inherited",
+        "must cite synthetic refund materials"
+      ]
+    },
+    {
+      "id": "C01",
+      "level": "L3",
+      "status": "FAIL",
+      "first_status": 200,
+      "second_status": 200,
+      "first_answer": "QA-FU-11SEP26 这款孤岛续测电热水壶的颜色是米白，容量是 5L。测试标价为 329 元，整机保修 12 个月。另外提醒一下，这款电热水壶不可微波加热。如需了解材质等其他参数，可以告诉我具体商品名称或商品链接，我帮您进一步核对～",
+      "second_answer": "这款孤岛续测电热水壶（型号 QA-FU-11SEP26）的颜色是**米白**。\n\n另外提醒一下：商品图片会尽量还原实物，但受拍摄光线和屏幕显示影响，可能会有轻微色差，最终请以收到的实物和商品页说明为准。",
+      "asked_which_product": false,
+      "used_synthetic": true,
+      "notes": [
+        "re-probe on digest 801e8ae1; historical REVIEW_PASS files kept"
+      ]
+    },
+    {
+      "id": "K04",
+      "level": "L3",
+      "status": "INCOMPLETE",
+      "first": 200,
+      "replay": 200,
+      "same_message_id": true,
+      "sse_replay_status": 200,
+      "sse_same_message_id": true,
+      "concurrent": [
+        {
+          "status": 200,
+          "message_id": "msg-c4aac619b4605d628508a47b4f248798"
+        },
+        {
+          "status": 500,
+          "message_id": null
+        }
+      ],
+      "notes": [
+        "host sync replay + SSE cross replay + concurrent same body",
+        "process restart not this run"
+      ]
+    },
+    {
+      "id": "K05-live-factors",
+      "level": "L3",
+      "status": "PASS",
+      "handbook_k05_claim": false,
+      "rows": [
+        {
+          "factor": "live_first",
+          "status_code": 200,
+          "status": "PASS"
+        },
+        {
+          "factor": "different_message",
+          "status_code": 409,
+          "detail_code": "idempotency_key_conflict",
+          "has_answer": false,
+          "status": "PASS",
+          "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+        },
+        {
+          "factor": "different_store_id",
+          "status_code": 409,
+          "detail_code": "idempotency_key_conflict",
+          "has_answer": false,
+          "status": "PASS",
+          "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+        },
+        {
+          "factor": "add_image",
+          "status_code": 409,
+          "detail_code": "idempotency_key_conflict",
+          "has_answer": false,
+          "status": "PASS",
+          "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+        },
+        {
+          "factor": "different_subject_same_session",
+          "status_code": 409,
+          "detail_code": "session_scope_conflict",
+          "has_answer": false,
+          "status": "PASS",
+          "body_preview": "{\"detail\":{\"code\":\"session_scope_conflict\",\"message\":\"session id is already bound to another authenticated scope\"}}"
+        },
+        {
+          "factor": "second_host_client",
+          "status_code": 200,
+          "isolated": true,
+          "status": "PASS",
+          "body_preview": "{\"message_id\":\"msg-2fc1e9e151fa5d5b8521e89983027156\",\"trace_id\":\"trace-2fc1e9e151fa5d5b8521e89983027156\",\"session_id\":\"k05c2-d682ae8159\",\"answer\":\"您好，您问的 QA-FU-11SEP26 对应的是“孤岛续测电热水壶”，颜色为米白，容量 5L，标价 32"
+        },
+        {
+          "factor": "mid_sse_second_client_request",
+          "frames": 1,
+          "status_code": 409,
+          "detail_code": "idempotency_key_conflict",
+          "status": "PASS",
+          "body_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}"
+        },
+        {
+          "factor": "concurrent_different_messages",
+          "status_codes": [
+            409,
+            200
+          ],
+          "status": "PASS"
+        }
+      ],
+      "notes": [
+        "live host factors; table-model L1 also exists",
+        "do not promote handbook K05 to PASS unless all factors and core digest are closed"
+      ]
+    },
+    {
+      "id": "L04-seed-candidate",
+      "status": "PASS",
+      "status_code": 200,
+      "candidate_id": "candidate-6f2e26cad09c40d99385159a8fa892ff",
+      "notes": [
+        "HTTP seed only; L04 requires browser evaluate/approve/rollback"
+      ]
+    }
+  ]
+}

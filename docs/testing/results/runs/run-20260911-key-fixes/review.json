@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "review_type": "read_only_independent_acceptance_evidence_review",
+  "modified_files": [],
+  "external_services_called": false,
+  "checks": {
+    "import_fail_closed": true,
+    "anchored_positive_contract": true,
+    "unrelated_append_rejected": true,
+    "defects_proven": 7,
+    "rejudged_verdict": "NO_GO"
+  }
+}

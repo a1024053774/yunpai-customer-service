@@ -1,0 +1,21 @@
+{
+  "mutation": "mut-G",
+  "claim": "7.1 step 5 historical SSE fork",
+  "wrong_implementation": "chat_stream interrupt_before generate, then generation_deltas + verify_response + update_state(as_node='verify') instead of resuming registered nodes. Reconstructed from git 003f0a5 core.py.",
+  "exit_code": 1,
+  "result": "1 failed, 9 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "7.1-step5-sse-update-state",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes",
+      "expected": "SSE must execute registered generate and verify; calls == ['generate', 'verify']",
+      "actual": "AssertionError: SSE bypassed registered graph nodes; assert [] == ['generate', 'verify']",
+      "notes": "Sync still ran the nodes; after calls.clear() SSE counted zero. Matches historical framework-red.txt. Trace can still mention verify because update_state as_node='verify' while registered node count is zero.",
+      "evidence_files": ["fail.log", "diff.txt"]
+    }
+  ]
+}

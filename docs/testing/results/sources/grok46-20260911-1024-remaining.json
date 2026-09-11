@@ -1,0 +1,523 @@
+{
+  "saved_utc": "2026-09-11T02:46:28.464485+00:00",
+  "run_id": "run-20260911-1024-grok46",
+  "level": "L0/L1",
+  "cases": [
+    {
+      "id": "A07",
+      "priority": "P1",
+      "level": "L0",
+      "status": "PASS",
+      "expected": "README/health match SQLite; model config not labeled measured live",
+      "actual": {
+        "readme_sqlite": true,
+        "readme_postgres": false,
+        "health_keys": [
+          "business_domain",
+          "business_domain_label",
+          "context",
+          "embedding_model",
+          "embedding_provider",
+          "model_mode",
+          "model_name",
+          "model_provider",
+          "ok",
+          "store_name",
+          "tenant_id",
+          "vision_enabled",
+          "vision_model"
+        ],
+        "model_mode": "mock",
+        "health_mentions_postgres": false,
+        "not_claimed_live": true
+      },
+      "notes": [
+        "packaging-from-clean-dir remains A06 BLOCKED",
+        "health lists configured model_name; not treated as measured live"
+      ]
+    },
+    {
+      "id": "A08",
+      "priority": "P2",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "two isolated cores do not leak; build/close loop; workspace data/ refused",
+      "actual": {
+        "dirs": [
+          "/tmp/yunpai-a08a-60v38a_8",
+          "/tmp/yunpai-a08b-casu48nj"
+        ],
+        "leak": false,
+        "reopen_ok": true,
+        "refuse_code": 1,
+        "refuse_ok": true,
+        "refuse_out": "refusing to use workspace data/; set DATA_DIR under /tmp\n"
+      }
+    },
+    {
+      "id": "C03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "subject switch on same external session_id is rejected; no history inherit",
+      "actual": {
+        "first_message_id": "msg-859e6714c8cb4e049ab9e2d7b0df8169",
+        "switched": false,
+        "error": "session_scope_conflict: session id is already bound to another authenticated scope",
+        "sessions": [
+          {
+            "id": "session-9e2efd2b49344f4e8e9fa02bfb90f424",
+            "subject_hash": "4c8b902eff80d984704312e96d168ef026b3284833d832f2493af1f462aa8d67",
+            "external_session_id": "shared-external"
+          }
+        ],
+        "leaked": false
+      },
+      "notes": [
+        "Demo login UI switch not run; this is core session-scope"
+      ]
+    },
+    {
+      "id": "K05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "same idempotency key + different message conflicts; identical replay reuses",
+      "actual": {
+        "first_id": "msg-8a5d228cb3ca5ffa9a224eccc4b928db",
+        "replay_id": "msg-8a5d228cb3ca5ffa9a224eccc4b928db",
+        "conflict": true,
+        "error": "idempotency_key_conflict: agent idempotency key is already bound to another request",
+        "second_answer": null
+      }
+    },
+    {
+      "id": "K03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "disconnect at meta/delta/result; reconnect does not double-apply",
+      "actual": {
+        "first_event": "meta",
+        "after_meta_rows": [],
+        "meta_no_assistant": true,
+        "delta_abort_events": [
+          "meta",
+          "delta"
+        ],
+        "after_delta_rows": [
+          {
+            "role": "assistant",
+            "content": "表驱动替身模型的固定回复，仅用于验收。",
+            "route_reason": "knowledge_answer_allowed"
+          },
+          {
+            "role": "user",
+            "content": "k03-after-delta",
+            "route_reason": null
+          }
+        ],
+        "delta_already_persisted": true,
+        "full_stream_events": [
+          "meta",
+          "delta",
+          "result"
+        ]
+      },
+      "notes": [
+        "abort after meta: generate not run",
+        "abort after delta: graph already persisted success; reconnect/replay not run"
+      ]
+    },
+    {
+      "id": "F09",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "concurrent approve is exclusive; no duplicate active knowledge",
+      "actual": {
+        "evaluate_passed": true,
+        "successes": [
+          "op-a"
+        ],
+        "errors": [
+          "op-b:EvolutionError:candidate must pass evaluation before approval"
+        ],
+        "knowledge": [
+          {
+            "id": "kb-897b01427e0f4b92a9ef9b8b80b3dfcf",
+            "status": "active",
+            "source": "evolution:candidate-35c0cfaf75074fd49a81db629e674cc6",
+            "answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+          }
+        ],
+        "candidate": {
+          "status": "approved",
+          "resulting_knowledge_id": "kb-897b01427e0f4b92a9ef9b8b80b3dfcf"
+        },
+        "duplicate": false
+      }
+    },
+    {
+      "id": "F10",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "forged message rejected; likes do not create candidates; PII/instruction fail gate",
+      "actual": {
+        "forged_ok": false,
+        "forged_err": "assistant message not found",
+        "like_candidate_ids": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "pii_passed": false,
+        "pii_report": {
+          "passed": false,
+          "checks": {
+            "length": true,
+            "no_sensitive_numbers": false,
+            "source_traceable": true,
+            "candidate_retrievable": true,
+            "candidate_retrieval_score": 0.9266,
+            "retrieval_fit": true,
+            "nearest_documents": [
+              "kb-897b01427e0f4b92a9ef9b8b80b3dfcf",
+              "seed-0020",
+              "seed-0025"
+            ],
+            "output_policy": false,
+            "output_policy_reason": "numeric_claim_without_evidence",
+            "high_risk_handoff_preserved": true,
+            "semantic_alignment": true,
+            "semantic_alignment_score": 0.1269,
+            "lexical_evidence_overlap": 0.0,
+            "no_contradiction_markers": true,
+            "retrieval_collision_free": true,
+            "retrieval_collision_failures": [],
+            "baseline_regression": true
+          },
+          "baseline": {
+            "total": 20,
+            "passed": 20,
+            "failed": 0
+          },
+          "bound_content": "fa98882eb4e9037e6a310f2912465352a04c626cb537e695881892e0501caca5"
+        },
+        "inj_passed": true,
+        "inj_report": {
+          "passed": true,
+          "checks": {
+            "length": true,
+            "no_sensitive_numbers": true,
+            "source_traceable": true,
+            "candidate_retrievable": true,
+            "candidate_retrieval_score": 0.9154,
+            "retrieval_fit": true,
+            "nearest_documents": [
+              "kb-897b01427e0f4b92a9ef9b8b80b3dfcf",
+              "seed-0020",
+              "seed-0025"
+            ],
+            "output_policy": true,
+            "output_policy_reason": "output_policy_passed",
+            "high_risk_handoff_preserved": true,
+            "semantic_alignment": true,
+            "semantic_alignment_score": 0.0481,
+            "lexical_evidence_overlap": 0.0,
+            "no_contradiction_markers": true,
+            "retrieval_collision_free": true,
+            "retrieval_collision_failures": [],
+            "baseline_regression": true
+          },
+          "baseline": {
+            "total": 20,
+            "passed": 20,
+            "failed": 0
+          },
+          "bound_content": "2d55da0c116abb67d0474c0dc9a7f0d80bf9e517f63f8b543acb89ec658c2233"
+        }
+      },
+      "notes": [
+        "rate-limit / source-withdraw not run",
+        "instruction candidate may fail for other checks; see inj_report"
+      ]
+    },
+    {
+      "id": "H02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "current explicit request wins over long-term preference",
+      "actual": {
+        "pref_id": "kg-memory-6f8d41924185",
+        "current_in_prompt": true,
+        "pref_in_sources": true,
+        "sources": [
+          "memory:kg-memory-6f8d41924185",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1"
+        ],
+        "answer": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      "notes": [
+        "wiring: current user text reached generate; live override not judged"
+      ]
+    },
+    {
+      "id": "H03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "explicit do-not-remember / correction has a product entry",
+      "actual": {
+        "chat_answer": "表驱动替身模型的固定回复，仅用于验收。",
+        "recall_after_chat": [
+          "kg-memory-6f8d41924185"
+        ],
+        "service_forget": true,
+        "recall_after_forget": []
+      },
+      "notes": [
+        "KnowledgeMemoryService.forget exists; chat utterance did not delete preference",
+        "no customer-facing forget API / NLP entry"
+      ]
+    },
+    {
+      "id": "H07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "retention purge removes expired messages; dry-run then apply",
+      "actual": {
+        "dry": {
+          "dry_run": true,
+          "message_cutoff": "2026-08-12T02:46:13.750909+00:00",
+          "audit_cutoff": "2026-03-15T02:46:13.750909+00:00",
+          "messages_deleted": 2,
+          "messages_redacted": 0,
+          "handoffs_redacted": 0,
+          "context_snapshots_deleted": 0,
+          "metrics_deleted": 0,
+          "audit_events_deleted": 0,
+          "sessions_closed": 1,
+          "expired_session_ids": [
+            "session-a0767bb818924e8e988abf4dc37a3f77"
+          ],
+          "media_files_selected": 0,
+          "media_deletion_pending": 0
+        },
+        "wet": {
+          "dry_run": false,
+          "message_cutoff": "2026-08-12T02:46:13.752816+00:00",
+          "audit_cutoff": "2026-03-15T02:46:13.752816+00:00",
+          "messages_deleted": 2,
+          "messages_redacted": 0,
+          "handoffs_redacted": 0,
+          "context_snapshots_deleted": 0,
+          "metrics_deleted": 0,
+          "audit_events_deleted": 0,
+          "sessions_closed": 1,
+          "expired_session_ids": [
+            "session-a0767bb818924e8e988abf4dc37a3f77"
+          ],
+          "media_files_selected": 0,
+          "media_deletion_pending": 0,
+          "media_files_deleted": 0,
+          "media_files_delete_failed": 0
+        },
+        "leftover": null,
+        "runs": 1
+      },
+      "notes": [
+        "file-delete-failure retry covered by existing vision tests, not re-run here"
+      ]
+    },
+    {
+      "id": "H08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "old session after knowledge withdraw does not keep citing retired fact",
+      "actual": {
+        "knowledge_id": "kb-d947a037c6df4d30b7d3b9452ad186db",
+        "before_sources": [
+          "fixture:h08",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1"
+        ],
+        "after_sources": [
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1"
+        ],
+        "retrieve_ids": [
+          "seed-0007",
+          "seed-0019",
+          "seed-0013",
+          "seed-0018",
+          "seed-0011"
+        ],
+        "still_cites": false
+      },
+      "notes": [
+        "process restart not run; same-process retrieve after retire"
+      ]
+    },
+    {
+      "id": "I10",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "markdown image URL is not fetched; no SSRF to controlled listener",
+      "actual": {
+        "url": "http://127.0.0.1:53710/i10-marker-ssrf",
+        "hits": [],
+        "answer": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      "notes": [
+        "chat-path only; vision/url-tool not enabled"
+      ]
+    },
+    {
+      "id": "I13",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "synthetic marker stays local; chat does not POST it outbound",
+      "actual": {
+        "marker": "SYNTH-MARKER-I13-20260911-1024",
+        "stored": [
+          "表驱动替身模型的固定回复，仅用于验收。",
+          "see ![](http://127.0.0.1:53710/i10-marker-ssrf) and also SYNTH-MARKER-I13-20260911-1024"
+        ],
+        "listener_hits": [],
+        "audit_sample": [
+          {
+            "event_type": "chat.completed",
+            "detail": "{\"trace_id\": \"trace-05f5d700e64145bf95d920ba1e7110d7\", \"intent\": \"product\", \"decision_mode\": \"answer\", \"selected_tool\": null, \"risk_level\": \"low\", \"requires_human\": false, \"handoff_id\": null, \"react_s"
+          },
+          {
+            "event_type": "knowledge.seeded",
+            "detail": "{\"count\": 156}"
+          }
+        ]
+      },
+      "notes": [
+        "mock model; no production exporter/log shipper in this process",
+        "not a full outbound/monitoring matrix"
+      ]
+    },
+    {
+      "id": "J06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "pixel-bomb / slow upload has CPU memory time caps",
+      "actual": {
+        "encoded_bytes": 81725,
+        "accepted": {
+          "bytes": 81725,
+          "under_5mib": true,
+          "pixels": [
+            5000,
+            5000
+          ]
+        },
+        "error": null
+      },
+      "notes": [
+        "5 MiB decoded-byte cap only; no max width/height observed",
+        "vision decode path not enabled; exhaustion not measured"
+      ]
+    },
+    {
+      "id": "E05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "repeated headers/footers do not break title/condition binding",
+      "actual": {
+        "pages": [
+          {
+            "id": "kb-1ed62612f56c4e84ace363946db29a8e",
+            "chars": 107
+          },
+          {
+            "id": "kb-49bcd0a417ec4079a05897a4f36820a5",
+            "chars": 107
+          }
+        ],
+        "header_in_all_chunks": true,
+        "texts": [
+          "HEADER FOOTER REPEAT PAGE 1 Company confidential header\n\nSKU-AAA capacity 5L only. Do not apply to SKU-BBB.",
+          "HEADER FOOTER REPEAT PAGE 2 Company confidential header\n\nSKU-BBB capacity 7L only. Do not apply to SKU-AAA."
+        ]
+      },
+      "notes": [
+        "parser keeps header text in page extract; no header-stripping contract frozen"
+      ]
+    },
+    {
+      "id": "E09",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "concurrent identical ingest is idempotent; no duplicate active rows",
+      "actual": {
+        "results": [
+          [
+            "t0",
+            [
+              "kb-1f700ca631e1416ea68effb675bbe601"
+            ]
+          ]
+        ],
+        "errors": [
+          "t1:IntegrityError:UNIQUE constraint failed: index 'idx_knowledge_key_unique'",
+          "t3:IntegrityError:UNIQUE constraint failed: index 'idx_knowledge_key_unique'",
+          "t2:IntegrityError:UNIQUE constraint failed: index 'idx_knowledge_key_unique'"
+        ],
+        "unique_ids": [
+          "kb-1f700ca631e1416ea68effb675bbe601"
+        ],
+        "active": [
+          {
+            "id": "kb-1f700ca631e1416ea68effb675bbe601",
+            "knowledge_key": "upload://dup.txt?sha256=0708e1b13d5edf2f#page=1&chunk=1"
+          }
+        ]
+      },
+      "notes": [
+        "partial embed / db-write failure not injected"
+      ]
+    },
+    {
+      "id": "C05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "unexecuted action can cancel; completed action is stated honestly",
+      "actual": {
+        "first": "表驱动替身模型的固定回复，仅用于验收。",
+        "cancel": "表驱动替身模型的固定回复，仅用于验收。",
+        "no_write_tools": true
+      },
+      "notes": [
+        "no confirm/write SOP in this fixture; cancel semantics not product-proven"
+      ]
+    }
+  ]
+}

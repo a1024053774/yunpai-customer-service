@@ -1,0 +1,9 @@
+{
+  "status": "ABANDONED_PREMATURE",
+  "reason": "User corrected the order: complete the real product acceptance cycle first, then revise the Skill from the observed case. This revision was made before project acceptance was complete and must not be treated as the final Skill change.",
+  "skill_after_sha256": "bd04be60031485c4c38181610f864e8655476eabfa97a13a281def361268272a",
+  "restored_skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "restored_from": "../skill-fix/SKILL.md",
+  "preserved_evidence": ["red.json", "how-failed.json", "green.json", "how-fixed.json", "diff-summary.json", "SKILL.diff"],
+  "next_step": "Continue product acceptance only; defer final Skill revision until product acceptance closure."
+}

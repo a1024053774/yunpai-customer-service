@@ -1,0 +1,68 @@
+{
+  "saved_utc": "2026-09-11T09:06:56.306956+00:00",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "skill_sha256_before": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "skill_sha256_after": "bd04be60031485c4c38181610f864e8655476eabfa97a13a281def361268272a",
+  "stat": {
+    "before_lines": 166,
+    "after_lines": 167,
+    "diff_hunks": 4,
+    "added_lines": 18,
+    "removed_lines": 17
+  },
+  "diff_path": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.diff",
+  "removed_rules": [
+    "source env.md then export DATA_DIR under /tmp",
+    "mandatory DATA_DIR env/filename and refuse workspace data/ as Skill text",
+    "CJK Path.write_text + unicode escapes; ban Write/StrReplace",
+    "file:// ban + temporary localhost HTTP screenshot server",
+    "pin Cursor Grok 4.6 Extra High Fast; do not substitute Orca/Codex/Luna",
+    "fresh reviewer must use Task tool, run_in_background, forbid resume (host API)",
+    "REVIEW_PASS ledger rows must not be reverted to FAIL",
+    "do not stop to wait when instructed to continue / grilling does not apply",
+    "do not edit CASES.json during freeze (filename)"
+  ],
+  "added_rules": [
+    "run manifest records real executor and capture tool; substitution is an execution deviation judged by independence",
+    "run manifest records isolation start rules; Skill does not hard-code env filenames or data-dir variable names",
+    "historical PASS/REVIEW_PASS originals kept; current candidate may be rejudged FAIL/INCOMPLETE",
+    "safety stop outranks continue",
+    "fresh-context verifier: new context, no resume, read-only, no self-approve; launch method from project rules or manifest",
+    "Skill evaluation cannot use a keyword checker; needs behavioral counterexample or independent review",
+    "project-specific editor/bootstrap/screenshot/host API come from existing project rules or run manifest",
+    "incomplete handbook 10.2 (or equivalent) is NO_GO/INCOMPLETE \u2014 moved from this-repo appendix into generic section 7"
+  ],
+  "kept_rules": [
+    "candidate freeze (HEAD + dirty)",
+    "L0-L5 evidence layers",
+    "independent oracle",
+    "red-before-green",
+    "counterfactual",
+    "fresh-context verifier (now without host API pins)",
+    "BLOCKED/INCOMPLETE/FAIL distinction",
+    "real L3/L4/L5 boundaries",
+    "10.2 NO_GO / green test counts are not product GO",
+    "skill_sha256 frozen separately from product digest"
+  ],
+  "files_written_this_revision": [
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/red.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/how-failed.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.before.md",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.before.sha256",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/green.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/how-fixed.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/diff-summary.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.after.md",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.after.sha256",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/SKILL.diff",
+    "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md"
+  ],
+  "not_modified": [
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix/",
+    "docs/testing/results/runs/run-20260911-acceptance-handoff/skill-fix/",
+    "product source/tests",
+    "docs/testing/results/CASES.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.md",
+    "AGENTS.md (not created; none existed)"
+  ]
+}

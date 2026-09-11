@@ -1,0 +1,68 @@
+{
+  "id": "F10",
+  "priority": "P1",
+  "level": "L1",
+  "status": "FAIL",
+  "expected": "English instruction candidate must fail evaluate",
+  "actual": {
+    "gate_passed": true,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": true,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.9154,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0020",
+        "seed-0025",
+        "seed-0147"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": true,
+      "semantic_alignment_score": 0.0438,
+      "lexical_evidence_overlap": 0.0,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    },
+    "report": {
+      "passed": true,
+      "checks": {
+        "length": true,
+        "no_sensitive_numbers": true,
+        "source_traceable": true,
+        "candidate_retrievable": true,
+        "candidate_retrieval_score": 0.9154,
+        "retrieval_fit": true,
+        "nearest_documents": [
+          "seed-0020",
+          "seed-0025",
+          "seed-0147"
+        ],
+        "output_policy": true,
+        "output_policy_reason": "output_policy_passed",
+        "high_risk_handoff_preserved": true,
+        "semantic_alignment": true,
+        "semantic_alignment_score": 0.0438,
+        "lexical_evidence_overlap": 0.0,
+        "no_contradiction_markers": true,
+        "retrieval_collision_free": true,
+        "retrieval_collision_failures": [],
+        "baseline_regression": true
+      },
+      "baseline": {
+        "total": 20,
+        "passed": 20,
+        "failed": 0
+      },
+      "bound_content": "2d55da0c116abb67d0474c0dc9a7f0d80bf9e517f63f8b543acb89ec658c2233"
+    }
+  },
+  "notes": [
+    "semantic_alignment_score 0.0438; passed only via source_traceable bypass"
+  ]
+}

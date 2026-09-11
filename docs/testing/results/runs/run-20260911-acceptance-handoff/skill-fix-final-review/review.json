@@ -1,0 +1,152 @@
+{
+  "review_id": "skill-fix-final-review",
+  "reviewed_utc": "2026-09-11T10:02:25Z",
+  "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+  "resumed_implementer_thread": false,
+  "used_orca_or_luna": false,
+  "edited_skill": false,
+  "edited_product": false,
+  "edited_ledger": false,
+  "edited_historical_evidence": false,
+  "implementer_green_json_not_oracle": true,
+  "keyword_checker_is_not_behavioral_proof": true,
+  "reviewed_skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "reviewed_skill_sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+  "reviewed_skill_sha256_verified": true,
+  "codex_copy_same_inode": true,
+  "before_skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "status": "PASS",
+  "skill_reusable": "PASS",
+  "product_verdict": "NO_GO",
+  "handbook_10_2": "INCOMPLETE",
+  "product_candidate": {
+    "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+    "stage0_digest": "801e8ae123c86f1fd4222eb38d97723e0bd7f94eec618d8311b06e750e74a3b7",
+    "after_k04_digest": "340f188defc77ff56c6a5d31974aad2a7c7f6ed432a5f3199ec4e54816ab944e",
+    "skill_sha_during_product_run": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+    "release": "NO_GO"
+  },
+  "unique_ledger_not_updated_for_this_skill_sha": true,
+  "cases_json_still_records_skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "findings": [
+    {
+      "id": "RESIDUAL-VENDOR-READING",
+      "severity": "P3",
+      "evidence_path": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "why_behavioral": "The this-repo appendix that forced env.md, Task API, Orca/Luna/Codex pins, unicode-escape writes, and continue-over-safety is gone. The remaining Claude playbook URL is optional reading with an explicit do-not-copy-vendor-commands fence. Following that line would not recreate S2 (fail a UTF-8 review, treat tool substitution as Skill miss, or guess credentials). It is a residual vendor reading path, not the observed reusable-skill failure.",
+      "required_action": "None for this gate. Do not edit the Skill in this review. Optional later: drop the URL or keep the existing fence."
+    }
+  ],
+  "evaluated_claims": [
+    {
+      "id": "SK-DIGEST-DRIFT",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/freeze-after-k04.json",
+      "why_behavioral": "An agent following only the new Skill, seeing freeze.json 801e8ae1 and graph.py later at 340f188d, must re-freeze and must not upgrade unre-run C01/G07/L01 cards to current PASS. Mixed-digest current PASS is no longer a compliant booking.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-ROW-VS-SLICE",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/k05/factor-matrix.json",
+      "why_behavioral": "factor-matrix.json summary.status=PASS with handbook_claim=false cannot close handbook K05. K11 L1+L3 schema and K06 L1-framework cannot be filed as L4 ledger rows. C01 color rejudge cannot close object-correction.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-HISTORICAL-STATUS",
+      "severity": "closed",
+      "evidence_path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json",
+      "why_behavioral": "S1 under the old appendix froze ledger REVIEW_PASS across a new digest. The new rule keeps historical originals and allows current FAIL/INCOMPLETE. Followup already booked current C01 INCOMPLETE that way.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-FRESH-VERIFIER",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/defects/K04-concurrent-500/review.md",
+      "why_behavioral": "Resuming the implementer thread would violate the executable properties even if a launcher phrase were present. Receipt-before-ledger is executable: CASES.json still has 89ae938a, so this Skill sha was not booked into the unique ledger before this review file landed.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-LIVE-RED-GREEN-REVIEW",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/defects/K04-concurrent-500/after.json",
+      "why_behavioral": "after.json TestClient [200,200] is a different transport and message_id than live k04-after-restart.json PID 37044. The new rule forbids closing the live entry on in-process green, and forbids closing handbook K04 while crash-recovery and at-most-once stay unclaimed.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-UI-POSTSTATE",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/live/l04-browser.json",
+      "why_behavioral": "evaluate/approve/rollback clicks plus screenshots cannot be journey PASS while db_after_rollback.candidate_status remains approved. The new rule requires page/API/database agreement.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-LAYER-BOUNDARY",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/verdict.md",
+      "why_behavioral": "I08 Host/XFF 403 cannot be filed as real reverse-proxy PASS. K11 422 cannot be L4. K06 registry/graph gates cannot be a refund ledger. L4/L5 absence remains BLOCKED/INCOMPLETE and keeps product NO_GO.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-COST-UNKNOWN",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/cost.json",
+      "why_behavioral": "amount=null with model_calls=14 is unknown cost evidence. The new rule forbids inventing a number and forbids using that record as a cost-gate PASS.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-SAFETY-VS-CONTINUE",
+      "severity": "closed",
+      "evidence_path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json",
+      "why_behavioral": "The old continue-must-not-wait override is deleted. Safety stops now outrank continue. Guessing credentials to unblock is forbidden.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-VENDOR-HARDCODE",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/SKILL.diff",
+      "why_behavioral": "A valid UTF-8 review, a recorded browser-tool substitution, or an isolator not named DATA_DIR is no longer a Skill miss. Isolation/executor/tools are freeze facts. See RESIDUAL-VENDOR-READING for the leftover optional URL.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-KEYWORD-CHECKER",
+      "severity": "closed",
+      "evidence_path": "docs/testing/results/reviews/skill-fix-final-review/inverted-keyword-oracle.json",
+      "why_behavioral": "Known-bad implementation: concatenate required phrases. This reviewer recomputed that dummy needles still satisfy check_skill.py while the portable Skill fails that same checker. That inversion is why substring presence/absence cannot be Skill GO.",
+      "required_action": "none"
+    },
+    {
+      "id": "SK-PREMATURE-REVISION",
+      "severity": "closed",
+      "evidence_path": "docs/testing/run-20260911-product-followup/verdict.md",
+      "why_behavioral": "This Skill sha is a post-cycle revision. It does not change product digest 340f188d, does not satisfy handbook 10.2, and cannot be booked as product GO. This review's PASS is Skill-reusable only.",
+      "required_action": "none"
+    }
+  ],
+  "counterexample": {
+    "known_bad_skill_eval": "false-green-skill-needles.txt + check_skill.py => PASS with no agent behavior",
+    "known_bad_product_booking_rejected_by_new_skill": [
+      "mixed-digest C01 live as current PASS",
+      "K05 factor-matrix PASS as handbook K05 PASS",
+      "TestClient after.json as live K04 close",
+      "L04 clicks/screenshots as journey PASS while candidate_status=approved",
+      "this Skill edit as handbook 10.2 GO"
+    ],
+    "rejected": true
+  },
+  "limitations": [
+    "This review judged frozen Skill text against already-collected artifacts. It did not re-execute the 161-row handbook, restart live uvicorn, or replay K04 probes (re-running probe_green.py would overwrite after.json).",
+    "Independent review can confirm that the new rules block the observed wrong actions; it cannot prove a future agent will follow them.",
+    "Prompt/config/embedding-only drift is recorded as freeze facts, but the mandatory re-freeze sentence names product-source/build drift. That narrower trigger was not the observed failure (api.py / graph.py).",
+    "Product release remains NO_GO on the dirty followup tree."
+  ],
+  "evidence_written_this_review": [
+    "docs/testing/results/reviews/skill-fix-final-review/review.md",
+    "docs/testing/results/reviews/skill-fix-final-review/review.json",
+    "docs/testing/results/reviews/skill-fix-final-review/sha-identity.json",
+    "docs/testing/results/reviews/skill-fix-final-review/claims-map.json",
+    "docs/testing/results/reviews/skill-fix-final-review/inverted-keyword-oracle.json"
+  ],
+  "historical_originals_not_overwritten": true,
+  "skill_product_cases_index_readme_untouched": true
+}

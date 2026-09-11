@@ -1,0 +1,83 @@
+{
+  "id": "D01-exact",
+  "priority": "P1",
+  "level": "L3",
+  "status": "PASS",
+  "request": {
+    "session_id": "r2-d01exact-6cbd8a33",
+    "message": "QA-GROK-2C2668E3 孤岛验收电热水壶的容量是多少，颜色是什么？"
+  },
+  "expected": "capacity 5L, color 米白",
+  "status_code": 200,
+  "duration_ms": 7657,
+  "answer": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，随时告诉我～",
+  "intent": "product_inquiry",
+  "customer_intent": "product_inquiry",
+  "requires_human": false,
+  "decision_mode": "answer",
+  "reason": "knowledge_answer_allowed",
+  "sources": [
+    {
+      "id": "kb-e76737144c104afe96f084d162dea1a8",
+      "category": "uploaded_document",
+      "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+      "version": 1,
+      "score": 0.984
+    },
+    {
+      "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.6964
+    },
+    {
+      "id": "seed-0007",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.6684
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept0/dropped0",
+    "context:decision:ready",
+    "context:budget:kept0/dropped0",
+    "deliberate:model:answer",
+    "decision_gate:answer",
+    "retrieve:refined:3",
+    "guard:blocked:0",
+    "context:budget:kept0/dropped0",
+    "context:generation:ready",
+    "context:budget:kept0/dropped0",
+    "generate:model",
+    "verify:passed",
+    "postcondition:answer",
+    "persist"
+  ],
+  "trace_id": "trace-48ee8bec1c7a4e4d989cf525ece79a68",
+  "message_id": "msg-3b873dadc97f482899a8fa254531b68b",
+  "persisted": {
+    "id": "msg-3b873dadc97f482899a8fa254531b68b",
+    "role": "assistant",
+    "content": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，随时告诉我～",
+    "intent": "product_inquiry",
+    "risk_level": "low",
+    "route_reason": "knowledge_answer_allowed",
+    "sources_json": "[{\"id\": \"kb-e76737144c104afe96f084d162dea1a8\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.984}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.6964}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.6684}]",
+    "trace_id": "trace-48ee8bec1c7a4e4d989cf525ece79a68",
+    "model_fallback": 0,
+    "content_matches_response": true
+  },
+  "used_synthetic": true,
+  "notes": [
+    "synthetic source/id present"
+  ],
+  "error": null
+}

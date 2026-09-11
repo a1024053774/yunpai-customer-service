@@ -8,7 +8,7 @@ from typing import Any
 
 from ..customer_service import CustomerServiceCore
 from ..database import utc_now
-from ..text_utils import checksum, hash_embedding, search_text, vector_to_blob
+from ..text_utils import checksum, search_text, vector_to_blob
 
 
 DEMO_STORE_ID = "demo-qingchuan-shop"
@@ -273,6 +273,7 @@ def _seed_knowledge(core: CustomerServiceCore, *, tenant_id: str) -> int:
             if existing is not None:
                 _refresh_demo_knowledge(
                     conn, doc_id=str(existing["id"]), record=record, tenant_id=tenant_id,
+                    embedding_provider=core.knowledge.embedding_provider,
                 )
                 continue
         core.knowledge.add_document(
@@ -300,6 +301,7 @@ def _seed_knowledge(core: CustomerServiceCore, *, tenant_id: str) -> int:
 
 def _refresh_demo_knowledge(
     conn: Any, *, doc_id: str, record: dict[str, Any], tenant_id: str,
+    embedding_provider: Any,
 ) -> None:
     """已存在的示例话术也对齐最新文案，并清掉 sku 范围（否则检索会因未带 sku_id 被滤掉）。"""
     indexed_text = search_text(
@@ -307,7 +309,10 @@ def _refresh_demo_knowledge(
         record["category"], record["intent"],
     )
     embedding = vector_to_blob(
-        hash_embedding(f"{record['question']} {record['keywords']} {record['answer']}")
+        embedding_provider.embed_document(f"{record['question']} {record['keywords']} {record['answer']}")
+    )
+    embedding_model = str(
+        getattr(embedding_provider, "identity", None) or embedding_provider.name
     )
     now = utc_now()
     digest = checksum(
@@ -318,12 +323,12 @@ def _refresh_demo_knowledge(
         """
         UPDATE knowledge SET
             category=?, intent=?, question=?, answer=?, keywords=?, search_text=?,
-            embedding=?, sku_id=?, checksum=?, updated_at=?
+            embedding=?, embedding_model=?, sku_id=?, checksum=?, updated_at=?
         WHERE id=?
         """,
         (
             record["category"], record["intent"], record["question"], record["answer"],
-            record["keywords"], indexed_text, embedding, record["sku_id"], digest, now,
+            record["keywords"], indexed_text, embedding, embedding_model, record["sku_id"], digest, now,
             doc_id,
         ),
     )

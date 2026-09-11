@@ -1,0 +1,67 @@
+{
+  "id": "C01-followup-color",
+  "priority": "P1",
+  "level": "L3",
+  "status": "FAIL",
+  "request": {
+    "session_id": "r2-d01exact-6cbd8a33",
+    "message": "这个颜色是什么"
+  },
+  "expected": "color 米白",
+  "status_code": 200,
+  "duration_ms": 5791,
+  "answer": "您问的是哪款商品的颜色呢？可以发一下商品名称或链接，我帮您核对具体颜色～",
+  "sources": [
+    {
+      "id": "seed-0014",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.8332
+    },
+    {
+      "id": "seed-0007",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.8073
+    },
+    {
+      "id": "seed-0004",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.7001
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept2/dropped0",
+    "context:decision:ready",
+    "context:budget:kept2/dropped0",
+    "deliberate:model:clarify",
+    "decision_gate:clarify",
+    "terminal_output:passed",
+    "clarify",
+    "postcondition:input_required",
+    "persist"
+  ],
+  "trace_id": "trace-2d7f3f179b7f41b89b94110605be3fcf",
+  "persisted": {
+    "id": "msg-d2d8f71e752847f2b71161da8b17900a",
+    "role": "assistant",
+    "content": "您问的是哪款商品的颜色呢？可以发一下商品名称或链接，我帮您核对具体颜色～",
+    "intent": "product",
+    "risk_level": "low",
+    "route_reason": "llm_clarification_required",
+    "sources_json": "[{\"id\": \"seed-0014\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8332}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8073}, {\"id\": \"seed-0004\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7001}]",
+    "trace_id": "trace-2d7f3f179b7f41b89b94110605be3fcf",
+    "model_fallback": 0,
+    "content_matches_response": true
+  }
+}

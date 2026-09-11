@@ -1,0 +1,8 @@
+{
+  "saved_utc": "2026-09-11T09:19:53.144320+00:00",
+  "data_dir": "/Users/luckye/Documents/Code/yunpai-customer-service/data",
+  "returncode": 1,
+  "stdout_preview": "",
+  "stderr_preview": "ISO-001: refusing workspace data/; set DATA_DIR under /tmp\n",
+  "status": "PASS"
+}

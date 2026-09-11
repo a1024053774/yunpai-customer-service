@@ -1,0 +1,54 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "original_goals": [
+    {
+      "goal": "DeepSeek Flash for intent recognition; no keyword-only routing",
+      "direction": "ALIGNED",
+      "evidence": "tests/test_intent.py; tests/test_domain_profiles.py",
+      "acceptance": "local behavior tests pass; live model matrix remains separate"
+    },
+    {
+      "goal": "DeepSeek Flash vision for image questions",
+      "direction": "ALIGNED",
+      "evidence": "tests/test_vision.py; run product-followup live evidence",
+      "acceptance": "local gateway/flow covered; live image handbook K05 remains INCOMPLETE"
+    },
+    {
+      "goal": "multi-turn and ambiguity handling",
+      "direction": "ALIGNED_INCOMPLETE",
+      "evidence": "tests/test_demo_chat.py; C01 product-followup",
+      "acceptance": "color follow-up slice passed; object-correction turn not executed"
+    },
+    {
+      "goal": "local usable retrieval with no paid RAG dependency",
+      "direction": "ALIGNED",
+      "evidence": "pyproject.toml and package inventory",
+      "acceptance": "FastEmbed/BM25/SQLite local; DeepSeek API cost remains separate"
+    },
+    {
+      "goal": "PDF/TXT/Markdown import and knowledge management",
+      "direction": "ALIGNED_INCOMPLETE",
+      "evidence": "tests/test_knowledge_ingest.py; product-followup L04",
+      "acceptance": "local import passes; full UI post-state/production boundary incomplete"
+    },
+    {
+      "goal": "corpus, self-evolution, experience sedimentation",
+      "direction": "ALIGNED_INCOMPLETE",
+      "evidence": "tests/test_knowledge_ingest.py; product-followup live/l04-browser.json",
+      "acceptance": "candidate flow exists; rollback page/API/DB status mismatch remains"
+    },
+    {
+      "goal": "future standalone sales site and similar HR capability",
+      "direction": "SCOPE_PRESENT_NOT_ACCEPTED",
+      "evidence": "domain profiles and acceptance ledger",
+      "acceptance": "independent site/HR/real gateway/ledger not proven"
+    },
+    {
+      "goal": "evidence-backed delivery, not report-only acceptance",
+      "direction": "DRIFT_IN_PROCESS",
+      "evidence": "product-followup freeze.json and freeze-after-k04.json",
+      "acceptance": "candidate digest drift was observed; current product remains NO_GO"
+    }
+  ],
+  "overall": "Product concept remains aligned. Acceptance process and evidence completeness lag the intended delivery boundary; this is not a product-direction replacement."
+}

@@ -1,0 +1,29 @@
+<!doctype html><meta charset=utf-8><title>G04 before</title><pre>{
+  "id": "G04",
+  "priority": "P1",
+  "level": "L1",
+  "phase": "before",
+  "status": "INCOMPLETE",
+  "expected": "verify error/timeout does not emit risky draft; explicit fail or safe degrade",
+  "actual": {
+    "raised_to_caller": true,
+    "answer": "",
+    "reason": "RuntimeError: forced_verify_timeout",
+    "requires_human": null,
+    "route_reason": null,
+    "trace": [],
+    "leaked_table_draft": false,
+    "leaked_persist": false,
+    "leaked_sse": false,
+    "persisted": [],
+    "sse_error": "RuntimeError: forced_verify_timeout",
+    "sse_event_count": 0,
+    "sse_events": []
+  },
+  "notes": [
+    "same monkeypatch as 0131: graph.review_output raises RuntimeError forced_verify_timeout",
+    "INCOMPLETE if exception escapes without classified degrade",
+    "PASS only if no draft leak and caller gets a handled response"
+  ],
+  "saved_utc": "2026-09-11T02:28:40.649387+00:00"
+}</pre>

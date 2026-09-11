@@ -65,7 +65,11 @@ class Settings:
     model_decision_timeout_seconds: float = 15.0
     model_decision_max_output_tokens: int = 300
     model_decision_thinking_enabled: bool = False
-    intent_classify_timeout_seconds: float = 2.0
+    intent_classify_timeout_seconds: float = 15.0
+    business_domain: str = "ecommerce"
+    # RAG 向量后端：hash 仅用于离线 Demo；生产可显式切换 FastEmbed 多语模型。
+    rag_embedding_provider: str = "hash"
+    rag_embedding_model: str = "BAAI/bge-small-zh-v1.5"
     # 四套场景 Prompt 是否注入生产回答链路（M3 交付物⑥接入；默认开启）
     rag_scene_prompts: bool = True
     # 启动时是否导入 02_clean 资产知识（M3 接入；测试设 false 提速，生产默认 true）
@@ -190,8 +194,13 @@ class Settings:
                 os.getenv("MODEL_DECISION_THINKING_ENABLED"), default=False
             ),
             intent_classify_timeout_seconds=max(
-                0.001, float(os.getenv("INTENT_CLASSIFY_TIMEOUT_SECONDS", "2.0"))
+                0.001, float(os.getenv("INTENT_CLASSIFY_TIMEOUT_SECONDS", "15.0"))
             ),
+            business_domain=os.getenv("BUSINESS_DOMAIN", "ecommerce").strip().lower(),
+            rag_embedding_provider=os.getenv("RAG_EMBEDDING_PROVIDER", "hash").strip().lower(),
+            rag_embedding_model=os.getenv(
+                "RAG_EMBEDDING_MODEL", "BAAI/bge-small-zh-v1.5"
+            ).strip(),
             handoff_confidence_threshold=max(
                 0.0,
                 min(1.0, float(os.getenv("HANDOFF_CONFIDENCE_THRESHOLD", "0.6"))),

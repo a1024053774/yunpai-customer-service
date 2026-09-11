@@ -245,11 +245,9 @@ class KnowledgeSecurityGuard:
             hits.append("landline")
         return hits
 
-    # ---------- ③ 任务摄取拒绝（检索前意图门） ----------
+    # ---------- ③ Explicit private-data and credential boundaries ----------
 
     _OUT_OF_SCOPE_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-        ("competitor_data", re.compile(r"竞品|同行|对家|竞对|竞争对手|别家|友商|对手店", re.IGNORECASE)),
-        ("competitor_data", re.compile(r"(?:他们|对方|别家|友商).{0,6}(?:销量|价格|库存|报价)", re.IGNORECASE)),
         # 他人隐私：必须限定"别人/另一个/某个用户"的所有格 + 敏感数据（放行"我的/自己的"）
         ("private_data", re.compile(r"(?:别人的|另一个|其他(?:人|用户|顾客|买家|客户)?的|某个(?:用户|顾客|买家|客户)的|那位(?:顾客|买家|用户)?的)(?:手机号|电话|手机|号码|地址|订单|信息|身份证)", re.IGNORECASE)),
         ("private_data", re.compile(r"(?:查|查一下|给我|告诉我|说下|找找|调出)(?:下|一下)?(?:所有|全部|任意|每个|另一个|别的)(?:用户|顾客|买家|客户)?(?:的)?(?:手机号|电话|地址|身份证|订单|订单信息|订单列表)", re.IGNORECASE)),
@@ -269,7 +267,6 @@ class KnowledgeSecurityGuard:
         ("forbidden_entity", re.compile(r"(?:别人的|他的|她的|某个(?:用户|账号)?的)(?:密码|验证码|账号|卡号)", re.IGNORECASE)),
         ("forbidden_entity", re.compile(r"(?:查|告诉我|给我|获取|盗)(?:一下)?(?:别人的|他的|她的|用户的|某人的)?(?:密码|验证码|登录账号|银行卡)", re.IGNORECASE)),
         ("forbidden_entity", re.compile(r"(?:身份证号|银行卡号|卡号)是多少|查(?:一下)?(?:身份证|银行卡)", re.IGNORECASE)),
-        ("legal_boundary", re.compile(r"违法|走私|假货|仿冒|刷单|绕过.{0,6}(?:审核|监管)|黑产|诈骗", re.IGNORECASE)),
     ]
 
     # R2 修复：自指代词（我的/自己的/本人/俺）不作为"他人姓名"拦截。
@@ -278,18 +275,14 @@ class KnowledgeSecurityGuard:
     _SELF_REFERENTIAL = frozenset("我自分本俺")
 
     def classify_request(self, query: str) -> GuardDecision:
-        """检索前意图门：识别超范围请求并拒绝/升级。
+        """Check explicit private-data/credential boundaries before retrieval.
 
-        返回 GuardDecision：
-        - allow：正常业务问题，放行检索
-        - block + action=escalate：越权/敏感请求，升级人工
-        - block + action=block：明确违规/拒绝
+        Ordinary business topics and action intent are decided by the model.
         """
         if not query or not query.strip():
             return GuardDecision.allow()
         q = query.strip()
         hits: list[str] = []
-        escalate = False
         for label, pat in self._OUT_OF_SCOPE_PATTERNS:
             blocked = False
             if pat.groups:
@@ -304,22 +297,8 @@ class KnowledgeSecurityGuard:
                 blocked = bool(pat.search(q))
             if blocked:
                 hits.append(label)
-                if label == "competitor_data":
-                    escalate = True
         if hits:
-            action = "escalate" if escalate else "block"
-            # 投诉语境降级：legal_boundary 命中"假货/诈骗/刷单"等词时，
-            # 若为"受害/举报"句式（收到/买到/我被/我要投诉/遇到），降为 escalate（转人工），
-            # 而不是 block（拒绝）——消费者投诉是最核心的客服场景，不能直接拒绝。
-            if (
-                action == "block"
-                and "legal_boundary" in hits
-                and re.search(
-                    r"收到|买到了|买到假货|我被|我是受害者|遇到|我要投诉|投诉退款|退货|举报|上当受骗|被骗了",
-                    q,
-                )
-            ):
-                action = "escalate"
+            action = "block"
             return GuardDecision.block(
                 reason="out_of_scope_request",
                 detail=f"命中超范围请求类别: {', '.join(hits)}",

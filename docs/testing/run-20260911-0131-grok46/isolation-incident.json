@@ -1,0 +1,8 @@
+{
+  "id": "ISO-001",
+  "status": "CONTAINED",
+  "what": "first start_servers sourced env.md after DATA_DIR export; env.md overwrote DATA_DIR to workspace data/",
+  "action": "killed pid immediately; deleted data/.host-api-creds.json; no chat probes on that process",
+  "restart": "source env.md then export DATA_DIR=/tmp/yunpai-live-grok46-20260911; start_servers now refuses workspace data/",
+  "chat_probes_used": "/private/tmp/yunpai-live-grok46-20260911"
+}

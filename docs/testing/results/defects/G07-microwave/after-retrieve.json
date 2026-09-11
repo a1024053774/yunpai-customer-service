@@ -1,0 +1,26 @@
+{
+  "note": "Implementer dump after ingest stores knowledge_intent. Not independent acceptance. Not live FastEmbed.",
+  "stored_intent": "product",
+  "query": "QA-FIX-G07A1 可以放进微波炉加热吗？",
+  "top": [
+    {
+      "id": "kb-091877c122ea4bf6bf1af2bcc5729cd1",
+      "score": 0.7094,
+      "intent": "product",
+      "source": "upload://synthetic-QA-FIX-G07A1.txt?sha256=936be9c922fd340d#page=1&chunk=1"
+    },
+    {
+      "id": "demo:qingchuan-airfryer-clean:15b07900",
+      "score": 0.6396,
+      "intent": "product",
+      "source": "demo:qingchuan-catalog-v1"
+    },
+    {
+      "id": "seed-0004",
+      "score": 0.539,
+      "intent": "product",
+      "source": "builtin:ecommerce-sop-v1"
+    }
+  ],
+  "first_is_imported": true
+}

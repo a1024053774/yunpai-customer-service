@@ -1,0 +1,17 @@
+{
+  "id": "7.2",
+  "reviewer": "cursor-grok-4.6-detached",
+  "agent_id": "93832a6f-bab4-4e4d-9203-97fc95d54c36",
+  "resumed": false,
+  "luna": false,
+  "status": "PASS",
+  "target": "frozen policy.py sha256 7d05f60604b3121d4b360f0e14e07499450f1405ae8a13b1b427bfd892628014",
+  "contract": "5L evidence must not ship 5 years; legal ordinals still allowed; unevidenced 1.99/95% still blocked",
+  "findings": [],
+  "limitations": [
+    "5 yrs and five years still pass against 5L",
+    "bag-of-pairs matcher, not relational original-truth",
+    "not live host/SSE/L3"
+  ],
+  "reviewed_utc": "2026-09-11T06:40:36.519584+00:00"
+}

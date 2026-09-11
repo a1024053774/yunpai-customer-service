@@ -1,0 +1,22 @@
+{
+  "ecommerce": {
+    "label": "电商销售",
+    "description": "商品、订单、履约与售后服务",
+    "intents": {
+      "product_inquiry": "商品与售前信息",
+      "after_sales": "订单或售后事项办理",
+      "complaint": "服务或履约投诉",
+      "chitchat": "问候或无明确诉求"
+    }
+  },
+  "hr": {
+    "label": "员工服务",
+    "description": "制度、福利、入职与员工事项",
+    "intents": {
+      "product_inquiry": "制度、福利或岗位信息咨询",
+      "after_sales": "请假、报销或入职事项办理",
+      "complaint": "薪资、合规或员工关系申诉",
+      "chitchat": "问候或无明确诉求"
+    }
+  }
+}

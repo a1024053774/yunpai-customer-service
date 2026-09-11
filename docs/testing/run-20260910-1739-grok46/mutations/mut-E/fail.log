@@ -1,0 +1,36 @@
+.FFF..................                                                   [100%]
+=================================== FAILURES ===================================
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f] _
+tests/test_framework_audit.py:61: in test_model_policy_answer_is_not_overridden_by_lexical_routing
+    assert response.requires_human is False, response.reason
+E   AssertionError: business_action_requires_verified_execution
+E   assert True is False
+E    +  where True = ChatResponse(message_id='msg-37d7861d82974a4bbd8eabe82118b1db', trace_id='trace-0ce4292ae42c404abb6d21281d73a3e4', ses...put:passed', 'human_handoff', 'postcondition:handoff_proposed', 'persist'], decision_mode='answer', decision_tool=None).requires_human
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f] _
+tests/test_framework_audit.py:60: in test_model_policy_answer_is_not_overridden_by_lexical_routing
+    assert 'agent_decision' in model.json_tasks
+E   AssertionError: assert 'agent_decision' in ['intent_classification']
+E    +  where ['intent_classification'] = <customer_service_fixtures.TableDrivenModel object at 0x10e189f10>.json_tasks
+__________ test_mock_agent_decision_does_not_parse_customer_keywords ___________
+tests/test_framework_audit.py:74: in test_mock_agent_decision_does_not_parse_customer_keywords
+    assert decision('请马上给我退款') == decision('今天心情很好')
+E   AssertionError: assert {'arguments':...'refund', ...} == {'arguments':...general', ...}
+E     
+E     Omitting 5 identical items, use -vv to show
+E     Differing items:
+E     {'reason': 'business_action_requested'} != {'reason': 'knowledge_answer'}
+E     {'expected_outcome': 'business_operation_verified'} != {'expected_outcome': None}
+E     {'intent': 'refund'} != {'intent': 'general'}
+E     {'mode': 'act'} != {'mode': 'answer'}
+E     Use -v to get more diff
+=============================== warnings summary ===============================
+../../../Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f]
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f]
+FAILED tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords
+3 failed, 19 passed, 1 warning in 81.03s (0:01:21)

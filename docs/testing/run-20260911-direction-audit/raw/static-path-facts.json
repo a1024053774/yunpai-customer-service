@@ -1,0 +1,114 @@
+{
+  "src/yunpai_customer_service/config.py": {
+    "sha256": "d79db5c64042994c6242079d09b4a856892a23067a4225e96e12e60f0fd643ed",
+    "contains": {
+      "generate_json": false,
+      "FastEmbedProvider": false,
+      "BM25": false,
+      "sqlite3": true,
+      "deepseek": true,
+      "intent_method": false,
+      "keyword": false,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  },
+  "src/yunpai_customer_service/intent.py": {
+    "sha256": "4fa045d4b8c7f046792db30ec2978fab9e9f4e686cd78d26292bd04cccdc710c",
+    "contains": {
+      "generate_json": true,
+      "FastEmbedProvider": false,
+      "BM25": false,
+      "sqlite3": false,
+      "deepseek": false,
+      "intent_method": false,
+      "keyword": false,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  },
+  "src/yunpai_customer_service/llm.py": {
+    "sha256": "a70241d6d2b598ab6efbd9b785cf6929013507f8ed4a96e6d9f09bfd00111b8c",
+    "contains": {
+      "generate_json": true,
+      "FastEmbedProvider": false,
+      "BM25": false,
+      "sqlite3": false,
+      "deepseek": true,
+      "intent_method": false,
+      "keyword": false,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  },
+  "src/yunpai_customer_service/rag.py": {
+    "sha256": "553ca920c6c994e472e4d8935cf531431e96e01f0e67a7af1d521fc0b5c2e112",
+    "contains": {
+      "generate_json": false,
+      "FastEmbedProvider": false,
+      "BM25": true,
+      "sqlite3": false,
+      "deepseek": false,
+      "intent_method": false,
+      "keyword": true,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  },
+  "src/yunpai_customer_service/embeddings.py": {
+    "sha256": "fa78bc1d0cccc7a5c48996647466bab159479c1903f97e398bc1c92dc1ae8600",
+    "contains": {
+      "generate_json": false,
+      "FastEmbedProvider": true,
+      "BM25": false,
+      "sqlite3": false,
+      "deepseek": false,
+      "intent_method": false,
+      "keyword": false,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  },
+  "src/yunpai_customer_service/knowledge_ingest.py": {
+    "sha256": "abe4413028833f3fd3a7f6e2a09bdbfae09f51ba76fa7a786d0e5edfbf2ba9f9",
+    "contains": {
+      "generate_json": false,
+      "FastEmbedProvider": false,
+      "BM25": false,
+      "sqlite3": false,
+      "deepseek": false,
+      "intent_method": false,
+      "keyword": true,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": true,
+      "pdfplumber": true
+    }
+  },
+  "src/yunpai_customer_service/api.py": {
+    "sha256": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+    "contains": {
+      "generate_json": false,
+      "FastEmbedProvider": false,
+      "BM25": false,
+      "sqlite3": false,
+      "deepseek": false,
+      "intent_method": false,
+      "keyword": false,
+      "Pinecone": false,
+      "Weaviate": false,
+      "Docling": false,
+      "pdfplumber": false
+    }
+  }
+}

@@ -8,7 +8,6 @@ from typing import Any
 import httpx
 
 from .config import Settings
-from .policy import is_business_action_request
 from .decision import extract_json_object
 
 
@@ -451,208 +450,21 @@ class ModelGateway:
         except (TypeError, json.JSONDecodeError):
             task = {}
         if task.get("task_type") == "intent_classification":
-            message = str(task.get("message", ""))
-            intent = "chitchat"
-            mappings = (
-                (
-                    "complaint",
-                    ("态度", "不满意", "欺骗", "糟糕", "太差", "失望", "恶劣"),
-                ),
-                (
-                    "after_sales",
-                    (
-                        "坏了",
-                        "破损",
-                        "没收到",
-                        "退钱",
-                        "退款",
-                        "退货",
-                        "换货",
-                        "保修",
-                        "物流",
-                        "包裹",
-                        "补发",
-                        "维修",
-                        "少件",
-                    ),
-                ),
-                (
-                    "product_inquiry",
-                    ("颜色", "款式", "功能", "适合", "有货", "库存", "介绍", "重量", "容量"),
-                ),
-            )
-            for candidate, keywords in mappings:
-                if any(keyword in message for keyword in keywords):
-                    intent = candidate
-                    break
-            # 刻意套上信封：真实的 glm-4.7-flash 就是这么返回的。mock 若只吐出
-            # 解析代码期望的完美形状，它验证的就只是作者的假设，而不是依赖的行为。
+            # Mock mode exercises the structured-model contract only.  It deliberately
+            # does not inspect user text; semantic intent evidence must come from the live
+            # shared model (or an injected table-driven test model).
             return json.dumps(
-                {"answer": {"intent": intent, "confidence": 0.82}},
+                {"intent": "product_inquiry", "confidence": 0.5},
                 ensure_ascii=False,
             )
         if task.get("task_type") == "agent_decision":
-            payload = task
-            question = str(payload.get("user_question", ""))
-            catalog = payload.get("current_tool_catalog", [])
-            tool_names = {item.get("name") for item in catalog if isinstance(item, dict)}
-            observation = payload.get("latest_observation") or {}
-            trusted_context = payload.get("trusted_context") or {}
-            if observation.get("postcondition_met") is True:
-                decision = {
-                    "intent": observation.get("intent", "general"),
-                    "mode": "finish",
-                    "tool_name": None,
-                    "arguments": {},
-                    "missing_fields": [],
-                    "expected_outcome": None,
-                    "response": None,
-                    "reason": "verified_tool_result_available",
-                    "confidence": 0.95,
-                }
-            elif any(word in question for word in ("转人工", "人工客服", "真人客服")):
-                decision = {
-                    "intent": "human", "mode": "handoff", "tool_name": None,
-                    "arguments": {}, "missing_fields": [], "expected_outcome": None,
-                    "response": None, "reason": "customer_requested_human", "confidence": 0.99,
-                }
-            elif (
-                any(word in question for word in ("我的订单", "查一下订单", "订单状态", "我的物流"))
-                and trusted_context.get("authorized") is not True
-            ):
-                decision = {
-                    "intent": "order", "mode": "clarify", "tool_name": None,
-                    "arguments": {}, "missing_fields": ["平台订单编号"],
-                    "expected_outcome": None, "response": None,
-                    "reason": "order_identity_required", "confidence": 0.9,
-                }
-            elif any(
-                marker in question
-                for marker in (
-                    "投诉",
-                    "举报",
-                    "差评",
-                    "曝光",
-                    "破损",
-                    "漏水",
-                    "发错",
-                    "服务太差",
-                    "服务态度",
-                    "没有回复",
-                    "没人处理",
-                    "弄丢",
-                    "不一致",
-                    "给个说法",
-                    "一直不更新",
-                )
-            ) or ("重复" in question and "退" in question):
-                decision = {
-                    "intent": "complaint",
-                    "mode": "handoff",
-                    "tool_name": None,
-                    "arguments": {},
-                    "missing_fields": [],
-                    "expected_outcome": None,
-                    "response": None,
-                    "reason": "complaint_requires_human",
-                    "confidence": 0.9,
-                }
-            elif any(
-                marker in question
-                for marker in ("天气", "谢谢", "笑话", "吃饭", "旅行", "你好", "再见")
-            ):
-                decision = {
-                    "intent": "chitchat",
-                    "mode": "answer",
-                    "tool_name": None,
-                    "arguments": {},
-                    "missing_fields": [],
-                    "expected_outcome": None,
-                    "response": None,
-                    "reason": "chitchat",
-                    "confidence": 0.9,
-                }
-            elif is_business_action_request(question):
-                intent = (
-                    "refund"
-                    if "退款" in question or "退钱" in question
-                    else "after_sales"
-                    if any(word in question for word in ("补发", "赔偿", "赔付", "补偿"))
-                    else "order"
-                )
-                preferred = "refund_order" if "退款" in question else "update_order"
-                decision = {
-                    "intent": intent,
-                    "mode": "act",
-                    "tool_name": preferred,
-                    "arguments": {},
-                    "missing_fields": [],
-                    "expected_outcome": "business_operation_verified",
-                    "response": None,
-                    "reason": "business_action_requested",
-                    "confidence": 0.9 if preferred in tool_names else 0.65,
-                }
-            else:
-                intent = "general"
-                mappings = [
-                    (
-                        "product",
-                        (
-                            "尺码",
-                            "材质",
-                            "安装",
-                            "商品",
-                            "产品",
-                            "保修",
-                            "质保",
-                            "维修",
-                        ),
-                    ),
-                    ("inventory", ("现货", "库存", "补货")),
-                    ("price_promo", ("优惠", "价格", "券", "到手价")),
-                    ("refund", ("退款", "到账")),
-                    ("return_exchange", ("退货", "换货", "七天")),
-                    ("logistics", ("物流", "快递", "签收", "到哪")),
-                    ("shipping", ("预售", "发货", "配送时效")),
-                    ("payment", ("扣款", "支付", "付款")),
-                    ("after_sales", ("少发", "漏发", "错发", "配件", "破损")),
-                    ("security", ("验证码", "密码", "诈骗", "可疑")),
-                    ("invoice", ("发票", "开票")),
-                    ("order", ("订单",)),
-                    ("complaint", ("投诉",)),
-                ]
-                for name, words in mappings:
-                    if any(word in question for word in words):
-                        intent = name
-                        break
-                decision = {
-                    "intent": intent, "mode": "answer", "tool_name": None,
-                    "arguments": {}, "missing_fields": [], "expected_outcome": None,
-                    "response": None, "reason": "knowledge_answer", "confidence": 0.8,
-                }
-            return json.dumps(decision, ensure_ascii=False)
-        context_marker = "当前会话的授权业务上下文："
-        if context_marker in context:
-            raw_context = context.split(context_marker, 1)[1].split(
-                "\n\n已验证工具结果：", 1
-            )[0]
-            try:
-                context_package = json.loads(raw_context)
-            except ValueError:
-                context_package = {}
-            candidates = context_package.get("product_advisor", {}).get(
-                "candidates", []
-            )
-            question = context.split("用户问题：", 1)[1].split("\n\n", 1)[0]
-            if len(candidates) == 1 and any(
-                word in question for word in ("多少钱", "价格", "价钱", "售价")
-            ):
-                candidate = candidates[0]
-                return (
-                    f"{candidate['title']} 当前目录价格为 "
-                    f"{candidate['sale_price']} {candidate['currency']}，"
-                    "实际支付金额请以结算页实时展示为准。"
-                )
+            # A mock verifies wiring, not customer semantics; do not maintain a second
+            # classifier or pretend a tool operation happened.
+            return json.dumps({
+                "intent": "general", "mode": "answer", "tool_name": None,
+                "arguments": {}, "missing_fields": [], "expected_outcome": None,
+                "response": None, "reason": "mock_contract_response", "confidence": 0.8,
+            }, ensure_ascii=False)
         marker = "参考知识："
         if marker in context:
             knowledge = context.split(marker, 1)[1].split("\n\n当前会话", 1)[0]

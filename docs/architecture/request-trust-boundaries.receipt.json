@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/architecture/request-trust-boundaries.json",
+  "output": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/architecture/request-trust-boundaries.html",
+  "specification": {
+    "sha256": "aa2f8414682a52712cb123d6558aaf2a80a1723066080afc37e251861c1f6c38",
+    "bytes": 3077
+  },
+  "artifact": {
+    "sha256": "896610a178c42481dd7db02aa359e981491ac6cdce1fd9dfc28e8a831948a814",
+    "bytes": 800885
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}

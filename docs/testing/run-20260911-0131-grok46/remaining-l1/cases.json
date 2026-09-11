@@ -1,0 +1,186 @@
+{
+  "saved_utc": "2026-09-10T17:39:03.051580+00:00",
+  "run_id": "run-20260911-0131-grok46",
+  "level": "L0/L1",
+  "cases": [
+    {
+      "id": "A09",
+      "priority": "P1",
+      "level": "L0",
+      "status": "INCOMPLETE",
+      "expected": "unused copied config / empty impls not described as delivered",
+      "actual": {
+        "todo_count": 0,
+        "todo_sample": []
+      },
+      "notes": [
+        "scan only; cannot PASS from grep"
+      ]
+    },
+    {
+      "id": "G05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "legal list ordinals allowed",
+      "actual": {
+        "passed": true,
+        "reason": "output_policy_passed"
+      },
+      "notes": [
+        "review_output helper; not full SSE persist"
+      ]
+    },
+    {
+      "id": "G06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "unevidenced 1.99 / 95% blocked",
+      "actual": {
+        "passed": false,
+        "reason": "numeric_claim_without_evidence"
+      },
+      "notes": [
+        "review_output helper; 24h claim not included"
+      ]
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "forced verify reject never ships unaudited draft",
+      "actual": {
+        "answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+        "reason": "forced_verify_reject",
+        "requires_human": true,
+        "leaked_table_draft": false
+      },
+      "notes": [
+        "core L1 only; host/Demo/cache-replay not executed",
+        "monkeypatched graph.review_output to always reject"
+      ]
+    },
+    {
+      "id": "G04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "verify error/timeout does not emit risky draft; explicit fail or safe degrade",
+      "actual": {
+        "raised_to_caller": true,
+        "answer": "",
+        "reason": "RuntimeError: forced_verify_timeout",
+        "leaked_table_draft": false
+      },
+      "notes": [
+        "INCOMPLETE if exception escapes without classified degrade",
+        "PASS only if no draft leak and caller gets a handled response"
+      ]
+    },
+    {
+      "id": "D03",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "same-name docs stay in authorized store; missing/forged store_id cannot read shop rows",
+      "actual": {
+        "store_a1": [
+          "store A1 rice-white 5L"
+        ],
+        "missing_store_id": [],
+        "forged_store_id": [],
+        "a1_ok": true,
+        "missing_ok": true,
+        "forged_ok": true
+      },
+      "notes": [
+        "retrieve() contract. Chat-path host binding remains N04/I06."
+      ]
+    },
+    {
+      "id": "I06",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "customer cannot escalate store/order via request; host must bind store",
+      "actual": {
+        "demo_chat_rejects_context_field": true,
+        "forged_store_reached_sources": false,
+        "forged_order_id_kept": false,
+        "answer": "SECRET-I06-419-ONLY-STORE-B",
+        "sources": "[{\"id\": \"kb-9c0957edc4b14830bb2e8072dd7fdfdf\", \"category\": \"product\", \"source\": \"fixture:i06-secret\", \"version\": 1, \"score\": 0.6804}]",
+        "can_supply_order_context": false
+      },
+      "notes": [
+        "Demo /api/chat schema forbids client context (store bound server-side).",
+        "Host /v1/chat forwards payload.context; store_id is allowed and not stripped.",
+        "Real same-tenant unauthorized shop mapping needs N04 site login."
+      ]
+    },
+    {
+      "id": "I05",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "same-name original of another tenant is not listed or downloaded",
+      "actual": {
+        "listed": [],
+        "other_get": 404,
+        "other_name": "aaaaaaaaaaaaaaaa-catalog.pdf"
+      },
+      "notes": [
+        "same filename catalog.pdf; digest prefix differs",
+        "own-file positive download not claimed"
+      ]
+    },
+    {
+      "id": "I11",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "HTML/script/SQL in message are not executed; display escaped",
+      "actual": {
+        "chat_returned": true,
+        "review_script": {
+          "passed": false,
+          "reason": "numeric_claim_without_evidence"
+        },
+        "answer_preview": "当前无法可靠完成自动处理，我会把现有信息和执行记录转给人工客服。"
+      },
+      "notes": [
+        "core does not execute HTML; not XSS proof of Demo page",
+        "browser CSP/escape not run"
+      ]
+    },
+    {
+      "id": "J05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "5 MiB N-1/N/N+1 rejected consistently",
+      "actual": {
+        "max_request_body_bytes": 2048,
+        "MAX_CHAT_IMAGE_BYTES": 5242880,
+        "test_settings_body_limit_below_5mib": true
+      },
+      "notes": [
+        "schema constant is 5 MiB; existing tests cover MIME mismatch",
+        "no decoded 5MiB image posted this run"
+      ]
+    },
+    {
+      "id": "H06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "expired memory is not recalled before renewal",
+      "actual": {
+        "memory_id": "kg-memory-e14c432212b5",
+        "recalled_keys": [],
+        "leaked": false
+      }
+    }
+  ]
+}

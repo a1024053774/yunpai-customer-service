@@ -1,0 +1,37 @@
+uid=1_0 RootWebArea "云派智能客服" url="http://127.0.0.1:53120/"
+  uid=1_1 banner
+    uid=1_2 StaticText "云派智能客服"
+    uid=1_3 StaticText "本机演示 · 晴川小家电 · 对话、知识库与经验沉淀"
+    uid=1_4 link "知识库" url="http://127.0.0.1:53120/admin"
+      uid=1_5 StaticText "知识库"
+    uid=1_6 button "查看支持功能和版本更新" expandable haspopup="dialog"
+    uid=1_7 StaticText "真实模型 · deepseek-v4-flash · 识图 deepseek-v4-flash-vision-exp · 检索 fastembed"
+  uid=1_8 main
+    uid=1_9 complementary
+      uid=1_10 heading "常见问题" level="1"
+      uid=1_11 StaticText "已预装晴川小家电目录。可点选后发送，也可继续追问「这个有几种颜色」。"
+      uid=1_12 button "5L 空气炸锅容量"
+      uid=1_13 button "空气炸锅包安装吗"
+      uid=1_14 button "加湿器滤芯怎么换"
+      uid=1_15 button "售前问退款条件"
+      uid=1_16 button "请马上给我退款"
+      uid=1_17 heading "历史会话" level="1"
+      uid=1_18 button "l01-618dc604 9/11/2026, 4:16:38 PM"
+      uid=1_19 button "g07-c7bfd66e 9/11/2026, 4:16:35 PM"
+      uid=1_20 button "d02-936cc9a9 9/11/2026, 4:16:28 PM"
+      uid=1_21 button "d01-f4218dbd 9/11/2026, 4:16:24 PM"
+      uid=1_22 button "b04-380dc11b 9/11/2026, 4:16:17 PM"
+      uid=1_23 button "b03-f403d9aa 9/11/2026, 4:14:28 PM"
+      uid=1_24 button "b02-c7f17084 9/11/2026, 4:14:25 PM"
+      uid=1_25 button "b01-af7e5371 9/11/2026, 4:14:19 PM"
+    uid=1_26 StaticText "当前顾客会话"
+    uid=1_27 StaticText "demo-f16c1125-ed0d-4d2c-a58d-04ab799e9b54"
+    uid=1_28 button "新建会话"
+    uid=1_29 StaticText "从左侧选择问题，或直接输入。可继续追问「这个有几种颜色」，也可附图。"
+    uid=1_30 form
+      uid=1_31 StaticText "当前演示上下文：store_id=demo-qingchuan-shop · platform=demo"
+      uid=1_32 textbox "以顾客身份输入问题，也可附一张图片" multiline
+      uid=1_33 button "上传图片"
+      uid=1_34 StaticText "支持 PNG / JPEG / WebP，也可直接粘贴到输入框"
+      uid=1_35 button "发送"
+    uid=1_36 DisclosureTriangle "本次接口原始输出" expandable

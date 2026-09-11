@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "historical_probe_is_not_oracle": true,
+  "results": {
+    "D04-vision-error": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "D01-idempotency-missing-id": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "D03-D05-model-shape-only": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "D07-D08-import-count-only": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "PREFLIGHT-ui-admin-ignored": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "D07-invalid-pdf-fallback": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    },
+    "D09-evolution-active-after-rollback": {
+      "historical_green": true,
+      "corrected_green": false,
+      "expected": "INCOMPLETE",
+      "defect_proven": true
+    }
+  },
+  "positive_contracts": {
+    "D03-valid-anchored-answer": true
+  },
+  "counterexamples": {
+    "D03-unrelated-append-rejected": true
+  }
+}

@@ -1,0 +1,7 @@
+2026-09-10T17:37Z first start accidentally used workspace data/ via env.md overwrite; killed; deleted data/.host-api-creds.json; no chats
+2026-09-10T17:38Z source env.md then DATA_DIR=/tmp/yunpai-live-grok46-20260911; start_servers.py pid 60504 demo 18765 api 18767
+2026-09-10T17:39Z probe_live.py HEALTH/IMPORT/I01/I08/D01/C01/D02/G07/L01
+2026-09-10T17:39Z remaining-l1 + blocked probes
+2026-09-10T17:43Z chrome headless screenshots via http://127.0.0.1:18780
+2026-09-10T17:47Z detached Grok 4.6 D02 review PASS d5400c8a
+2026-09-10T17:48Z chrome-devtools opened demo; clicked d02 and c01 history; answers match live JSON

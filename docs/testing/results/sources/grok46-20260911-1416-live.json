@@ -1,0 +1,134 @@
+{
+  "saved_utc": "2026-09-11T06:32:07.702545+00:00",
+  "run_id": "run-20260911-1416-grok46",
+  "level": "L2-live",
+  "data_dir": "/private/tmp/yunpai-1416-live",
+  "model_name": "deepseek-v4-flash",
+  "model_enabled": true,
+  "model_mock": false,
+  "embedding": "fastembed",
+  "cases": [
+    {
+      "id": "B07",
+      "status": "PASS",
+      "level": "L2",
+      "actual": {
+        "first": {
+          "answer": "您好，关于 **QA-1416-ALPHA**，目前可确认的信息如下：\n\n- 颜色：米白色（rice-white）\n- 容量：5L\n- 使用提醒：不支持微波炉加热（not microwave-safe）\n\n需要说明的是，我这边目前没有该型号的价格与库存信息，所以不便给出报价。如果您需要，我可以帮您转人工核实价格和到货情况。另外，如果您还想了解其他型号或做对比，把具体型号或商品链接告诉我即可。",
+          "sources": [
+            "fixture:live-alpha",
+            "fixture:live-bravo",
+            "fixture:live-d10"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-08b30bbb63274f53a293cacfd4cbe837"
+        },
+        "second": {
+          "answer": "您好，关于 **QA-1416-BRAVO**，目前可确认的信息如下：\n\n- 颜色：黑色（black）\n- 容量：7L\n- 使用提醒：仅盖子可微波炉加热（microwave-safe lid only）\n\n需要说明的是，我这边目前没有该型号的价格与库存信息，所以不便给出报价。如果您需要，我可以帮您转人工核实价格和到货情况。",
+          "sources": [
+            "fixture:live-bravo",
+            "fixture:live-alpha",
+            "fixture:live-d10"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-57c8555f1627433fbe98fc6cb14405c9"
+        },
+        "hijack": false
+      },
+      "notes": [
+        "live model; current BRAVO must override ALPHA history"
+      ]
+    },
+    {
+      "id": "B09",
+      "status": "PASS",
+      "level": "L2",
+      "actual": {
+        "resp": {
+          "answer": "您好，先为您说明两点：\n\n1. 运费：同城配送运费为 12 CNY。\n2. 退货条件：商品在未使用的情况下，支持 7 天内退货；已开封的食品罐装商品不适用退货。\n\n如还有其他想了解的，随时告诉我。",
+          "sources": [
+            "fixture:live-policy",
+            "fixture:live-d10",
+            "fixture:live-alpha"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-9bf71033e18c4ca0bdb622dc7e3a8601"
+        },
+        "has_ship": true,
+        "has_ret": true,
+        "claimed_refund": false
+      },
+      "notes": [
+        "oracle corrected: Chinese 运费+退货 both present; not English-only"
+      ]
+    },
+    {
+      "id": "D10",
+      "status": "PASS",
+      "level": "L2",
+      "actual": {
+        "resp": {
+          "answer": "您好，QA-1416-D10 的容量是 **7L**，颜色为黑色。这款目前知识库中没有更多价格或卖点信息，如需了解其他细节，可以告诉我具体想确认的方面。",
+          "sources": [
+            "fixture:live-d10",
+            "fixture:live-bravo",
+            "fixture:live-alpha"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-f758f16872df4098870b001f5316da7d"
+        },
+        "says_5_as_fact": false,
+        "says_7": true,
+        "doc": "kb-832d5d6d009b4d2291d90345833fd343"
+      }
+    },
+    {
+      "id": "H02",
+      "status": "PASS",
+      "level": "L2",
+      "actual": {
+        "pref_id": "kg-memory-032609cddf70",
+        "resp": {
+          "answer": "好的，这次按你指定的黑色款来，不考虑米白色偏好。\n\n**QA-1416-BRAVO**：颜色为黑色，容量 7L，微波适用性为「仅盖子可用于微波」。\n\n目前检索到的商品信息里没有该款的价格，无法为你报价，价格请以商品页面显示为准。如果你愿意，可以告诉我你更看重容量还是微波使用需求，我再帮你对照确认。",
+          "sources": [
+            "fixture:live-alpha",
+            "fixture:live-bravo",
+            "fixture:live-d10"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-89c8fb57d6354fbf9a2663740803a866"
+        },
+        "prefers_old": false
+      },
+      "notes": [
+        "current black request honored; rice-white preference not treated as fact"
+      ]
+    },
+    {
+      "id": "B08",
+      "status": "INCOMPLETE",
+      "level": "L2",
+      "actual": {
+        "resp": {
+          "answer": "您好～QA-1416-ALPHA 的颜色是 rice-white（米白色），容量为 5L，这款不支持微波炉使用（not microwave-safe）。目前检索到的信息里没有该型号的价格，暂无法为您报价，如需价格可以帮您转人工核实。请问还需要了解其他信息吗？",
+          "sources": [
+            "fixture:live-alpha",
+            "fixture:live-bravo",
+            "fixture:live-d10"
+          ],
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "message_id": "msg-739ad86caac34e0bb35427c99181beb9"
+        }
+      },
+      "notes": [
+        "typo slice live PASS; full language/emoji/long-sentence buckets not run"
+      ]
+    }
+  ]
+}

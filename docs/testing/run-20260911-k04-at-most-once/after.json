@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "generate_calls": 1,
+  "message_ids": [
+    "msg-6e43c4af0d3153498889ec4bbecf9284",
+    "msg-6e43c4af0d3153498889ec4bbecf9284"
+  ],
+  "same_message_id": true,
+  "expected": "one graph execution and two durable identical responses",
+  "fix": "a later request waits for an existing running invocation and reuses its completed response"
+}

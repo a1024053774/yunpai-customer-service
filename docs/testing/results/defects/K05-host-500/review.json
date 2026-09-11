@@ -1,0 +1,21 @@
+{
+  "verdict": "PASS",
+  "reasons": [
+    "Independent dirty-tree TestClient re-run: same Idempotency-Key + different message returned HTTP 409 with detail.code idempotency_key_conflict, not 500, and did not return the previous answer as success.",
+    "Identical replay returned HTTP 200 and reused the original message_id.",
+    "Original red evidence (before.json and live K05-idempotency-conflict) showed HTTP 500 Internal Server Error for the same conflict shape; after.json PASS was not used as the oracle."
+  ],
+  "evidence_paths": [
+    "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/review-green.json",
+    "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/before.json",
+    "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/error.png",
+    "docs/testing/run-20260911-acceptance-handoff/live/live-results.json",
+    "src/yunpai_customer_service/api.py"
+  ],
+  "limitations": [
+    "Independent check used FastAPI TestClient and TableDrivenModel, not a restarted live L3 host process.",
+    "live-results.json K05-idempotency-conflict is pre-candidate (08:17Z, 500) and was not re-probed."
+  ],
+  "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+  "edited_code": false
+}

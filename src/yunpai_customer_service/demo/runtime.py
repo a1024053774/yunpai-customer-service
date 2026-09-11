@@ -9,6 +9,7 @@ from ..auth import AuthenticationService, Principal
 from ..config import Settings
 from ..customer_service import CustomerServiceCore
 from ..database import Database
+from ..domain_profiles import profile_for_domain
 from ..knowledge_seed import seed_records
 from ..schemas import MAX_CHAT_IMAGE_REQUEST_BODY_BYTES
 from .catalog import DEMO_CONTEXT, DEMO_STORE_NAME, seed_demo_store
@@ -76,6 +77,7 @@ class DemoRuntime:
 
 def build_demo_runtime(settings: Settings | None = None) -> DemoRuntime:
     settings = prepare_demo_settings(settings)
+    profile_for_domain(settings.business_domain)
     settings.ensure_directories()
     db = Database(settings.app_db_path)
     db.initialize()

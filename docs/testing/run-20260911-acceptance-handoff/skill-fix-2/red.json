@@ -1,0 +1,139 @@
+{
+  "saved_utc": "2026-09-11T09:05:31.321484+00:00",
+  "phase": "red",
+  "claim": "Current Skill fails as a reusable cross-project skill (independent review verdict).",
+  "status": "FAIL",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "skill_sha256_before": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "oracle": [
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.md",
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt"
+  ],
+  "not_oracle": "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+  "old_skill_fix_not_modified": true,
+  "appendix_heading_present": true,
+  "harmful_rules": [
+    {
+      "id": "SK2-SOURCE-ENV",
+      "status": "FAIL",
+      "rule_in_current_skill": "source env.md then export DATA_DIR under /tmp or /private/tmp",
+      "present": true,
+      "why_fails": "Reusable Skill must not instruct sourcing this-repo env.md. Independent review: env.md already clobbered DATA_DIR (ISO-001).",
+      "wrong_action_if_followed": "source env.md, then hope a later DATA_DIR export wins; isolation is not owned by the run manifest.",
+      "correct_action": "Project/run manifest records isolation start rules and the refused workspace path. Skill does not name env.md.",
+      "review_lines": "157"
+    },
+    {
+      "id": "SK2-DATA-DIR-NAME",
+      "status": "FAIL",
+      "rule_in_current_skill": "mandatory DATA_DIR filename/env and independent `DATA_DIR` per track",
+      "present": true,
+      "why_fails": "DATA_DIR is this-repo env var. A reusable Skill should require an isolated data directory, not a fixed name.",
+      "wrong_action_if_followed": "Refuse any project that isolates via another variable or path.",
+      "correct_action": "Manifest records the isolated data directory and start-refuse paths.",
+      "review_lines": "157, 100"
+    },
+    {
+      "id": "SK2-CJK-ESCAPE",
+      "status": "FAIL",
+      "rule_in_current_skill": "CJK docs via Path.write_text and unicode escapes; ban Write/StrReplace",
+      "present": true,
+      "why_fails": "Editor quirk of this repo. A valid UTF-8 review would be scored a Skill miss.",
+      "wrong_action_if_followed": "Reject an independent UTF-8 review as Skill-noncompliant.",
+      "correct_action": "Encoding/editor rules come from existing project rules if present, not this Skill.",
+      "review_lines": "160"
+    },
+    {
+      "id": "SK2-FILE-URI",
+      "status": "FAIL",
+      "rule_in_current_skill": "do not rely on file://; serve evidence HTML on temporary localhost HTTP",
+      "present": true,
+      "why_fails": "Cursor sidebar mechanic. Other executors capture screenshots differently.",
+      "wrong_action_if_followed": "Treat a blocked file URI as Skill failure even when the capture tool and original bytes are recorded.",
+      "correct_action": "Manifest records the real capture method. A blocked local file URI is an evidence-method fact, not a product FAIL.",
+      "review_lines": "161"
+    },
+    {
+      "id": "SK2-VENDOR-TASK-PIN",
+      "status": "FAIL",
+      "rule_in_current_skill": "Cursor Grok 4.6 Extra High Fast; do not substitute Orca/Codex/Luna; Task tool; run_in_background; forbid resume",
+      "present": true,
+      "why_fails": "Vendor and Cursor Task API. Other executors cannot comply. plan.md already named Orca while the checker stayed green.",
+      "wrong_action_if_followed": "Score a capable independent reviewer on another host as a Skill miss; never inspect actual resume.",
+      "correct_action": "Manifest records the real executor. Judge independence and original evidence. Resume of the implementer thread is invalid even if the Skill text still says forbid resume.",
+      "review_lines": "158-159"
+    },
+    {
+      "id": "SK2-NO-WAIT-OVERRIDE",
+      "status": "FAIL",
+      "rule_in_current_skill": "do not stop to wait for the user when instructed to continue",
+      "present": true,
+      "why_fails": "Generalized stop override; conflicts with credential and production stops.",
+      "wrong_action_if_followed": "Keep going past a safety stop because the run said continue.",
+      "correct_action": "Safety stop outranks a continue instruction.",
+      "review_lines": "164"
+    },
+    {
+      "id": "SK2-REVIEW-PASS-FREEZE",
+      "status": "FAIL",
+      "rule_in_current_skill": "REVIEW_PASS ledger rows must not be reverted to FAIL",
+      "present": true,
+      "why_fails": "Preserving historical files is required; freezing ledger status across a new digest can hide a current-candidate FAIL and contradicts handbook 10.2.",
+      "wrong_action_if_followed": "S1: C01 stays REVIEW_PASS on a drifted digest; only add this-run files; checker still green.",
+      "correct_action": "Keep historical REVIEW_PASS originals. Current candidate may be rejudged FAIL or INCOMPLETE from this-run evidence.",
+      "review_lines": "162-163",
+      "scenario": "S1"
+    },
+    {
+      "id": "SK2-KEYWORD-CHECKER",
+      "status": "FAIL",
+      "rule_in_current_skill": "skill-fix/check_skill.py substring oracle (not in SKILL.md body, used as Skill-fix GO)",
+      "present": true,
+      "why_fails": "Independent review: dummy needles file satisfies the same oracle. Not behavioral proof.",
+      "wrong_action_if_followed": "Treat check_skill.py PASS, including false-green-skill-needles.txt, as Skill GO.",
+      "correct_action": "Skill evaluation requires a behavioral counterexample or independent review. Keyword checkers are not Skill GO.",
+      "review_lines": "check_skill.py",
+      "checker_path": "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+      "dummy_path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt"
+    }
+  ],
+  "generic_rules_still_present": {
+    "candidate_freeze": true,
+    "evidence_layers_L0_L5": true,
+    "independent_oracle": true,
+    "red_before_green": true,
+    "counterfactual": true,
+    "fresh_context_verifier": true,
+    "blocked_incomplete": true,
+    "real_boundaries": true,
+    "no_go_named_in_appendix_only": true
+  },
+  "scenarios": [
+    {
+      "id": "S1-historical-REVIEW_PASS-then-regression",
+      "under_current_skill": "Keep CASES.json REVIEW_PASS; attach this-run files only; do not write FAIL on the ledger row.",
+      "correct": "Current-candidate FAIL or INCOMPLETE; keep historical originals; NO_GO until the current digest passes.",
+      "already_structurally_true": true,
+      "source": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json"
+    },
+    {
+      "id": "S2-replace-execution-tool",
+      "under_current_skill": "Codex/Luna/Orca substitution is a Skill miss; UTF-8 CJK Write is a Skill miss; pause for secrets is a Skill miss if continue was set.",
+      "correct": "Record the executor in the manifest; judge independence; do not override safety stops; resume is invalid even if Skill text still says forbid resume.",
+      "already_partially_realized": true,
+      "source": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/rule-expectation-scenarios.json"
+    }
+  ],
+  "keyword_checker_counterexample": {
+    "checker": "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+    "dummy_needles": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt",
+    "independent_review": "dummy concatenation PASSes the same substring oracle; not behavioral proof",
+    "would_pass_on_current_skill_text": true,
+    "would_pass_on_dummy_file": true,
+    "is_skill_go": false
+  },
+  "expected_red_reason": "Appendix lines 153-165 encode this-repo/this-run mechanics. Following them produces S1 ledger freeze and S2 vendor/safety mistakes. The previous Skill-fix used a keyword checker that a dummy needles file also satisfies.",
+  "note": "FAIL is a Skill-contract red state against the reusable-skill review, not a product defect. Product release remains NO_GO. Do not treat this file as authorization to edit CASES.json or product code."
+}

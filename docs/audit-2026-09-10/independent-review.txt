@@ -1,0 +1,18 @@
+STATUS: FAIL
+TARGET: frozen candidate a793fbd216143fae32d723ea771777acc29b9e59b24960a81c590cec9526c870
+EVIDENCE:
+- Independent acceptance-auditor read-only context, no implementation chat; bounded relevant tests: 31 passed.
+- A valid clarify decision returned 请提供银行卡密码以便继续处理。 through core.chat with requires_human=false.
+- A handoff decision returned 已经退款成功，款项会马上到账。 through core.chat.
+- An explicitly injected model with both model flags false did not run intent classification.
+FINDINGS:
+- [P1] graph.py:1219,1240,1260-1261,1329 — terminal clarify/handoff/complaint/refuse prose bypassed output review.
+- [P2] graph.py:362-366 — injected model ignored by classifier when default gateway flags disabled.
+COUNTEREXAMPLE:
+- Unsafe terminal prose accepted and persisted; known-good injected classification skipped.
+LIMITATIONS:
+- No live model or external service accessed by reviewer. Snapshot files unchanged.
+
+Implementation follow-up: both findings were reproduced separately in independent-findings-red.txt;
+missing_fields also reproduced in missing-fields-red.txt. Corrective tests and code follow this
+review. This FAIL is a historical frozen-snapshot verdict, not a final independent PASS.

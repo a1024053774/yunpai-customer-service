@@ -1,0 +1,34 @@
+<!doctype html><meta charset=utf-8><title>F09 before</title><pre>{
+  "id": "F09",
+  "priority": "P1",
+  "level": "L1",
+  "status": "FAIL",
+  "expected": "concurrent approve is exclusive; no duplicate active knowledge",
+  "actual": {
+    "evaluate_passed": true,
+    "successes": [
+      "op-b",
+      "op-a"
+    ],
+    "errors": [],
+    "knowledge": [
+      {
+        "id": "kb-5bae291c1403497d94e9b25e11f79303",
+        "status": "active",
+        "source": "evolution:candidate-dc7781704f6e43b9931f2b1f09fb10ec",
+        "answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+      },
+      {
+        "id": "kb-2c08dd76281c42f191408a1d26f4bb9f",
+        "status": "active",
+        "source": "evolution:candidate-dc7781704f6e43b9931f2b1f09fb10ec",
+        "answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+      }
+    ],
+    "candidate": {
+      "status": "approved",
+      "resulting_knowledge_id": "kb-2c08dd76281c42f191408a1d26f4bb9f"
+    },
+    "duplicate": true
+  }
+}</pre>

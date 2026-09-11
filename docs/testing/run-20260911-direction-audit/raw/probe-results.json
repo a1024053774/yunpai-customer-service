@@ -1,0 +1,642 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "saved_utc": "2026-09-11T11:17:34Z",
+  "trials": [
+    {
+      "id": "PREFLIGHT",
+      "status": "PASS",
+      "demo_health": {
+        "status_code": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": {
+          "ok": true,
+          "model_mode": "live",
+          "model_name": "deepseek-v4-flash",
+          "model_provider": "deepseek",
+          "vision_enabled": true,
+          "vision_model": "deepseek-v4-flash-vision-exp",
+          "embedding_provider": "fastembed",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store_name": "晴川小家电（模拟店）",
+          "tenant_id": "followup-l3-tenant",
+          "business_domain": "ecommerce",
+          "business_domain_label": "电商销售",
+          "context": {
+            "store_id": "demo-qingchuan-shop",
+            "platform": "demo"
+          }
+        }
+      },
+      "host_health": {
+        "status_code": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": {
+          "ok": true,
+          "model_mode": "configured",
+          "model_provider": "deepseek",
+          "model_name": "deepseek-v4-flash",
+          "vision_model": "deepseek-v4-flash-vision-exp",
+          "embedding_provider": "fastembed",
+          "business_domain": "ecommerce"
+        }
+      },
+      "ui_http": {
+        "status_code": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": {
+          "raw": "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>云派智能客服</title>\n  <style>\n    :root {\n      --canvas: #f5f6f8;\n      --paper: #ffffff;\n      --ink: #1a1f24;\n      --muted: #66737c;\n      --line: #e6e9ee;\n      --nav: #ffffff;\n      --teal: #0f6e68;\n      --teal-soft: #eaf6f4;\n      --amber: #9a6700;\n      --amber-soft: #fff7e6;\n      --red: #b42318;\n      --red-soft: #fef3f2;\n      --blue: #175cd3;\n      --blue-soft: #eff6ff;\n      font-family: \"PingFang SC\", \"Hiragino Sans GB\", \"Noto Sans SC\", \"Segoe UI\", sans-serif;\n    }\n    * { box-sizing: border-box; }\n    body { margin: 0; min-width: 320px; color: var(--ink); background: var(--canvas); }\n    button, textarea { font: inherit; letter-spacing: 0; }\n    button { cursor: pointer; }\n    .page { width: 100%; min-width: 0; min-height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); }\n    .topbar {\n      min-height: 64px; padding: 10px clamp(16px, 3vw, 32px); background: var(--nav); color: var(--ink);\n      position: relative; min-width: 0; display: flex; gap: 16px; align-items: center; justify-content: space-between;\n      border-bottom: 1px solid var(--line);\n    }\n    .title { min-width: 0; flex: 1 1 320px; display: flex; gap: 12px; align-items: center; }\n    .brand-mark {\n      width: 36px; height: 36px; border-radius: 10px; flex: 0 0 auto;\n      display: grid; place-items: center; background: var(--teal); color: #fff; font-size: 14px; font-weight: 700;\n    }\n    .title strong { display: block; font-size: 16px; letter-spacing: -0.02em; }\n    .title span { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }\n    .topbar-actions { min-width: 0; display: flex; align-items: center; gap: 10px; margin-left: auto; }\n    .status {\n      display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 4px 10px; border-radius: 999px;\n      font-size: 12px; font-weight: 600; background: var(--teal-soft); color: var(--teal); white-space: nowrap;\n    }\n    .status::before { content: \"\"; width: 7px; height: 7px; border-radius: 50%; background: #12b76a; }\n    .release-center { position: relative; flex: 0 0 auto; }\n    .release-bell {\n      position: relative; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line);\n      border-radius: 10px; display: grid; place-items: center; background: #fff; color: #344054;\n    }\n    .release-bell:hover, .release-bell:focus-visible { background: #f8fafb; border-color: #cdd5dc; outline: none; }\n    .release-bell svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }\n    .release-panel[hidden] { display: none; }\n    .release-panel {\n      position: absolute; z-index: 80; top: calc(100% + 10px); right: 0; width: min(440px, calc(100vw - 28px));\n      max-height: min(650px, calc(100vh - 90px)); overflow: auto; border: 1px solid var(--line); border-radius: 14px;\n      background: #fff; color: var(--ink); box-shadow: 0 18px 50px rgba(16,24,40,.12);\n    }\n    .release-panel::before {\n      content: \"\"; position: absolute; top: -7px; right: 12px; width: 12px; height: 12px;\n      border-left: 1px solid var(--line); border-top: 1px solid var(--line); background: #fff; transform: rotate(45deg);\n    }\n    .release-panel-head {\n      position: sticky; top: 0; z-index: 1; padding: 16px 16px 13px; display: flex; align-items: flex-start;\n      justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); background: #fff;\n    }\n    .release-panel-head strong { display: block; font-size: 15px; }\n    .release-panel-head span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }\n    .release-close {\n      width: 30px; height: 30px; padding: 0; border: 0; border-radius: 8px; background: #f2f4f7;\n      color: #475467; font-size: 20px; line-height: 1;\n    }\n    .release-close:hover, .release-close:fo"
+        }
+      },
+      "admin_http": {
+        "status_code": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": {
+          "raw": "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>知识工作台 · 云派智能客服</title>\n  <style>\n    :root {\n      font-family: \"PingFang SC\", \"Hiragino Sans GB\", \"Noto Sans SC\", \"Segoe UI\", sans-serif;\n      color: #1a1f24;\n      background: #f5f6f8;\n      --ink: #1a1f24;\n      --muted: #66737c;\n      --line: #e6e9ee;\n      --teal: #0f6e68;\n      --soft: #eaf6f4;\n    }\n    * { box-sizing: border-box; }\n    body { margin: 0; }\n    .shell { min-height: 100vh; }\n    .top {\n      height: 64px; padding: 0 clamp(16px, 4vw, 48px);\n      display: flex; align-items: center; justify-content: space-between;\n      background: #fff; color: var(--ink); border-bottom: 1px solid var(--line);\n    }\n    .brand { display: flex; gap: 12px; align-items: center; }\n    .mark {\n      width: 36px; height: 36px; border-radius: 10px; background: var(--teal); color: #fff;\n      display: grid; place-items: center; font-weight: 700;\n    }\n    .brand strong { display: block; font-size: 16px; }\n    .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }\n    .back {\n      color: var(--ink); text-decoration: none; border: 1px solid var(--line);\n      border-radius: 10px; padding: 8px 12px; font-size: 13px; font-weight: 600; background: #fff;\n    }\n    .main { width: min(1120px, 100%); margin: auto; padding: 32px 20px 60px; }\n    .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }\n    .hero h1 { margin: 0; font-size: 26px; letter-spacing: -.03em; }\n    .hero p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }\n    .scope { font-size: 12px; color: #475467; background: #fff; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; }\n    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }\n    .card {\n      background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px;\n      box-shadow: 0 1px 2px rgba(16,24,40,.04);\n    }\n    .card h2 { font-size: 15px; margin: 0 0 6px; }\n    .card .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }\n    .drop {\n      border: 1px dashed #cdd5dc; border-radius: 14px; background: #fbfcfd;\n      padding: 28px; text-align: center;\n    }\n    .drop input { display: none; }\n    .drop label {\n      display: inline-flex; cursor: pointer; background: var(--teal); color: #fff;\n      padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px;\n    }\n    .drop small { display: block; margin-top: 11px; color: var(--muted); }\n    select {\n      width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 10px;\n      background: #fff; color: var(--ink);\n    }\n    button { font: inherit; cursor: pointer; }\n    .primary {\n      width: 100%; border: 0; background: var(--teal); color: #fff;\n      padding: 11px; border-radius: 10px; font-weight: 700; margin-top: 14px;\n    }\n    .primary:disabled { opacity: .5; cursor: wait; }\n    .statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }\n    .stat { background: #f8fafb; padding: 12px; border-radius: 12px; }\n    .stat b { display: block; font-size: 22px; }\n    .stat span { font-size: 11px; color: var(--muted); }\n    .list { display: grid; gap: 8px; max-height: 430px; overflow: auto; }\n    .item { border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; }\n    .item strong { display: block; font-size: 13px; }\n    .mini {\n      margin-top: 8px; border: 1px solid #cfe7e3; border-radius: 8px; background: #fff;\n      color: var(--teal); padding: 5px 8px; font-size: 11px; font-weight: 600;\n    }\n    .mini:hover { background: var(--soft); }\n    .item span { display: block; color: var(--muted); font-size: 11px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n    .tag { display: inline-block; margin-top: 7px; padding: 3px 7px; border-radius: 999px; bac"
+        }
+      },
+      "ui_markers": {
+        "product": true,
+        "multiturn": false,
+        "local_rag": false
+      },
+      "admin_markers": {
+        "import": false,
+        "evolution": false
+      }
+    },
+    {
+      "id": "D01-D02-static",
+      "status": "PASS",
+      "level": "L0",
+      "facts": {
+        "src/yunpai_customer_service/config.py": {
+          "sha256": "d79db5c64042994c6242079d09b4a856892a23067a4225e96e12e60f0fd643ed",
+          "contains": {
+            "generate_json": false,
+            "FastEmbedProvider": false,
+            "BM25": false,
+            "sqlite3": true,
+            "deepseek": true,
+            "intent_method": false,
+            "keyword": false,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        },
+        "src/yunpai_customer_service/intent.py": {
+          "sha256": "4fa045d4b8c7f046792db30ec2978fab9e9f4e686cd78d26292bd04cccdc710c",
+          "contains": {
+            "generate_json": true,
+            "FastEmbedProvider": false,
+            "BM25": false,
+            "sqlite3": false,
+            "deepseek": false,
+            "intent_method": false,
+            "keyword": false,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        },
+        "src/yunpai_customer_service/llm.py": {
+          "sha256": "a70241d6d2b598ab6efbd9b785cf6929013507f8ed4a96e6d9f09bfd00111b8c",
+          "contains": {
+            "generate_json": true,
+            "FastEmbedProvider": false,
+            "BM25": false,
+            "sqlite3": false,
+            "deepseek": true,
+            "intent_method": false,
+            "keyword": false,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        },
+        "src/yunpai_customer_service/rag.py": {
+          "sha256": "553ca920c6c994e472e4d8935cf531431e96e01f0e67a7af1d521fc0b5c2e112",
+          "contains": {
+            "generate_json": false,
+            "FastEmbedProvider": false,
+            "BM25": true,
+            "sqlite3": false,
+            "deepseek": false,
+            "intent_method": false,
+            "keyword": true,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        },
+        "src/yunpai_customer_service/embeddings.py": {
+          "sha256": "fa78bc1d0cccc7a5c48996647466bab159479c1903f97e398bc1c92dc1ae8600",
+          "contains": {
+            "generate_json": false,
+            "FastEmbedProvider": true,
+            "BM25": false,
+            "sqlite3": false,
+            "deepseek": false,
+            "intent_method": false,
+            "keyword": false,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        },
+        "src/yunpai_customer_service/knowledge_ingest.py": {
+          "sha256": "abe4413028833f3fd3a7f6e2a09bdbfae09f51ba76fa7a786d0e5edfbf2ba9f9",
+          "contains": {
+            "generate_json": false,
+            "FastEmbedProvider": false,
+            "BM25": false,
+            "sqlite3": false,
+            "deepseek": false,
+            "intent_method": false,
+            "keyword": true,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": true,
+            "pdfplumber": true
+          }
+        },
+        "src/yunpai_customer_service/api.py": {
+          "sha256": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+          "contains": {
+            "generate_json": false,
+            "FastEmbedProvider": false,
+            "BM25": false,
+            "sqlite3": false,
+            "deepseek": false,
+            "intent_method": false,
+            "keyword": false,
+            "Pinecone": false,
+            "Weaviate": false,
+            "Docling": false,
+            "pdfplumber": false
+          }
+        }
+      },
+      "notes": [
+        "static call/config evidence only; live behavior and cloud cost evaluated separately"
+      ]
+    },
+    {
+      "id": "D07-import",
+      "status": "PASS",
+      "level": "L3",
+      "imports": [
+        {
+          "file": "DIR-AUDIT-20260911-ALPHA.txt",
+          "status_code": 200,
+          "body": {
+            "filename": "DIR-AUDIT-20260911-ALPHA.txt",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+                "filename": "DIR-AUDIT-20260911-ALPHA.txt",
+                "page": 1,
+                "characters": 96,
+                "tables": 0
+              }
+            ]
+          }
+        },
+        {
+          "file": "DIR-AUDIT-20260911-ALPHA.md",
+          "status_code": 200,
+          "body": {
+            "filename": "DIR-AUDIT-20260911-ALPHA.md",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+                "filename": "DIR-AUDIT-20260911-ALPHA.md",
+                "page": 1,
+                "characters": 100,
+                "tables": 0
+              }
+            ]
+          }
+        },
+        {
+          "file": "DIR-AUDIT-20260911-ALPHA.pdf",
+          "status_code": 200,
+          "body": {
+            "filename": "DIR-AUDIT-20260911-ALPHA.pdf",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-bad593a473714ca09d1691dd228e5109",
+                "filename": "DIR-AUDIT-20260911-ALPHA.pdf",
+                "page": 1,
+                "characters": 84,
+                "tables": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D08-corpus-state",
+      "status": "PASS",
+      "level": "L3",
+      "matched_count": 3,
+      "matched": [
+        {
+          "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+          "category": "uploaded_document",
+          "intent": "product",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+          "version": 1,
+          "status": "active",
+          "tenant_id": "followup-l3-tenant",
+          "layer": "industry",
+          "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+        },
+        {
+          "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+          "category": "uploaded_document",
+          "intent": "product",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+          "version": 1,
+          "status": "active",
+          "tenant_id": "followup-l3-tenant",
+          "layer": "industry",
+          "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+        },
+        {
+          "id": "kb-bad593a473714ca09d1691dd228e5109",
+          "category": "uploaded_document",
+          "intent": "product",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+          "version": 1,
+          "status": "active",
+          "tenant_id": "followup-l3-tenant",
+          "layer": "industry",
+          "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+        }
+      ],
+      "notes": [
+        "source/version/item state from API; not business corpus or L4 tenant evidence"
+      ]
+    },
+    {
+      "id": "D03-multiturn",
+      "status": "PASS",
+      "level": "L3",
+      "session_id": "direction-multiturn-20260911",
+      "first": {
+        "message_id": "msg-ccb44e8681d047ccaf72ca660c2a168e",
+        "answer": "您好～已为您查询到 DIR-AUDIT-20260911-ALPHA-TXT 这款产品的信息：\n\n- 颜色：薄荷绿\n- 容量：7L\n\n目前查到的资料中只有颜色和容量这两项属性，暂未包含价格等其他信息，所以无法为您提供价格或卖点说明。如果您还需要了解其他方面，可以告诉我具体想确认的内容，我帮您进一步核对～",
+        "intent": "product",
+        "customer_intent": "product_inquiry",
+        "intent_method": "model",
+        "sources": [
+          {
+            "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+            "version": 1,
+            "score": 1.1704
+          },
+          {
+            "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+            "version": 1,
+            "score": 0.9786
+          },
+          {
+            "id": "kb-bad593a473714ca09d1691dd228e5109",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+            "version": 1,
+            "score": 0.9073
+          }
+        ],
+        "model_name": null,
+        "model_reported": null,
+        "model_fallback": false
+      },
+      "second": {
+        "message_id": "msg-cbf5357da85e4bfda7e2f4aadb44e3f3",
+        "answer": "您好～您问的这款 DIR-AUDIT-20260911-ALPHA-TXT，颜色是**薄荷绿**，容量为 7L。\n\n如实说明一下：目前查到的资料里只有颜色和容量这两项属性，暂未包含价格、卖点等其他信息，所以无法为您提供价格或卖点说明。如果您想确认的是其他型号，麻烦告诉我具体的商品名称，我再帮您核对～",
+        "intent": "product",
+        "customer_intent": "product_inquiry",
+        "intent_method": "model",
+        "sources": [
+          {
+            "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+            "version": 1,
+            "score": 1.1512
+          },
+          {
+            "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+            "version": 1,
+            "score": 0.9603
+          },
+          {
+            "id": "kb-bad593a473714ca09d1691dd228e5109",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+            "version": 1,
+            "score": 0.8869
+          }
+        ],
+        "model_name": null,
+        "model_reported": null,
+        "model_fallback": false
+      },
+      "notes": [
+        "follow-up reference and answer are model output; independent fact correctness remains manually checked"
+      ]
+    },
+    {
+      "id": "D05-ambiguous",
+      "status": "PASS",
+      "level": "L3",
+      "response": {
+        "answer": "您好，请问您想咨询哪件商品或哪个订单？具体想确认什么问题呢？告诉我商品名称、链接或订单信息，我就能帮您查看。",
+        "intent": "chitchat",
+        "customer_intent": "chitchat",
+        "intent_method": "model",
+        "confidence": null,
+        "requires_human": false,
+        "route_reason": null,
+        "model_name": null,
+        "model_fallback": false,
+        "sources": [
+          {
+            "id": "seed-0004",
+            "category": "商品",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6448
+          },
+          {
+            "id": "seed-0001",
+            "category": "接待",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.637
+          },
+          {
+            "id": "seed-0016",
+            "category": "商品",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6197
+          }
+        ]
+      },
+      "notes": [
+        "model intent evidence; one or two prompts cannot prove general routing quality"
+      ]
+    },
+    {
+      "id": "D06-nonkeyword",
+      "status": "PASS",
+      "level": "L3",
+      "response": {
+        "answer": "按您指定的这份资料，该商品的容量是 **7L**，颜色为**薄荷绿**，产品型号为 **DIR-AUDIT-20260911-ALPHA-TXT**。\n\n能装下多少东西主要看物品本身的体积，这份资料里只标注了 7L 的容量，并没有给出具体可装物品的清单；另外资料中也没有提供价格信息，暂时无法为您报出价格。如果您方便告诉我打算装什么，我可以帮您对照容量再确认一下～",
+        "intent": "product",
+        "customer_intent": "product_inquiry",
+        "intent_method": "model",
+        "confidence": null,
+        "requires_human": false,
+        "route_reason": null,
+        "model_name": null,
+        "model_fallback": false,
+        "sources": [
+          {
+            "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+            "version": 1,
+            "score": 1.0884
+          },
+          {
+            "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+            "version": 1,
+            "score": 0.9076
+          },
+          {
+            "id": "kb-bad593a473714ca09d1691dd228e5109",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+            "version": 1,
+            "score": 0.902
+          }
+        ]
+      },
+      "notes": [
+        "model intent evidence; one or two prompts cannot prove general routing quality"
+      ]
+    },
+    {
+      "id": "D01-host-api",
+      "status": "PASS",
+      "level": "L3",
+      "first": {
+        "message_id": "msg-bb46980932dd51cc933e9c912329cb0c",
+        "answer": "您好，您咨询的 DIR-AUDIT-20260911-ALPHA-TXT 容量为 **7L**。\n\n如果您还想了解这款商品的其他信息（如颜色、尺寸等），可以告诉我，我再帮您核实。",
+        "intent_method": "model",
+        "model_name": null,
+        "model_fallback": false,
+        "sources": [
+          {
+            "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+            "version": 1,
+            "score": 1.1369
+          },
+          {
+            "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+            "version": 1,
+            "score": 0.9376
+          },
+          {
+            "id": "kb-bad593a473714ca09d1691dd228e5109",
+            "category": "uploaded_document",
+            "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+            "version": 1,
+            "score": 0.8999
+          }
+        ]
+      },
+      "replay_status": 200,
+      "same_message_id": true,
+      "cost": {
+        "amount": null,
+        "currency": "unknown",
+        "reason": "provider response did not expose token/cost fields"
+      }
+    },
+    {
+      "id": "D04-image",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "image_sha256": "d7cb9285d4621fce077aa28466dfef097c741a7062baf77d3f21b359943f5cdd",
+      "response": {
+        "answer": "您好，我这边暂时没有收到可查看的图片内容。请重新上传图片，或直接告诉我想咨询的商品、订单或售后问题，我再帮您确认需要补充哪些信息。",
+        "vision_status": "error",
+        "vision_model": "deepseek-v4-flash-vision-exp",
+        "vision_image_count": 1,
+        "intent": "chitchat",
+        "customer_intent": "chitchat",
+        "intent_method": "model",
+        "model_name": null,
+        "model_fallback": false,
+        "sources": [
+          {
+            "id": "seed-0001",
+            "category": "接待",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.7772
+          },
+          {
+            "id": "seed-0118",
+            "category": "售后",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6878
+          },
+          {
+            "id": "seed-0011",
+            "category": "商品",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6674
+          }
+        ]
+      },
+      "notes": [
+        "image accepted and visual gateway returned vision_status=error; safe degradation observed, successful image understanding not proven"
+      ]
+    },
+    {
+      "id": "D09-evolution",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "candidate_id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+      "feedback_status": 200,
+      "evaluate_status": 200,
+      "approve_status": 200,
+      "rollback_status": 200,
+      "sqlite_candidate": [
+        {
+          "id": "candidate-f9b2694141fc413bb56e0550cfdbbfe7",
+          "status": "approved",
+          "gate_passed": 1,
+          "resulting_knowledge_id": "kb-4d4ca97079a44a009dda7169dc0f0938",
+          "decided_by": "followup-l3-client"
+        }
+      ],
+      "sqlite_knowledge": [
+        {
+          "id": "kb-4d4ca97079a44a009dda7169dc0f0938",
+          "status": "retired",
+          "source": "evolution:candidate-f9b2694141fc413bb56e0550cfdbbfe7"
+        }
+      ],
+      "notes": [
+        "API and SQLite after-state observed: candidate remains approved and resulting knowledge is retired; page-after-rollback was not exercised in this run, so full page/API/SQLite consistency remains incomplete"
+      ]
+    },
+    {
+      "id": "D03-D06-sqlite-poststate",
+      "status": "PASS",
+      "level": "L2/L3",
+      "message_count": 10,
+      "session_ids": [
+        "direction-ambiguous-20260911",
+        "direction-evolution-20260911",
+        "direction-multiturn-20260911",
+        "direction-nonkeyword-20260911"
+      ]
+    },
+    {
+      "id": "D10-10.2-boundaries",
+      "status": "INCOMPLETE",
+      "level": "L3/L4/L5",
+      "remaining": [
+        {
+          "item": "L3 local UI/API",
+          "status": "slice-only",
+          "reason": "loopback service and HTTP page/API evidence; no independent browser automation or production ingress"
+        },
+        {
+          "item": "L4 preproduction",
+          "status": "unproved",
+          "reason": "no real auth gateway/channel/sandbox business ledger"
+        },
+        {
+          "item": "L5 production",
+          "status": "blocked",
+          "reason": "production writes and production traffic explicitly excluded"
+        },
+        {
+          "item": "independent site",
+          "status": "unproved",
+          "reason": "host API is local loopback with ephemeral isolated credentials"
+        },
+        {
+          "item": "HR domain",
+          "status": "unproved",
+          "reason": "business_domain remains ecommerce; no HR source/SOP/eval acceptance"
+        },
+        {
+          "item": "real reverse proxy",
+          "status": "unproved",
+          "reason": "no proxy process or trusted forwarded-header chain"
+        },
+        {
+          "item": "real business ledger",
+          "status": "unproved",
+          "reason": "no order/refund/inventory/payment external ledger readback"
+        },
+        {
+          "item": "clean runtime",
+          "status": "unproved",
+          "reason": "current candidate is dirty; no clean wheel/image install"
+        },
+        {
+          "item": "cost gate",
+          "status": "unknown",
+          "reason": "DeepSeek provider token/cost fields absent; model calls may incur cloud cost"
+        },
+        {
+          "item": "long soak/recovery",
+          "status": "unproved",
+          "reason": "minimal slices only; no 8h soak or crash recovery"
+        }
+      ]
+    }
+  ]
+}

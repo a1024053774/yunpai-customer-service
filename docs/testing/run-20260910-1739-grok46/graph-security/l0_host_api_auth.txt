@@ -1,0 +1,8 @@
+api_module /private/tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/api.py
+signature (core: 'CustomerServiceCore', *, auth: 'AuthenticationService | None' = None) -> 'FastAPI'
+core_required True
+core_annotation CustomerServiceCore
+create_api_app_without_core TypeError create_api_app() missing 1 required positional argument: 'core'
+empty_subject_hash_configured False
+empty_subject_hash_auth_required True
+empty_subject_hash_create_api_app ValueError host API requires configured client authentication

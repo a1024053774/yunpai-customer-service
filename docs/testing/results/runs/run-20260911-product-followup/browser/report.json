@@ -1,0 +1,40 @@
+{
+  "saved_utc": "2026-09-11T09:35:44.243052+00:00",
+  "id": "L04",
+  "browser": "cursor-ide-browser sidebar",
+  "view_id": "glass-browser-883e13d3-ce6f-4ec5-a2e9-8e66c5d5f75a",
+  "url": "http://127.0.0.1:55722/admin",
+  "status": "INCOMPLETE",
+  "handbook_claim": false,
+  "executed": {
+    "http_import": true,
+    "ui_file_picker": false,
+    "view_fragments": true,
+    "download_original": true,
+    "download_http": "200 application/octet-stream 713 bytes",
+    "evaluate_ui": true,
+    "approve_ui": true,
+    "rollback_ui": true
+  },
+  "db_after_rollback": {
+    "candidate_status": "approved",
+    "candidate_id": "candidate-6f2e26cad09c40d99385159a8fa892ff",
+    "resulting_knowledge_id": "kb-54ba0fd2db9947a3b655f4e0e6b0afdb",
+    "knowledge_status": "retired",
+    "knowledge_source": "evolution:candidate-6f2e26cad09c40d99385159a8fa892ff",
+    "active_knowledge_count": 167
+  },
+  "screenshots": [
+    "browser/L04-admin-before.png",
+    "browser/L04-evaluated.png",
+    "browser/L04-approved.png",
+    "browser/L04-rollback.png"
+  ],
+  "notes": [
+    "Cursor Desktop sidebar browser completed evaluate -> approve -> rollback clicks",
+    "import was HTTP-seeded, not the admin file picker",
+    "after rollback: published count 12->11, evolution knowledge retired",
+    "candidate row stays approved; UI still shows rollback; CandidateView omits resulting_knowledge_id",
+    "handbook L04 page/API/DB consistency not fully met; do not claim PASS"
+  ]
+}

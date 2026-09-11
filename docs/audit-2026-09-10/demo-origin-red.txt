@@ -1,0 +1,73 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+________ test_loopback_demo_rejects_forwarded_public_requests[headers0] ________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-6/test_loopback_demo_rejects_for0')
+headers = {'X-Forwarded-For': '203.0.113.10'}
+
+    @pytest.mark.parametrize('headers', [
+        {'X-Forwarded-For':'203.0.113.10'},
+        {'Host':'public.example'},
+        {'Origin':'https://public.example'},
+    ])
+    def test_loopback_demo_rejects_forwarded_public_requests(tmp_path, headers):
+        from fastapi.testclient import TestClient
+        from yunpai_customer_service.demo.app import create_app
+        with TestClient(create_app(make_settings(tmp_path))) as client:
+            response = client.post('/api/knowledge/reindex', headers=headers)
+>           assert response.status_code == 403
+E           assert 200 == 403
+E            +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_framework_audit.py:167: AssertionError
+________ test_loopback_demo_rejects_forwarded_public_requests[headers1] ________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-6/test_loopback_demo_rejects_for1')
+headers = {'Host': 'public.example'}
+
+    @pytest.mark.parametrize('headers', [
+        {'X-Forwarded-For':'203.0.113.10'},
+        {'Host':'public.example'},
+        {'Origin':'https://public.example'},
+    ])
+    def test_loopback_demo_rejects_forwarded_public_requests(tmp_path, headers):
+        from fastapi.testclient import TestClient
+        from yunpai_customer_service.demo.app import create_app
+        with TestClient(create_app(make_settings(tmp_path))) as client:
+            response = client.post('/api/knowledge/reindex', headers=headers)
+>           assert response.status_code == 403
+E           assert 200 == 403
+E            +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_framework_audit.py:167: AssertionError
+________ test_loopback_demo_rejects_forwarded_public_requests[headers2] ________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-6/test_loopback_demo_rejects_for2')
+headers = {'Origin': 'https://public.example'}
+
+    @pytest.mark.parametrize('headers', [
+        {'X-Forwarded-For':'203.0.113.10'},
+        {'Host':'public.example'},
+        {'Origin':'https://public.example'},
+    ])
+    def test_loopback_demo_rejects_forwarded_public_requests(tmp_path, headers):
+        from fastapi.testclient import TestClient
+        from yunpai_customer_service.demo.app import create_app
+        with TestClient(create_app(make_settings(tmp_path))) as client:
+            response = client.post('/api/knowledge/reindex', headers=headers)
+>           assert response.status_code == 403
+E           assert 200 == 403
+E            +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_framework_audit.py:167: AssertionError
+=============================== warnings summary ===============================
+tests/test_framework_audit.py::test_loopback_demo_rejects_forwarded_public_requests[headers0]
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_loopback_demo_rejects_forwarded_public_requests[headers0]
+FAILED tests/test_framework_audit.py::test_loopback_demo_rejects_forwarded_public_requests[headers1]
+FAILED tests/test_framework_audit.py::test_loopback_demo_rejects_forwarded_public_requests[headers2]
+3 failed, 9 deselected, 1 warning in 1.94s

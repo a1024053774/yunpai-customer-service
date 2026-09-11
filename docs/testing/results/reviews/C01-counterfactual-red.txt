@@ -1,0 +1,69 @@
+counterfactual copy: /tmp/c01-counterfactual-99736
+mutation: restore pre-fix retrieve() block
+  if not documents and _CONTEXT_REFERENCE_HINTS.search(retrieval_query):
+  (set retrieval_query/contextual_retrieval before contextual search)
+workspace src not modified.
+command: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src .venv/bin/python -m pytest -q tests/test_customer_service_module_memory.py::test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match
+---
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-45/test_color_follow_up_uses_prev0')
+
+    def test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match(
+        tmp_path,
+    ) -> None:
+        # C01: "this color?" still retrieves generic color FAQs (score > min_score),
+        # so contextual retrieval must not wait for an empty first search.
+        color_follow_up = "\u8fd9\u4e2a\u989c\u8272\u662f\u4ec0\u4e48"
+        product_name = "QA-FIX-C01"
+        settings = replace(make_settings(tmp_path), rag_top_k=1)
+        model = TableDrivenModel(settings)
+        core = build_core(
+            tmp_path, settings=settings, model=model, seed_knowledge=False
+        )
+        try:
+            product_id = add_fixture_document(
+                core,
+                question=f"{product_name} \u5b64\u5c9b\u9a8c\u6536\u58f6\u7684\u5bb9\u91cf\u548c\u989c\u8272",
+                answer=f"{product_name} \u5bb9\u91cf 5L\uff0c\u989c\u8272\u7c73\u767d\u3002",
+                tenant_id=settings.bootstrap_tenant_id,
+                keywords=f"{product_name} \u5bb9\u91cf \u989c\u8272 \u7c73\u767d 5L",
+            )
+            generic_id = add_fixture_document(
+                core,
+                question=color_follow_up,
+                answer="\u4e0d\u540c\u5546\u54c1\u989c\u8272\u4e0d\u540c\uff0c\u8bf7\u63d0\u4f9b\u5546\u54c1\u540d\u79f0\u3002",
+                tenant_id=settings.bootstrap_tenant_id,
+                keywords="\u989c\u8272 \u5546\u54c1 \u770b",
+            )
+            principal = principal_for_core(core)
+            session = "c01-color-followup"
+            competing = core.knowledge.retrieve(
+                color_follow_up,
+                top_k=settings.rag_top_k,
+                min_score=settings.rag_min_score,
+                intent="product",
+                tenant_id=settings.bootstrap_tenant_id,
+            )
+            assert any(item["id"] == generic_id for item in competing), (
+                "follow-up query must already hit generic color docs"
+            )
+            assert all(item["id"] != product_id for item in competing)
+            first = core.chat(
+                principal,
+                session,
+                f"{product_name} \u5b64\u5c9b\u9a8c\u6536\u58f6\u7684\u5bb9\u91cf\u548c\u989c\u8272\u662f\u4ec0\u4e48",
+            )
+            follow_up = core.chat(principal, session, color_follow_up)
+            follow_ids = {item.id for item in follow_up.sources}
+            assert product_id in {item.id for item in first.sources}
+>           assert product_id in follow_ids
+E           AssertionError: assert 'kb-3325c45d0ac44c2986e7e9934ffddb4e' in {'kb-bbf4c5e4b7fb4459add5d517695193f4'}
+
+tests/test_customer_service_module_memory.py:205: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_customer_service_module_memory.py::test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match
+1 failed in 0.67s
+EXIT:1

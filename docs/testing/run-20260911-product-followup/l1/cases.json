@@ -1,0 +1,40 @@
+{
+  "saved_utc": "2026-09-11T09:21:28.471759+00:00",
+  "run_id": "run-20260911-product-followup",
+  "layer": "L1",
+  "candidate_note": "current dirty tree including api.py e268c2b3",
+  "cases": [
+    {
+      "id": "K11",
+      "status": "PASS",
+      "required_empty_plain_malformed_pass": true,
+      "fail_count": 0,
+      "notes": [
+        "HTTP schema/error boundary only; not L4 business ledger",
+        "4000-char N/N+1 recorded; test settings max_input_chars=2000 may truncate rather than 4xx"
+      ]
+    },
+    {
+      "id": "K05-factors",
+      "status": "PASS",
+      "fail_count": 0,
+      "incomplete_count": 0,
+      "notes": [
+        "This is the factor matrix for handbook K05, not a product GO",
+        "K05-host-500 mapping slice remains historically REVIEW_PASS",
+        "L1 table model cannot close live L3 image/subject/store_id",
+        "L1 factors passed; handbook K05 still needs live L3 to claim full PASS"
+      ]
+    },
+    {
+      "id": "K06-framework",
+      "status": "FAIL",
+      "fail_count": 4,
+      "notes": [
+        "framework only: unregistered / observe+write / fake params / missing trusted store_id",
+        "write tool is in-process sandbox counter, not a real refund ledger",
+        "K07-K13 L4 remain BLOCKED"
+      ]
+    }
+  ]
+}

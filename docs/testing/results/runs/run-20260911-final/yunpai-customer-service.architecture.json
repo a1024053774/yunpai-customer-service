@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "云派智能客服 — 本机对话与知识闭环",
+    "locale": "zh-CN",
+    "output": "docs/architecture/yunpai-customer-service.html",
+    "quality_profile": "showcase",
+    "viewBox": [1320, 780]
+  },
+  "components": [
+    { "id": "customer", "type": "external", "label": "真实用户", "sublabel": "客服对话 / 图片", "pos": [36, 300], "size": [138, 68] },
+    { "id": "browser", "type": "frontend", "label": "本机 Demo / 工作台", "sublabel": "浏览器 UI · loopback", "pos": [220, 300], "size": [160, 68], "tag": "L3 local" },
+    { "id": "http", "type": "security", "label": "HTTP 入口", "sublabel": "Demo API / Host API", "pos": [430, 300], "size": [150, 68], "tag": "auth boundary" },
+    { "id": "graph", "type": "backend", "label": "客服 Core + Graph", "sublabel": "意图 · 检索 · 生成 · 校验", "pos": [630, 300], "size": [170, 68], "tag": "model-routed" },
+    { "id": "deepseek", "type": "cloud", "label": "DeepSeek", "sublabel": "文本 / 视觉模型", "pos": [880, 130], "size": [150, 68], "tag": "cloud cost" },
+    { "id": "rag", "type": "backend", "label": "本地知识层", "sublabel": "FastEmbed + BM25 + Docling", "pos": [880, 300], "size": [170, 68], "tag": "local RAG" },
+    { "id": "sqlite", "type": "database", "label": "SQLite 数据库", "sublabel": "知识 · 会话 · 反馈 · 候选", "pos": [1080, 300], "size": [150, 68] },
+    { "id": "evolution", "type": "backend", "label": "知识治理闭环", "sublabel": "评测 · 批准 · 回滚", "pos": [880, 500], "size": [170, 68], "tag": "L3 slice" },
+    { "id": "files", "type": "database", "label": "隔离原件存储", "sublabel": "上传文件 · 图片媒体", "pos": [1080, 500], "size": [150, 68] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "本机隔离运行边界", "wraps": ["browser", "http", "graph", "rag", "sqlite", "evolution", "files"], "pad": 24 },
+    { "kind": "security-group", "label": "真实模型云边界", "wraps": ["deepseek"], "pad": 18 }
+  ],
+  "connections": [
+    { "id": "user-browser", "from": "customer", "to": "browser", "label": "操作", "variant": "emphasis" },
+    { "id": "browser-http", "from": "browser", "to": "http", "label": "HTTP / SSE", "variant": "emphasis", "labelDy": 58 },
+    { "id": "http-graph", "from": "http", "to": "graph", "label": "认证后请求", "labelDy": 58 },
+    { "id": "graph-text", "from": "graph", "to": "deepseek", "label": "文本意图 / 生成", "variant": "security", "fromSide": "top", "toSide": "bottom", "labelDy": -54 },
+    { "id": "graph-vision", "from": "graph", "to": "deepseek", "label": "图片观察", "variant": "security", "fromSide": "top", "toSide": "bottom", "labelDy": -86 },
+    { "id": "graph-rag", "from": "graph", "to": "rag", "label": "语义检索 / 引用", "variant": "emphasis", "labelDy": 58 },
+    { "id": "rag-sqlite", "from": "rag", "to": "sqlite", "label": "向量 + BM25 + 状态", "labelDy": -79 },
+    { "id": "graph-evolution", "from": "graph", "to": "evolution", "label": "反馈 / 候选", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 58 },
+    { "id": "evolution-sqlite", "from": "evolution", "to": "sqlite", "label": "批准 / 回滚状态", "variant": "dashed", "fromSide": "right", "toSide": "left", "labelDy": 58 },
+    { "id": "http-files", "from": "http", "to": "files", "label": "导入 / 下载", "variant": "dashed", "fromSide": "bottom", "toSide": "bottom", "via": [[505, 650], [1155, 650]], "labelDy": 58 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "当前主路径", "items": ["用户经本机 Demo 或 Host API 进入客服 Graph", "意图识别与生成走 DeepSeek，检索和知识状态留在本地"] },
+    { "dot": "emerald", "title": "已验证的闭环切片", "items": ["C01 真实同对象追问保留 contextual retrieval", "L04 回滚后候选显示 rolled_back，active 知识版本移除"] },
+    { "dot": "amber", "title": "明确边界", "items": ["真实视觉现已关闭 thinking 后通过三次重复请求", "K04 崩溃恢复、跨进程/SSE 完整幂等和生产账本仍待办"] }
+  ]
+}

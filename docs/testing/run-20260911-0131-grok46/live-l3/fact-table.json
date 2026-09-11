@@ -1,0 +1,27 @@
+{
+  "oracle": "synthetic-only",
+  "product_id": "QA-GROK-2C2668E3",
+  "product_name": "孤岛验收电热水壶",
+  "color": "米白",
+  "capacity": "5L",
+  "price": 329,
+  "warranty_months": 12,
+  "microwave": false,
+  "microwave_text": "不可微波",
+  "stock": null,
+  "sales": null,
+  "eta": null,
+  "refund_may_execute": false,
+  "refund_required_materials": [
+    "订单号",
+    "未拆封外箱照片",
+    "核验码 GROK-RCPT-2C2668E3"
+  ],
+  "refund_conditions": [
+    "未使用",
+    "包装完好",
+    "签收后7日内"
+  ],
+  "competitor_evidence": null,
+  "note": "Demo also seeds Qingchuan; this nonce product is the independent D01/D02/G07/C01 oracle."
+}

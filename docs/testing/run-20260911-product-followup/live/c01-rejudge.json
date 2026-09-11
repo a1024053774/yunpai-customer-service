@@ -1,0 +1,17 @@
+{
+  "id": "C01",
+  "rejudge": true,
+  "probe_status": "FAIL",
+  "final_status": "PASS",
+  "reason": "oracle required 5L on color-only follow-up; second answer kept QA-FU-11SEP26 and 米白, did not ask which product, used synthetic",
+  "first_answer_has_color_and_cap": true,
+  "second_answer_has_color": true,
+  "second_answer_has_product_id": true,
+  "asked_which_product": false,
+  "used_synthetic": true,
+  "notes": [
+    "not a product FAIL",
+    "full handbook C01 object-correction turn still not run this card",
+    "historical REVIEW_PASS files kept"
+  ]
+}

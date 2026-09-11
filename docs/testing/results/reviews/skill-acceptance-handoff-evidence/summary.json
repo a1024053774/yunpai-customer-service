@@ -1,0 +1,50 @@
+{
+  "saved_utc": "2026-09-11T08:55:30.531834+00:00",
+  "api_matches_after_k05": true,
+  "product_digest_drift": true,
+  "skill_sha_matches_claimed": true,
+  "checker_is_behavioral_proof": false,
+  "dummy_needles_would_pass_text_oracle": true,
+  "k05_rows": [
+    {
+      "factor": "message",
+      "conflict_or_status": 409,
+      "code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "store_id",
+      "conflict_or_status": 409,
+      "code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "image",
+      "conflict_or_status": 409,
+      "code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "subject_same_session",
+      "conflict_or_status": 409,
+      "code": "session_scope_conflict"
+    },
+    {
+      "factor": "subject_new_session_same_key",
+      "conflict_or_status": 409,
+      "code": "idempotency_key_conflict"
+    },
+    {
+      "factor": "different_client_same_key",
+      "conflict_or_status": 401,
+      "code": null
+    },
+    {
+      "factor": "K11-empty-message-no-image",
+      "conflict_or_status": 422,
+      "code": null
+    },
+    {
+      "factor": "K11-wrong-content-type",
+      "conflict_or_status": 422,
+      "code": null
+    }
+  ]
+}

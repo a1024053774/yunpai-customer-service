@@ -1,0 +1,9 @@
+{
+  "id": "L01",
+  "verdict": "PASS",
+  "pytest_exit": 0,
+  "counterfactual_failed_as_expected": true,
+  "fastembed_used": true,
+  "live_llm_reprobed": false,
+  "notes": "工作区 pytest 4 passed EXIT:0。/tmp 反证 1 failed EXIT:1：FastEmbed 第一名 seed-0007 (0.8465)，导入 0.8167，晴川 5L 0.8139。live before JSON 问句与测试 CAPACITY_Q 完全一致。search_terms 仍拆 QA-GROK-2C2668E3。未复测 live LLM 成文。实现者 green.txt/success.png 不作验收。"
+}

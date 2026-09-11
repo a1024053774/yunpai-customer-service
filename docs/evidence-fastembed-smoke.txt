@@ -1,0 +1,6 @@
+Command: .venv/bin/python - <<'PY'
+Build FastEmbed BAAI/bge-small-zh-v1.5 and compare query/document vectors.
+
+Observed:
+fastembed 512 512 0.8318
+

@@ -1,0 +1,441 @@
+{
+  "saved_utc": "2026-09-11T08:27:16.815098+00:00",
+  "run_id": "run-20260911-acceptance-handoff",
+  "ledger_note": "this-run only; did not edit docs/testing/results/CASES.json INDEX.json README.md",
+  "release": "NO_GO",
+  "release_reason": "handbook 10.2 incomplete",
+  "candidate": {
+    "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+    "dirty_required": true,
+    "stage0_candidate_sha256": "0016c55d33fe645d01843de11fe56e451f4569e06f9df54e3b7c63db01bc8156",
+    "api_py_sha256_stage0": "29db7335e4cdc3b9d6adc8b54f40752a642299f3dc1ffa15b887dca692476d4f",
+    "api_py_sha256_after_k05": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+    "product_digest_drift_after_k05": true
+  },
+  "live": [
+    {
+      "id": "L05-health",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "E-import-txt",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "E01-pdf-import",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "I01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "I08",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "B01",
+      "level": "L3",
+      "probe_status": "INCOMPLETE",
+      "this_run_status": "INCOMPLETE",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "B02",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "B03",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "B04",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "D01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "D02",
+      "level": "L3",
+      "probe_status": "FAIL",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json + live/d02-rejudge.json",
+      "notes": [
+        "probe FAIL was STOCK_RE false positive on warranty 12 months",
+        "rejudge PASS; do not treat as product FAIL"
+      ]
+    },
+    {
+      "id": "G07",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "L01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "B08-typo",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "C01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "K01-sse",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "K04-host-idempotency",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "K05-idempotency-conflict",
+      "level": "L3",
+      "probe_status": "INCOMPLETE",
+      "this_run_status": "REVIEW_PASS",
+      "evidence": "defects/K05-host-500/",
+      "notes": [
+        "original live 500 kept in live-results.json",
+        "fix api.py SessionScopeError -> 409",
+        "live after restart 200+409",
+        "fresh reviewer PASS cursor-grok-4.6-xhigh-fast"
+      ]
+    },
+    {
+      "id": "F01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    },
+    {
+      "id": "J01",
+      "level": "L3",
+      "probe_status": "PASS",
+      "this_run_status": "PASS",
+      "evidence": "live/live-results.json"
+    }
+  ],
+  "l1": [
+    {
+      "id": "D07-identity",
+      "level": "L1",
+      "status": "PASS",
+      "schema_version": 39,
+      "embedding_identity": "hash",
+      "notes": [
+        "this-run identity/schema re-probe; REVIEW_PASS kept",
+        "no live dual FastEmbed two-model mix in this process"
+      ]
+    },
+    {
+      "id": "D07-other-identity-object",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "hash_identity": "hash",
+      "live_identity": "hash",
+      "notes": [
+        "hash vs current identity differ; no second FastEmbed download",
+        "not a live dual-index mix"
+      ]
+    },
+    {
+      "id": "F01-l1",
+      "level": "L1",
+      "status": "PASS",
+      "candidate_id": "candidate-59d250bc921e4e9e99e6dec92fae3025"
+    },
+    {
+      "id": "F03",
+      "level": "L1",
+      "status": "PASS",
+      "notes": [
+        "EvolutionError",
+        "bypass evaluate must be rejected"
+      ]
+    },
+    {
+      "id": "K04-core",
+      "level": "L1",
+      "status": "PASS",
+      "message_id": "msg-5d659b0935015aaeaa7896a5f5880003"
+    },
+    {
+      "id": "K05-core",
+      "level": "L1",
+      "status": "PASS",
+      "error_type": "SessionScopeError"
+    },
+    {
+      "id": "C08-reopen",
+      "level": "L1",
+      "status": "PASS",
+      "reopened_message_count": 4,
+      "same_db": "/tmp/yunpai-handoff-l1-l851huvo/agent.sqlite3",
+      "notes": [
+        "same DATA_DIR reopen; not crash-mid-write"
+      ]
+    },
+    {
+      "id": "A08-two-tmp",
+      "level": "L1",
+      "status": "PASS",
+      "dir_a": "/tmp/yunpai-handoff-l1-l851huvo",
+      "dir_b": "/private/tmp/yunpai-handoff-l1b-tymdgkmz"
+    }
+  ],
+  "blocked": [
+    {
+      "id": "N03",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "reason": "no authorized reverse-proxy / TLS / public ingress",
+      "actual": {
+        "nginx": null,
+        "caddy": null,
+        "listen_80": false,
+        "listen_443": false,
+        "listen_8080": false
+      },
+      "unblock": "authorized pre-prod gateway with real Host/TLS and Demo not exposed"
+    },
+    {
+      "id": "N04",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "reason": "no independent-site login A/B accounts in this workspace",
+      "actual": {
+        "independent_site_url": null,
+        "user_a_credentials": false,
+        "user_b_credentials": false
+      },
+      "unblock": "two real website users plus host backend that binds X-Subject-Id"
+    },
+    {
+      "id": "O02-O06",
+      "priority": "P0/P1",
+      "status": "BLOCKED",
+      "reason": "HR is profile tags only; no authorized HR policy/SOP/roles",
+      "actual": {
+        "hr_business_delivered": false
+      },
+      "unblock": "business-accepted HR corpus, roles, and region rules"
+    },
+    {
+      "id": "K06-K13-L4",
+      "priority": "P0/P1",
+      "status": "BLOCKED",
+      "reason": "no sandbox business ledger / real write tools",
+      "actual": {
+        "tool_registry_has_external_ledger": false
+      },
+      "unblock": "authorized sandbox order/refund/notify ledger with independent readback"
+    },
+    {
+      "id": "M08",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "8h soak not scheduled; no load contract",
+      "actual": {
+        "soak_hours": 0,
+        "load_contract": null
+      },
+      "unblock": "dedicated env, frozen load contract, 8h window, stop thresholds"
+    },
+    {
+      "id": "A06",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "no frozen clean-dir wheel/image install off repo src",
+      "actual": {
+        "dist_wheels": [],
+        "editable_src_used": true
+      },
+      "unblock": "build wheel/image, install in clean venv with repo src off PYTHONPATH"
+    },
+    {
+      "id": "E03",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "no real scanned PDF with independent human page truth",
+      "actual": {
+        "scan_pdf_authorized": false,
+        "docling_importable": true
+      },
+      "unblock": "authorized Chinese scan PDF plus page-level human transcript"
+    },
+    {
+      "id": "N01",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "same as A06: clean-env frozen package not installed",
+      "actual": {
+        "dist_wheels": []
+      },
+      "unblock": "same as A06 plus extras/model files smoke"
+    }
+  ],
+  "browser": {
+    "saved_utc": "2026-09-11T08:21:04.087850+00:00",
+    "cursor_ide_browser": "FAILED_NO_TAB",
+    "used": "plugin-devtools-for-agents-chrome-devtools against http://127.0.0.1:53120/",
+    "cases": [
+      {
+        "id": "L05",
+        "status": "PASS",
+        "evidence": "browser/L05-home.png",
+        "notes": "live/fastembed labels visible"
+      },
+      {
+        "id": "L01",
+        "status": "PASS",
+        "evidence": "browser/L01-chat.png",
+        "notes": "clicked new session, typed QA-HO-11SEP26, send; 5L rice-white; synthetic sources"
+      },
+      {
+        "id": "C01",
+        "status": "PASS",
+        "evidence": "browser/C01-followup.png",
+        "notes": "follow-up \u8fd9\u4e2a\u989c\u8272\u786e\u8ba4\u4e00\u4e0b kept rice-white 5L"
+      },
+      {
+        "id": "L04",
+        "status": "INCOMPLETE",
+        "evidence": "browser/L04-admin.png",
+        "notes": "opened /admin; did not click evaluate/approve/rollback this session"
+      }
+    ]
+  },
+  "restart": {
+    "C08_l3": "INCOMPLETE",
+    "K05_live_after_restart": "PASS",
+    "sqlite_sessions": 17,
+    "sqlite_messages": 38,
+    "demo_session_list_after_restart": 0,
+    "notes": [
+      "Demo /api/sessions empty after launcher rotated bootstrap client",
+      "sqlite still holds prior sessions; L1 C08-reopen PASS",
+      "not scored as product FAIL this run"
+    ]
+  },
+  "k05": {
+    "priority": "P1",
+    "status": "REVIEW_PASS",
+    "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+    "review_verdict": "PASS",
+    "edited_code_by_reviewer": false,
+    "folder": "defects/K05-host-500/"
+  },
+  "review_pass_kept": [
+    "C01",
+    "G07",
+    "L01",
+    "D07",
+    "D02",
+    "G04",
+    "F09",
+    "F11",
+    "F05",
+    "F10",
+    "7.2"
+  ],
+  "blocked_ids": [
+    "N03",
+    "N04",
+    "O02",
+    "O03",
+    "O04",
+    "O05",
+    "O06",
+    "K06",
+    "K07",
+    "K08",
+    "K09",
+    "K10",
+    "K11",
+    "K12",
+    "K13",
+    "M08",
+    "A06",
+    "E03",
+    "N01"
+  ],
+  "not_run_ids": [
+    "L03",
+    "L06",
+    "L08",
+    "M04",
+    "M05",
+    "M06",
+    "M07",
+    "M09",
+    "M10",
+    "N05",
+    "N06",
+    "N07",
+    "N08",
+    "P05",
+    "P08",
+    "7.9"
+  ],
+  "must_not_claim_pass": [
+    "L4",
+    "L5",
+    "HR-business",
+    "8h-soak",
+    "clean-package-install",
+    "scan-OCR",
+    "real-reverse-proxy",
+    "independent-site-login",
+    "live-dual-FastEmbed-D06-D08",
+    "pytest-109-as-product-GO"
+  ]
+}

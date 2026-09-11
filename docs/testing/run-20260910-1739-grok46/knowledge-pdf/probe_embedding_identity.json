@@ -1,0 +1,55 @@
+{
+  "static": {
+    "embeddings_py": "/tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/embeddings.py",
+    "fastembed_name_is_literal_fastembed": true,
+    "fastembed_stores_model_name_attribute": false,
+    "hash_name_is_literal_hash": true,
+    "knowledge_table_columns_mention_model_identity": false,
+    "rebuild_checks_model_identity": false,
+    "score_behavior": "len(query_vector)==len(stored_vector) then cosine; else semantic=0. No model-id check.",
+    "notes": "FastEmbedProvider.name is the backend family string fastembed, not the concrete model id. Knowledge rows persist only the embedding BLOB."
+  },
+  "hash_contract": {
+    "hash_type": "HashEmbeddingProvider",
+    "hash_is_HashEmbeddingProvider": true,
+    "hash_name": "hash",
+    "hash_ignores_model_argument": true,
+    "unknown_provider_raises_value_error": true,
+    "unknown_error": "unsupported RAG embedding provider: unknown",
+    "fastembed_class_name_attr": "fastembed"
+  },
+  "same_dimension_mix": {
+    "stored_vector": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "query_vector_after_switch": [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "same_dimension": true,
+    "different_model_names": [
+      "model-a",
+      "model-b"
+    ],
+    "retrieve_raised": false,
+    "error": null,
+    "hit_ids": [
+      "kb-96e1606c63094976b63ce03dd7505e7d"
+    ],
+    "document_still_retrievable": true,
+    "rebuild_without_identity_check": true,
+    "rebuild_error": null,
+    "mix_rejected_or_migrated": false
+  },
+  "conclusions": {
+    "model_identity_persisted": false,
+    "same_dimension_mix_rejected": false,
+    "d07_from_this_probe": "FAIL",
+    "reason": "Same-dimension different-model vectors were retrieved without rejection or controlled migration. Model identity is not persisted on knowledge rows."
+  }
+}

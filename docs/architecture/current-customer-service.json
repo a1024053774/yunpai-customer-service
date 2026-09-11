@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "当前客服真实执行链与信任边界",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1320,
+      810
+    ]
+  },
+  "components": [
+    {
+      "id": "web-client",
+      "type": "frontend",
+      "label": "Browser",
+      "sublabel": "不可信输入与图片",
+      "pos": [
+        65,
+        100
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "http-entry",
+      "type": "backend",
+      "label": "FastAPI",
+      "sublabel": "宿主 API / 本机 Demo",
+      "pos": [
+        395,
+        100
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "client-auth",
+      "type": "security",
+      "label": "AuthenticationService",
+      "sublabel": "进程内认证 · tenant / subject",
+      "pos": [
+        725,
+        100
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "chat-core",
+      "type": "backend",
+      "label": "CustomerServiceCore",
+      "sublabel": "输入清洗与会话归属",
+      "pos": [
+        1055,
+        100
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "compiled-graph",
+      "type": "backend",
+      "label": "LangGraph",
+      "sublabel": "真实节点生成、审核、持久化",
+      "pos": [
+        1055,
+        335
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "knowledge-search",
+      "type": "backend",
+      "label": "本地 RAG",
+      "sublabel": "FastEmbed / BM25 / 来源",
+      "pos": [
+        725,
+        335
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "local-state",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "知识、会话、审计、checkpoint",
+      "pos": [
+        395,
+        335
+      ],
+      "size": [
+        210,
+        100
+      ]
+    },
+    {
+      "id": "cloud-model",
+      "type": "external",
+      "label": "DeepSeek API",
+      "sublabel": "文本决策与非权威图片观察",
+      "pos": [
+        1055,
+        590
+      ],
+      "size": [
+        210,
+        100
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "客户端边界",
+      "wraps": [
+        "web-client"
+      ],
+      "pad": 22
+    },
+    {
+      "kind": "security-group",
+      "label": "本机应用与数据 · SQLite",
+      "wraps": [
+        "http-entry",
+        "client-auth",
+        "chat-core",
+        "compiled-graph",
+        "knowledge-search",
+        "local-state"
+      ],
+      "pad": 22
+    },
+    {
+      "kind": "security-group",
+      "label": "外部模型服务",
+      "wraps": [
+        "cloud-model"
+      ],
+      "pad": 22
+    }
+  ],
+  "connections": [
+    {
+      "id": "web-to-http",
+      "from": "web-client",
+      "to": "http-entry",
+      "label": "HTTP / SSE",
+      "variant": "emphasis"
+    },
+    {
+      "id": "http-to-auth",
+      "from": "http-entry",
+      "to": "client-auth",
+      "label": "服务端认证",
+      "variant": "security"
+    },
+    {
+      "id": "auth-to-core",
+      "from": "client-auth",
+      "to": "chat-core",
+      "label": "Principal",
+      "variant": "emphasis"
+    },
+    {
+      "id": "core-to-graph",
+      "from": "chat-core",
+      "to": "compiled-graph",
+      "label": "编译图执行",
+      "variant": "emphasis",
+      "labelDy": 24
+    },
+    {
+      "id": "graph-to-rag",
+      "from": "compiled-graph",
+      "to": "knowledge-search",
+      "label": "租户内检索",
+      "variant": "emphasis"
+    },
+    {
+      "id": "rag-to-db",
+      "from": "knowledge-search",
+      "to": "local-state",
+      "label": "受限读写",
+      "variant": "emphasis"
+    },
+    {
+      "id": "graph-to-model",
+      "from": "compiled-graph",
+      "to": "cloud-model",
+      "label": "HTTPS / 结构化结果",
+      "variant": "security",
+      "labelDy": 24
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "一套业务执行",
+      "items": [
+        "同步与 SSE 都执行图中的 generate / verify。",
+        "SSE 等审核完成才发答案；无独立语义调度循环。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "权限不由模型授予",
+      "items": [
+        "宿主 API 要求认证；Demo 拒绝代理和跨源请求。",
+        "检索片段与图片会进入外部模型；原件下载需租户归属。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "图不代替上线验收",
+      "items": [
+        "当前无 PostgreSQL、独立 API Gateway 或认证微服务。",
+        "HR profile 仍是标签骨架，不能视为 HR 功能已接通。"
+      ]
+    }
+  ]
+}

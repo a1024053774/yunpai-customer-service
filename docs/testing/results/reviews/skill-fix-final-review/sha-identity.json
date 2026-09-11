@@ -1,0 +1,29 @@
+{
+  "saved_utc": "2026-09-11T10:02:25Z",
+  "claimed_sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+  "measured": {
+    "live_skill": {
+      "path": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+      "sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+      "inode": 180607586,
+      "bytes": 18247
+    },
+    "codex_copy": {
+      "path": "/Users/luckye/.codex/skills/agent-acceptance-testing/SKILL.md",
+      "sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+      "inode": 180607586,
+      "same_inode_as_live": true
+    },
+    "skill_after_copy": {
+      "path": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/SKILL.after.md",
+      "sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+      "matches_live": true
+    },
+    "skill_before_copy": {
+      "path": "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/SKILL.before.md",
+      "sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac"
+    }
+  },
+  "snapshot_frozen": true,
+  "matches_user_claimed_sha": true
+}

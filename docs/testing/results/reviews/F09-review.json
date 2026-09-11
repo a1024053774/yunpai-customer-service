@@ -1,0 +1,55 @@
+{
+  "id": "F09",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "luna": false,
+  "status": "PASS",
+  "target": "frozen F09 candidate evolution.py sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+  "contract": "concurrent approve/reject/rollback must not make mutually exclusive states true, must not create duplicate versions, and must not silently approve something that cannot be retrieved",
+  "report": "STATUS: PASS\nTARGET: frozen F09 candidate evolution.py sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310\nEVIDENCE:\n- Reviewer: detached Cursor Grok 4.6. Fresh context. Did not resume 3a096236 / aee7ee28 / d67d6978 / 38f47030. Did not use Luna. Product code, tests, git, and CASES.json were not edited.\n- Handbook F09 (`docs/agent-testing-manual.md`): input `\u4e24\u4eba\u5e76\u53d1\u6279\u51c6/\u62d2\u7edd/\u56de\u6eda\uff1b\u53d1\u5e03\u9014\u4e2d\u65ad\u5e93`; pass `\u4e0d\u51fa\u73b0\u4e92\u65a5\u72b6\u6001\u540c\u65f6\u6210\u7acb\u3001\u91cd\u590d\u7248\u672c\u6216\u6279\u51c6\u4f46\u4e0d\u53ef\u68c0\u7d22\u7684\u9759\u9ed8\u72b6\u6001`. Full contract used here: concurrent approve/reject/rollback must not make mutually exclusive states true, must not create duplicate versions, and must not silently approve something that cannot be retrieved. Epoch1 `F09-review-epoch1-two-approve.md` PASS is two-approve only and is not the oracle.\n- Frozen `src/yunpai_customer_service/evolution.py` UTF-8 sha256 `7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310` matched before probes, after probes, and immediately before this write.\n- Implementer `review-fail-after.json` / `how-fixed.md` labeled green. Inspected only; not accepted.\n- Historical `review-fail-before.json`: approve+reject `rejected_plus_active=8` and `both_ok=8`; leftover `duplicate_active=true` (orphan plus a new active row). Known-bad shape, not after-fix proof.\n- Independent probes imported workspace `evolution.py` (not implementer scripts). `/tmp` `DATA_DIR`. `TableDrivenModel` + `LEARNED_QUESTION` / `LEARNED_ANSWER`. Unique core/tempdir per approve+reject trial. Public entry: `EvolutionService.approve` / `reject` (same methods as Demo `POST /api/evolution/candidates/{id}/approve` and `/reject`).\n- Probe 1 `/tmp/f09-review-epoch2/probe_f09.py` two-thread approve: evaluate_passed=true; successes=`[b:approved]`; errors=`[a:EvolutionError:candidate must pass evaluation before approval]`; active_count=1 id `kb-18a09393a1594fdb9ebb1398798cbc17`; candidate.status=`approved`; `resulting_knowledge_id` equals that id; `get_document` status=`active`; `retrieve()` hit the same id (score 0.8801). Verdict PASS.\n- Probe 2 same script, 8 unique-core approve+reject trials: `rejected_plus_active=0`, `both_ok=0`. All 8 were reject-first (`reject-ok` + `approve:EvolutionError`, status=`rejected`, active=0). Scheduling follow-up `/tmp/f09-review-epoch2/probe_f09_sched.py` forced both orders (4 delay-reject, 4 delay-approve): approve_wins=4 (status=`approved`, active=1, reject `EvolutionError`); reject_wins=4 (status=`rejected`, active=0); `rejected_plus_active=0`; `both_ok=0`. Verdict PASS.\n- Probe 3 leftover: inserted active `kb-018988bd671b4456abaa1027a5d4cefa` with `source=evolution:{id}` while status was still `evaluated`, then one `approve()`. active_count=1; candidate attached the leftover id; `reused_orphan=true`; `duplicate_active=false`. Verdict PASS.\n- Structural gates: reachability is the real approve/reject callers. Ownership stays on `EvolutionService` plus existing `Database._write_lock` (RLock at `database.py`). No new wrapper module, fallback API, or second approve/reject path. `approve()` (lines 287-351) holds the RLock around get + leftover reuse-or-`add_document` + `UPDATE ... WHERE id=? AND status='evaluated' AND gate_passed=1`; `rowcount != 1` retires only a row this call inserted. `reject()` (lines 356-374) holds the same RLock and CAS `UPDATE ... WHERE id=? AND status IN ('pending','evaluated')`. `add_document` / `retire_document` / `audit` re-enter the RLock.\nFINDINGS:\n- none confirmed on the frozen full handbook F09 path\nCOUNTEREXAMPLE:\n- `/tmp/f09-review-epoch2/counterfactual/src` copy only; workspace product source was not edited. Copy removed leftover reuse (always `add_document`) and restored unlocked reject (`get` then `UPDATE` with no status predicate). Same leftover and approve-then-reject probes imported that copy (`/private/tmp/f09-review-epoch2/counterfactual/src/yunpai_customer_service/evolution.py`).\n- Leftover without reuse: evaluate_passed=true; approve ok; candidate pointed at new `kb-a6f2c600035c4091ad584909ec063cb6`; leftover `kb-1fb559ffaa024a29b1c61f8f671f39cb` stayed active; `duplicate_active=true`; `reused_orphan=false`. Matches `review-fail-before.json` leftover shape.\n- Unlocked reject window (check-then-act, no predicate): events=`[approve-ok, reject-ok]`; candidate.status=`rejected` with `resulting_knowledge_id` set; active_count=1; `both_ok=true`; `rejected_plus_active=true`. Matches `review-fail-before.json` approve+reject shape. Frozen lock+CAS rejected this implementation.\nLIMITATIONS:\n- Mid-publish crash was not injected; leftover insert is the retry stand-in for a row written before the claim `UPDATE`.\n- Concurrent rollback was inspected (`retire_document` CAS) but not independently raced. No reproduced rollback violation.\n- `_write_lock` is process-local. Two OS processes were not probed. The claim `UPDATE`s are the cross-process backstop.\n- L1 in-process threads + table-driven model + hash embedding. Not L3 HTTP/UI.\n- Implementer after JSON IDs differ from these probes and were ignored as acceptance.\n",
+  "evidence": [
+    "handbook F09 full contract in docs/agent-testing-manual.md; epoch1 two-approve PASS is not the oracle",
+    "frozen evolution.py sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310 matched before, after, and at write",
+    "implementer review-fail-after.json/how-fixed.md inspected only; not the oracle",
+    "review-fail-before.json historical red: rejected_plus_active=8, both_ok=8, leftover duplicate_active=true",
+    "probe 1 two-thread approve: 1 success b:approved, 1 EvolutionError a, 1 active kb-18a09393a1594fdb9ebb1398798cbc17, retrieve score 0.8801",
+    "probe 2: 8 unique-core approve+reject rejected_plus_active=0 both_ok=0; sched follow-up approve_wins=4 reject_wins=4 still 0/0",
+    "probe 3 leftover kb-018988bd671b4456abaa1027a5d4cefa reused; active_count=1",
+    "public entry EvolutionService.approve/reject / Demo POST approve and reject",
+    "structural: existing RLock around approve leftover-or-insert+claim and reject CAS; no wrapper module"
+  ],
+  "findings": [],
+  "counterexample": [
+    "/tmp/f09-review-epoch2/counterfactual/src only; workspace src not edited",
+    "leftover reuse removed: two active rows (kb-1fb559ffaa024a29b1c61f8f671f39cb and kb-a6f2c600035c4091ad584909ec063cb6), reused_orphan=false",
+    "unlocked reject without status predicate: both_ok=true, status=rejected, active=1, rejected_plus_active=true",
+    "matches review-fail-before.json known-bad shape"
+  ],
+  "limitations": [
+    "mid-publish crash not injected; leftover insert is the retry stand-in",
+    "concurrent rollback inspected via retire_document CAS, not independently raced",
+    "process-local lock; multi-process claim path not executed",
+    "L1 threads + TableDrivenModel + hash embedding; not L3 HTTP/UI",
+    "implementer after JSON IDs ignored"
+  ],
+  "hashes": {
+    "required_frozen": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "at_write": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310"
+  },
+  "probe": {
+    "two_approve_verdict": "PASS",
+    "two_approve_successes": [
+      "b:approved"
+    ],
+    "two_approve_active_count": 1,
+    "two_approve_knowledge_id": "kb-18a09393a1594fdb9ebb1398798cbc17",
+    "approve_reject_rejected_plus_active": 0,
+    "approve_reject_both_ok": 0,
+    "sched_approve_wins": 4,
+    "sched_reject_wins": 4,
+    "leftover_reused": "kb-018988bd671b4456abaa1027a5d4cefa",
+    "leftover_duplicate_active": false,
+    "counterfactual_duplicate_active": true,
+    "counterfactual_rejected_plus_active": true
+  }
+}

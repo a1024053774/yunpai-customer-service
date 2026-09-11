@@ -1,0 +1,38 @@
+{
+  "saved_utc": "2026-09-11T09:50:00Z",
+  "title": "how the frozen Skill 89ae938a failed on the completed product-acceptance cycle",
+  "skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "product_release": "NO_GO",
+  "failure_mode": [
+    "Sections 0-7 are a usable outline (freeze, layers, independent oracle, red-before-green, counterfactual, BLOCKED vs FAIL, real-boundary NO_GO). They were not enough for this cycle.",
+    "The candidate moved twice: handoff api.py 0016c55d -> e268c2b3; followup graph.py 801e8ae1 -> 340f188d. The Skill freeze is one-shot, so mixed-digest cards could still be treated as the current candidate.",
+    "Catalog rows were easy to close from a narrower slice: K05 host-500 and factor matrix; K11/K06 framework vs L4 ledger; C01/B01/I08/K01-sse proven-scope only. The Skill never separated parent row from slice.",
+    "Appendix REVIEW_PASS freeze conflicts with handbook 10.2 current-candidate regression. Historical originals must stay; current status must be allowed to become FAIL/INCOMPLETE.",
+    "Fresh-context verifier is a name plus Cursor Task pins. K04 actually needed: red on live 200+500, persist_response fix, live restart PID 37044 green, then a detached read-only review of original artifacts before claiming the slice. That sequence was not an executable Skill requirement. Review-before-ledger was already violated in the handoff pack.",
+    "L04 clicks completed while candidate_status stayed approved. Screenshot-is-not-enough did not force page/API/DB agreement.",
+    "Cost amount was unknown because provider fields were absent. The Skill asked for cost fields but did not make unknown recordable without becoming a pass.",
+    "Appendix continue-must-not-wait can outrank credential/production/isolation stops.",
+    "Appendix and leftover body names (env bootstrap file, data-dir variable, editor encoding, file URI workaround, vendor/model/launcher APIs, 109 passed) make the Skill this-repo/this-host. Independent review: reusable Skill FAIL.",
+    "skill-fix/check_skill.py plus false-green-skill-needles.txt is a substring GO. Independent review reproduced that dummy concatenation passes. That cannot evaluate this Skill.",
+    "skill-fix-2 (bd04be60) already tried a portable rewrite before product followup finished. User marked it ABANDONED_PREMATURE; Skill was restored to 89ae938a. That premature green is retained evidence, not this revision's oracle."
+  ],
+  "keep": [
+    "candidate freeze including dirty tree",
+    "evidence layers",
+    "independent oracle",
+    "red-before-green",
+    "counterfactual",
+    "fresh-context verifier as a role",
+    "BLOCKED/INCOMPLETE/FAIL/N/A",
+    "10.2-style NO_GO when P0/P1 or real boundaries are missing"
+  ],
+  "must_become_executable_and_portable": [
+    "re-freeze every phase and every product-source drift; product digest / Skill sha / review sha are separate",
+    "handbook row vs named slice; historical PASS/REVIEW_PASS originals stay; current candidate may FAIL/INCOMPLETE",
+    "fresh verifier: new context, not implementer continuation, read-only, no product edits, receipt before ledger",
+    "L1-L5 including local-demo vs production and framework vs business ledger; unknown cost; safety stop outranks continue",
+    "isolation, credentials, executor, capture/test tools from project rules or run manifest",
+    "Skill eval by behavioral counterexample or independent review; substring checker is not GO",
+    "live defect: red -> owning-layer fix -> live restart green -> detached review; Skill revision is not product GO"
+  ]
+}

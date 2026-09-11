@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>K04 concurrent 500 red</title>
+<style>
+  html,body { background:#ffffff; color:#111111; font-family: sans-serif; margin:0; }
+  body { padding:24px; }
+  h1 { font-size:22px; }
+  pre { background:#f5f6f8; padding:12px; border:1px solid #ddd; }
+</style>
+</head>
+<body>
+<h1>K04 red: concurrent same idempotency key</h1>
+<p>Expected: both HTTP 200, same message_id. Observed: 200 + 500 Internal Server Error.</p>
+<pre>{
+  "status_codes": [200, 500],
+  "second_body": "Internal Server Error",
+  "live_log": "RuntimeError: agent invocation completion was not persisted"
+}</pre>
+</body>
+</html>

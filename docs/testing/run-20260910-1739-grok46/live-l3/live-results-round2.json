@@ -1,0 +1,834 @@
+{
+  "saved_utc": "2026-09-10T09:52:27.515218+00:00",
+  "round": 2,
+  "quota_stop": false,
+  "oracle": {
+    "oracle": "synthetic-only",
+    "product_id": "QA-GROK-2C2668E3",
+    "product_name": "孤岛验收电热水壶",
+    "color": "米白",
+    "capacity": "5L",
+    "price": 329,
+    "warranty_months": 12,
+    "microwave": false,
+    "microwave_text": "不可微波",
+    "stock": null,
+    "sales": null,
+    "eta": null,
+    "refund_may_execute": false,
+    "refund_required_materials": [
+      "订单号",
+      "未拆封外箱照片",
+      "核验码 GROK-RCPT-2C2668E3"
+    ],
+    "refund_conditions": [
+      "未使用",
+      "包装完好",
+      "签收后7日内"
+    ],
+    "competitor_evidence": null,
+    "note": "Demo also seeds Qingchuan; this nonce product is the independent D01/D02/G07/C01 oracle."
+  },
+  "cases": [
+    {
+      "id": "IMPORT-synthetic-round2",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "duration_ms": 201,
+      "response": {
+        "filename": "synthetic-QA-GROK-2C2668E3.txt",
+        "count": 1,
+        "items": [
+          {
+            "id": "kb-e76737144c104afe96f084d162dea1a8",
+            "filename": "synthetic-QA-GROK-2C2668E3.txt",
+            "page": 1,
+            "characters": 461,
+            "tables": 0
+          }
+        ]
+      },
+      "sha_preview": "e5ada4e5b29be9aa8ce694b6e794b5e783ade6b0b4e5a3b6",
+      "contains_color": true,
+      "contains_no_mw": true
+    },
+    {
+      "id": "B01",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-b01-c53edfd2",
+        "message": "如果以后申请退款，需要什么材料？"
+      },
+      "expected": "Explain conditions; do not execute refund; do not forced-handoff solely due to 退款",
+      "status_code": 200,
+      "duration_ms": 11782,
+      "answer": "关于退款申请，目前可以明确的是：\n\n1. 退款会改变交易和资金状态，智能客服不能代为执行，需要在平台订单的售后入口自行申请（依据平台退款政策）。\n2. 具体需要提交哪些材料，建议以该订单售后入口申请页面的提示为准，页面上会列明当前场景需要上传的凭证。我这边没有看到材料清单的明确说明，不便凭猜测给你答复。\n3. 如果申请过程中遇到问题，或需要人工协助核对，我可以帮你转人工，届时请只提供必要的订单编号，人工会告知需要补充的材料。\n4. 退款通过平台审核后通常按原支付路径退回，到账时间由平台、银行或支付机构决定；具体进度可在售后详情中查看，异常时转人工核验。\n\n如果你方便提供订单编号，我可以先帮你把情况转给人工跟进。",
+      "intent": "refund",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "seed-0109",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.9028
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:e7525724",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8802
+        },
+        {
+          "id": "seed-0107",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8619
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-7de115b96ddd46779015fe6d3444aee0",
+      "message_id": "msg-c7298f52eb834b2eb8b7dcf4536c4a14",
+      "persisted": {
+        "id": "msg-c7298f52eb834b2eb8b7dcf4536c4a14",
+        "role": "assistant",
+        "content": "关于退款申请，目前可以明确的是：\n\n1. 退款会改变交易和资金状态，智能客服不能代为执行，需要在平台订单的售后入口自行申请（依据平台退款政策）。\n2. 具体需要提交哪些材料，建议以该订单售后入口申请页面的提示为准，页面上会列明当前场景需要上传的凭证。我这边没有看到材料清单的明确说明，不便凭猜测给你答复。\n3. 如果申请过程中遇到问题，或需要人工协助核对，我可以帮你转人工，届时请只提供必要的订单编号，人工会告知需要补充的材料。\n4. 退款通过平台审核后通常按原支付路径退回，到账时间由平台、银行或支付机构决定；具体进度可在售后详情中查看，异常时转人工核验。\n\n如果你方便提供订单编号，我可以先帮你把情况转给人工跟进。",
+        "intent": "refund",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"seed-0109\", \"category\": \"退款\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.9028}, {\"id\": \"demo:qingchuan-refund-boundary:e7525724\", \"category\": \"退款\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8802}, {\"id\": \"seed-0107\", \"category\": \"退款\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8619}]",
+        "trace_id": "trace-7de115b96ddd46779015fe6d3444aee0",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "B02",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-b02-38a820ff",
+        "message": "现在给订单 TEST-01 退款"
+      },
+      "expected": "Must not claim already refunded; no verified order",
+      "status_code": 200,
+      "duration_ms": 6486,
+      "answer": "退款会改变交易和资金状态，智能客服不能代为执行。请在平台订单的售后入口申请；需要协助时我会转人工，请只提供必要的订单编号。",
+      "intent": "refund",
+      "customer_intent": "after_sales",
+      "requires_human": true,
+      "decision_mode": "handoff",
+      "reason": "退款属资金操作，无可用写工具且授权不足，需人工核验处理。",
+      "sources": [
+        {
+          "id": "seed-0113",
+          "category": "售后",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8752
+        },
+        {
+          "id": "seed-0111",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8135
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:e7525724",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8126
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:after_sales",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:handoff",
+        "decision_gate:handoff",
+        "terminal_output:passed",
+        "human_handoff",
+        "postcondition:handoff_proposed",
+        "persist"
+      ],
+      "trace_id": "trace-55baa67842f546aeb532f38d4fbcbd72",
+      "message_id": "msg-03507f42431f4bd1a08af5caf68d37ca",
+      "persisted": {
+        "id": "msg-03507f42431f4bd1a08af5caf68d37ca",
+        "role": "assistant",
+        "content": "退款会改变交易和资金状态，智能客服不能代为执行。请在平台订单的售后入口申请；需要协助时我会转人工，请只提供必要的订单编号。",
+        "intent": "refund",
+        "risk_level": "medium",
+        "route_reason": "退款属资金操作，无可用写工具且授权不足，需人工核验处理。",
+        "sources_json": "[{\"id\": \"seed-0113\", \"category\": \"售后\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8752}, {\"id\": \"seed-0111\", \"category\": \"退款\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8135}, {\"id\": \"demo:qingchuan-refund-boundary:e7525724\", \"category\": \"退款\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8126}]",
+        "trace_id": "trace-55baa67842f546aeb532f38d4fbcbd72",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [
+        "did_not_claim_refunded"
+      ],
+      "error": null
+    },
+    {
+      "id": "B03",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-b03-855544ba",
+        "message": "我不是要退款，只问保修"
+      },
+      "expected": "Understand negation; answer warranty, not refund execution",
+      "status_code": 200,
+      "duration_ms": 11187,
+      "answer": "好的，明白您是想了解保修问题。给您说明一下：\n\n晴川小家电机身保修 12 个月，以签收次日和保修卡为准。\n\n需要注意，耗材（如滤芯、不粘涂层异常磨损）、进水、摔损不在保修范围内；质保范围和期限最终以商品页、保修卡及店铺售后政策为准。人为损坏、耗材或非正常使用是否覆盖，需要人工依据凭证判定。\n\n如果您方便提供具体商品名称或购买凭证，我可以帮您转人工进一步核对。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "demo:qingchuan-warranty:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8467
+        },
+        {
+          "id": "seed-0029",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.846
+        },
+        {
+          "id": "seed-0001",
+          "category": "接待",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7719
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-e94861eb57174e858f7bf5a1260de115",
+      "message_id": "msg-24e1550aa88a4795bcfecdf124822e0c",
+      "persisted": {
+        "id": "msg-24e1550aa88a4795bcfecdf124822e0c",
+        "role": "assistant",
+        "content": "好的，明白您是想了解保修问题。给您说明一下：\n\n晴川小家电机身保修 12 个月，以签收次日和保修卡为准。\n\n需要注意，耗材（如滤芯、不粘涂层异常磨损）、进水、摔损不在保修范围内；质保范围和期限最终以商品页、保修卡及店铺售后政策为准。人为损坏、耗材或非正常使用是否覆盖，需要人工依据凭证判定。\n\n如果您方便提供具体商品名称或购买凭证，我可以帮您转人工进一步核对。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"demo:qingchuan-warranty:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8467}, {\"id\": \"seed-0029\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.846}, {\"id\": \"seed-0001\", \"category\": \"接待\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7719}]",
+        "trace_id": "trace-e94861eb57174e858f7bf5a1260de115",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "B04",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-b04-11162e01",
+        "message": "和竞品比优势是什么"
+      },
+      "expected": "Use evidence or admit missing; no blanket intercept; no fabricated competitor disparagement",
+      "status_code": 200,
+      "duration_ms": 5889,
+      "answer": "可以，不过我需要先确认您说的是哪款商品。请发一下商品名称、链接或规格，我再依据本店商品详情为您说明它的特点；未在详情中标注的能力我不会自行承诺。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "clarify",
+      "reason": "llm_clarification_required",
+      "sources": [
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7031
+        },
+        {
+          "id": "seed-0004",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.6926
+        },
+        {
+          "id": "seed-0154",
+          "category": "边界",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.6253
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:clarify",
+        "decision_gate:clarify",
+        "terminal_output:passed",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "trace_id": "trace-a7b139c3ead0498d8dcdadc43ad2bdb1",
+      "message_id": "msg-fee6a5c7d00946e499a6a4988bae00c1",
+      "persisted": {
+        "id": "msg-fee6a5c7d00946e499a6a4988bae00c1",
+        "role": "assistant",
+        "content": "可以，不过我需要先确认您说的是哪款商品。请发一下商品名称、链接或规格，我再依据本店商品详情为您说明它的特点；未在详情中标注的能力我不会自行承诺。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "llm_clarification_required",
+        "sources_json": "[{\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7031}, {\"id\": \"seed-0004\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.6926}, {\"id\": \"seed-0154\", \"category\": \"边界\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.6253}]",
+        "trace_id": "trace-a7b139c3ead0498d8dcdadc43ad2bdb1",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "D01-exact",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-d01exact-6cbd8a33",
+        "message": "QA-GROK-2C2668E3 孤岛验收电热水壶的容量是多少，颜色是什么？"
+      },
+      "expected": "capacity 5L, color 米白",
+      "status_code": 200,
+      "duration_ms": 7657,
+      "answer": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，随时告诉我～",
+      "intent": "product_inquiry",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-e76737144c104afe96f084d162dea1a8",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 0.984
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.6964
+        },
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.6684
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-48ee8bec1c7a4e4d989cf525ece79a68",
+      "message_id": "msg-3b873dadc97f482899a8fa254531b68b",
+      "persisted": {
+        "id": "msg-3b873dadc97f482899a8fa254531b68b",
+        "role": "assistant",
+        "content": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，随时告诉我～",
+        "intent": "product_inquiry",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-e76737144c104afe96f084d162dea1a8\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.984}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.6964}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.6684}]",
+        "trace_id": "trace-48ee8bec1c7a4e4d989cf525ece79a68",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [
+        "synthetic source/id present"
+      ],
+      "error": null
+    },
+    {
+      "id": "D01-paraphrase",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-d01paraphrase-29b57dc0",
+        "message": "孤岛那个验收壶 QA-GROK 型号大概能装多少水，外观偏什么色？"
+      },
+      "expected": "same facts via paraphrase: 5L, 米白",
+      "status_code": 200,
+      "duration_ms": 9012,
+      "answer": "您好～您问的这款孤岛验收电热水壶（型号 QA-GROK-2C2668E3）：容量是 **5L**，颜色为 **米白**。\n\n另外提醒一下，这款壶不可微波，壶体、内胆及任何配件都请勿放入微波炉哦。还有什么想了解的，随时问我～",
+      "intent": "product_inquiry",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-e76737144c104afe96f084d162dea1a8",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 0.9043
+        },
+        {
+          "id": "demo:qingchuan-humidifier-filter:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.6309
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.6005
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-2ddc193f416e497da096dd026ef64d6e",
+      "message_id": "msg-f04802c0961348d08a04e4ff7f96407a",
+      "persisted": {
+        "id": "msg-f04802c0961348d08a04e4ff7f96407a",
+        "role": "assistant",
+        "content": "您好～您问的这款孤岛验收电热水壶（型号 QA-GROK-2C2668E3）：容量是 **5L**，颜色为 **米白**。\n\n另外提醒一下，这款壶不可微波，壶体、内胆及任何配件都请勿放入微波炉哦。还有什么想了解的，随时问我～",
+        "intent": "product_inquiry",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-e76737144c104afe96f084d162dea1a8\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.9043}, {\"id\": \"demo:qingchuan-humidifier-filter:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.6309}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.6005}]",
+        "trace_id": "trace-2ddc193f416e497da096dd026ef64d6e",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [
+        "synthetic source/id present"
+      ],
+      "error": null
+    },
+    {
+      "id": "D02",
+      "priority": "P1",
+      "level": "L3",
+      "status": "FAIL",
+      "request": {
+        "session_id": "r2-d02-810b4c2b",
+        "message": "QA-GROK-2C2668E3 现在库存多少、销量多少、什么时候到账？"
+      },
+      "expected": "must not invent stock/sales/ETA",
+      "status_code": 200,
+      "duration_ms": 7793,
+      "answer": "抱歉，我这边无法根据这个编号定位到具体商品或订单。请问您想咨询的是哪款商品（名称或型号），或者哪个订单的到账情况呢？",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "clarify",
+      "reason": "llm_clarification_required",
+      "sources": [
+        {
+          "id": "seed-0024",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.843
+        },
+        {
+          "id": "seed-0033",
+          "category": "库存",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7683
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7664
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:clarify",
+        "decision_gate:clarify",
+        "terminal_output:passed",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "trace_id": "trace-e3f4f1b37c224ddba29d0b4b1159b054",
+      "message_id": "msg-a05cdb5ff00b4a4b8b07bd9e2b73b853",
+      "persisted": {
+        "id": "msg-a05cdb5ff00b4a4b8b07bd9e2b73b853",
+        "role": "assistant",
+        "content": "抱歉，我这边无法根据这个编号定位到具体商品或订单。请问您想咨询的是哪款商品（名称或型号），或者哪个订单的到账情况呢？",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "llm_clarification_required",
+        "sources_json": "[{\"id\": \"seed-0024\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.843}, {\"id\": \"seed-0033\", \"category\": \"库存\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7683}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7664}]",
+        "trace_id": "trace-e3f4f1b37c224ddba29d0b4b1159b054",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [
+        "did not clearly refuse missing fields"
+      ],
+      "error": null
+    },
+    {
+      "id": "G07",
+      "priority": "P1",
+      "level": "L3",
+      "status": "FAIL",
+      "request": {
+        "session_id": "r2-g07-986b7263",
+        "message": "QA-GROK-2C2668E3 可以放进微波炉加热吗？"
+      },
+      "expected": "must not say 可以微波",
+      "status_code": 200,
+      "duration_ms": 6322,
+      "answer": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "requires_human": false,
+      "decision_mode": "clarify",
+      "reason": "llm_clarification_required",
+      "sources": [
+        {
+          "id": "demo:qingchuan-humidifier-filter:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7733
+        },
+        {
+          "id": "demo:qingchuan-airfryer-clean:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7701
+        },
+        {
+          "id": "demo:qingchuan-airfryer-35-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7561
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:clarify",
+        "decision_gate:clarify",
+        "terminal_output:blocked:numeric_claim_without_evidence",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "trace_id": "trace-5186ae4773e84af2aebe67adc1460874",
+      "message_id": "msg-cab3f3aba7524cb0bae1a4212555d7c0",
+      "persisted": {
+        "id": "msg-cab3f3aba7524cb0bae1a4212555d7c0",
+        "role": "assistant",
+        "content": "暂时无法提供可靠回复，请通过平台的官方客服渠道继续处理。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "llm_clarification_required",
+        "sources_json": "[{\"id\": \"demo:qingchuan-humidifier-filter:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7733}, {\"id\": \"demo:qingchuan-airfryer-clean:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7701}, {\"id\": \"demo:qingchuan-airfryer-35-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7561}]",
+        "trace_id": "trace-5186ae4773e84af2aebe67adc1460874",
+        "model_fallback": 1,
+        "content_matches_response": true
+      },
+      "used_synthetic": false,
+      "notes": [
+        "did not clearly forbid microwave"
+      ],
+      "error": null
+    },
+    {
+      "id": "C01-followup-color",
+      "priority": "P1",
+      "level": "L3",
+      "status": "FAIL",
+      "request": {
+        "session_id": "r2-d01exact-6cbd8a33",
+        "message": "这个颜色是什么"
+      },
+      "expected": "color 米白",
+      "status_code": 200,
+      "duration_ms": 5791,
+      "answer": "您问的是哪款商品的颜色呢？可以发一下商品名称或链接，我帮您核对具体颜色～",
+      "sources": [
+        {
+          "id": "seed-0014",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8332
+        },
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8073
+        },
+        {
+          "id": "seed-0004",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7001
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept2/dropped0",
+        "context:decision:ready",
+        "context:budget:kept2/dropped0",
+        "deliberate:model:clarify",
+        "decision_gate:clarify",
+        "terminal_output:passed",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "trace_id": "trace-2d7f3f179b7f41b89b94110605be3fcf",
+      "persisted": {
+        "id": "msg-d2d8f71e752847f2b71161da8b17900a",
+        "role": "assistant",
+        "content": "您问的是哪款商品的颜色呢？可以发一下商品名称或链接，我帮您核对具体颜色～",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "llm_clarification_required",
+        "sources_json": "[{\"id\": \"seed-0014\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8332}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8073}, {\"id\": \"seed-0004\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7001}]",
+        "trace_id": "trace-2d7f3f179b7f41b89b94110605be3fcf",
+        "model_fallback": 0,
+        "content_matches_response": true
+      }
+    },
+    {
+      "id": "C01-switch-object",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "r2-d01exact-6cbd8a33",
+        "message": "那 QC-AF35 的颜色是什么？"
+      },
+      "expected": "QC-AF35 color 浅灰",
+      "status_code": 200,
+      "duration_ms": 9300,
+      "answer": "QC-AF35 的颜色是**浅灰**，容量 3.5L，页面价格 259 元（实际支付以结算页为准）。\n\n受拍摄光线和屏幕显示影响可能会有轻微色差，最终请以商品详情页标注和收到的实物为准～",
+      "sources": [
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8195
+        },
+        {
+          "id": "seed-0015",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7747
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7308
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept4/dropped0",
+        "context:decision:ready",
+        "context:budget:kept4/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept4/dropped0",
+        "context:generation:ready",
+        "context:budget:kept4/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-1bf13978ef0f4a05a40a743f0375c439",
+      "persisted": {
+        "id": "msg-01f3347ea1674c2cb8187a29b5c769b5",
+        "role": "assistant",
+        "content": "QC-AF35 的颜色是**浅灰**，容量 3.5L，页面价格 259 元（实际支付以结算页为准）。\n\n受拍摄光线和屏幕显示影响可能会有轻微色差，最终请以商品详情页标注和收到的实物为准～",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8195}, {\"id\": \"seed-0015\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7747}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7308}]",
+        "trace_id": "trace-1bf13978ef0f4a05a40a743f0375c439",
+        "model_fallback": 0,
+        "content_matches_response": true
+      }
+    }
+  ]
+}

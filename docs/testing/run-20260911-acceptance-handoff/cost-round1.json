@@ -1,0 +1,24 @@
+{
+  "run_id": "run-20260911-acceptance-handoff",
+  "currency": "CNY-unknown",
+  "model_calls": 3,
+  "http_ms_total": 15611,
+  "note": "provider did not return token/cost fields; duration recorded only",
+  "items": [
+    {
+      "id": "B01",
+      "ms": 5876,
+      "kind": "model"
+    },
+    {
+      "id": "B02",
+      "ms": 2689,
+      "kind": "model"
+    },
+    {
+      "id": "B03",
+      "ms": 7046,
+      "kind": "model"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "python": "3.11.14",
+  "executable": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python",
+  "packages": {
+    "fastapi": {
+      "present": true,
+      "version": "0.141.1",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/__init__.py"
+    },
+    "uvicorn": {
+      "present": true,
+      "version": "0.52.4",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/uvicorn/__init__.py"
+    },
+    "httpx": {
+      "present": true,
+      "version": "0.28.1",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/httpx/__init__.py"
+    },
+    "pydantic": {
+      "present": true,
+      "version": "2.13.4",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/pydantic/__init__.py"
+    },
+    "fastembed": {
+      "present": true,
+      "version": "0.8.0",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastembed/__init__.py"
+    },
+    "onnxruntime": {
+      "present": true,
+      "version": "1.29.0",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/onnxruntime/__init__.py"
+    },
+    "pdfplumber": {
+      "present": true,
+      "version": "0.11.10",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/pdfplumber/__init__.py"
+    },
+    "docling": {
+      "present": true,
+      "version": "2.126.0",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/docling/__init__.py"
+    },
+    "pytest": {
+      "present": true,
+      "version": "8.4.2",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/pytest/__init__.py"
+    },
+    "starlette": {
+      "present": true,
+      "version": "1.6.0",
+      "file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/starlette/__init__.py"
+    },
+    "sqlite3": {
+      "present": true,
+      "version": null,
+      "file": "/opt/homebrew/Cellar/python@3.11/3.11.14_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/sqlite3/__init__.py"
+    }
+  }
+}

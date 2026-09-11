@@ -1,0 +1,174 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+______ test_sync_and_sse_execute_the_registered_generate_and_verify_nodes ______
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_sync_and_sse_execute_the_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bce4d90>
+
+    def test_sync_and_sse_execute_the_registered_generate_and_verify_nodes(tmp_path, monkeypatch):
+        import yunpai_customer_service.graph as graph_module
+        original_build = graph_module.build_graph
+        calls = []
+    
+        def instrumented_graph(**kwargs):
+            builder = original_build(**kwargs)
+            for name in ('generate', 'verify'):
+                runnable = builder.nodes.pop(name).runnable
+                def instrument(state, config, node=name, original=runnable):
+                    calls.append(node)
+                    result = original.invoke(state, config)
+                    if node == 'generate':
+                        result['draft'] = '图节点提供的保养说明，请按说明书操作。'
+                    return result
+                builder.add_node(name, instrument)
+            return builder
+    
+        monkeypatch.setattr(graph_module, 'build_graph', instrumented_graph)
+        settings = make_settings(tmp_path)
+        core = build_core(tmp_path, settings=settings, model=TableDrivenModel(settings))
+        try:
+            principal = principal_for_core(core)
+            sync = core.chat(principal, 'audit-sync', '尺码怎么选')
+            assert calls == ['generate', 'verify']
+            calls.clear()
+            events = list(core.chat_stream(principal, 'audit-sse', '尺码怎么选', idempotency_key=None))
+>           assert calls == ['generate', 'verify'], 'SSE bypassed registered graph nodes'
+E           AssertionError: SSE bypassed registered graph nodes
+E           assert [] == ['generate', 'verify']
+E             
+E             Right contains 2 more items, first extra item: 'generate'
+E             Use -v to get more diff
+
+tests/test_framework_audit.py:43: AssertionError
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_model_policy_answer_is_no0')
+question = '如果要申请退款，需要什么材料？'
+
+    @pytest.mark.parametrize('question', [
+        '如果要申请退款，需要什么材料？',
+        '你们和竞品相比，有哪些功能优势？',
+    ])
+    def test_model_policy_answer_is_not_overridden_by_lexical_routing(tmp_path, question):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, answer='请参考已发布的商品与售后说明。')
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            response = core.chat(principal_for_core(core), 'audit-policy', question)
+            assert 'agent_decision' in model.json_tasks
+>           assert response.requires_human is False, response.reason
+E           AssertionError: business_action_requires_verified_execution
+E           assert True is False
+E            +  where True = ChatResponse(message_id='msg-3de08aa37e2f4c43a52ac705468a6526', trace_id='trace-a106366a264041b982d3d75d3cb780f0', ses...te:handoff', 'human_handoff', 'postcondition:handoff_proposed', 'persist'], decision_mode='answer', decision_tool=None).requires_human
+
+tests/test_framework_audit.py:61: AssertionError
+_ test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_model_policy_answer_is_no1')
+question = '你们和竞品相比，有哪些功能优势？'
+
+    @pytest.mark.parametrize('question', [
+        '如果要申请退款，需要什么材料？',
+        '你们和竞品相比，有哪些功能优势？',
+    ])
+    def test_model_policy_answer_is_not_overridden_by_lexical_routing(tmp_path, question):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, answer='请参考已发布的商品与售后说明。')
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            response = core.chat(principal_for_core(core), 'audit-policy', question)
+>           assert 'agent_decision' in model.json_tasks
+E           AssertionError: assert 'agent_decision' in ['intent_classification']
+E            +  where ['intent_classification'] = <customer_service_fixtures.TableDrivenModel object at 0x10c969290>.json_tasks
+
+tests/test_framework_audit.py:60: AssertionError
+__________ test_mock_agent_decision_does_not_parse_customer_keywords ___________
+
+    def test_mock_agent_decision_does_not_parse_customer_keywords():
+        def decision(text):
+            messages = [{'role':'user', 'content':json.dumps({
+                'task_type':'agent_decision','user_question':text,
+                'current_tool_catalog':[], 'trusted_context':{},
+            }, ensure_ascii=False)}]
+            return json.loads(ModelGateway._mock_generate(messages))
+>       assert decision('请马上给我退款') == decision('今天心情很好')
+E       AssertionError: assert {'arguments':...'refund', ...} == {'arguments':...general', ...}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'expected_outcome': 'business_operation_verified'} != {'expected_outcome': None}
+E         {'mode': 'act'} != {'mode': 'answer'}
+E         {'intent': 'refund'} != {'intent': 'general'}
+E         {'reason': 'business_action_requested'} != {'reason': 'knowledge_answer'}...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+tests/test_framework_audit.py:74: AssertionError
+_______ test_host_api_cannot_silently_inherit_anonymous_demo_auth[core] ________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_host_api_cannot_silently_0')
+disabled_layer = 'core'
+
+    @pytest.mark.parametrize('disabled_layer', ['core', 'injected_auth'])
+    def test_host_api_cannot_silently_inherit_anonymous_demo_auth(tmp_path, disabled_layer):
+        settings = make_settings(tmp_path)
+        core_settings = replace(settings, auth_required=False) if disabled_layer == 'core' else settings
+        core = build_core(tmp_path, settings=core_settings, model=TableDrivenModel(core_settings))
+        try:
+            auth_settings = replace(settings, auth_required=False)
+            auth = AuthenticationService(core.db, auth_settings) if disabled_layer == 'injected_auth' else None
+>           with pytest.raises(ValueError, match='authentication'):
+E           Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/test_framework_audit.py:85: Failed
+___ test_host_api_cannot_silently_inherit_anonymous_demo_auth[injected_auth] ___
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_host_api_cannot_silently_1')
+disabled_layer = 'injected_auth'
+
+    @pytest.mark.parametrize('disabled_layer', ['core', 'injected_auth'])
+    def test_host_api_cannot_silently_inherit_anonymous_demo_auth(tmp_path, disabled_layer):
+        settings = make_settings(tmp_path)
+        core_settings = replace(settings, auth_required=False) if disabled_layer == 'core' else settings
+        core = build_core(tmp_path, settings=core_settings, model=TableDrivenModel(core_settings))
+        try:
+            auth_settings = replace(settings, auth_required=False)
+            auth = AuthenticationService(core.db, auth_settings) if disabled_layer == 'injected_auth' else None
+>           with pytest.raises(ValueError, match='authentication'):
+E           Failed: DID NOT RAISE <class 'ValueError'>
+
+tests/test_framework_audit.py:85: Failed
+____________ test_demo_restart_keeps_the_selected_embedding_backend ____________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-1/test_demo_restart_keeps_the_se0')
+
+    def test_demo_restart_keeps_the_selected_embedding_backend(tmp_path):
+        class RecordingEncoder:
+            name = 'audit-encoder'
+            def embed_query(self, text): return (1.0, 0.0, 0.0)
+            def embed_document(self, text): return (1.0, 0.0, 0.0)
+        core = build_core(tmp_path, seed_knowledge=False)
+        try:
+            core.knowledge.embedding_provider = RecordingEncoder()
+            tenant = principal_for_core(core).tenant_id
+            seed_demo_store(core, tenant_id=tenant)
+            seed_demo_store(core, tenant_id=tenant)
+            with core.db.connect() as conn:
+                vectors = [blob_to_vector(row['embedding']) for row in conn.execute(
+                    'SELECT embedding FROM knowledge WHERE source=? AND tenant_id=?', (DEMO_SOURCE, tenant)
+                )]
+            assert vectors
+>           assert all(vector == (1.0, 0.0, 0.0) for vector in vectors)
+E           assert False
+E            +  where False = all(<generator object test_demo_restart_keeps_the_selected_embedding_backend.<locals>.<genexpr> at 0x10c8d9080>)
+
+tests/test_framework_audit.py:107: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u5982\u679c\u8981\u7533\u8bf7\u9000\u6b3e\uff0c\u9700\u8981\u4ec0\u4e48\u6750\u6599\uff1f]
+FAILED tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing[\u4f60\u4eec\u548c\u7ade\u54c1\u76f8\u6bd4\uff0c\u6709\u54ea\u4e9b\u529f\u80fd\u4f18\u52bf\uff1f]
+FAILED tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords
+FAILED tests/test_framework_audit.py::test_host_api_cannot_silently_inherit_anonymous_demo_auth[core]
+FAILED tests/test_framework_audit.py::test_host_api_cannot_silently_inherit_anonymous_demo_auth[injected_auth]
+FAILED tests/test_framework_audit.py::test_demo_restart_keeps_the_selected_embedding_backend
+7 failed in 2.87s

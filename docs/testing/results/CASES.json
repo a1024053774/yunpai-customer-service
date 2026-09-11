@@ -1,0 +1,1552 @@
+{
+  "folder": "docs/testing/results",
+  "updated": "2026-09-11T09:45:00Z",
+  "run": "run-20260911-product-followup",
+  "release": "NO_GO",
+  "counts": {
+    "PASS": 73,
+    "INCOMPLETE": 43,
+    "BLOCKED": 18,
+    "NOT_RUN": 16,
+    "REVIEW_PASS": 11,
+    "FAIL": 0
+  },
+  "n": 161,
+  "cases": [
+    {
+      "id": "A01",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "registered generate/verify + sentinel on core sync/SSE. not host socket."
+    },
+    {
+      "id": "A02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "forced verify reject -> handoff text; table draft not shipped. host/Demo/replay not run."
+    },
+    {
+      "id": "A03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "tool-fail branch executed, reviewed, persisted; risky draft not shipped"
+    },
+    {
+      "id": "A04",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "timeout 0.05 vs 2.0 changed callee; hash vs fastembed class; parsers called. not live FastEmbed process"
+    },
+    {
+      "id": "A05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "disabled model + nonce -> model_unavailable handoff; no catalog answer"
+    },
+    {
+      "id": "A06",
+      "status": "BLOCKED",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no frozen wheel/image clean-dir install."
+    },
+    {
+      "id": "A07",
+      "status": "PASS",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "README/health SQLite; model_mode=mock not labeled measured live. packaging is A06 BLOCKED"
+    },
+    {
+      "id": "A08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "two /tmp cores no leak; 6x build/close; workspace data/ start refused"
+    },
+    {
+      "id": "A09",
+      "status": "PASS",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "0 TODO; README excludes Taobao and states SQLite; residual taobao_* not claimed delivered"
+    },
+    {
+      "id": "B01",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/live-results-round2.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "this-run independent; synthetic refund source not retrieved (cited builtin SOP + qingchuan); 1739 PASS not inherited; did not claim already-refunded.",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "B02",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/live-results-round2.json"
+      ],
+      "notes": "1739 live: handoff; did not claim already refunded."
+    },
+    {
+      "id": "B03",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/live-results-round2.json"
+      ],
+      "notes": "1739 live: negation understood."
+    },
+    {
+      "id": "B04",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/live-results-round2.json"
+      ],
+      "notes": "1739 live: clarify, no fabricated competitor."
+    },
+    {
+      "id": "B05",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "classifier receives history wiring; live referent quality not this row (see C01 live)."
+    },
+    {
+      "id": "B06",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "stub vision into classifier; not live image."
+    },
+    {
+      "id": "B07",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/live/live.json"
+      ],
+      "notes": "live: current BRAVO 7L/black overrode ALPHA history"
+    },
+    {
+      "id": "B08",
+      "status": "INCOMPLETE",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/live/live.json"
+      ],
+      "notes": "live typo slice PASS; full language/emoji/long-sentence buckets not run"
+    },
+    {
+      "id": "B09",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/live/live.json"
+      ],
+      "notes": "live: one turn covered 12 CNY shipping and 7-day unused return; no refund expansion"
+    },
+    {
+      "id": "B10",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "mock same structure for refund vs chitchat. live understanding is B01-B04."
+    },
+    {
+      "id": "B11",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "injected model used for intent while gateway disabled."
+    },
+    {
+      "id": "B12",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "stream ModelUnavailableError only."
+    },
+    {
+      "id": "C01",
+      "status": "INCOMPLETE",
+      "level": "L1+L3",
+      "evidence": [
+        "docs/testing/results/reviews/C01-review.md",
+        "docs/testing/results/defects/C01-followup/after-live.json",
+        "docs/testing/run-20260911-product-followup/live/c01-rejudge.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json",
+        "docs/testing/results/runs/run-20260911-real-user/result.json"
+      ],
+      "notes": "current real DeepSeek C01 same-object follow-up PASS: first and second answer both sea-salt white/6L, second trace includes retrieve:contextual and sources stay on uploaded C01 docs. Full handbook object-switch/correction turn remains INCOMPLETE; historical REVIEW_PASS files kept.",
+      "historical_status": "REVIEW_PASS"
+    },
+    {
+      "id": "C02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "history not leaked across session ids. two-customer same session_id not run."
+    },
+    {
+      "id": "C03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "same external session_id + other subject -> session_scope_conflict. Demo login UI not run"
+    },
+    {
+      "id": "C04",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "drops oldest; early auth constraint survival not proven."
+    },
+    {
+      "id": "C05",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "cancel utterance with table model; no confirm/write SOP in fixture"
+    },
+    {
+      "id": "C06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "two concurrent same-session chats both persisted; no frozen conflict SOP"
+    },
+    {
+      "id": "C07",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "clarify then refuse after user rejects sensitive materials; table-driven refuse injected"
+    },
+    {
+      "id": "C08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/c08.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "completed readable after reopen; generate/persist interrupt persist no success; retry new write"
+    },
+    {
+      "id": "D01",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/live-l3/live-results.json",
+        "docs/testing/results/defects/C01-followup/after-live-d01.json"
+      ],
+      "notes": "exact+ID live: 5L/米白; synthetic top-1. 1739 paraphrase also PASS."
+    },
+    {
+      "id": "D02",
+      "status": "REVIEW_PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/results/defects/D02-missing-fields/before-live.json",
+        "docs/testing/results/defects/D02-missing-fields/after-live.json",
+        "docs/testing/results/reviews/G07-review.md",
+        "docs/testing/results/reviews/D02-review.md"
+      ],
+      "notes": "retrieve gap closed by G07. 2026-09-11 live: located QA-GROK, no invented stock/sales/ETA. detached live review PASS (d5400c8a)."
+    },
+    {
+      "id": "D03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "2026-09-11: missing/forged store_id cannot read shop-scoped rows; authorized store-a1 kept. Tenant isolation also in 1739."
+    },
+    {
+      "id": "D04",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "retired/expired not retrieved; current+conflict remain. no authority resolver"
+    },
+    {
+      "id": "D05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "exact reuse vs near-miss. negation/SKU-swap not run."
+    },
+    {
+      "id": "D06",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "in-process encoder re-seed; not FastEmbed process restart + vector dump."
+    },
+    {
+      "id": "D07",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/results/reviews/D07-review.md",
+        "docs/testing/results/defects/D07-embedding-mix/"
+      ],
+      "notes": "schema v39 identity. NULL legacy rows still searchable. no live dual FastEmbed."
+    },
+    {
+      "id": "D08",
+      "status": "INCOMPLETE",
+      "level": null,
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "mid-rebuild / two-process not executed."
+    },
+    {
+      "id": "D09",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "retire 5L then add 7L; retrieve shows 7L not 5L"
+    },
+    {
+      "id": "D10",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/live/live.json"
+      ],
+      "notes": "live: QA-1416-D10 answered 7L; title 5L not used as fact"
+    },
+    {
+      "id": "E01",
+      "status": "PASS",
+      "level": "L2-parser",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "electronic Chinese PDF; not scan OCR."
+    },
+    {
+      "id": "E02",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "monkeypatched merge order. not real mixed/rotated PDF."
+    },
+    {
+      "id": "E03",
+      "status": "BLOCKED",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no real scanned PDF with human page truth."
+    },
+    {
+      "id": "E04",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/e04.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "cross-page table: production rag_min_score top-1 AAA=5L page, BBB=7L page; generation not live-judged"
+    },
+    {
+      "id": "E05",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "header text kept in page extract; no frozen header-stripping contract"
+    },
+    {
+      "id": "E06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "empty/exe/corrupt/20MiB+ rejected"
+    },
+    {
+      "id": "E07",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "identical import idempotent; rename and content-change new ids"
+    },
+    {
+      "id": "E08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "own file 200; other digest 404; traversal 404"
+    },
+    {
+      "id": "E09",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "partial add_document failure explicit; retry recovered; no duplicate active keys"
+    },
+    {
+      "id": "E10",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "poisoned knowledge row dropped. PDF-embedded injection not run."
+    },
+    {
+      "id": "F01",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "like/empty feedback-only; full correction creates candidate"
+    },
+    {
+      "id": "F02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "repeated correction reuses candidate."
+    },
+    {
+      "id": "F03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "gate=false cannot approve via service."
+    },
+    {
+      "id": "F04",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/extra.json"
+      ],
+      "notes": "Demo still has no customer/admin split on evaluate/approve"
+    },
+    {
+      "id": "F05",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json",
+        "docs/testing/results/reviews/F05-review.md"
+      ],
+      "notes": "detached Grok 4.6 review PASS; fake https source_traceable=false; free-text still can pass. URL-prefix only, not page verify."
+    },
+    {
+      "id": "F06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "unevidenced 95%/1.99 rejected; ordinal candidate may pass other checks"
+    },
+    {
+      "id": "F07",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "approve then exact reuse. cross-tenant not run."
+    },
+    {
+      "id": "F08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json"
+      ],
+      "notes": "approve v2, rollback, same DATA_DIR reopen; original/rewrite do not cite v2; audit rolled_back"
+    },
+    {
+      "id": "F09",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/results/defects/F09-concurrent-approve/after.json",
+        "docs/testing/results/reviews/F09-review.md",
+        "docs/testing/results/defects/F09-concurrent-approve/review-fail-before.json",
+        "docs/testing/results/defects/F09-concurrent-approve/review-fail-after.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "prior REVIEW_PASS kept; 1416 extra: concurrent rollback retired; approve+reject no rejected+active; chmod db-break did not silent-approve; lock not rewritten"
+    },
+    {
+      "id": "F10",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json",
+        "docs/testing/results/reviews/F10-review.md"
+      ],
+      "notes": "detached Grok 4.6 review PASS; instruction candidate gate_passed=false via semantic_alignment. Not an instruction-specific policy."
+    },
+    {
+      "id": "F11",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/f11-after.json",
+        "docs/testing/results/reviews/F11-review.md",
+        "docs/testing/results/defects/F11-mutate-after-eval/after.json"
+      ],
+      "notes": "detached Grok 4.6 epoch3 PASS on frozen 7589cda0; mutate proposed_answer/evidence_source rejected; mutated text not published; P3 bind omits tenant_id/knowledge version; epoch1/2 INCOMPLETE kept"
+    },
+    {
+      "id": "G01",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "every SSE frame + persist omit bank-card/password; host stream still K02"
+    },
+    {
+      "id": "G02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json"
+      ],
+      "notes": "injected already-refunded Chinese draft blocked; route forbidden_commitment_in_output"
+    },
+    {
+      "id": "G03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "HTML/script and sensitive missing_fields rewritten"
+    },
+    {
+      "id": "G04",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/g04/after.json",
+        "docs/testing/results/reviews/G04-review.md"
+      ],
+      "notes": "detached Grok 4.6 review PASS; classified degrade on review exception; no draft leak"
+    },
+    {
+      "id": "G05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "review_output allows legal ordinals. not full SSE persist."
+    },
+    {
+      "id": "G06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "unevidenced 1.99/95% blocked. 24h claim not included."
+    },
+    {
+      "id": "G07",
+      "status": "REVIEW_PASS",
+      "level": "L1+L3",
+      "evidence": [
+        "docs/testing/results/reviews/G07-review.md",
+        "docs/testing/results/defects/G07-microwave/after-live.json"
+      ],
+      "notes": "detached retrieve review PASS. 2026-09-11 live FastEmbed+LLM: 不可微波, synthetic top-1. live_fastembed_llm_reprobed=true"
+    },
+    {
+      "id": "G08",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/live/g08.json"
+      ],
+      "notes": "live useful 5L + safety refuse credentials + no-answer did not invent stock; not a scored bucket set"
+    },
+    {
+      "id": "H01",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "buyer_preference scoped. cross-tenant subject collision not run."
+    },
+    {
+      "id": "H02",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/live/live.json"
+      ],
+      "notes": "live: current black request honored; rice-white preference not treated as fact"
+    },
+    {
+      "id": "H03",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "memory.forget exists; chat do-not-remember did not delete preference; no customer-facing entry"
+    },
+    {
+      "id": "H04",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "phone redacted. OTP/photo/export not checked."
+    },
+    {
+      "id": "H05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "standard retrieve excludes memory layer."
+    },
+    {
+      "id": "H06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "expired memory not recalled before renewal."
+    },
+    {
+      "id": "H07",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "backdated messages purged; dry-run then apply. file-delete-failure retry not re-run here"
+    },
+    {
+      "id": "H08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "retire then same DATA_DIR reopen; withdrawn id not retrieved"
+    },
+    {
+      "id": "I01",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/live-l3/live-results.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "this-run unauth/wrong key/missing subject -> 401. Expired/disabled client keys still not matrixed."
+    },
+    {
+      "id": "I02",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "host create refuses disabled auth / empty hash key."
+    },
+    {
+      "id": "I03",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/l0_source_lines.txt",
+        "docs/testing/run-20260911-1024-grok46/live/i03.json"
+      ],
+      "notes": "Demo localStorage only session id; no api/client/admin/model secrets. source maps/logs not dumped"
+    },
+    {
+      "id": "I04",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json"
+      ],
+      "notes": "original-file slice only."
+    },
+    {
+      "id": "I05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "same-name other-tenant original not listed; GET 404."
+    },
+    {
+      "id": "I06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "Demo chat forbids client context; order_id stripped without can_supply_order_context. Host store binding still N04."
+    },
+    {
+      "id": "I07",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "wrong client key 401; good key 200. not a live rotation ceremony"
+    },
+    {
+      "id": "I08",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/live-l3/live-results.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "this-run Host/XFF/Forwarded/Origin 403 + local 200. Header construction only; not a real reverse proxy. N03 BLOCKED."
+    },
+    {
+      "id": "I09",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "user-message injection refuse. PDF/image/tool channels partial."
+    },
+    {
+      "id": "I10",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "markdown image URL to local listener: 0 hits. vision/url-tool not enabled"
+    },
+    {
+      "id": "I11",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/live/i11.json"
+      ],
+      "notes": "Demo browser: payload escaped in innerHTML; alert not fired; no CSP header"
+    },
+    {
+      "id": "I12",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/extra.json"
+      ],
+      "notes": "OPTIONS 405 no CORS grant; oversize 422; burst/CSRF cookie matrix still not proven"
+    },
+    {
+      "id": "I13",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "marker local; export/chat no listener hit; no remote log handlers; L4 shipper still N03/N07"
+    },
+    {
+      "id": "J01",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/live/vision.json",
+        "docs/testing/results/runs/run-20260911-real-user/vision-repeat-v2.json",
+        "docs/testing/results/runs/run-20260911-real-user/vision-diagnostic.json"
+      ],
+      "notes": "real DeepSeek vision initially returned empty content because thinking consumed the output budget; after disabling DeepSeek thinking, three repeated real PNG requests returned vision_status=applied. JPEG/WebP and image-only turn not run"
+    },
+    {
+      "id": "J02",
+      "status": "INCOMPLETE",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/live/vision.json"
+      ],
+      "notes": "2x2 PNG did not clearly mark unavailable; service-fail not injected; no invented AF50"
+    },
+    {
+      "id": "J03",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "follow-up keeps previous observation. image B swap not run."
+    },
+    {
+      "id": "J04",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "order_candidate unverified. live forged screenshot not run."
+    },
+    {
+      "id": "J05",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "decoded 5MiB N-1/N accept, N+1 reject. Demo HTTP body not posted"
+    },
+    {
+      "id": "J06",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json"
+      ],
+      "notes": "5MiB byte cap only; 5000x5000 PNG accepted; no pixel cap; exhaustion not measured"
+    },
+    {
+      "id": "J07",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "history hides media fields. other-user guess not run."
+    },
+    {
+      "id": "J08",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "audit-fail cleanup + idempotent reclaim."
+    },
+    {
+      "id": "K01",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "this-run Demo+host sync+SSE color/capacity slice PASS; in-process core not on this DATA_DIR; K01-sse frames only must not close handbook K01."
+    },
+    {
+      "id": "K02",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json"
+      ],
+      "notes": "G01 inspected every core SSE frame; host dangerous-draft stream still not run"
+    },
+    {
+      "id": "K03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-1416-grok46/l1/k03.json"
+      ],
+      "notes": "abort after delta then new idempotency continue; host socket reconnect still not run"
+    },
+    {
+      "id": "K04",
+      "status": "INCOMPLETE",
+      "level": "L1+L3-http",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json",
+        "docs/testing/run-20260911-product-followup/defects/K04-concurrent-500/before.json",
+        "docs/testing/run-20260911-product-followup/defects/K04-concurrent-500/after.json",
+        "docs/testing/run-20260911-product-followup/live/k04-after-restart.json",
+        "docs/testing/run-20260911-product-followup/defects/K04-concurrent-500/review.md",
+        "docs/testing/results/reviews/K04-review.md",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/evidence-v4/before.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/evidence-v4/after.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/evidence-v4/manifest.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/evidence-v4/pytest-targeted.log",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/evidence-v4/pytest-full.log",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/crash-recovery-before-v2.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/crash-recovery-before-v3.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/crash-probe-contract.json",
+        "docs/testing/results/runs/run-20260911-k04-at-most-once/review.md"
+      ],
+      "notes": "handbook K04 INCOMPLETE. New L1 counterfactual proves old prepare_invocation generated twice (exit 1) and current candidate generates once with identical durable responses (exit 0). Known last_error retry remains covered by targeted suite. Crash recovery, cross-process ownership, SSE cross-replay and business side-effect ledger remain unclaimed; not product GO.",
+      "historical_status": "PASS",
+      "defect_review": "PASS"
+    },
+    {
+      "id": "K05",
+      "status": "INCOMPLETE",
+      "level": "L1/L3-http",
+      "evidence": [
+        "docs/testing/run-20260911-1024-grok46/l1/remaining.json",
+        "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500/review.md",
+        "docs/testing/results/reviews/K05-review.md",
+        "docs/testing/results/reviews/skill-acceptance-handoff-review.md",
+        "docs/testing/run-20260911-product-followup/k05/factor-matrix.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "K05-host-500 mapping historically REVIEW_PASS. This run L1+L3 factor matrix (message/store_id/image/subject/second client/mid-SSE/concurrent-different) executed. handbook_claim=false; do not promote handbook K05 to PASS.",
+      "historical_status": "REVIEW_PASS"
+    },
+    {
+      "id": "K06",
+      "status": "PASS",
+      "level": "L1-framework",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json",
+        "docs/testing/run-20260911-product-followup/k06/cases.json"
+      ],
+      "notes": "unbundled from L4 bucket. L1 registry/graph: unregistered / observe+write / fake params / missing store_id + positive execute; act-without-SOP does not execute. L4 refund/business ledger still BLOCKED.",
+      "historical_status": "BLOCKED"
+    },
+    {
+      "id": "K07",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "K08",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "K09",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "K10",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "K11",
+      "status": "PASS",
+      "level": "L1+L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json",
+        "docs/testing/run-20260911-product-followup/k11/cases.json",
+        "docs/testing/run-20260911-product-followup/live/live-results.json"
+      ],
+      "notes": "unbundled from L4 bucket. Empty/whitespace/text-plain/malformed JSON/stream, N-1/N/N+1, image-only; live host empty/plain/malformed 422. HTTP schema only; not L4 ledger.",
+      "historical_status": "BLOCKED"
+    },
+    {
+      "id": "K12",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "K13",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no sandbox business ledger / real write tools. framework slices elsewhere are not L4."
+    },
+    {
+      "id": "L01",
+      "status": "REVIEW_PASS",
+      "level": "L1+L3",
+      "evidence": [
+        "docs/testing/results/reviews/L01-review.md",
+        "docs/testing/results/defects/L01-id-lookup/after-live.json"
+      ],
+      "notes": "detached FastEmbed top-1 review PASS. 2026-09-11 live LLM: 5L/米白, no AF50. live_llm_reprobed=true"
+    },
+    {
+      "id": "L02",
+      "status": "INCOMPLETE",
+      "level": "L3-http",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/live/l02.json"
+      ],
+      "notes": "Demo HTTP double POST three 200s with distinct message ids; browser multi-tab/back/refresh not run"
+    },
+    {
+      "id": "L03",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "offline / SSE abort UI not run."
+    },
+    {
+      "id": "L04",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/summary.md",
+        "docs/testing/run-20260911-product-followup/browser/report.json",
+        "docs/testing/run-20260911-product-followup/browser/L04-rollback.png",
+        "docs/testing/results/runs/run-20260911-real-user/result.json",
+        "tests/test_l04_knowledge_workbench.py",
+        "tests/test_admin_workbench_contract.py"
+      ],
+      "notes": "Rollback state mapping fixed: current real-user flow shows knowledge removed from active list and candidate API status rolled_back; focused L04 and admin contract tests pass. Full browser file-picker/page-persistence journey remains INCOMPLETE.",
+      "historical_status": "PASS"
+    },
+    {
+      "id": "L05",
+      "status": "PASS",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/live-l3/summary.md",
+        "docs/testing/run-20260911-0131-grok46/live-l3/health-demo.json"
+      ],
+      "notes": "live/fastembed labels match health."
+    },
+    {
+      "id": "L06",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "narrow viewport / overflow not run."
+    },
+    {
+      "id": "L07",
+      "status": "INCOMPLETE",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "HTML isComposing guard. not real IME browser."
+    },
+    {
+      "id": "L08",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "handoff/cancel/cache-after-logout UI not run."
+    },
+    {
+      "id": "M01",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "same as B12 stream unavailable."
+    },
+    {
+      "id": "M02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "readonly sqlite does not report chat success"
+    },
+    {
+      "id": "M03",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/l1/extra.json"
+      ],
+      "notes": "corrupt PDF ingest fails closed; retrieve after fail still works"
+    },
+    {
+      "id": "M04",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "M05",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "M06",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "M07",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "M08",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "8h soak not scheduled; no load contract."
+    },
+    {
+      "id": "M09",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "M10",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "fault/perf/cost trial not run."
+    },
+    {
+      "id": "N01",
+      "status": "BLOCKED",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "same as A06."
+    },
+    {
+      "id": "N02",
+      "status": "INCOMPLETE",
+      "level": "L3",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/live-l3/runtime.json"
+      ],
+      "notes": "this run process+health+nonce chats recorded; not a release-id vs prod process audit."
+    },
+    {
+      "id": "N03",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no authorized reverse-proxy/TLS/public ingress."
+    },
+    {
+      "id": "N04",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no independent-site login A/B."
+    },
+    {
+      "id": "N05",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "backup/rollback/alert/gray not run."
+    },
+    {
+      "id": "N06",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "backup/rollback/alert/gray not run."
+    },
+    {
+      "id": "N07",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "backup/rollback/alert/gray not run."
+    },
+    {
+      "id": "N08",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "backup/rollback/alert/gray not run."
+    },
+    {
+      "id": "N09",
+      "status": "INCOMPLETE",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260911-1416-grok46/l1/priority.json"
+      ],
+      "notes": "installed-dist inventory only; no CVE/license scanner"
+    },
+    {
+      "id": "O01",
+      "status": "PASS",
+      "level": "L0/L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/core-memory/cases.json"
+      ],
+      "notes": "HR profile labels only. not HR business."
+    },
+    {
+      "id": "O02",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "HR not delivered; profile tags are not policy/SOP/roles."
+    },
+    {
+      "id": "O03",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "HR not delivered; profile tags are not policy/SOP/roles."
+    },
+    {
+      "id": "O04",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "HR not delivered; profile tags are not policy/SOP/roles."
+    },
+    {
+      "id": "O05",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "HR not delivered; profile tags are not policy/SOP/roles."
+    },
+    {
+      "id": "O06",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "HR not delivered; profile tags are not policy/SOP/roles."
+    },
+    {
+      "id": "P01",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md"
+      ],
+      "notes": "constant answer / always-handoff caught."
+    },
+    {
+      "id": "P02",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md"
+      ],
+      "notes": "skip verify / always-true verifier / lexical route caught."
+    },
+    {
+      "id": "P03",
+      "status": "INCOMPLETE",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md"
+      ],
+      "notes": "no systematic expected-source leak audit this folder."
+    },
+    {
+      "id": "P04",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "ISSUE-13 fixture is real Chinese, not nnnn."
+    },
+    {
+      "id": "P05",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "model-judge calibration not run."
+    },
+    {
+      "id": "P06",
+      "status": "PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md"
+      ],
+      "notes": "0 tests / missing path are exit 4/5, not product PASS."
+    },
+    {
+      "id": "P07",
+      "status": "INCOMPLETE",
+      "level": "L0",
+      "evidence": [
+        "docs/testing/results/CASES.json"
+      ],
+      "notes": "this file maps claims to evidence. still not a signed release packet."
+    },
+    {
+      "id": "P08",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "handover-only replay by a second person not run."
+    },
+    {
+      "id": "7.1",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/mut-G/cases.json"
+      ],
+      "notes": "core sentinel + mut-G graph-outside-generate caught. host HTTP not run."
+    },
+    {
+      "id": "7.2",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md",
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json",
+        "docs/testing/results/reviews/72-review.md"
+      ],
+      "notes": "detached Grok 4.6 review PASS; 5 years vs 5L numeric_unit_mismatch; ordinals still pass. 5 yrs / five years still pass."
+    },
+    {
+      "id": "7.3",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/graph-security/cases.json",
+        "docs/testing/run-20260911-0131-grok46/remaining-l1/cases.json"
+      ],
+      "notes": "I05/I06/I08 slices. no real proxy."
+    },
+    {
+      "id": "7.4",
+      "status": "PASS",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1416-grok46/live/74.json"
+      ],
+      "notes": "live: rice-white then authorized retire+add to black; new session follows black; UI publish not run"
+    },
+    {
+      "id": "7.5",
+      "status": "INCOMPLETE",
+      "level": "L2",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json"
+      ],
+      "notes": "electronic subset only."
+    },
+    {
+      "id": "7.6",
+      "status": "REVIEW_PASS",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/results/reviews/D07-review.md"
+      ],
+      "notes": "mix-identity FAIL historically; D07 schema v39 REVIEW_PASS. FastEmbed restart/mid-rebuild still incomplete."
+    },
+    {
+      "id": "7.7",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/knowledge-pdf/cases.json",
+        "docs/testing/run-20260911-1024-grok46/l1/cases.json",
+        "docs/testing/run-20260911-1416-grok46/l1/after.json",
+        "docs/testing/results/reviews/F05-review.md"
+      ],
+      "notes": "tied to F05 URL-prefix REVIEW_PASS; free-text fake source still source_traceable; not full content/version/scope verify."
+    },
+    {
+      "id": "7.8",
+      "status": "BLOCKED",
+      "level": "L4",
+      "evidence": [
+        "docs/testing/run-20260911-0131-grok46/blocked/blocked.json"
+      ],
+      "notes": "no independent business ledger."
+    },
+    {
+      "id": "7.9",
+      "status": "NOT_RUN",
+      "level": null,
+      "evidence": [],
+      "notes": "crash/disk-full/backup-restore not run."
+    },
+    {
+      "id": "7.10",
+      "status": "INCOMPLETE",
+      "level": "L1",
+      "evidence": [
+        "docs/testing/run-20260910-1739-grok46/mutations/summary.md",
+        "docs/testing/results/CASES.json"
+      ],
+      "notes": "mutations + this ledger. not a signed claim-to-evidence release."
+    }
+  ],
+  "latest_run": "run-20260911-acceptance-handoff",
+  "candidate": {
+    "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+    "stage0_sha256": "801e8ae123c86f1fd4222eb38d97723e0bd7f94eec618d8311b06e750e74a3b7",
+    "after_k04_sha256": "340f188defc77ff56c6a5d31974aad2a7c7f6ed432a5f3199ec4e54816ab944e",
+    "skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+    "skill_edited_this_run": false
+  }
+}

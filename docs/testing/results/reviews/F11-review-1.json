@@ -1,0 +1,45 @@
+{
+  "id": "F11",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "luna": false,
+  "status": "INCOMPLETE",
+  "target": "frozen F11 candidate (dirty evolution.py bind)",
+  "contract": "after evaluate passes, changing candidate text/source/scope must not approve/publish on the old gate_passed; handbook also names knowledge version and approval scope",
+  "evidence": [
+    "handbook F11 in docs/agent-testing-manual.md",
+    "implementer after.json/how-fixed.md inspected only; CASES.json F11 NOT_RUN",
+    "first dirty sha256 d50cec8efa31c71a209bb931f6691c3ec830b8aa7aa62e1d0e9912187da34b90: bind question+proposed_answer+evidence_source+intent",
+    "moved to 7a014cbe08451f3d032c8461edfab617bfe17aa99de90ef620558558e2a1231f: IndentationError; probe import failed",
+    "moved to 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf: parses; approve lock/claim added; not re-reviewed",
+    "before.json historical red leaked_mutated=true; not after-fix evidence"
+  ],
+  "findings": [
+    {
+      "severity": "P1",
+      "file": "src/yunpai_customer_service/evolution.py",
+      "issue": "candidate not frozen; dirty bind hash changed three times during review"
+    },
+    {
+      "severity": "P2",
+      "file": "src/yunpai_customer_service/evolution.py",
+      "issue": "first inspected bind omitted tenant_id and knowledge/dependency versions; not executed; not a FAIL on a moving file"
+    }
+  ],
+  "counterexample": [
+    "not executed on a frozen after-fix candidate",
+    "before.json: mutate proposed_answer after evaluate, approve published mutated text (pre-bind)",
+    "known-bad: approve checks only status and gate_passed; /tmp revert not run on a moving file"
+  ],
+  "limitations": [
+    "no independent mutate-then-approve probe",
+    "implementer after.json PASS ignored",
+    "9d260930 tree not re-reviewed",
+    "no live HTTP/UI"
+  ],
+  "hashes": {
+    "first_inspected": "d50cec8efa31c71a209bb931f6691c3ec830b8aa7aa62e1d0e9912187da34b90",
+    "broken_mid_review": "7a014cbe08451f3d032c8461edfab617bfe17aa99de90ef620558558e2a1231f",
+    "later_not_reviewed": "9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf"
+  }
+}

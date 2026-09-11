@@ -1,0 +1,35 @@
+counterfactual_copy: /tmp/l01-counterfactual-review
+python: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+PYTHONPATH: /tmp/l01-counterfactual-review/src
+rag_file: /tmp/l01-counterfactual-review/src/yunpai_customer_service/rag.py
+restored_score: return 0.55 * semantic + 0.45 * lexical + intent_bonus
+identifier_bonus_removed: true
+product_identifiers_left_intact: true
+g07_intent_mapping_left_intact: true
+workspace_src_mutated: no
+cwd: /tmp/l01-counterfactual-review
+
+command: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/l01-counterfactual-review/src \
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q \
+  tests/test_l01_product_identifier.py::test_fastembed_id_and_spec_query_ranks_imported_product_first
+
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_fastembed_id_and_spec_query_ranks_imported_product_first _________
+tests/test_l01_product_identifier.py:66: in test_fastembed_id_and_spec_query_ranks_imported_product_first
+    assert rows[0]["id"] == doc_id, ranked
+E   AssertionError: [('seed-0007', 0.8465), ('kb-2bd036b0ab284903b1cac00a33825bd0', 0.8167), ('demo:qingchuan-airfryer-5l-capacity:15b07900', 0.8139)]
+E   assert 'seed-0007' == 'kb-2bd036b0ab284903b1cac00a33825bd0'
+E
+E     - kb-2bd036b0ab284903b1cac00a33825bd0
+E     + seed-0007
+=========================== short test summary info ============================
+FAILED tests/test_l01_product_identifier.py::test_fastembed_id_and_spec_query_ranks_imported_product_first
+1 failed in 1.86s
+EXIT:1
+
+first_hit: seed-0007
+first_score: 0.8465
+imported_score: 0.8167
+qingchuan_id: demo:qingchuan-airfryer-5l-capacity:15b07900
+qingchuan_score: 0.8139

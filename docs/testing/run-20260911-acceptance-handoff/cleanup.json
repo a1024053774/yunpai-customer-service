@@ -1,0 +1,10 @@
+{
+  "saved_utc": "2026-09-11T08:27:17.920190+00:00",
+  "stopped_pid": 32505,
+  "killed_launcher_attempt": 32478,
+  "listen_after": "none",
+  "workspace_data_untouched": true,
+  "run_evidence_kept": true,
+  "data_dir_kept_for_sqlite_audit": "/private/tmp/yunpai-handoff-20260911",
+  "creds_not_copied_to_evidence": true
+}

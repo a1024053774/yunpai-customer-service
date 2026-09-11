@@ -1,0 +1,8 @@
+{
+  "id": "C01",
+  "verdict": "PASS",
+  "pytest_exit": 0,
+  "counterfactual_failed_as_expected": true,
+  "live_reprobed": false,
+  "notes": "审查者重跑两个 memory 测试 2 passed exit 0；/tmp 副本恢复 if not documents and hint 后新 C01 测试在 product_id in follow_ids 失败。success.png 是 TableDrivenModel dump，非 live 成文。未重跑 live L3 / r2-d01exact。测试 competing retrieve 锁住 generic 首次命中；无条件拼历史仍会绿但那仍满足合同。"
+}

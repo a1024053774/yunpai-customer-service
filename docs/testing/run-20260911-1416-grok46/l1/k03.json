@@ -1,0 +1,51 @@
+{
+  "id": "K03",
+  "priority": "P1",
+  "level": "L1",
+  "status": "PASS",
+  "expected": "abort after first delta then continue; no silent double-success on same turn",
+  "actual": {
+    "first_events": [
+      "meta",
+      "delta"
+    ],
+    "rows_after_abort": [
+      {
+        "role": "assistant",
+        "content": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      {
+        "role": "user",
+        "content": "k03-reconnect-marker"
+      }
+    ],
+    "second_events": [
+      "meta",
+      "delta",
+      "result"
+    ],
+    "assistant_count": 2,
+    "after": [
+      {
+        "role": "user",
+        "content": "k03-reconnect-marker"
+      },
+      {
+        "role": "assistant",
+        "content": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      {
+        "role": "user",
+        "content": "k03-after-abort"
+      },
+      {
+        "role": "assistant",
+        "content": "表驱动替身模型的固定回复，仅用于验收。"
+      }
+    ]
+  },
+  "notes": [
+    "in-process stream abort; host socket reconnect still not run"
+  ],
+  "saved_utc": "2026-09-11T06:30:32.342589+00:00"
+}

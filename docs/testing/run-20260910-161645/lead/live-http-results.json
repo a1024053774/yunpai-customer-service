@@ -1,0 +1,58 @@
+[
+  {
+    "case_id": "LIVE-01",
+    "manual_id": "B01",
+    "error_type": "ConnectError",
+    "duration_ms": 2,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-02",
+    "manual_id": "B03",
+    "error_type": "ConnectError",
+    "duration_ms": 1,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-03",
+    "manual_id": "B04",
+    "error_type": "ConnectError",
+    "duration_ms": 0,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-04",
+    "manual_id": "D01",
+    "error_type": "ConnectError",
+    "duration_ms": 0,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-05",
+    "manual_id": "C01",
+    "error_type": "ConnectError",
+    "duration_ms": 0,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-06",
+    "manual_id": "D02",
+    "error_type": "ConnectError",
+    "duration_ms": 0,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-07",
+    "manual_id": "B02",
+    "error_type": "ConnectError",
+    "duration_ms": 1,
+    "judgment": "INCOMPLETE"
+  },
+  {
+    "case_id": "LIVE-08",
+    "manual_id": "I09",
+    "error_type": "ConnectError",
+    "duration_ms": 1,
+    "judgment": "INCOMPLETE"
+  }
+]

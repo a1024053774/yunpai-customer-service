@@ -1,0 +1,16 @@
+{
+  "id": "F10",
+  "reviewer": "cursor-grok-4.6-detached",
+  "agent_id": "9cf2baf8-2bf3-49f1-96f1-a7ff726491e4",
+  "resumed": false,
+  "luna": false,
+  "status": "PASS",
+  "target": "frozen evolution.py sha256 0973a53a8453518bd4dcfc212cc97120940d1f6a5ab3aace6acbd11f4b3c1137",
+  "contract": "English instruction candidate must fail the evaluate gate",
+  "findings": [],
+  "limitations": [
+    "this string failed via low semantic alignment, not an instruction-specific output-policy",
+    "L1 /tmp table-driven, not live HTTP/UI"
+  ],
+  "reviewed_utc": "2026-09-11T06:40:36.519584+00:00"
+}

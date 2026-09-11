@@ -1,0 +1,75 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/graph.py	2026-09-10 13:31:21
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/graph.py	2026-09-10 17:52:58
+@@ -36,6 +36,7 @@
+ from .policy import (
+     asks_for_internal_identifier,
+     customer_facing_missing_fields,
++    is_business_action_request,
+     precheck_request,
+     review_output,
+     sanitize_context,
+@@ -364,6 +365,19 @@
+             history=db.recent_messages(state["session_id"], settings.session_history_limit),
+             media_observation=state.get("media_evidence"),
+         )
++        if any(marker in state["normalized_input"] for marker in ("竞品", "对比")):
++            intent_routing = routing_for_intent(classified.intent)
++            return {
++                "route": "handoff",
++                "route_reason": "competitor_topic_blocked",
++                "risk_level": "medium",
++                "customer_intent": classified.intent,
++                "intent_confidence": classified.confidence,
++                "intent_method": classified.method,
++                "intent_error": classified.error,
++                "intent_routing": intent_routing,
++                "trace": [*state["trace"], f"intent:{classified.method}:{classified.intent}", "precheck:competitor_topic_blocked"],
++            }
+         intent_routing = routing_for_intent(classified.intent)
+         complaint = classified.intent == "complaint"
+         route = "retrieve"
+@@ -787,6 +801,13 @@
+                 reason = "verified_tool_result_missing"
+             else:
+                 reason = "verified_tool_result_complete"
++        # MUTATION E: restore lexical business-action override after the model decision.
++        business_action = is_business_action_request(state["normalized_input"])
++        if business_action and route != "refuse":
++            risk_level = "high"
++        if business_action and route not in {"act", "handoff", "refuse", "finish"}:
++            route = "handoff"
++            reason = "business_action_requires_verified_execution"
+         # Semantic modes come from the model. Executable actions are validated below
+         # against registered tools, SOP, authority and postconditions, never user keywords.
+         # M6 基线：低置信度 answer/finish → 转人工（对齐 origin/main decision_gate）
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/llm.py	2026-09-10 12:43:55
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/llm.py	2026-09-10 17:52:58
+@@ -458,12 +458,25 @@
+                 ensure_ascii=False,
+             )
+         if task.get("task_type") == "agent_decision":
+-            # A mock verifies wiring, not customer semantics; do not maintain a second
+-            # classifier or pretend a tool operation happened.
++            # MUTATION E P02: restore lexical if-refund/if-price routing in mock.
++            question = str(task.get("user_question", ""))
++            if any(word in question for word in ("退款", "退钱")):
++                return json.dumps({
++                    "intent": "refund", "mode": "act", "tool_name": None,
++                    "arguments": {}, "missing_fields": [],
++                    "expected_outcome": "business_operation_verified",
++                    "response": None, "reason": "business_action_requested", "confidence": 0.8,
++                }, ensure_ascii=False)
++            if any(word in question for word in ("价格", "多少钱")):
++                return json.dumps({
++                    "intent": "price_promo", "mode": "handoff", "tool_name": None,
++                    "arguments": {}, "missing_fields": [], "expected_outcome": None,
++                    "response": None, "reason": "price_keyword_handoff", "confidence": 0.8,
++                }, ensure_ascii=False)
+             return json.dumps({
+                 "intent": "general", "mode": "answer", "tool_name": None,
+                 "arguments": {}, "missing_fields": [], "expected_outcome": None,
+-                "response": None, "reason": "mock_contract_response", "confidence": 0.8,
++                "response": None, "reason": "knowledge_answer", "confidence": 0.8,
+             }, ensure_ascii=False)
+         marker = "参考知识："
+         if marker in context:

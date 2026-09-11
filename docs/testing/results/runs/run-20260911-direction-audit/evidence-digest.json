@@ -1,0 +1,16 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "method": "relative path + SHA256, excludes __pycache__ and self",
+  "file_count": 8,
+  "digest_sha256": "f8a1ca0baa209bfd67a178a3ede9876962a2e0529c01427722b2b86b29c2a614",
+  "files": {
+    "cleanup.json": "5f6d2cca75ed488925d52083f9865ea8e67ec89049e901e3a5fa889046ce37cb",
+    "direction-matrix.json": "43d8ce1566b7e0dba366bae33f488e86306aee9a2fb780762dfc0abb9fe547b6",
+    "launch.log": "c71e6cd5c9492278d876e87a140cf20d6c7f37d47804ecfd5eabfd7fcbd60c44",
+    "launcher.pid": "11ff3966bf8623503a7f58cf749ba6b6eb4ebc2b66938774cb939a019f2124d9",
+    "manifest.json": "e79d8d71638bf13b972b4afb7d63772e5b737abe1737eb5821c03dcb7554d185",
+    "pytest-related.txt": "52181a56136aeb21938d3701ad15bf92b075ec166ffb25e82ac4a346d8a97d0c",
+    "runtime.json": "b90e3d1613bab8f433359d9222b7ec053cf864b3474befa60455e45fe3675e8f",
+    "start_servers.py": "a4abafb6d3a42a5a52136737583df760e9c22b6fb43bb3720183b8f816a69b09"
+  }
+}

@@ -1,0 +1,58 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_pdf_import_preserves_page_sources_and_tenant_scope ____________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-16/test_pdf_import_preserves_page0')
+
+    def test_pdf_import_preserves_page_sources_and_tenant_scope(tmp_path) -> None:
+        core = build_core(tmp_path, seed_knowledge=False)
+        principal = principal_for_core(core)
+    
+        imported = ingest_document(
+            core.knowledge,
+            filename="catalog.pdf",
+            content=_pdf_bytes(),
+            tenant_id=principal.tenant_id,
+            intent="product_inquiry",
+        )
+    
+        assert len(imported) == 2
+        assert {item.page for item in imported} == {1, 2}
+        assert imported[0].tables == 1
+        by_page = {item.page: core.knowledge.get_document(item.id, tenant_id=principal.tenant_id)["answer"] for item in imported}
+>       assert "空气炸锅容量" in "".join(by_page[1].split())
+E       AssertionError: assert '空气炸锅容量' in 'nnnnnn5Lnn3-4nnnnnnnnn|nn|5L||------|------|'
+E        +  where 'nnnnnn5Lnn3-4nnnnnnnnn|nn|5L||------|------|' = <built-in method join of str object at 0x1035c4918>(['nnnnnn', '5L', 'nn', '3-4', 'nnn', 'nnnnnn', ...])
+E        +    where <built-in method join of str object at 0x1035c4918> = ''.join
+E        +    and   ['nnnnnn', '5L', 'nn', '3-4', 'nnn', 'nnnnnn', ...] = <built-in method split of str object at 0x14cfed0d0>()
+E        +      where <built-in method split of str object at 0x14cfed0d0> = 'nnnnnn 5L nn 3-4 nnn nnnnnn\n\n| nn | 5L |\n|------|------|'.split
+
+tests/test_knowledge_ingest.py:45: AssertionError
+----------------------------- Captured stderr call -----------------------------
+[INFO] 2026-09-10 13:27:13,073 [RapidOCR] base.py:23: Using engine_name: onnxruntime
+[INFO] 2026-09-10 13:27:13,081 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_det_small.onnx
+[INFO] 2026-09-10 13:27:13,081 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_det_small.onnx
+[INFO] 2026-09-10 13:27:13,097 [RapidOCR] base.py:23: Using engine_name: onnxruntime
+[INFO] 2026-09-10 13:27:13,099 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx
+[INFO] 2026-09-10 13:27:13,099 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx
+[INFO] 2026-09-10 13:27:13,111 [RapidOCR] base.py:23: Using engine_name: onnxruntime
+[INFO] 2026-09-10 13:27:13,123 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_rec_small.onnx
+[INFO] 2026-09-10 13:27:13,123 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_rec_small.onnx
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights: 100%|██████████| 770/770 [00:00<00:00, 11695.02it/s]
+=============================== warnings summary ===============================
+tests/test_knowledge_ingest.py::test_pdf_import_preserves_page_sources_and_tenant_scope
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/pydantic/main.py:542: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_json(
+
+tests/test_knowledge_ingest.py::test_pdf_import_preserves_page_sources_and_tenant_scope
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/docling/pipeline/standard_pdf_pipeline.py:606: DeprecationWarning: This field is deprecated. Use `generate_page_images=True` and call `TableItem.get_image()` to extract table images from page images.
+    or self.pipeline_options.generate_table_images
+
+tests/test_knowledge_ingest.py::test_pdf_import_preserves_page_sources_and_tenant_scope
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/docling/models/stages/ocr/rapid_ocr_model.py:442: DeprecationWarning: deprecated
+    if self.options.rec_font_path is not None:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_knowledge_ingest.py::test_pdf_import_preserves_page_sources_and_tenant_scope
+1 failed, 3 warnings in 9.55s

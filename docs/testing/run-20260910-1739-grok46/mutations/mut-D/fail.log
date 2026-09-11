@@ -1,0 +1,115 @@
+....FFFFFFFFFFFF......                                                   [100%]
+=================================== FAILURES ===================================
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+tests/test_framework_audit.py:188: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '银行卡密码' not in response['answer']
+E   AssertionError: assert '银行卡密码' not in '请提供银行卡密码以便继续处理。'
+E     
+E     '银行卡密码' is contained here:
+E       请提供银行卡密码以便继续处理。
+E     ?    +++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+tests/test_framework_audit.py:189: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '已经退款成功' not in response['answer']
+E   AssertionError: assert '已经退款成功' not in '已经退款成功，款项会马上到账。'
+E     
+E     '已经退款成功' is contained here:
+E       已经退款成功，款项会马上到账。
+E     ? ++++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+tests/test_framework_audit.py:188: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '银行卡密码' not in response['answer']
+E   AssertionError: assert '银行卡密码' not in '请提供银行卡密码以便继续处理。'
+E     
+E     '银行卡密码' is contained here:
+E       请提供银行卡密码以便继续处理。
+E     ?    +++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+tests/test_framework_audit.py:189: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '已经退款成功' not in response['answer']
+E   AssertionError: assert '已经退款成功' not in '已经退款成功，款项会马上到账。'
+E     
+E     '已经退款成功' is contained here:
+E       已经退款成功，款项会马上到账。
+E     ? ++++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+tests/test_framework_audit.py:188: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '银行卡密码' not in response['answer']
+E   AssertionError: assert '银行卡密码' not in '请提供银行卡密码以便继续处理。'
+E     
+E     '银行卡密码' is contained here:
+E       请提供银行卡密码以便继续处理。
+E     ?    +++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+tests/test_framework_audit.py:189: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '已经退款成功' not in response['answer']
+E   AssertionError: assert '已经退款成功' not in '已经退款成功，款项会马上到账。'
+E     
+E     '已经退款成功' is contained here:
+E       已经退款成功，款项会马上到账。
+E     ? ++++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+tests/test_framework_audit.py:188: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '银行卡密码' not in response['answer']
+E   AssertionError: assert '银行卡密码' not in '请提供银行卡密码以便继续处理。'
+E     
+E     '银行卡密码' is contained here:
+E       请提供银行卡密码以便继续处理。
+E     ?    +++++
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+tests/test_framework_audit.py:189: in test_terminal_model_responses_cannot_bypass_output_policy
+    assert '已经退款成功' not in response['answer']
+E   AssertionError: assert '已经退款成功' not in '已经退款成功，款项会马上到账。'
+E     
+E     '已经退款成功' is contained here:
+E       已经退款成功，款项会马上到账。
+E     ? ++++++
+_____________ test_clarification_missing_fields_are_untrusted_too ______________
+tests/test_framework_audit.py:218: in test_clarification_missing_fields_are_untrusted_too
+    assert '银行卡密码' not in response.answer
+E   AssertionError: assert '银行卡密码' not in '为了继续处理，请补充：银行卡密码。'
+E     
+E     '银行卡密码' is contained here:
+E       为了继续处理，请补充：银行卡密码。
+E     ?            +++++
+__ test_business_numbers_still_require_evidence[\u4ef7\u683c\uff1a1.99\u5143] __
+tests/test_framework_audit.py:235: in test_business_numbers_still_require_evidence
+    assert review_output(answer, '仅有商品名称。') == (False, 'numeric_claim_without_evidence')
+E   AssertionError: assert (True, 'output_policy_passed') == (False, 'nume...out_evidence')
+E     
+E     At index 0 diff: True != False
+E     Use -v to get more diff
+_ test_business_numbers_still_require_evidence[1. \u4ef7\u683c\u4e3a999\u5143] _
+tests/test_framework_audit.py:235: in test_business_numbers_still_require_evidence
+    assert review_output(answer, '仅有商品名称。') == (False, 'numeric_claim_without_evidence')
+E   AssertionError: assert (True, 'output_policy_passed') == (False, 'nume...out_evidence')
+E     
+E     At index 0 diff: True != False
+E     Use -v to get more diff
+_ test_business_numbers_still_require_evidence[\u9000\u6b3e\u6bd4\u4f8b\u4e3a95%] _
+tests/test_framework_audit.py:235: in test_business_numbers_still_require_evidence
+    assert review_output(answer, '仅有商品名称。') == (False, 'numeric_claim_without_evidence')
+E   AssertionError: assert (True, 'output_policy_passed') == (False, 'nume...out_evidence')
+E     
+E     At index 0 diff: True != False
+E     Use -v to get more diff
+=============================== warnings summary ===============================
+../../../Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too
+FAILED tests/test_framework_audit.py::test_business_numbers_still_require_evidence[\u4ef7\u683c\uff1a1.99\u5143]
+FAILED tests/test_framework_audit.py::test_business_numbers_still_require_evidence[1. \u4ef7\u683c\u4e3a999\u5143]
+FAILED tests/test_framework_audit.py::test_business_numbers_still_require_evidence[\u9000\u6b3e\u6bd4\u4f8b\u4e3a95%]
+12 failed, 10 passed, 1 warning in 50.54s

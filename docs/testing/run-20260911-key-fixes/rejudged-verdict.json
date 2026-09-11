@@ -1,0 +1,21 @@
+{
+  "status": "REJUDGED",
+  "all_checked_slices_passed": false,
+  "verdict": "NO_GO",
+  "product_direction_verdict": "NO_GO",
+  "source": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-direction-audit/raw/probe-results.json",
+  "checks": {
+    "PREFLIGHT": false,
+    "D01-host-api": false,
+    "D03-D05": false,
+    "D04-image": false,
+    "D07-D08": false,
+    "D07-PDF-fixture": false,
+    "D09-evolution": false
+  },
+  "notes": [
+    "Historical artifacts were not overwritten.",
+    "A false or missing contract is INCOMPLETE, never PASS.",
+    "This rejudgment does not claim production or L4/L5 acceptance."
+  ]
+}

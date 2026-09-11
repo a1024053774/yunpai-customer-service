@@ -1,0 +1,30 @@
+{
+  "id": "L01",
+  "level": "L3",
+  "browser": "Chrome DevTools MCP (cursor-ide-browser unavailable: no tab)",
+  "demo_url": "http://127.0.0.1:18765/",
+  "question": "QA-GROK-2C2668E3 容量和颜色是什么？",
+  "session_id": "demo-fc4d1f0f-d3a9-4203-b923-659e3624518e",
+  "message_id": "msg-9d002853d92e4038b94f063a6e13aea4",
+  "trace_id": "trace-2faac67d74164d99844b722c0ab562cc",
+  "answer": "这个编号我这边没法对应到具体商品，方便的话请发一下商品名称或商品链接，我帮您准确核对。\n\n如果您问的是晴川空气炸锅，目前两款参数如下：\n- QC-AF50：容量 5L，颜色米白，功率 1500W，标配烤架和接油盘，页面价格 329 元\n- QC-AF35：容量 3.5L，颜色浅灰，功率 1300W，配接油盘，页面价格 259 元\n\n实际支付价格请以结算页为准。",
+  "sources": [
+    {
+      "id": "seed-0007",
+      "source": "builtin:ecommerce-sop-v1",
+      "score": 0.8467
+    },
+    {
+      "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+      "source": "demo:qingchuan-catalog-v1",
+      "score": 0.8141
+    },
+    {
+      "id": "seed-0014",
+      "source": "builtin:ecommerce-sop-v1",
+      "score": 0.8113
+    }
+  ],
+  "ui_status_label": "真实模型 · deepseek-v4-flash · 识图 deepseek-v4-flash-vision-exp · 检索 fastembed",
+  "notes": "UI showed answer and sources. Independent oracle FAIL vs synthetic QA-GROK (used Qingchuan). L01 subset journey PASS."
+}

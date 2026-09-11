@@ -1,0 +1,10 @@
+{
+  "saved_utc": "2026-09-11T11:10:00Z",
+  "runtime_pid": 42638,
+  "pid_present_after_audit": false,
+  "ports": {"58722": "closed", "58723": "closed"},
+  "data_dir": "/private/tmp/yunpai-direction-audit-20260911",
+  "workspace_data_touched": false,
+  "credentials_copied_to_evidence": false,
+  "note": "The local direction audit server started for behavioral checks and was no longer listening at cleanup verification."
+}

@@ -1,0 +1,38 @@
+{
+  "mutation": "mut-C",
+  "claim": "P02 skip verify",
+  "wrong_implementation": "generate -> persist (verify node never runs); safe_terminal_output is a passthrough",
+  "exit_code": 1,
+  "result": "10 failed, 12 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "P02-skip-verify-graph-nodes",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes",
+      "expected": "calls == ['generate', 'verify']",
+      "actual": "AssertionError: assert ['generate'] == ['generate', 'verify']",
+      "evidence_files": ["fail.log", "diff.txt"]
+    },
+    {
+      "id": "P02-skip-verify-terminal-unsafe",
+      "priority": "P0",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy",
+      "expected": "????? / ?????? never reach the user",
+      "actual": "AssertionError: '?????' not in '???????????????' (and already-refunded variants)",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "G01-G02-7.2-unreviewed-terminal",
+      "priority": "P0",
+      "level": "L1",
+      "status": "FAIL",
+      "notes": "Manual 7.2 steps 1-2: unsafe clarify/handoff/refuse text was emitted on both sync and SSE.",
+      "evidence_files": ["fail.log"]
+    }
+  ]
+}

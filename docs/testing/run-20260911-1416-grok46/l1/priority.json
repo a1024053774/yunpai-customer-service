@@ -1,0 +1,472 @@
+{
+  "saved_utc": "2026-09-11T06:24:27.404641+00:00",
+  "run_id": "run-20260911-1416-grok46",
+  "level": "L0/L1",
+  "cases": [
+    {
+      "id": "F05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "non-empty fake https source is not sufficient to pass evaluate",
+      "actual": {
+        "gate_passed": true,
+        "source_traceable": true,
+        "semantic_alignment": true,
+        "semantic_alignment_score": 0.1693,
+        "lexical_evidence_overlap": 0.0,
+        "candidate_retrieval_score": 0.8969,
+        "output_policy": true,
+        "checks": {
+          "length": true,
+          "no_sensitive_numbers": true,
+          "source_traceable": true,
+          "candidate_retrievable": true,
+          "candidate_retrieval_score": 0.8969,
+          "retrieval_fit": true,
+          "nearest_documents": [
+            "seed-0013",
+            "seed-0004",
+            "seed-0007"
+          ],
+          "output_policy": true,
+          "output_policy_reason": "output_policy_passed",
+          "high_risk_handoff_preserved": true,
+          "semantic_alignment": true,
+          "semantic_alignment_score": 0.1693,
+          "lexical_evidence_overlap": 0.0,
+          "no_contradiction_markers": true,
+          "retrieval_collision_free": true,
+          "retrieval_collision_failures": [],
+          "baseline_regression": true
+        }
+      },
+      "notes": [
+        "full dump in f05-full.json",
+        "source_traceable is nonempty-string only unless a later fix landed"
+      ]
+    },
+    {
+      "id": "F10",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "forged rejected; likes no candidate; PII/instruction fail gate; withdrawn experience not reused",
+      "actual": {
+        "forged_ok": false,
+        "forged_err": "assistant message not found",
+        "like_candidate_ids": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "pii_passed": false,
+        "inj_passed": true,
+        "inj_alignment": true,
+        "inj_alignment_score": 0.0438,
+        "inj_lexical": 0.0,
+        "inj_source_traceable": true,
+        "withdraw": {
+          "evaluate_passed": true,
+          "knowledge_id": "kb-ad806545758f4c66bb6eac92d7f360ab",
+          "retired": true,
+          "after_answer": "表驱动替身模型的固定回复，仅用于验收。",
+          "after_sources": [
+            "builtin:ecommerce-sop-v1",
+            "builtin:ecommerce-sop-v1",
+            "builtin:ecommerce-sop-v1",
+            "builtin:ecommerce-sop-v1",
+            "builtin:ecommerce-sop-v1"
+          ],
+          "retrieve_still_has_retired": false,
+          "reuses_evolution": false
+        }
+      },
+      "notes": [
+        "English instruction candidate is the 1024 missing fail-closed step",
+        "rate-limit still not a product API; burst likes recorded only"
+      ]
+    },
+    {
+      "id": "7.7",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "7.7 step 3: nonempty fake source must not pass evaluate",
+      "actual": {
+        "f05_gate_passed": true,
+        "f10_inj_passed": true
+      },
+      "notes": [
+        "tied to F05/F10 this run"
+      ]
+    },
+    {
+      "id": "F08",
+      "status": "INCOMPLETE",
+      "notes": [
+        "probe crashed"
+      ],
+      "actual": {}
+    },
+    {
+      "id": "C08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "completed readable after reopen; generate/persist interrupt does not persist success; retry is a new write",
+      "actual": {
+        "first_message_id": "msg-a66d65f25833436a8f4d9a63a32074e5",
+        "completed_readable": true,
+        "rows_after_reopen": [
+          {
+            "role": "assistant",
+            "content": "表驱动替身模型的固定回复，仅用于验收。"
+          },
+          {
+            "role": "user",
+            "content": "c08-complete-marker"
+          }
+        ],
+        "gen_raised": true,
+        "gen_err": "RuntimeError: c08-generate-interrupt",
+        "pre_gen_assistant": [],
+        "pre_gen_invocations": [],
+        "persist_raised": true,
+        "persist_err": "RuntimeError: c08-persist-interrupt",
+        "pre_persist_assistant": [],
+        "retry_message_id": "msg-fc522309884e47f0bf50acc3c8becea6",
+        "after_retry": [
+          {
+            "role": "user",
+            "content": "c08-retry-after-interrupt"
+          },
+          {
+            "role": "assistant",
+            "content": "表驱动替身模型的固定回复，仅用于验收。"
+          }
+        ],
+        "original_still_present": true
+      },
+      "notes": [
+        "in-process exception stand-in for crash; same DATA_DIR reopen",
+        "no write-tool ledger; double-apply judged on assistant persist only"
+      ]
+    },
+    {
+      "id": "E04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "cross-page table keeps SKU-param mapping at production rag_min_score; AAA 5L; BBB 7L",
+      "actual": {
+        "imported_pages": [
+          {
+            "page": 1,
+            "chars": 284,
+            "tables": 1,
+            "id": "kb-b223d737125b4580b6787a44c0b893ce"
+          },
+          {
+            "page": 2,
+            "chars": 222,
+            "tables": 1,
+            "id": "kb-163323e6a3c5435c90ebcdad557b7bb2"
+          }
+        ],
+        "rag_min_score": 0.08,
+        "hits_a": [
+          {
+            "id": "kb-b223d737125b4580b6787a44c0b893ce",
+            "score": 0.8349,
+            "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+          },
+          {
+            "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+            "score": 0.6244,
+            "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+          }
+        ],
+        "hits_b": [
+          {
+            "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+            "score": 0.8244,
+            "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+          },
+          {
+            "id": "kb-b223d737125b4580b6787a44c0b893ce",
+            "score": 0.6349,
+            "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+          }
+        ],
+        "low_min_score_hits_a": [
+          {
+            "id": "kb-b223d737125b4580b6787a44c0b893ce",
+            "score": 0.8349,
+            "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+          },
+          {
+            "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+            "score": 0.6244,
+            "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+          }
+        ],
+        "a_top_ok": true,
+        "b_top_ok": true,
+        "parsed_two": true,
+        "inverted": false
+      },
+      "notes": [
+        "1024 used min_score=0.01 and mixed pages; this run uses settings.rag_min_score",
+        "table model; generation column-binding not live-judged"
+      ]
+    },
+    {
+      "id": "I13",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "synthetic marker stays local; chat/export do not POST it outbound; no remote log handlers",
+      "actual": {
+        "marker": "SYNTH-MARKER-I13-20260911-1416",
+        "stored": [
+          "表驱动替身模型的固定回复，仅用于验收。",
+          "see ![](http://127.0.0.1:57046/i13-marker) and also SYNTH-MARKER-I13-20260911-1416"
+        ],
+        "listener_hits": [],
+        "export_status": null,
+        "export_has_marker": false,
+        "sessions_status": 200,
+        "health_status": 200,
+        "log_handlers": [],
+        "remote_handlers": [],
+        "shipper_env_keys_present": [],
+        "audit_sample": [
+          {
+            "event_type": "chat.completed",
+            "detail": "{\"trace_id\": \"trace-f6a8afb1b11d4054ba1ff7cb405bfca2\", \"intent\": \"product\", \"decision_mode\": \"answer\", \"selected_tool\": null, \"risk_level\": \"low\", \"requires_human\": false, \"handoff"
+          },
+          {
+            "event_type": "knowledge.seeded",
+            "detail": "{\"count\": 156}"
+          }
+        ],
+        "answer": "表驱动替身模型的固定回复，仅用于验收。"
+      },
+      "notes": [
+        "1024 missing step: export API + logging/monitoring handler matrix",
+        "no production log shipper in this process; L4 outbound still N03/N07"
+      ]
+    },
+    {
+      "id": "F09-extra",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "concurrent rollback/reject do not create rejected+active; db-break does not silent-approve",
+      "actual": {
+        "rollback_events": [
+          "a:ok:False",
+          "b:ok:True"
+        ],
+        "rollback_kb_status": "retired",
+        "approve_reject_events": [
+          "reject-ok",
+          "approve:EvolutionError"
+        ],
+        "cand_status": "rejected",
+        "resulting": null,
+        "active_rows": [],
+        "rejected_plus_active": false,
+        "db_break": {
+          "approve_ok": false,
+          "error": "OperationalError: attempt to write a readonly database",
+          "candidate_status": "evaluated",
+          "active": []
+        }
+      },
+      "notes": [
+        "does not rewrite the lock; supplement to REVIEW_PASS F09",
+        "chmod stand-in for mid-publish db break"
+      ]
+    },
+    {
+      "id": "G02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "injected already-refunded draft is not shipped; no write-tool ledger",
+      "actual": {
+        "answer": "?????????????????",
+        "route_reason": null,
+        "claimed_refund": true,
+        "review_direct": [
+          true,
+          "output_policy_passed"
+        ]
+      },
+      "notes": [
+        "no independent business ledger; text-policy only"
+      ]
+    },
+    {
+      "id": "7.2",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "expected": "5L evidence must not ship 5-year warranty; G01/G05/G06 already covered elsewhere",
+      "actual": {
+        "answer": "QA-72 kettle warranty is 5 years.",
+        "shipped_years": true,
+        "review_direct": [
+          true,
+          "output_policy_passed"
+        ]
+      },
+      "notes": [
+        "table-model injection of 5-year claim against 5L evidence"
+      ]
+    },
+    {
+      "id": "C07",
+      "priority": "P2",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "repeat clarify then refuse after user rejects sensitive materials; no crash",
+      "actual": {
+        "first": "为了继续处理，请补充：????。",
+        "second": "user refused sensitive materials",
+        "first_requires_human": false,
+        "second_requires_human": false
+      },
+      "notes": [
+        "sensitive refuse injected via table-driven decision mode=refuse"
+      ]
+    },
+    {
+      "id": "H08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "after retire + process reopen, old session does not retrieve withdrawn id",
+      "actual": {
+        "knowledge_id": "kb-50d63782d90940f391deb41fca9a20f4",
+        "before_sources": [
+          "fixture:h08",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1"
+        ],
+        "after_sources": [
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1",
+          "builtin:ecommerce-sop-v1"
+        ],
+        "retrieve_ids": [
+          "seed-0007",
+          "seed-0019",
+          "seed-0013",
+          "seed-0018",
+          "seed-0011"
+        ],
+        "still_cites": false
+      },
+      "notes": [
+        "1024 missing step: same DATA_DIR reopen after retire"
+      ]
+    },
+    {
+      "id": "E09",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "partial add_document failure is explicit; retry recovers; no duplicate active keys",
+      "actual": {
+        "first_error": "RuntimeError: e09-partial-embed",
+        "first_rows": [
+          {
+            "id": "kb-09428f3201944455bbc850e44d724924",
+            "knowledge_key": "upload://partial.txt?sha256=70a92d08c3698afd#page=1&chunk=1",
+            "status": "active",
+            "question": "partial.txt 第 1 页"
+          }
+        ],
+        "retry_ids": [
+          "kb-09428f3201944455bbc850e44d724924",
+          "kb-10f13731fc0f4fa590c630e134998edc"
+        ],
+        "after_rows": [
+          {
+            "id": "kb-09428f3201944455bbc850e44d724924",
+            "knowledge_key": "upload://partial.txt?sha256=70a92d08c3698afd#page=1&chunk=1",
+            "status": "active"
+          },
+          {
+            "id": "kb-10f13731fc0f4fa590c630e134998edc",
+            "knowledge_key": "upload://partial.txt?sha256=70a92d08c3698afd#page=1&chunk=2",
+            "status": "active"
+          }
+        ],
+        "active_count": 2
+      },
+      "notes": [
+        "concurrent UNIQUE IntegrityError still possible; this is the 1024 missing partial-embed step"
+      ]
+    },
+    {
+      "id": "M02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "readonly db does not report chat success",
+      "actual": {
+        "before_id": "msg-77326d9c8d484d63901c6d456e8b0df8",
+        "claimed_success": false,
+        "error": "OperationalError: attempt to write a readonly database"
+      },
+      "notes": [
+        "chmod 0400 stand-in for db readonly; lock/disk-full not injected"
+      ]
+    },
+    {
+      "id": "N09",
+      "priority": "P1",
+      "level": "L0",
+      "status": "INCOMPLETE",
+      "expected": "dependency/license/vuln inventory",
+      "actual": {
+        "has_pyproject": true,
+        "requirement_files": [],
+        "installed_count": 154,
+        "installed_sample": [
+          "Faker==40.38.0",
+          "Jinja2==3.1.6",
+          "MarkupSafe==3.0.3",
+          "PyYAML==6.0.3",
+          "Pygments==2.21.0",
+          "accelerate==1.14.0",
+          "aiosqlite==0.22.1",
+          "annotated-doc==0.0.5",
+          "annotated-types==0.8.0",
+          "antlr4-python3-runtime==4.9.3",
+          "anyio==4.14.2",
+          "attrs==26.1.0",
+          "beautifulsoup4==4.15.0",
+          "certifi==2026.7.22",
+          "cffi==2.1.1"
+        ]
+      },
+      "notes": [
+        "inventory only; no CVE/license scanner this run"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/graph.py	2026-09-10 13:31:21
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/graph.py	2026-09-10 17:48:35
+@@ -1165,6 +1165,13 @@
+         }
+ 
+     def generate(state: AgentState) -> dict[str, Any]:
++        # MUTATION A P01: constant user-facing draft unrelated to input.
++        return {
++            "draft": "固定答案哨兵-青檀",
++            "model_fallback": False,
++            "model_retry_advised": False,
++            "trace": [*state["trace"], "generate:constant_sentinel"],
++        }
+         # Both HTTP transports execute this node and the graph's verify node.
+         plan = plan_generation(state, settings=settings, db=db)
+         if plan.branch != BRANCH_MODEL:

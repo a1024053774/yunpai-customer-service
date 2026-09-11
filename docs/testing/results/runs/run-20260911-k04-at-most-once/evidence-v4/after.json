@@ -1,0 +1,337 @@
+{
+  "status": "PASS",
+  "checks": {
+    "single_generation": true,
+    "full_responses_identical": true,
+    "completed_durable": true,
+    "single_message_pair": true,
+    "nonempty_message_id": true
+  },
+  "generate_calls": 1,
+  "responses": [
+    {
+      "message_id": "msg-964260d17f5e58808d918baf6ce8003e",
+      "trace_id": "trace-964260d17f5e58808d918baf6ce8003e",
+      "session_id": "k04-concurrent",
+      "answer": "表驱动替身模型的固定回复，仅用于验收。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "intent_confidence": 0.82,
+      "intent_method": "model",
+      "intent_error": null,
+      "risk_level": "low",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "seed-0010",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7608
+        },
+        {
+          "id": "seed-0104",
+          "category": "售后",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5873
+        },
+        {
+          "id": "seed-0006",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5504
+        },
+        {
+          "id": "seed-0025",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5388
+        },
+        {
+          "id": "seed-0149",
+          "category": "定制",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.525
+        }
+      ],
+      "model_fallback": false,
+      "vision_status": "not_applicable",
+      "vision_model": null,
+      "vision_latency_ms": null,
+      "vision_image_count": 0,
+      "handoff_id": null,
+      "handoff_status": null,
+      "sop_id": null,
+      "sop_version": null,
+      "context_snapshot_id": "ctx-cf828a24bf954f2eb76cf017fb3e1e87",
+      "context_readiness": "ready",
+      "evidence_ids": [
+        "ev-bcb0d0e38841d5b137c41ec7",
+        "ev-c17a0c5db5ee073f80f21502",
+        "ev-5d051a81d202dc57aa22a5dd",
+        "ev-009a7e32b4e78e9d31356f13",
+        "ev-1a05a2138ea1ab2cd331b98f",
+        "ev-9a709faf1da7369daba7b51f",
+        "ev-b74609bb5cbeac54ec6b5236",
+        "ev-afd0f373b77dc4c82fd8640d"
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:5",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:5",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer"
+      ],
+      "decision_mode": "answer",
+      "decision_tool": null
+    },
+    {
+      "message_id": "msg-964260d17f5e58808d918baf6ce8003e",
+      "trace_id": "trace-964260d17f5e58808d918baf6ce8003e",
+      "session_id": "k04-concurrent",
+      "answer": "表驱动替身模型的固定回复，仅用于验收。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "intent_confidence": 0.82,
+      "intent_method": "model",
+      "intent_error": null,
+      "risk_level": "low",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "seed-0010",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7608
+        },
+        {
+          "id": "seed-0104",
+          "category": "售后",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5873
+        },
+        {
+          "id": "seed-0006",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5504
+        },
+        {
+          "id": "seed-0025",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5388
+        },
+        {
+          "id": "seed-0149",
+          "category": "定制",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.525
+        }
+      ],
+      "model_fallback": false,
+      "vision_status": "not_applicable",
+      "vision_model": null,
+      "vision_latency_ms": null,
+      "vision_image_count": 0,
+      "handoff_id": null,
+      "handoff_status": null,
+      "sop_id": null,
+      "sop_version": null,
+      "context_snapshot_id": "ctx-cf828a24bf954f2eb76cf017fb3e1e87",
+      "context_readiness": "ready",
+      "evidence_ids": [
+        "ev-bcb0d0e38841d5b137c41ec7",
+        "ev-c17a0c5db5ee073f80f21502",
+        "ev-5d051a81d202dc57aa22a5dd",
+        "ev-009a7e32b4e78e9d31356f13",
+        "ev-1a05a2138ea1ab2cd331b98f",
+        "ev-9a709faf1da7369daba7b51f",
+        "ev-b74609bb5cbeac54ec6b5236",
+        "ev-afd0f373b77dc4c82fd8640d"
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:5",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:5",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer"
+      ],
+      "decision_mode": "answer",
+      "decision_tool": null
+    },
+    {
+      "message_id": "msg-964260d17f5e58808d918baf6ce8003e",
+      "trace_id": "trace-964260d17f5e58808d918baf6ce8003e",
+      "session_id": "k04-concurrent",
+      "answer": "表驱动替身模型的固定回复，仅用于验收。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "intent_confidence": 0.82,
+      "intent_method": "model",
+      "intent_error": null,
+      "risk_level": "low",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "seed-0010",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7608
+        },
+        {
+          "id": "seed-0104",
+          "category": "售后",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5873
+        },
+        {
+          "id": "seed-0006",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5504
+        },
+        {
+          "id": "seed-0025",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.5388
+        },
+        {
+          "id": "seed-0149",
+          "category": "定制",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.525
+        }
+      ],
+      "model_fallback": false,
+      "vision_status": "not_applicable",
+      "vision_model": null,
+      "vision_latency_ms": null,
+      "vision_image_count": 0,
+      "handoff_id": null,
+      "handoff_status": null,
+      "sop_id": null,
+      "sop_version": null,
+      "context_snapshot_id": "ctx-cf828a24bf954f2eb76cf017fb3e1e87",
+      "context_readiness": "ready",
+      "evidence_ids": [
+        "ev-bcb0d0e38841d5b137c41ec7",
+        "ev-c17a0c5db5ee073f80f21502",
+        "ev-5d051a81d202dc57aa22a5dd",
+        "ev-009a7e32b4e78e9d31356f13",
+        "ev-1a05a2138ea1ab2cd331b98f",
+        "ev-9a709faf1da7369daba7b51f",
+        "ev-b74609bb5cbeac54ec6b5236",
+        "ev-afd0f373b77dc4c82fd8640d"
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:5",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:5",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer"
+      ],
+      "decision_mode": "answer",
+      "decision_tool": null
+    }
+  ],
+  "invocation": {
+    "id": "invocation-964260d17f5e58808d918baf6ce8003e",
+    "tenant_id": "tenant-test",
+    "client_id": "client-test",
+    "session_id": "session-31993437e2b64d78918d499ea5706d69",
+    "idempotency_key": "k04-concurrent-1",
+    "request_hash": "86a49ac6b7631e6f38b0f777968c2e4f0cdc46a6231d836ed3076145a76aee2e",
+    "trace_id": "trace-964260d17f5e58808d918baf6ce8003e",
+    "user_message_id": "msg-user-964260d17f5e58808d918baf6ce8003e",
+    "assistant_message_id": "msg-964260d17f5e58808d918baf6ce8003e",
+    "status": "completed",
+    "response_json": "{\"message_id\": \"msg-964260d17f5e58808d918baf6ce8003e\", \"trace_id\": \"trace-964260d17f5e58808d918baf6ce8003e\", \"session_id\": \"k04-concurrent\", \"answer\": \"表驱动替身模型的固定回复，仅用于验收。\", \"intent\": \"product\", \"customer_intent\": \"product_inquiry\", \"intent_confidence\": 0.82, \"intent_method\": \"model\", \"intent_error\": null, \"risk_level\": \"low\", \"requires_human\": false, \"reason\": \"knowledge_answer_allowed\", \"sources\": [{\"id\": \"seed-0010\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7608}, {\"id\": \"seed-0104\", \"category\": \"售后\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.5873}, {\"id\": \"seed-0006\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.5504}, {\"id\": \"seed-0025\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.5388}, {\"id\": \"seed-0149\", \"category\": \"定制\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.525}], \"model_fallback\": false, \"vision_status\": \"not_applicable\", \"vision_model\": null, \"vision_latency_ms\": null, \"vision_image_count\": 0, \"handoff_id\": null, \"handoff_status\": null, \"sop_id\": null, \"sop_version\": null, \"context_snapshot_id\": \"ctx-cf828a24bf954f2eb76cf017fb3e1e87\", \"context_readiness\": \"ready\", \"evidence_ids\": [\"ev-bcb0d0e38841d5b137c41ec7\", \"ev-c17a0c5db5ee073f80f21502\", \"ev-5d051a81d202dc57aa22a5dd\", \"ev-009a7e32b4e78e9d31356f13\", \"ev-1a05a2138ea1ab2cd331b98f\", \"ev-9a709faf1da7369daba7b51f\", \"ev-b74609bb5cbeac54ec6b5236\", \"ev-afd0f373b77dc4c82fd8640d\"], \"trace\": [\"intake\", \"intent:model:product_inquiry\", \"precheck:deliberate\", \"retrieve:initial:5\", \"guard:blocked:0\", \"memory:recalled:0\", \"context:budget:kept0/dropped0\", \"context:decision:ready\", \"context:budget:kept0/dropped0\", \"deliberate:model:answer\", \"decision_gate:answer\", \"retrieve:refined:5\", \"guard:blocked:0\", \"context:budget:kept0/dropped0\", \"context:generation:ready\", \"context:budget:kept0/dropped0\", \"generate:model\", \"verify:passed\", \"postcondition:answer\"], \"decision_mode\": \"answer\", \"decision_tool\": null}",
+    "attempt_count": 1,
+    "last_error": null,
+    "created_at": "2026-09-11T13:02:21.814385+00:00",
+    "updated_at": "2026-09-11T13:02:22.718223+00:00",
+    "completed_at": "2026-09-11T13:02:22.718227+00:00"
+  },
+  "message_counts": {
+    "assistant": 1,
+    "user": 1
+  },
+  "request": {
+    "session_id": "k04-concurrent",
+    "message": "尺码怎么选",
+    "idempotency_key": "k04-concurrent-1",
+    "tenant_id": "tenant-test",
+    "client_id": "client-test"
+  },
+  "level": "L1",
+  "python": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python",
+  "core_source": "/Users/luckye/Documents/Code/yunpai-customer-service/src/yunpai_customer_service/customer_service/core.py",
+  "core_sha256": "0efc5f517a13ec74fd4a982737b258fd805e527b0dd587a21aef5ec5b2fd8f5d",
+  "limits": [
+    "model double",
+    "one process",
+    "crash takeover unproved",
+    "no remote business ledger"
+  ]
+}

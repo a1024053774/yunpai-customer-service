@@ -1,0 +1,314 @@
+FFFFFFFFFF...                                                            [100%]
+=================================== FAILURES ===================================
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_0')
+mode = 'clarify', intent = 'after_sales', unsafe = '请提供银行卡密码以便继续处理。'
+transport = 'sync'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_1')
+mode = 'handoff', intent = 'after_sales', unsafe = '已经退款成功，款项会马上到账。'
+transport = 'sync'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_2')
+mode = 'handoff', intent = 'complaint', unsafe = '请提供银行卡密码以便继续处理。'
+transport = 'sync'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sync-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_3')
+mode = 'refuse', intent = 'after_sales', unsafe = '已经退款成功，款项会马上到账。'
+transport = 'sync'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_4')
+mode = 'clarify', intent = 'after_sales', unsafe = '请提供银行卡密码以便继续处理。'
+transport = 'sse'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_5')
+mode = 'handoff', intent = 'after_sales', unsafe = '已经退款成功，款项会马上到账。'
+transport = 'sse'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_6')
+mode = 'handoff', intent = 'complaint', unsafe = '请提供银行卡密码以便继续处理。'
+transport = 'sse'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_terminal_model_responses_cannot_bypass_output_policy[sse-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002] _
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-14/test_terminal_model_responses_7')
+mode = 'refuse', intent = 'after_sales', unsafe = '已经退款成功，款项会马上到账。'
+transport = 'sse'
+
+    @pytest.mark.parametrize('mode,intent,unsafe', [
+        ('clarify','after_sales','请提供银行卡密码以便继续处理。'),
+        ('handoff','after_sales','已经退款成功，款项会马上到账。'),
+        ('handoff','complaint','请提供银行卡密码以便继续处理。'),
+        ('refuse','after_sales','已经退款成功，款项会马上到账。'),
+    ])
+    @pytest.mark.parametrize('transport', ['sync','sse'])
+    def test_terminal_model_responses_cannot_bypass_output_policy(tmp_path, mode, intent, unsafe, transport):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode=mode, decision_intent=intent)
+        model._table['agent_decision'].update(response=unsafe, missing_fields=['银行卡密码'] if mode == 'clarify' else [])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            if transport == 'sync':
+                response = core.chat(principal, 'audit-terminal', '退款进度怎么查？').model_dump()
+            else:
+                response = list(core.chat_stream(principal, 'audit-terminal', '退款进度怎么查？', idempotency_key=None))[-1]['response']
+            assert '银行卡密码' not in response['answer']
+            assert '已经退款成功' not in response['answer']
+            with core.db.connect() as conn:
+                persisted = conn.execute('SELECT content FROM messages WHERE id=?',(response['message_id'],)).fetchone()['content']
+            assert persisted == response['answer']
+            assert any('terminal_output:' in step for step in response['trace'])
+>           assert response['model_fallback'] is True
+E           assert False is True
+
+tests/test_framework_audit.py:194: AssertionError
+_ test_output_evidence_does_not_treat_list_ordinals_as_business_claims[\u8bf7\u63d0\u4f9b\u4ee5\u4e0b\u4fe1\u606f\uff1a1\uff09\u8ba2\u5355\u53f7\uff1b2\uff09\u673a\u5668\u578b\u53f7\uff1b3\uff09\u6545\u969c\u73b0\u8c61\u3002] _
+
+answer = '请提供以下信息：1）订单号；2）机器型号；3）故障现象。'
+
+    @pytest.mark.parametrize('answer', [
+        '请提供以下信息：1）订单号；2）机器型号；3）故障现象。',
+        '请补充：\n1. 订单号\n2. 商品名称\n3. 故障现象',
+    ])
+    def test_output_evidence_does_not_treat_list_ordinals_as_business_claims(answer):
+        from yunpai_customer_service.policy import review_output
+>       assert review_output(answer, '需核对订单和商品信息。')[0] is True
+E       assert False is True
+
+tests/test_framework_audit.py:229: AssertionError
+_ test_output_evidence_does_not_treat_list_ordinals_as_business_claims[\u8bf7\u8865\u5145\uff1a\n1. \u8ba2\u5355\u53f7\n2. \u5546\u54c1\u540d\u79f0\n3. \u6545\u969c\u73b0\u8c61] _
+
+answer = '请补充：\n1. 订单号\n2. 商品名称\n3. 故障现象'
+
+    @pytest.mark.parametrize('answer', [
+        '请提供以下信息：1）订单号；2）机器型号；3）故障现象。',
+        '请补充：\n1. 订单号\n2. 商品名称\n3. 故障现象',
+    ])
+    def test_output_evidence_does_not_treat_list_ordinals_as_business_claims(answer):
+        from yunpai_customer_service.policy import review_output
+>       assert review_output(answer, '需核对订单和商品信息。')[0] is True
+E       assert False is True
+
+tests/test_framework_audit.py:229: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sync-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-clarify-after_sales-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-handoff-complaint-\u8bf7\u63d0\u4f9b\u94f6\u884c\u5361\u5bc6\u7801\u4ee5\u4fbf\u7ee7\u7eed\u5904\u7406\u3002]
+FAILED tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy[sse-refuse-after_sales-\u5df2\u7ecf\u9000\u6b3e\u6210\u529f\uff0c\u6b3e\u9879\u4f1a\u9a6c\u4e0a\u5230\u8d26\u3002]
+FAILED tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims[\u8bf7\u63d0\u4f9b\u4ee5\u4e0b\u4fe1\u606f\uff1a1\uff09\u8ba2\u5355\u53f7\uff1b2\uff09\u673a\u5668\u578b\u53f7\uff1b3\uff09\u6545\u969c\u73b0\u8c61\u3002]
+FAILED tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims[\u8bf7\u8865\u5145\uff1a\n1. \u8ba2\u5355\u53f7\n2. \u5546\u54c1\u540d\u79f0\n3. \u6545\u969c\u73b0\u8c61]
+10 failed, 3 passed, 14 deselected in 4.28s

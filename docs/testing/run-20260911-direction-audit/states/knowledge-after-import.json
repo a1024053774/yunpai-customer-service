@@ -1,0 +1,204 @@
+{
+  "http": {
+    "status_code": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "kb-bad593a473714ca09d1691dd228e5109",
+          "knowledge_key": "<redacted>",
+          "category": "uploaded_document",
+          "intent": "product",
+          "question": "DIR-AUDIT-20260911-ALPHA.pdf 第 1 页",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:17:03.042393+00:00",
+          "updated_at": "2026-09-11T11:17:03.042393+00:00"
+        },
+        {
+          "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+          "knowledge_key": "<redacted>",
+          "category": "uploaded_document",
+          "intent": "product",
+          "question": "DIR-AUDIT-20260911-ALPHA.md 第 1 页",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:16:46.153139+00:00",
+          "updated_at": "2026-09-11T11:16:46.153139+00:00"
+        },
+        {
+          "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+          "knowledge_key": "<redacted>",
+          "category": "uploaded_document",
+          "intent": "product",
+          "question": "DIR-AUDIT-20260911-ALPHA.txt 第 1 页",
+          "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:16:46.134809+00:00",
+          "updated_at": "2026-09-11T11:16:46.134809+00:00"
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "退款",
+          "intent": "refund",
+          "question": "请马上给我退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.685554+00:00",
+          "updated_at": "2026-09-11T11:15:50.685554+00:00"
+        },
+        {
+          "id": "demo:qingchuan-return:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "售后",
+          "intent": "return_exchange",
+          "question": "支持七天无理由吗",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.633937+00:00",
+          "updated_at": "2026-09-11T11:15:50.633937+00:00"
+        },
+        {
+          "id": "demo:qingchuan-shipping:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "发货",
+          "intent": "shipping",
+          "question": "什么时候发货",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.581753+00:00",
+          "updated_at": "2026-09-11T11:15:50.581753+00:00"
+        },
+        {
+          "id": "demo:qingchuan-warranty:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "保修多久",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.536104+00:00",
+          "updated_at": "2026-09-11T11:15:50.536104+00:00"
+        },
+        {
+          "id": "demo:qingchuan-steamer:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "挂烫机预热要多久",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.503618+00:00",
+          "updated_at": "2026-09-11T11:15:50.503618+00:00"
+        },
+        {
+          "id": "demo:qingchuan-humidifier-filter:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "加湿器滤芯怎么换",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.464411+00:00",
+          "updated_at": "2026-09-11T11:15:50.464411+00:00"
+        },
+        {
+          "id": "demo:qingchuan-airfryer-clean:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "空气炸锅怎么清洗",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.428162+00:00",
+          "updated_at": "2026-09-11T11:15:50.428162+00:00"
+        },
+        {
+          "id": "demo:qingchuan-airfryer-install:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "安装",
+          "intent": "product",
+          "question": "空气炸锅包安装吗",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.385721+00:00",
+          "updated_at": "2026-09-11T11:15:50.385721+00:00"
+        },
+        {
+          "id": "demo:qingchuan-airfryer-35-capacity:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "3.5L 空气炸锅适合几个人",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.353918+00:00",
+          "updated_at": "2026-09-11T11:15:50.353918+00:00"
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:0ded6dcf",
+          "knowledge_key": "<redacted>",
+          "category": "商品",
+          "intent": "product",
+          "question": "晴川空气炸锅 5L 容量是多少",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "review_status": "approved",
+          "created_at": "2026-09-11T11:15:50.325795+00:00",
+          "updated_at": "2026-09-11T11:15:50.325795+00:00"
+        }
+      ]
+    }
+  },
+  "matched": [
+    {
+      "id": "kb-1f18ed174ded4a66b4b1407ef104a354",
+      "category": "uploaded_document",
+      "intent": "product",
+      "source": "upload://DIR-AUDIT-20260911-ALPHA.txt?sha256=9980e909c78a359b#page=1&chunk=1",
+      "version": 1,
+      "status": "active",
+      "tenant_id": "followup-l3-tenant",
+      "layer": "industry",
+      "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+    },
+    {
+      "id": "kb-8c4dcbbb7eb34aedb4242302ee9a6ed4",
+      "category": "uploaded_document",
+      "intent": "product",
+      "source": "upload://DIR-AUDIT-20260911-ALPHA.md?sha256=c77f3da0511926e3#page=1&chunk=1",
+      "version": 1,
+      "status": "active",
+      "tenant_id": "followup-l3-tenant",
+      "layer": "industry",
+      "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+    },
+    {
+      "id": "kb-bad593a473714ca09d1691dd228e5109",
+      "category": "uploaded_document",
+      "intent": "product",
+      "source": "upload://DIR-AUDIT-20260911-ALPHA.pdf?sha256=b29f630ce19fd829#page=1&chunk=1",
+      "version": 1,
+      "status": "active",
+      "tenant_id": "followup-l3-tenant",
+      "layer": "industry",
+      "embedding_model": "fastembed:BAAI/bge-small-zh-v1.5"
+    }
+  ],
+  "total_items": 13
+}

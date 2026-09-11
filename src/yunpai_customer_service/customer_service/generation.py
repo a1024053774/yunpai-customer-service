@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any
 
@@ -273,3 +274,14 @@ def plan_generation(
         scene=scene,
         scene_applied=scene_applied,
     )
+
+
+def generation_deltas(
+    plan: GenerationPlan, *, model: Any, stream: bool
+) -> tuple[Iterator[str], bool, str]:
+    """Provider transport only; graph nodes own generation, verification and routing."""
+    if plan.branch != BRANCH_MODEL:
+        return iter((plan.text or "",)), plan.model_fallback, str(plan.trace_step)
+    if stream:
+        return model.stream_generate(plan.messages or []), False, "generate:stream"
+    return iter((model.generate(plan.messages or []),)), False, "generate:model"

@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-09-10T05:00:44.739660+00:00",
+  "host": "129.211.3.209",
+  "services": {
+    "yunpai-ecommerce-agent.service": {
+      "MainPID": "4093551",
+      "ActiveState": "active",
+      "SubState": "running",
+      "ActiveEnterTimestamp": "Fri 2026-09-04 06:25:58 CST"
+    },
+    "yunpai-ecommerce-agent-main.service": {
+      "MainPID": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "ActiveEnterTimestamp": ""
+    }
+  },
+  "running_app": "/opt/yunpai-ecommerce-agent",
+  "listen": "127.0.0.1:8767",
+  "health": {
+    "status": "ok",
+    "mode": "live_model",
+    "storage": "sqlite",
+    "database": {
+      "schema_version": 41
+    },
+    "model_provider": "qwen",
+    "model_name": "qwen3.6-35b-a3b-fp8-gpu0-200k",
+    "orchestrator": "langgraph"
+  }
+}

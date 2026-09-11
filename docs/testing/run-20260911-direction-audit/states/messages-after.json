@@ -1,0 +1,84 @@
+{
+  "rows": [
+    {
+      "id": "msg-user-8cf2c1a546194593b4413e0d77ef038b",
+      "external_session_id": "direction-multiturn-20260911",
+      "role": "user",
+      "intent": null,
+      "route_reason": null,
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-ccb44e8681d047ccaf72ca660c2a168e",
+      "external_session_id": "direction-multiturn-20260911",
+      "role": "assistant",
+      "intent": "product",
+      "route_reason": "knowledge_answer_allowed",
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-user-748cf9306a3140ee8758df858ac68643",
+      "external_session_id": "direction-multiturn-20260911",
+      "role": "user",
+      "intent": null,
+      "route_reason": null,
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-cbf5357da85e4bfda7e2f4aadb44e3f3",
+      "external_session_id": "direction-multiturn-20260911",
+      "role": "assistant",
+      "intent": "product",
+      "route_reason": "knowledge_answer_allowed",
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-user-e68f30cae9f646779b9c7fb53223a8e2",
+      "external_session_id": "direction-nonkeyword-20260911",
+      "role": "user",
+      "intent": null,
+      "route_reason": null,
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-cce760dffd0e48ada0063e0ec6c023f7",
+      "external_session_id": "direction-nonkeyword-20260911",
+      "role": "assistant",
+      "intent": "product",
+      "route_reason": "knowledge_answer_allowed",
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-user-0de28ca841a9413d8bcbea2cadf1d964",
+      "external_session_id": "direction-ambiguous-20260911",
+      "role": "user",
+      "intent": null,
+      "route_reason": null,
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-6623b7dd35f842a1ab3d3d49716977a3",
+      "external_session_id": "direction-ambiguous-20260911",
+      "role": "assistant",
+      "intent": "chitchat",
+      "route_reason": "llm_clarification_required",
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-user-74c7b426a69743d281f2f65d91a12981",
+      "external_session_id": "direction-evolution-20260911",
+      "role": "user",
+      "intent": null,
+      "route_reason": null,
+      "model_fallback": 0
+    },
+    {
+      "id": "msg-d06c11b811fd4ec09c7721ccde18cb0b",
+      "external_session_id": "direction-evolution-20260911",
+      "role": "assistant",
+      "intent": "product",
+      "route_reason": "knowledge_answer_allowed",
+      "model_fallback": 0
+    }
+  ]
+}

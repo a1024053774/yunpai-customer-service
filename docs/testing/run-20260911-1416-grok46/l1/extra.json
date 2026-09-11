@@ -1,0 +1,93 @@
+{
+  "saved_utc": "2026-09-11T06:28:46.488578+00:00",
+  "cases": [
+    {
+      "id": "M03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "parser/corrupt ingest fails closed; existing retrieve still works; no empty-success",
+      "actual": {
+        "txt_ok": true,
+        "corrupt_ok": false,
+        "corrupt_err": "PDF 解析失败：PdfminerException",
+        "retrieve_after_fail": [
+          "kb-b538903c63f14c40a735066c21b7ba05"
+        ],
+        "db_exists": true
+      },
+      "notes": [
+        "Docling-missing and process-crash not injected; corrupt PDF + retrieve after fail"
+      ]
+    },
+    {
+      "id": "I12",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "OPTIONS not an open CORS grant; oversize rejected before expensive work; burst recorded",
+      "actual": {
+        "options": 405,
+        "options_headers": {
+          "allow": "POST",
+          "content-length": "31",
+          "content-type": "application/json"
+        },
+        "oversize": 422,
+        "burst_codes": [
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422,
+          422
+        ],
+        "cors_preflight": 405,
+        "cors_headers": {
+          "allow": "POST"
+        }
+      },
+      "notes": [
+        "Demo TestClient; not a deployed CSRF cookie matrix"
+      ]
+    },
+    {
+      "id": "F04",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "expected": "customer / other-tenant admin cannot approve",
+      "actual": {
+        "health": 200,
+        "candidates": 200,
+        "demo_loopback": true
+      },
+      "notes": [
+        "Demo has no customer vs admin principal split on evaluate/approve",
+        "not treated as production RBAC PASS; delivery gap remains"
+      ]
+    },
+    {
+      "id": "K03",
+      "status": "INCOMPLETE",
+      "notes": [
+        "probe crashed"
+      ],
+      "actual": {}
+    }
+  ]
+}

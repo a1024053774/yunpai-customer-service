@@ -1,0 +1,11 @@
+{
+  "saved_utc": "2026-09-11T08:55:27.952151+00:00",
+  "probe": "skill-keyword-checker-is-not-behavior",
+  "checker_path": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+  "note": "check_skill.py only searches SKILL.md + operational-templates.md for substrings. A file that concatenates the needles would satisfy the same oracle. This is not evidence that an agent followed the rules.",
+  "skill_all_needles_present": true,
+  "dummy_all_needles_present": true,
+  "dummy_path": "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt",
+  "missing_from_skill": [],
+  "behavioral_proof": false
+}

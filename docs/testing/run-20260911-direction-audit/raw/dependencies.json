@@ -1,0 +1,31 @@
+{
+  "python": "Python 3.11.14",
+  "packages": {
+    "fastapi": "0.141.1",
+    "uvicorn": "0.52.4",
+    "httpx": "0.28.1",
+    "pydantic": "2.13.4",
+    "langgraph": "1.2.11",
+    "langgraph-checkpoint-sqlite": "3.1.1",
+    "pdfplumber": "0.11.10",
+    "reportlab": "5.0.1",
+    "fastembed": "0.8.0",
+    "docling": "2.126.0",
+    "pinecone": null,
+    "qdrant-client": null,
+    "weaviate-client": null,
+    "pymilvus": null,
+    "chromadb": null,
+    "llama-index": null
+  },
+  "paid_or_cloud_vector_packages_present": {
+    "pinecone": false,
+    "qdrant-client": false,
+    "weaviate-client": false,
+    "pymilvus": false,
+    "chromadb": false,
+    "llama-index": false
+  },
+  "retrieval_runtime": "FastEmbed + BM25 + SQLite",
+  "model_cost": "unknown; DeepSeek cloud model calls may incur cost"
+}

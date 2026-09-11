@@ -1,0 +1,40 @@
+L0 host API factory (candidate /tmp/yunpai-test-candidate-grok46-pZG5r3)
+Executor: cursor-grok-4.6. Imported module: /private/tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/__init__.py
+
+1) create_api_app requires an already-built core
+   src/yunpai_customer_service/api.py:22-26
+   def create_api_app(
+       core: CustomerServiceCore,
+       *,
+       auth: AuthenticationService | None = None,
+   ) -> FastAPI:
+   Probe: inspect.signature shows core has no default.
+   Probe: create_api_app() raises TypeError: missing 1 required positional argument: 'core'
+
+2) Host API does not default to anonymous demo auth
+   src/yunpai_customer_service/api.py:28-32
+   if not core.settings.auth_required:
+       raise ValueError("host API requires authentication; use the loopback demo separately")
+   auth_service = auth or AuthenticationService(core.db, core.settings)
+   if not auth_service.settings.auth_required or not auth_service.configured:
+       raise ValueError("host API requires configured client authentication")
+   create_api_app does not call demo.runtime.prepare_demo_settings.
+
+   Anonymous principal exists only when auth_required is false:
+   src/yunpai_customer_service/auth.py:74-82 (else branch creates client_id/tenant_id "anonymous-local")
+   src/yunpai_customer_service/auth.py:114-120 (authenticate returns anonymous-local iff auth_required is false)
+
+   Missing subject_hash_key is not configured:
+   src/yunpai_customer_service/auth.py:85-89
+   if not self.settings.subject_hash_key: return False
+   Probe: empty subject_hash_key => configured=False and create_api_app raises
+   "host API requires configured client authentication"
+
+   Demo-only placeholder keys (not used by host API factory):
+   src/yunpai_customer_service/demo/runtime.py:22-39 prepare_demo_settings fills bootstrap/admin/subject_hash keys
+
+3) Demo original-file tenant check (supporting E08/I04 L1, not L3)
+   src/yunpai_customer_service/demo/app.py:127-160 owns_original filters by runtime.principal.tenant_id
+
+4) Demo loopback headers (supporting I08 L1 header unit test, not reverse proxy)
+   src/yunpai_customer_service/demo/app.py:45-59 _require_loopback

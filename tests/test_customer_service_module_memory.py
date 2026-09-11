@@ -154,6 +154,61 @@ def test_follow_up_retrieval_uses_the_previous_user_turn_when_needed(tmp_path) -
         core.close()
 
 
+def test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match(
+    tmp_path,
+) -> None:
+    # C01: "this color?" still retrieves generic color FAQs (score > min_score),
+    # so contextual retrieval must not wait for an empty first search.
+    color_follow_up = "\u8fd9\u4e2a\u989c\u8272\u662f\u4ec0\u4e48"
+    product_name = "QA-FIX-C01"
+    settings = replace(make_settings(tmp_path), rag_top_k=1)
+    model = TableDrivenModel(settings)
+    core = build_core(
+        tmp_path, settings=settings, model=model, seed_knowledge=False
+    )
+    try:
+        product_id = add_fixture_document(
+            core,
+            question=f"{product_name} \u5b64\u5c9b\u9a8c\u6536\u58f6\u7684\u5bb9\u91cf\u548c\u989c\u8272",
+            answer=f"{product_name} \u5bb9\u91cf 5L\uff0c\u989c\u8272\u7c73\u767d\u3002",
+            tenant_id=settings.bootstrap_tenant_id,
+            keywords=f"{product_name} \u5bb9\u91cf \u989c\u8272 \u7c73\u767d 5L",
+        )
+        generic_id = add_fixture_document(
+            core,
+            question=color_follow_up,
+            answer="\u4e0d\u540c\u5546\u54c1\u989c\u8272\u4e0d\u540c\uff0c\u8bf7\u63d0\u4f9b\u5546\u54c1\u540d\u79f0\u3002",
+            tenant_id=settings.bootstrap_tenant_id,
+            keywords="\u989c\u8272 \u5546\u54c1 \u770b",
+        )
+        principal = principal_for_core(core)
+        session = "c01-color-followup"
+        competing = core.knowledge.retrieve(
+            color_follow_up,
+            top_k=settings.rag_top_k,
+            min_score=settings.rag_min_score,
+            intent="product",
+            tenant_id=settings.bootstrap_tenant_id,
+        )
+        assert any(item["id"] == generic_id for item in competing), (
+            "follow-up query must already hit generic color docs"
+        )
+        assert all(item["id"] != product_id for item in competing)
+        first = core.chat(
+            principal,
+            session,
+            f"{product_name} \u5b64\u5c9b\u9a8c\u6536\u58f6\u7684\u5bb9\u91cf\u548c\u989c\u8272\u662f\u4ec0\u4e48",
+        )
+        follow_up = core.chat(principal, session, color_follow_up)
+        follow_ids = {item.id for item in follow_up.sources}
+        assert product_id in {item.id for item in first.sources}
+        assert product_id in follow_ids
+        assert "retrieve:contextual" in follow_up.trace
+    finally:
+        core.close()
+
+
+
 def test_standard_knowledge_retrieval_does_not_mix_in_long_term_memory(
     tmp_path,
 ) -> None:

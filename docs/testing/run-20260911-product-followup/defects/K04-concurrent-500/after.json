@@ -1,0 +1,20 @@
+{
+  "saved_utc": "2026-09-11T09:31:17.545207+00:00",
+  "id": "K04",
+  "phase": "green",
+  "status_codes": [
+    200,
+    200
+  ],
+  "message_ids": [
+    "msg-dc12bfef691b5ea79285eb2ee1ce96ae",
+    "msg-dc12bfef691b5ea79285eb2ee1ce96ae"
+  ],
+  "same_message_id": true,
+  "has_500": false,
+  "status": "PASS",
+  "bodies": [
+    "{\"message_id\":\"msg-dc12bfef691b5ea79285eb2ee1ce96ae\",\"trace_id\":\"trace-dc12bfef691b5ea79285eb2ee1ce96ae\",\"session_id\":\"k04sess-83323d397e\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0005\"",
+    "{\"message_id\":\"msg-dc12bfef691b5ea79285eb2ee1ce96ae\",\"trace_id\":\"trace-dc12bfef691b5ea79285eb2ee1ce96ae\",\"session_id\":\"k04sess-83323d397e\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0005\""
+  ]
+}

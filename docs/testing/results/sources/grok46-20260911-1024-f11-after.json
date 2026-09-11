@@ -1,0 +1,26 @@
+{
+  "id": "F11",
+  "phase": "after",
+  "priority": "P1",
+  "level": "L1",
+  "status": "PASS",
+  "expected": "mutating candidate after evaluate cannot approve/publish the new text on old gate",
+  "actual": {
+    "evaluate_passed": true,
+    "row_before_mutate": {
+      "status": "evaluated",
+      "gate_passed": 1,
+      "proposed_answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+    },
+    "row_after_mutate": {
+      "status": "evaluated",
+      "gate_passed": 1,
+      "proposed_answer": "MUTATED-AFTER-EVALUATE microwave allowed 99999 units"
+    },
+    "approve_error": "EvolutionError: candidate changed after evaluation",
+    "approved": null,
+    "published": [],
+    "leaked_mutated": false
+  },
+  "saved_utc": "2026-09-11T02:40:45.342335+00:00"
+}

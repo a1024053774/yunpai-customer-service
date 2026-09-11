@@ -1,0 +1,16 @@
+{
+  "saved_utc": "2026-09-11T08:22:00.919670+00:00",
+  "old_pid": 18059,
+  "new_pid": 32505,
+  "same_data_dir": true,
+  "sessions_http": 200,
+  "session_count": 0,
+  "survived_probe_sessions": false,
+  "c08_chat_status": 200,
+  "c08_used_synthetic": true,
+  "k05_first": 200,
+  "k05_conflict": 409,
+  "k05_conflict_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}",
+  "C08": "INCOMPLETE",
+  "K05_live_after_restart": "PASS"
+}

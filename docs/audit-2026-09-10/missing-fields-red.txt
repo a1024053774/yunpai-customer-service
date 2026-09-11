@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_clarification_missing_fields_are_untrusted_too ______________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-11/test_clarification_missing_fie0')
+
+    def test_clarification_missing_fields_are_untrusted_too(tmp_path):
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings, intent='after_sales', decision_mode='clarify')
+        model._table['agent_decision'].update(response=None, missing_fields=['银行卡密码'])
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            response = core.chat(principal_for_core(core), 'audit-fields', '怎样核对退款进度？')
+>           assert '银行卡密码' not in response.answer
+E           AssertionError: assert '银行卡密码' not in '为了继续处理，请补充：银行卡密码。'
+E             
+E             '银行卡密码' is contained here:
+E               为了继续处理，请补充：银行卡密码。
+E             ?            +++++
+
+tests/test_framework_audit.py:217: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too
+1 failed, 21 deselected in 0.84s

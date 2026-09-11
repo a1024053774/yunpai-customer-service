@@ -1,0 +1,22 @@
+--- /tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/graph.py	2026-09-10 13:31:21
++++ /tmp/yunpai-mutate-grok46-29943/src/yunpai_customer_service/graph.py	2026-09-10 17:49:34
+@@ -754,6 +754,19 @@
+     def decision_gate(state: AgentState) -> dict[str, Any]:
+         decision = AgentDecision.model_validate(state["decision"])
+         decision_payload = decision.model_dump()
++        decision_payload["mode"] = "handoff"
++        return {
++            "intent": decision.intent,
++            "decision_mode": "handoff",
++            "selected_tool": None,
++            "tool_arguments": {},
++            "route": "handoff",
++            "route_reason": "mutation_always_handoff",
++            "risk_level": "medium",
++            "decision": decision_payload,
++            "active_sop": None,
++            "trace": [*state["trace"], "decision_gate:handoff"],
++        }
+         route = decision.mode
+         reason = decision.reason
+         risk_level = "high" if route == "act" else "medium" if route in {"observe", "handoff"} else "low"

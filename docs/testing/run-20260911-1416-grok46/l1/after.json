@@ -1,0 +1,162 @@
+{
+  "saved_utc": "2026-09-11T06:26:40.884520+00:00",
+  "run_id": "run-20260911-1416-grok46",
+  "F05": {
+    "status": "PASS",
+    "gate_passed": false,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": false,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.8969,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0013",
+        "seed-0004",
+        "seed-0007"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": true,
+      "semantic_alignment_score": 0.1693,
+      "lexical_evidence_overlap": 0.0,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    }
+  },
+  "F10": {
+    "status": "PASS",
+    "gate_passed": false,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": true,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.9154,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0020",
+        "seed-0025",
+        "seed-0147"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": false,
+      "semantic_alignment_score": 0.0438,
+      "lexical_evidence_overlap": 0.0,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    }
+  },
+  "good_free_text": {
+    "gate_passed": true,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": true,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.8063,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0020",
+        "seed-0025",
+        "seed-0147"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": true,
+      "semantic_alignment_score": 0.1687,
+      "lexical_evidence_overlap": 0.0833,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    }
+  },
+  "F08": {
+    "status": "PASS",
+    "rolled": true,
+    "restart_answer": "表驱动替身模型的固定回复，仅用于验收。",
+    "restart_sources": [
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1"
+    ],
+    "rewrite_answer": "表驱动替身模型的固定回复，仅用于验收。",
+    "rewrite_sources": [
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1",
+      "builtin:ecommerce-sop-v1"
+    ],
+    "kb_status": "retired",
+    "retrieve_ids": [
+      "seed-0020",
+      "seed-0025",
+      "seed-0147",
+      "seed-0006",
+      "seed-0010"
+    ],
+    "still_v2": false,
+    "audits": [
+      {
+        "event_type": "evolution.evaluated",
+        "actor": "system",
+        "subject_id": "candidate-a984ac380b8648d18b720fead3b8538d"
+      },
+      {
+        "event_type": "evolution.evaluated",
+        "actor": "system",
+        "subject_id": "candidate-466df536bf1d43bb8355f8722c5ef2f6"
+      },
+      {
+        "event_type": "evolution.evaluated",
+        "actor": "system",
+        "subject_id": "candidate-937287467c354d2e8aad5b229b5234f1"
+      },
+      {
+        "event_type": "evolution.approved",
+        "actor": "qa",
+        "subject_id": "candidate-937287467c354d2e8aad5b229b5234f1"
+      },
+      {
+        "event_type": "evolution.rolled_back",
+        "actor": "qa",
+        "subject_id": "kb-65945b05944749bd8ebed9665802fe05"
+      }
+    ]
+  },
+  "G02": {
+    "status": "PASS",
+    "answer": "为避免给出未经核实的承诺，我会将这个问题转给人工客服。",
+    "requires_human": true,
+    "reason": "forbidden_commitment_in_output",
+    "claimed_refund": false,
+    "review_direct": [
+      false,
+      "forbidden_commitment_in_output"
+    ]
+  },
+  "7.2": {
+    "status": "PASS",
+    "answer": "为避免给出未经核实的承诺，我会将这个问题转给人工客服。",
+    "requires_human": true,
+    "reason": "numeric_unit_mismatch",
+    "shipped_years": false,
+    "review_direct": [
+      false,
+      "numeric_unit_mismatch"
+    ]
+  }
+}

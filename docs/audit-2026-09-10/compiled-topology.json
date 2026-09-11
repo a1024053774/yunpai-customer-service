@@ -1,0 +1,222 @@
+{
+  "nodes": [
+    "__start__",
+    "intake",
+    "precheck",
+    "retrieve",
+    "build_decision_context",
+    "deliberate",
+    "decision_gate",
+    "refine_retrieval",
+    "tool_gate",
+    "execute_tool",
+    "verify_tool",
+    "build_generation_context",
+    "generate",
+    "verify",
+    "clarify",
+    "retry_later",
+    "handoff",
+    "refuse",
+    "persist",
+    "__end__"
+  ],
+  "business_node_count": 18,
+  "edges": [
+    {
+      "source": "__start__",
+      "target": "intake",
+      "conditional": false
+    },
+    {
+      "source": "build_decision_context",
+      "target": "deliberate",
+      "conditional": true
+    },
+    {
+      "source": "build_decision_context",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "build_generation_context",
+      "target": "generate",
+      "conditional": true
+    },
+    {
+      "source": "build_generation_context",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "clarify",
+      "target": "persist",
+      "conditional": false
+    },
+    {
+      "source": "decision_gate",
+      "target": "build_generation_context",
+      "conditional": true
+    },
+    {
+      "source": "decision_gate",
+      "target": "clarify",
+      "conditional": true
+    },
+    {
+      "source": "decision_gate",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "decision_gate",
+      "target": "refine_retrieval",
+      "conditional": true
+    },
+    {
+      "source": "decision_gate",
+      "target": "refuse",
+      "conditional": true
+    },
+    {
+      "source": "decision_gate",
+      "target": "tool_gate",
+      "conditional": true
+    },
+    {
+      "source": "deliberate",
+      "target": "decision_gate",
+      "conditional": true
+    },
+    {
+      "source": "deliberate",
+      "target": "retry_later",
+      "conditional": true
+    },
+    {
+      "source": "execute_tool",
+      "target": "verify_tool",
+      "conditional": false
+    },
+    {
+      "source": "generate",
+      "target": "verify",
+      "conditional": false
+    },
+    {
+      "source": "handoff",
+      "target": "persist",
+      "conditional": false
+    },
+    {
+      "source": "intake",
+      "target": "precheck",
+      "conditional": false
+    },
+    {
+      "source": "precheck",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "precheck",
+      "target": "refuse",
+      "conditional": true
+    },
+    {
+      "source": "precheck",
+      "target": "retrieve",
+      "conditional": true
+    },
+    {
+      "source": "refine_retrieval",
+      "target": "build_generation_context",
+      "conditional": true
+    },
+    {
+      "source": "refine_retrieval",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "refine_retrieval",
+      "target": "refuse",
+      "conditional": true
+    },
+    {
+      "source": "refuse",
+      "target": "persist",
+      "conditional": false
+    },
+    {
+      "source": "retrieve",
+      "target": "build_decision_context",
+      "conditional": true
+    },
+    {
+      "source": "retrieve",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "retrieve",
+      "target": "refuse",
+      "conditional": true
+    },
+    {
+      "source": "retry_later",
+      "target": "persist",
+      "conditional": false
+    },
+    {
+      "source": "tool_gate",
+      "target": "clarify",
+      "conditional": true
+    },
+    {
+      "source": "tool_gate",
+      "target": "execute_tool",
+      "conditional": true
+    },
+    {
+      "source": "tool_gate",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "tool_gate",
+      "target": "refuse",
+      "conditional": true
+    },
+    {
+      "source": "verify",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "verify",
+      "target": "persist",
+      "conditional": true
+    },
+    {
+      "source": "verify",
+      "target": "retry_later",
+      "conditional": true
+    },
+    {
+      "source": "verify_tool",
+      "target": "build_decision_context",
+      "conditional": true
+    },
+    {
+      "source": "verify_tool",
+      "target": "handoff",
+      "conditional": true
+    },
+    {
+      "source": "persist",
+      "target": "__end__",
+      "conditional": false
+    }
+  ]
+}

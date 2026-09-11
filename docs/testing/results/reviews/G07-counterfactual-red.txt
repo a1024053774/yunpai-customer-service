@@ -1,0 +1,43 @@
+counterfactual_copy: /tmp/g07-counterfactual-review
+python: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+PYTHONPATH: /tmp/g07-counterfactual-review/src
+ingest_file: /tmp/g07-counterfactual-review/src/yunpai_customer_service/knowledge_ingest.py
+rag_file: /tmp/g07-counterfactual-review/src/yunpai_customer_service/rag.py
+restored_ingest: intent=intent (store customer intent unchanged)
+restored_score: intent_bonus = 0.12 if intent and document["intent"] == intent else 0.0
+workspace_src_mutated: no
+
+command: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/g07-counterfactual-review/src \
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q tests/test_product_id_retrieval.py
+
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________ test_import_stores_knowledge_intent_not_customer_intent ____________
+tests/test_product_id_retrieval.py:53: in test_import_stores_knowledge_intent_not_customer_intent
+    assert row["intent"] == expected
+E   AssertionError: assert 'product_inquiry' == 'product'
+E
+E     - product
+E     + product_inquiry
+_______ test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan _______
+tests/test_product_id_retrieval.py:72: in test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan
+    assert rows[0]["id"] == doc_id, (
+E   AssertionError: ('QA-FIX-G07A1 可以放进微波炉加热吗？', [('demo:qingchuan-airfryer-clean:15b07900', 0.6396, 'product'), ('kb-75f983c6e58744d186bc4666cd6418a0', 0.586, 'product_inquiry'), ('seed-0004', 0.539, 'product')])
+E   assert 'demo:qingchu...lean:15b07900' == 'kb-75f983c6e...c4666cd6418a0'
+E
+E     - kb-75f983c6e58744d186bc4666cd6418a0
+E     + demo:qingchuan-airfryer-clean:15b07900
+=========================== short test summary info ============================
+FAILED tests/test_product_id_retrieval.py::test_import_stores_knowledge_intent_not_customer_intent
+FAILED tests/test_product_id_retrieval.py::test_product_id_queries_retrieve_imported_doc_ahead_of_qingchuan
+2 failed in 1.57s
+EXIT:1
+
+independent_old_code_rank_probe (hash embedding, not live FastEmbed):
+stored_intent=product_inquiry
+retrieve_intent=product
+store_id=demo-qingchuan-shop
+synthetic_overlap: 5L / 米白 / 329 = true
+microwave first_is_import=false top=[qingchuan-airfryer-clean 0.6396 product, imported 0.586 product_inquiry, seed-0004 0.539 product]
+capacity_color first_is_import=false top=[seed-0007 0.7385 product, qingchuan-airfryer-5l-capacity 0.6851 product, imported 0.6753 product_inquiry]
+id_only first_is_import=true top=[imported 0.6104 product_inquiry, qingchuan-airfryer-5l-capacity 0.5507 product, qingchuan-airfryer-35-capacity 0.5022 product]

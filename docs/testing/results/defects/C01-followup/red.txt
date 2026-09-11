@@ -1,0 +1,10 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match _
+tests/test_customer_service_module_memory.py:205: in test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match
+    assert product_id in follow_ids
+E   AssertionError: assert 'kb-db20618111b046a69c17b66cfd27a5e0' in {'kb-fc2c437daae24ba194b6d0163a9eccc6'}
+=========================== short test summary info ============================
+FAILED tests/test_customer_service_module_memory.py::test_color_follow_up_uses_previous_product_when_generic_color_docs_also_match
+1 failed in 0.48s
+EXIT:1

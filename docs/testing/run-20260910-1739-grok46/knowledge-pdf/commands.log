@@ -1,0 +1,35 @@
+ts=2026-09-10T09:43:16Z
+cwd=/tmp/yunpai-test-candidate-grok46-pZG5r3
+python=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+python_resolved=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+PYTHONDONTWRITEBYTECODE=1
+PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src
+ALL_PROXY=http://127.0.0.1:9
+NO_PROXY=127.0.0.1,localhost
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py
+---
+pytest_finished_ts=2026-09-10T09:45:17Z
+pytest_exit=0
+
+=== probe_embedding_identity 2026-09-10T09:45:38Z ===
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python /Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/probe_embedding_identity.py
+probe_embedding_identity_exit=1
+
+=== probe_embedding_identity retry 2026-09-10T09:46:55Z ===
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python /Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/probe_embedding_identity.py
+probe_embedding_identity_exit=1
+
+=== probe_docling_chinese_pdf 2026-09-10T09:46:56Z ===
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python /Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/probe_docling_chinese_pdf.py
+probe_docling_chinese_pdf_exit=0
+
+=== probe_embedding_identity retry2 2026-09-10T09:48:06Z ===
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python /Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/probe_embedding_identity.py
+probe_embedding_identity_exit=0
+
+=== independent pdftotext 2026-09-10T09:48:52Z ===
+command=pdftotext -layout /Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/fixture-catalog.pdf -
+pdftotext_exit=0
+pdftotext_exit=0
+note=pytest warnings were written to pytest.stdout; pytest.stderr is empty
+finished_ts=2026-09-10T09:50:19Z

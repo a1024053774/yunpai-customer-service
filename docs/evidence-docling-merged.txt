@@ -1,0 +1,7 @@
+Command: call ingest parser on the two-page PDF used by tests.
+
+Observed:
+pages= 2
+page_numbers= [1, 2]
+table_counts= [1, 0]
+contains_page2_policy= True

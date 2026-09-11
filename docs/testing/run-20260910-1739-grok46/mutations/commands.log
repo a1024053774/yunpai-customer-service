@@ -1,0 +1,55 @@
+mutate_copy=/tmp/yunpai-mutate-grok46-29943
+candidate=/tmp/yunpai-test-candidate-grok46-pZG5r3
+python=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+started=2026-09-10T09:47:03Z
+note=never mutated candidate or workspace src
+
+=== BASELINE 2026-09-10T09:47:23Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943
+PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=0
+
+=== mut-A 2026-09-10T09:48:35Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=1
+
+=== mut-B 2026-09-10T09:49:34Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=1
+
+=== mut-C 2026-09-10T09:51:08Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=1
+
+=== mut-D 2026-09-10T09:52:04Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=1
+
+=== mut-E 2026-09-10T09:52:58Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy tests/test_framework_audit.py::test_clarification_missing_fields_are_untrusted_too tests/test_framework_audit.py::test_business_numbers_still_require_evidence tests/test_framework_audit.py::test_output_evidence_does_not_treat_list_ordinals_as_business_claims tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity
+exit=1
+
+=== mut-F P06 2026-09-10T09:56:11Z ===
+cwd=/tmp/yunpai-mutate-grok46-29943 PYTHONPATH=/tmp/yunpai-mutate-grok46-29943/src
+command: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest --collect-only -q tests/this_path_does_not_exist_p06
+collect-missing-path exit=4
+command: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest --collect-only -q -k p06_zero_collection_sentinel_no_such_test
+collect-zero-keyword exit=5
+command: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q -k p06_zero_collection_sentinel_no_such_test
+run-zero-keyword exit=5
+
+=== mut-G 7.1-step5 2026-09-10T09:56:55Z ===
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_framework_audit.py::test_terminal_model_responses_cannot_bypass_output_policy
+exit=1
+
+=== FINISH 2026-09-10T09:59:29Z ===
+mutate_copy_restored=yes
+candidate_untouched=yes
+workspace_src_not_used_as_PYTHONPATH_for_mutations=yes
+default_python_imports_workspace_src_not_mutate_copy

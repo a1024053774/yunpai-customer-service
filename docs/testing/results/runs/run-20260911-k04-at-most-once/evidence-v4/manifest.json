@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "before_exit": 1,
+  "after_exit": 0,
+  "before_stdout": "{\"status\": \"FAIL\", \"checks\": {\"single_generation\": false, \"full_responses_identical\": true, \"completed_durable\": true, \"single_message_pair\": true, \"nonempty_message_id\": true}, \"generate_calls\": 2}\n",
+  "before_stderr": "",
+  "after_stdout": "{\"status\": \"PASS\", \"checks\": {\"single_generation\": true, \"full_responses_identical\": true, \"completed_durable\": true, \"single_message_pair\": true, \"nonempty_message_id\": true}, \"generate_calls\": 1}\n",
+  "after_stderr": "",
+  "baseline_core_sha256": "fcea71c412d152627d334502b7cb9297990530fe856b5e8a4949fdb46bd1ffdd",
+  "repaired_core_sha256": "0efc5f517a13ec74fd4a982737b258fd805e527b0dd587a21aef5ec5b2fd8f5d",
+  "source": "/Users/luckye/Documents/Code/yunpai-customer-service/src/yunpai_customer_service/customer_service/core.py",
+  "probe": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-k04-at-most-once/probe.py",
+  "counterfactual": "HEAD implementation of prepare_invocation restored in isolated copy",
+  "scope": "L1 same-process concurrent duplicate graph execution"
+}

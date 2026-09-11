@@ -1,0 +1,10 @@
+[32m[INFO] 2026-09-10 17:47:07,384 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-09-10 17:47:07,394 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-09-10 17:47:07,394 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-09-10 17:47:07,418 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-09-10 17:47:07,419 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-09-10 17:47:07,420 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-09-10 17:47:07,438 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-09-10 17:47:07,454 [RapidOCR] download_file.py:60: File exists and is valid: /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_rec_small.onnx[0m
+[32m[INFO] 2026-09-10 17:47:07,454 [RapidOCR] main.py:63: Using /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/rapidocr/models/PP-OCRv6_rec_small.onnx[0m
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  52%|█████▏    | 401/770 [00:00<00:00, 3943.00it/s]Loading weights: 100%|██████████| 770/770 [00:00<00:00, 4588.58it/s]

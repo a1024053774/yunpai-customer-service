@@ -1,0 +1,14 @@
+{
+  "demo_url": "http://127.0.0.1:63272",
+  "api_url": "http://127.0.0.1:63274",
+  "data_dir": "/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/yunpai-live-acceptance-utrn48k5/data",
+  "source_file": "/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/yunpai-test-candidate-cbjhzex3/src/yunpai_customer_service/graph.py",
+  "candidate_sha256": "29b8eedb8246e91984a0cc6ecd4f03fc44f31be7662b8c20b41db88451d6b68a",
+  "model": "deepseek-v4-flash",
+  "embedding": "fastembed",
+  "embedding_model": "BAAI/bge-small-zh-v1.5",
+  "synthetic_fact": "澄羽验收陶杯 QAZEPH 的颜色为湖蓝，容量640ml，材质为陶瓷，测试售价73元。不能用于微波炉。没有记录库存、销量或送达日期。此为合成验收资料。",
+  "synthetic_document_id": "kb-6c5bcca99bb34d3b9105652ec037a835",
+  "pid": 96471,
+  "model_call_limit": 80
+}

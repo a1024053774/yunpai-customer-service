@@ -1,0 +1,21 @@
+utc=2026-09-10T09:42:48Z
+cwd=/tmp/yunpai-test-candidate-grok46-pZG5r3
+python=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+PYTHONDONTWRITEBYTECODE=1
+PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src
+ALL_PROXY=http://127.0.0.1:9
+NO_PROXY=127.0.0.1,localhost
+DATA_DIR=<unset>
+which_python=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python
+module_file=/private/tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/__init__.py
+---
+command=/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/graph-security/pytest-junit.xml tests/test_framework_audit.py tests/test_api.py tests/test_intent.py
+started_utc=2026-09-10T09:42:49Z
+pytest_exit=0
+ended_utc=2026-09-10T09:43:36Z
+---
+l0_probe_started_utc=2026-09-10T09:44:38Z
+command=python stdin probe (inspect create_api_app signature; empty subject_hash_key must raise); output l0_host_api_auth.txt
+l0_probe_exit=0
+l0_probe_ended_utc=2026-09-10T09:44:49Z
+note=ALL_PROXY is isolation only and is not proof of offline. Pytest used candidate PYTHONPATH and pytest tmp_path; production DATA_DIR was unset. No public demo started. TestClient is L1, not L3.

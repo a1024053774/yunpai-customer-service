@@ -1,0 +1,82 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+____ test_intent_classifier_receives_history_and_current_image_observation _____
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-5/test_intent_classifier_receive0')
+
+    def test_intent_classifier_receives_history_and_current_image_observation(tmp_path):
+        from yunpai_customer_service.schemas import ChatImageInput
+        from yunpai_customer_service.vision import VisionResult
+        import base64
+        settings = make_settings(tmp_path)
+        model = TableDrivenModel(settings)
+        classification_inputs = []
+        original = model.generate_json
+        def record(messages, **kwargs):
+            payload = json.loads(messages[-1]['content'])
+            if payload['task_type'] == 'intent_classification':
+                classification_inputs.append(payload)
+            return original(messages, **kwargs)
+        model.generate_json = record
+        core = build_core(tmp_path, settings=settings, model=model)
+        try:
+            principal = principal_for_core(core)
+            core.chat(principal, 'audit-context', '空气炸锅的保养方式')
+            core.vision.describe = lambda **kwargs: VisionResult(
+                description='图片可见电源线外皮破损。', status='applied', applied=True,
+                latency_ms=1, model='audit-vision', image_count=1,
+            )
+            image = ChatImageInput(mime_type='image/png', data_base64=base64.b64encode(b'\x89PNG\r\n\x1a\nfixture').decode())
+            core.chat(principal, 'audit-context', '这个呢？', image=image)
+            payload = classification_inputs[-1]
+>           assert any('空气炸锅' in row['content'] for row in payload.get('history', []))
+E           assert False
+E            +  where False = any(<generator object test_intent_classifier_receives_history_and_current_image_observation.<locals>.<genexpr> at 0x10e00ece0>)
+
+tests/test_framework_audit.py:137: AssertionError
+________ test_demo_does_not_list_or_serve_other_tenants_original_files _________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-5/test_demo_does_not_list_or_ser0')
+
+    def test_demo_does_not_list_or_serve_other_tenants_original_files(tmp_path):
+        from fastapi.testclient import TestClient
+        from yunpai_customer_service.demo.app import create_app
+        from yunpai_customer_service.knowledge_ingest import ingest_document
+        with TestClient(create_app(make_settings(tmp_path))) as client:
+            runtime = client.app.state.runtime
+            ingest_document(runtime.core.knowledge, filename='other-private.md',
+                            content='属于另一个租户的内部资料。'.encode(), tenant_id='other-tenant',
+                            storage_dir=tmp_path / 'knowledge_uploads')
+            stored = next((tmp_path / 'knowledge_uploads').iterdir()).name
+>           assert client.get('/api/knowledge/files').json()['items'] == []
+E           AssertionError: assert [{'modified_a...e_bytes': 39}] == []
+E             
+E             Left contains one more item: {'modified_at': 1789015714.763763, 'name': '96402610e0fb2860-other-private.md', 'size_bytes': 39}
+E             Use -v to get more diff
+
+tests/test_framework_audit.py:153: AssertionError
+_____________ test_loopback_demo_rejects_forwarded_public_requests _____________
+
+tmp_path = PosixPath('/private/var/folders/7v/58svbpnj5k91zdnm5zggb38h0000gn/T/pytest-of-luckye/pytest-5/test_loopback_demo_rejects_for0')
+
+    def test_loopback_demo_rejects_forwarded_public_requests(tmp_path):
+        from fastapi.testclient import TestClient
+        from yunpai_customer_service.demo.app import create_app
+        with TestClient(create_app(make_settings(tmp_path))) as client:
+            response = client.post('/api/knowledge/reindex', headers={'X-Forwarded-For':'203.0.113.10'})
+>           assert response.status_code == 403
+E           assert 200 == 403
+E            +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_framework_audit.py:162: AssertionError
+=============================== warnings summary ===============================
+tests/test_framework_audit.py::test_demo_does_not_list_or_serve_other_tenants_original_files
+  /Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_intent_classifier_receives_history_and_current_image_observation
+FAILED tests/test_framework_audit.py::test_demo_does_not_list_or_serve_other_tenants_original_files
+FAILED tests/test_framework_audit.py::test_loopback_demo_rejects_forwarded_public_requests
+3 failed, 7 deselected, 1 warning in 1.89s

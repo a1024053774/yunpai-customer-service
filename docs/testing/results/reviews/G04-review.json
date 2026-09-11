@@ -1,0 +1,33 @@
+{
+  "id": "G04",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "used_luna": false,
+  "status": "PASS",
+  "target": "frozen G04 candidate (HEAD 8ea1329e + dirty graph.py verify/safe_terminal)",
+  "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+  "contract": "G04 / P1: output review error/timeout with a risky model draft must not emit the draft first; explicit fail or safe degrade; events and persist have no dangerous draft",
+  "evidence": [
+    "Handbook G04 / ISSUE-09 from docs/agent-testing-manual.md; implementer labels ignored.",
+    "HEAD 8ea1329e + dirty graph.py verify_response:93-106 and safe_terminal_output:1232-1238.",
+    "core.chat except at core.py:274-310 still re-raises; it is not the G04 recovery owner.",
+    "Independent probe: G01-shaped risky English generate draft + TimeoutError on graph.review_output.",
+    "Workspace: raised=false, reason=verify_error, requires_human=true, canned fallback only; persist and SSE have no sentinel; sqlite scan empty.",
+    "Clarify + risky decision.response: no leak; terminal_output:error:TimeoutError.",
+    "Design gates: reachable call sites; ownership at existing review translators; no new wrapper; two except Exception blocks record exception type."
+  ],
+  "findings": [],
+  "counterexample": [
+    "/tmp strip of both try/except: TimeoutError to caller, empty persist, SSE raises, no sentinel leak (explicit fail).",
+    "/tmp known-bad except-return-draft: leaked_answer/persist/sse all true. Workspace candidate rejected that behavior."
+  ],
+  "limitations": [
+    "Injected TimeoutError, not a live model/review timeout.",
+    "No tests/ verify_error case; implementer probe used non-risky TABLE_MODEL_ANSWER.",
+    "HEAD already fail-closed without draft emit; candidate is classified degrade.",
+    "evolution.py review_output remains untranslated; not a chat emit path."
+  ],
+  "canned_fallback": "\u6682\u65f6\u65e0\u6cd5\u63d0\u4f9b\u53ef\u9760\u56de\u590d\uff0c\u8bf7\u901a\u8fc7\u5e73\u53f0\u7684\u5b98\u65b9\u5ba2\u670d\u6e20\u9053\u7ee7\u7eed\u5904\u7406\u3002",
+  "report_md": "docs/testing/results/reviews/G04-review.md",
+  "reviewed_utc": "2026-09-11T02:45:03.611810+00:00"
+}

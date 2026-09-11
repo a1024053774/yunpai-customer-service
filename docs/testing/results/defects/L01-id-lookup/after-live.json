@@ -1,0 +1,80 @@
+{
+  "id": "L01",
+  "priority": "P1",
+  "level": "L3",
+  "status": "PASS",
+  "request": {
+    "session_id": "l01-689d3a9a",
+    "message": "QA-GROK-2C2668E3 容量和颜色是什么？"
+  },
+  "expected": "5L + rice-white from synthetic; must not offer Qingchuan AF50 as the product",
+  "status_code": 200,
+  "duration_ms": 8395,
+  "answer": "孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 **5L**，颜色是 **米白**。\n\n如需了解其他信息，可以继续告诉我。",
+  "intent": "product",
+  "customer_intent": "product_inquiry",
+  "decision_mode": "answer",
+  "reason": "knowledge_answer_allowed",
+  "sources": [
+    {
+      "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+      "category": "uploaded_document",
+      "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+      "version": 1,
+      "score": 0.9696
+    },
+    {
+      "id": "seed-0007",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.8467
+    },
+    {
+      "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.8141
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept0/dropped0",
+    "context:decision:ready",
+    "context:budget:kept0/dropped0",
+    "deliberate:model:answer",
+    "decision_gate:answer",
+    "retrieve:refined:3",
+    "guard:blocked:0",
+    "context:budget:kept0/dropped0",
+    "context:generation:ready",
+    "context:budget:kept0/dropped0",
+    "generate:model",
+    "verify:passed",
+    "postcondition:answer",
+    "persist"
+  ],
+  "trace_id": "trace-fe68f095945b42abb9a6dae2a96c1062",
+  "message_id": "msg-6f6f57224566472ea8e8eb787e8e5552",
+  "persisted": {
+    "id": "msg-6f6f57224566472ea8e8eb787e8e5552",
+    "role": "assistant",
+    "content": "孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 **5L**，颜色是 **米白**。\n\n如需了解其他信息，可以继续告诉我。",
+    "intent": "product",
+    "risk_level": "low",
+    "route_reason": "knowledge_answer_allowed",
+    "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.9696}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8467}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8141}]",
+    "trace_id": "trace-fe68f095945b42abb9a6dae2a96c1062",
+    "model_fallback": 0,
+    "content_matches_response": true
+  },
+  "used_synthetic": true,
+  "notes": [],
+  "error": null
+}

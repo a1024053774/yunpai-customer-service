@@ -1,0 +1,493 @@
+{
+  "folder": "docs/testing/results",
+  "created": "2026-09-10",
+  "updated": "2026-09-11",
+  "release": "NO_GO",
+  "handbook_cases": "CASES.json",
+  "handbook_counts": {
+    "PASS": 73,
+    "INCOMPLETE": 43,
+    "BLOCKED": 18,
+    "NOT_RUN": 16,
+    "REVIEW_PASS": 11,
+    "FAIL": 0
+  },
+  "sources": [
+    {
+      "id": "codex-run-20260910-161645",
+      "executor": "Codex lead; Luna Max subagents capacity-failed",
+      "pytest": "luna-graph 109 passed (not this folder's independent re-run)",
+      "live_http": "INCOMPLETE ConnectError on 8 cases",
+      "path": "docs/testing/run-20260910-161645"
+    },
+    {
+      "id": "grok46-run-20260910-1739",
+      "executor": "Cursor Grok 4.6",
+      "pytest": "lead 109 passed exit 0 66.51s",
+      "live": "B01-B04 PASS; C01 FAIL; G07 FAIL; D02 INCOMPLETE; L01 oracle FAIL; I01/I08 PASS",
+      "path": "docs/testing/run-20260910-1739-grok46"
+    },
+    {
+      "id": "grok46-run-20260911-0131",
+      "executor": "Cursor Grok 4.6",
+      "pytest": "not a product-release pytest rerun",
+      "live": "D01/C01/D02/G07/L01 live LLM PASS on isolated FastEmbed demo; I01/I08 header PASS; N03 still BLOCKED",
+      "path": "docs/testing/run-20260911-0131-grok46"
+    },
+    {
+      "id": "grok46-run-20260911-1024",
+      "executor": "Cursor Grok 4.6",
+      "pytest": "not a product-release pytest rerun",
+      "live": "I11 L3 PASS; G04/F09/F11 REVIEW_PASS; F05 FAIL; F11 P3 tenant bind residual",
+      "path": "docs/testing/run-20260911-1024-grok46"
+    },
+    {
+      "id": "grok46-run-20260911-1416",
+      "executor": "Cursor Grok 4.6",
+      "pytest": "knowledge+review_output 14 passed; not a product-release 109 rerun",
+      "live": "B07/B09/D10/H02/G08/J01/7.4 live PASS; B08/J02/L02 incomplete slices; F05/F10/7.2 review pending",
+      "path": "docs/testing/run-20260911-1416-grok46"
+    },
+    {
+      "id": "grok46-run-20260911-acceptance-handoff",
+      "executor": "Cursor Grok 4.6 Extra High Fast",
+      "pytest": "not a product-release pytest rerun",
+      "live": "NO_GO/INCOMPLETE; K05 host 500->409 REVIEW_PASS; Cursor sidebar FAILED_NO_TAB; L4/L5 BLOCKED",
+      "path": "docs/testing/run-20260911-acceptance-handoff"
+    },
+    {
+      "id": "grok46-run-20260911-product-followup",
+      "executor": "Cursor Grok 4.6 Extra High Fast",
+      "pytest": "not a product-release pytest rerun",
+      "live": "NO_GO/INCOMPLETE; K04 concurrent 500 red->green with independent PASS slice; K05 not handbook PASS; L04/B01/I08/K01 incomplete",
+      "path": "docs/testing/run-20260911-product-followup"
+    },
+    {
+      "id": "codex-run-20260911-direction-audit",
+      "executor": "Codex local follow-up (.venv)",
+      "pytest": "51 related intent/vision/knowledge/demo/domain tests passed; supporting evidence only",
+      "live": "direction aligned; acceptance remains NO_GO/INCOMPLETE",
+      "path": "docs/testing/run-20260911-direction-audit"
+    },
+    {
+      "id": "codex-run-20260911-key-fixes",
+      "executor": "Codex main agent; read-only independent review PASS",
+      "pytest": "44 targeted product tests plus 21 vision tests passed; 10 warnings",
+      "live": "historical direction evidence rejudged fail-closed; all checked slices INCOMPLETE; NO_GO",
+      "path": "docs/testing/results/runs/run-20260911-key-fixes"
+    },
+    {
+      "id": "codex-run-20260911-real-user",
+      "executor": "Codex main agent; real DeepSeek key from env.md; isolated /private/tmp data",
+      "pytest": "39 affected tests passed before this run; 24 focused post-fix tests passed",
+      "live": "C01 same-object follow-up PASS; L04 rollback state slice PASS; DeepSeek vision error->applied after thinking fix",
+      "path": "docs/testing/results/runs/run-20260911-real-user"
+    },
+    {
+      "id": "codex-run-20260911-final",
+      "executor": "Codex main agent; current candidate after real DeepSeek follow-up",
+      "pytest": "120 passed, 10 warnings; full .venv pytest -q",
+      "live": "Archify validation/deliver/visual-check PASS; real-user evidence remains bounded as documented",
+      "path": "docs/testing/results/runs/run-20260911-final"
+    }
+  ],
+  "open_defects": [
+    {
+      "id": "C01",
+      "priority": "P1",
+      "status": "INCOMPLETE",
+      "summary": "current real DeepSeek same-object follow-up PASS; full object-switch/correction turn remains unproven",
+      "folder": "defects/C01-followup",
+      "live_llm_reprobed": true
+    },
+    {
+      "id": "G07",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; 2026-09-11 live FastEmbed+LLM PASS (不可微波)",
+      "folder": "defects/G07-microwave",
+      "live_fastembed_llm_reprobed": true
+    },
+    {
+      "id": "L01",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; 2026-09-11 live LLM PASS (5L/米白, no AF50)",
+      "folder": "defects/L01-id-lookup",
+      "live_llm_reprobed": true
+    },
+    {
+      "id": "D07",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; NULL legacy rows still searchable; no live dual FastEmbed",
+      "folder": "defects/D07-embedding-mix"
+    },
+    {
+      "id": "D02",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "G07 retrieve REVIEW_PASS; 2026-09-11 live missing-fields detached review PASS",
+      "folder": "defects/D02-missing-fields",
+      "live_missing_fields_reprobed": true
+    },
+    {
+      "id": "G04",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; classified degrade; no draft leak",
+      "folder": "defects/G04-verify-error"
+    },
+    {
+      "id": "F05",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; http(s) prefix not self-attesting; free-text fake still open",
+      "folder": "defects/F05-fake-source"
+    },
+    {
+      "id": "F09",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; concurrent approve exclusive; reject/rollback not re-probed",
+      "folder": "defects/F09-concurrent-approve"
+    },
+    {
+      "id": "F11",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "frozen re-review PASS; P3 bind omits tenant/knowledge version",
+      "folder": "defects/F11-mutate-after-eval"
+    },
+    {
+      "id": "F10",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; instruction failed alignment; not instruction-specific policy",
+      "folder": "defects/F10-instruction"
+    },
+    {
+      "id": "7.2",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; 5L vs 5 years; 5 yrs/five years still pass",
+      "folder": "defects/72-unit-mismatch"
+    },
+    {
+      "id": "K05",
+      "priority": "P1",
+      "status": "INCOMPLETE",
+      "summary": "host-500 historically REVIEW_PASS; this-run L1+L3 factor matrix executed; handbook K05 still not PASS",
+      "folder": "defects/K05-host-500"
+    },
+    {
+      "id": "K04",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS for concurrent 500 slice; handbook K04 still INCOMPLETE (crash-recovery / at-most-once)",
+      "folder": "defects/K04-concurrent-500",
+      "independent_review": "reviews/K04-review.md",
+      "review_verdict": "PASS"
+    }
+  ],
+  "blocked": [
+    "N03",
+    "N04",
+    "O02-O06",
+    "K07-K13-L4",
+    "K06-L4-ledger",
+    "M08",
+    "A06",
+    "E03",
+    "N01"
+  ],
+  "c01": {
+    "status": "REVIEW_PASS",
+    "error_screenshot": "defects/C01-followup/error.png",
+    "success_screenshot": "defects/C01-followup/success.png",
+    "how_fixed": "defects/C01-followup/how-fixed.md",
+    "independent_review": "reviews/C01-review.md",
+    "review_verdict": "PASS",
+    "live_llm_reprobed": true,
+    "after_live": "defects/C01-followup/after-live.json"
+  },
+  "g07": {
+    "status": "REVIEW_PASS",
+    "error_screenshot": "defects/G07-microwave/error.png",
+    "success_screenshot": "defects/G07-microwave/success.png",
+    "how_fixed": "defects/G07-microwave/how-fixed.md",
+    "independent_review": "reviews/G07-review.md",
+    "review_verdict": "PASS",
+    "live_fastembed_reprobed": true,
+    "live_llm_reprobed": true,
+    "covers_l01_retrieve_rank": true,
+    "after_live": "defects/G07-microwave/after-live.json"
+  },
+  "d07": {
+    "status": "REVIEW_PASS",
+    "error_screenshot": "defects/D07-embedding-mix/error.png",
+    "success_screenshot": "defects/D07-embedding-mix/success.png",
+    "how_fixed": "defects/D07-embedding-mix/how-fixed.md",
+    "independent_review": "reviews/D07-review.md",
+    "review_verdict": "PASS",
+    "schema_version": 39,
+    "live_fastembed_two_models": false
+  },
+  "l01": {
+    "status": "REVIEW_PASS",
+    "error_screenshot": "defects/L01-id-lookup/error.png",
+    "success_screenshot": "defects/L01-id-lookup/success.png",
+    "how_fixed": "defects/L01-id-lookup/how-fixed.md",
+    "independent_review": "reviews/L01-review.md",
+    "review_verdict": "PASS",
+    "live_llm_reprobed": true,
+    "after_live": "defects/L01-id-lookup/after-live.json"
+  },
+  "d02": {
+    "status": "REVIEW_PASS",
+    "error_screenshot": "defects/D02-missing-fields/error.png",
+    "success_screenshot": "defects/D02-missing-fields/success.png",
+    "before_live": "defects/D02-missing-fields/before-live.json",
+    "after_live": "defects/D02-missing-fields/after-live.json",
+    "how_fixed": "defects/D02-missing-fields/how-fixed.md",
+    "retrieve_review": "reviews/G07-review.md",
+    "independent_review": "reviews/D02-review.md",
+    "review_verdict": "PASS",
+    "live_missing_fields_reprobed": true
+  },
+  "g04": {
+    "status": "REVIEW_PASS",
+    "summary": "detached Grok 4.6 review PASS; classified degrade; no draft leak",
+    "before": "docs/testing/results/defects/G04-verify-error/before.json",
+    "after": "docs/testing/results/defects/G04-verify-error/after.json",
+    "how_fixed": "docs/testing/results/defects/G04-verify-error/how-fixed.md",
+    "independent_review": "docs/testing/results/reviews/G04-review.md",
+    "review_verdict": "PASS",
+    "independent_review_pending": false,
+    "error_screenshot": "defects/G04-verify-error/error.png",
+    "success_screenshot": "defects/G04-verify-error/success.png"
+  },
+  "iso_001": {
+    "status": "CONTAINED",
+    "summary": "env.md overwrote DATA_DIR onto workspace data/; process killed; no chat on that DB; creds deleted",
+    "evidence": "docs/testing/run-20260911-0131-grok46/isolation-incident.json"
+  },
+  "findings": [
+    {
+      "id": "ISO-001",
+      "priority": "P0",
+      "status": "CONTAINED",
+      "summary": "env.md DATA_DIR clobber of workspace data/; killed before chat",
+      "evidence": "docs/testing/run-20260911-0131-grok46/isolation-incident.json"
+    },
+    {
+      "id": "G04",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS",
+      "folder": "docs/testing/results/defects/G04-verify-error"
+    },
+    {
+      "id": "F05",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached review PASS; URL prefix only",
+      "folder": "docs/testing/results/defects/F05-fake-source"
+    },
+    {
+      "id": "F09",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached full-handbook PASS; reject CAS + leftover reuse",
+      "folder": "docs/testing/results/defects/F09-concurrent-approve"
+    },
+    {
+      "id": "F11",
+      "priority": "P1",
+      "status": "REVIEW_PASS",
+      "summary": "detached PASS; P3 tenant/version not in bind",
+      "folder": "docs/testing/results/defects/F11-mutate-after-eval"
+    }
+  ],
+  "f09": {
+    "status": "REVIEW_PASS",
+    "summary": "full-handbook detached PASS on 7589cda0; reject CAS + leftover reuse",
+    "before": "docs/testing/results/defects/F09-concurrent-approve/review-fail-before.json",
+    "after": "docs/testing/results/defects/F09-concurrent-approve/review-fail-after.json",
+    "how_fixed": "docs/testing/results/defects/F09-concurrent-approve/how-fixed.md",
+    "independent_review": "docs/testing/results/reviews/F09-review.md",
+    "review_verdict": "PASS",
+    "epoch1": "docs/testing/results/reviews/F09-review-epoch1-two-approve.md",
+    "frozen_sha256": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "independent_review_pending": false
+  },
+  "f11": {
+    "status": "REVIEW_PASS",
+    "summary": "epoch3 detached PASS on 7589cda0; P3 tenant/version bind residual",
+    "before": "docs/testing/results/defects/F11-mutate-after-eval/before.json",
+    "after": "docs/testing/results/defects/F11-mutate-after-eval/after.json",
+    "how_fixed": "docs/testing/results/defects/F11-mutate-after-eval/how-fixed.md",
+    "independent_review": "docs/testing/results/reviews/F11-review.md",
+    "review_verdict": "PASS",
+    "epoch1": "docs/testing/results/reviews/F11-review-epoch1-incomplete.md",
+    "epoch2": "docs/testing/results/reviews/F11-review-epoch2-incomplete.md",
+    "frozen_sha256": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "independent_review_pending": false,
+    "p3_tenant_bind_omitted": true
+  },
+  "f05": {
+    "status": "REVIEW_PASS",
+    "summary": "detached Grok 4.6 review PASS; fake https rejected; free-text still can pass",
+    "error_screenshot": "defects/F05-fake-source/error.png",
+    "success_screenshot": "defects/F05-fake-source/success.png",
+    "how_fixed": "defects/F05-fake-source/how-fixed.md",
+    "independent_review": "reviews/F05-review.md",
+    "review_verdict": "PASS",
+    "independent_review_pending": false,
+    "reviewer": "9cf2baf8-2bf3-49f1-96f1-a7ff726491e4",
+    "frozen_evolution": "0973a53a8453518bd4dcfc212cc97120940d1f6a5ab3aace6acbd11f4b3c1137"
+  },
+  "f10": {
+    "status": "REVIEW_PASS",
+    "summary": "detached Grok 4.6 review PASS; instruction gate_passed=false",
+    "error_screenshot": "defects/F10-instruction/error.png",
+    "success_screenshot": "defects/F10-instruction/success.png",
+    "how_fixed": "defects/F10-instruction/how-fixed.md",
+    "independent_review": "reviews/F10-review.md",
+    "review_verdict": "PASS",
+    "independent_review_pending": false,
+    "reviewer": "9cf2baf8-2bf3-49f1-96f1-a7ff726491e4",
+    "frozen_evolution": "0973a53a8453518bd4dcfc212cc97120940d1f6a5ab3aace6acbd11f4b3c1137"
+  },
+  "case_72": {
+    "status": "REVIEW_PASS",
+    "summary": "detached Grok 4.6 review PASS; numeric_unit_mismatch; 5 yrs/five years still pass",
+    "error_screenshot": "defects/72-unit-mismatch/error.png",
+    "success_screenshot": "defects/72-unit-mismatch/success.png",
+    "how_fixed": "defects/72-unit-mismatch/how-fixed.md",
+    "independent_review": "reviews/72-review.md",
+    "review_verdict": "PASS",
+    "independent_review_pending": false,
+    "reviewer": "93832a6f-bab4-4e4d-9203-97fc95d54c36",
+    "frozen_policy": "7d05f60604b3121d4b360f0e14e07499450f1405ae8a13b1b427bfd892628014"
+  },
+  "k05": {
+    "status": "INCOMPLETE",
+    "summary": "current candidate only proves same-key changed-message host mapping; image/identity/store_id/live matrix/concurrency/mid-SSE/second-client remain unproven",
+    "error_screenshot": "defects/K05-host-500/error.png",
+    "success_screenshot": "defects/K05-host-500/success.png",
+    "how_fixed": "defects/K05-host-500/how-fixed.md",
+    "independent_review": "reviews/skill-acceptance-handoff-review.md",
+    "review_verdict": "INCOMPLETE",
+    "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+    "run": "docs/testing/run-20260911-acceptance-handoff/defects/K05-host-500",
+    "independent_review_pending": false,
+    "historical_status": "REVIEW_PASS"
+  },
+  "latest_run": {
+    "run_id": "run-20260911-product-followup",
+    "executor": "Cursor Grok 4.6 Extra High Fast",
+    "entrypoint": "Cursor Desktop Agent",
+    "path": "runs/run-20260911-product-followup",
+    "source_path": "docs/testing/run-20260911-product-followup",
+    "verdict": "NO_GO / INCOMPLETE",
+    "skill_evaluation": "deferred until product acceptance closure",
+    "skill_sha256_after": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+    "product_candidate": "HEAD 8ea1329e + dirty tree; after K04 graph.py digest 340f188d",
+    "fresh_package_review": "INCOMPLETE",
+    "review": "runs/run-20260911-product-followup/defects/K04-concurrent-500/review.md"
+  },
+  "skill_evaluations": [
+    {
+      "run_id": "run-20260911-acceptance-handoff",
+      "status": "FAIL",
+      "before_sha256": "6ec9c4f5aa274d8ec4791b55d4ce6ce0bd8a29ed06e7ea4ea4724d3593751427",
+      "after_sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+      "path": "runs/run-20260911-acceptance-handoff/skill-evaluation.md",
+      "independent_review": "reviews/skill-acceptance-handoff-review.md",
+      "independent_verdict": "FAIL",
+      "follow_up": "COMPLETED_POST_PRODUCT_CYCLE",
+      "premature_skill_fix_2": "ABANDONED_PREMATURE; restored before product followup",
+      "final_review": "reviews/skill-fix-final-review/review.md",
+      "final_review_verdict": "PASS"
+    }
+  ],
+  "current_run": "run-20260911-final",
+  "product_followup": {
+    "run_id": "run-20260911-product-followup",
+    "release": "NO_GO",
+    "verdict": "docs/testing/run-20260911-product-followup/verdict.md",
+    "stage0_candidate_sha256": "801e8ae123c86f1fd4222eb38d97723e0bd7f94eec618d8311b06e750e74a3b7",
+    "after_k04_candidate_sha256": "340f188defc77ff56c6a5d31974aad2a7c7f6ed432a5f3199ec4e54816ab944e",
+    "skill_edited": false,
+    "cost_amount": null,
+    "independent_k04_review": "PASS slice; handbook K04 INCOMPLETE; not product GO"
+  },
+  "k04": {
+    "status": "INCOMPLETE",
+    "handbook_status": "INCOMPLETE",
+    "error_screenshot": "defects/K04-concurrent-500/error.png",
+    "success_screenshot": "defects/K04-concurrent-500/success.png",
+    "how_fixed": "defects/K04-concurrent-500/how-fixed.md",
+    "independent_review": "reviews/K04-review.md",
+    "review_verdict": "PASS",
+    "live_after_restart": "docs/testing/run-20260911-product-followup/live/k04-after-restart.json",
+    "at_most_once_run": "runs/run-20260911-k04-at-most-once",
+    "at_most_once_slice": "PASS",
+    "at_most_once_review": "runs/run-20260911-k04-at-most-once/review.md",
+    "at_most_once_review_verdict": "INCOMPLETE",
+    "design_integrity_review": "runs/run-20260911-k04-at-most-once/design-integrity-review.md",
+    "design_integrity_initial_verdict": "FAIL",
+    "probe_contract_verdict": "PASS",
+    "candidate_core_sha256": "0efc5f517a13ec74fd4a982737b258fd805e527b0dd587a21aef5ec5b2fd8f5d",
+    "unclaimed": [
+      "crash_recovery",
+      "cross_process_ownership",
+      "sse_cross_replay",
+      "business_side_effect_ledger"
+    ]
+  },
+  "skill_final": {
+    "status": "REVIEW_PASS",
+    "skill_path": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+    "sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+    "before_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+    "revision_evidence": "runs/run-20260911-acceptance-handoff/skill-fix-final",
+    "independent_review": "reviews/skill-fix-final-review/review.md",
+    "independent_review_verdict": "PASS",
+    "product_release": "NO_GO"
+  },
+  "direction_audit": {
+    "run_id": "run-20260911-direction-audit",
+    "status": "DIRECTION_ALIGNED_ACCEPTANCE_INCOMPLETE",
+    "evidence": "docs/testing/run-20260911-direction-audit/direction-matrix.json",
+    "digest": "eb1edf76e83e0d0a34a5b76903395577597534939eeeaa07db3f7d2e4aa8f3b8",
+    "pytest_related": "51 passed",
+    "product_release": "NO_GO"
+  },
+  "key_fixes": {
+    "run_id": "run-20260911-key-fixes",
+    "status": "REJUDGED",
+    "verdict": "NO_GO",
+    "red_evidence": "runs/run-20260911-key-fixes/oracle-red-evidence.json",
+    "rejudged_verdict": "runs/run-20260911-key-fixes/rejudged-verdict.json",
+    "how_fixed": "runs/run-20260911-key-fixes/README.md",
+    "historical_evidence_preserved": true,
+    "independent_review_pending": false,
+    "independent_review": "runs/run-20260911-key-fixes/review.md",
+    "review_verdict": "PASS"
+  },
+  "final_validation": {
+    "run_id": "run-20260911-final",
+    "verdict": "NO_GO / INCOMPLETE",
+    "full_pytest": "120 passed, 10 warnings",
+    "architecture": "Archify validate/deliver/visual-check PASS",
+    "evidence_path": "docs/testing/results/runs/run-20260911-final",
+    "open_boundaries": [
+      "C01 纠正对象切换轮",
+      "L04 全页面文件选择与完整后态一致性",
+      "K04 崩溃恢复",
+      "K04 跨进程/SSE 交叉幂等与真实副作用账本"
+    ]
+  }
+}

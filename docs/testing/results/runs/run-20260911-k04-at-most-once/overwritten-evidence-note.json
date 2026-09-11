@@ -1,0 +1,7 @@
+{
+  "status": "SUPERSEDED",
+  "file": "before.json",
+  "reason": "The first red probe run wrote a FAIL result, then a later green rerun reused the same path and overwrote it.",
+  "canonical_replacement": "evidence-v4",
+  "historical_red_reconstructed": true
+}

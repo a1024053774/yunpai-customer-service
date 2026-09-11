@@ -1,0 +1,13 @@
+F.........                                                               [100%]
+=================================== FAILURES ===================================
+______ test_sync_and_sse_execute_the_registered_generate_and_verify_nodes ______
+tests/test_framework_audit.py:43: in test_sync_and_sse_execute_the_registered_generate_and_verify_nodes
+    assert calls == ['generate', 'verify'], 'SSE bypassed registered graph nodes'
+E   AssertionError: SSE bypassed registered graph nodes
+E   assert [] == ['generate', 'verify']
+E     
+E     Right contains 2 more items, first extra item: 'generate'
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes
+1 failed, 9 passed in 34.43s

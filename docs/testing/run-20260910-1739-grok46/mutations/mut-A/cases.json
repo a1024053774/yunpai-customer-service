@@ -1,0 +1,61 @@
+{
+  "mutation": "mut-A",
+  "claim": "P01 constant answer",
+  "wrong_implementation": "graph.generate always returns draft '??????-??'",
+  "exit_code": 1,
+  "result": "3 failed, 19 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "P01-constant-table-answer",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer",
+      "expected": "behavioral assertion fails on constant text",
+      "actual": "AssertionError: '??????-??' == '???????????????????'",
+      "evidence_files": ["fail.log", "diff.txt"]
+    },
+    {
+      "id": "P01-constant-factory-answer",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_customer_service_module.py::test_factory_builds_a_reusable_core_from_db_settings_and_a_fake_model",
+      "expected": "FAIL vs TABLE_MODEL_ANSWER",
+      "actual": "same constant-vs-table assertion",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P01-constant-knowledge-5L",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity",
+      "expected": "FAIL when answer ignores seeded knowledge",
+      "actual": "AssertionError: assert '5L' in '??????-??'",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P01-constant-graph-sentinel-test",
+      "priority": "P1",
+      "level": "L1",
+      "status": "GAP",
+      "command": "pytest tests/test_framework_audit.py::test_sync_and_sse_execute_the_registered_generate_and_verify_nodes",
+      "expected": "would ideally fail if it required input-grounded answers",
+      "actual": "PASSED: test overwrites generate draft with its own sentinel after calling the node",
+      "notes": "This test cannot catch a constant generate implementation. P01 as a suite still CAUGHT via other tests.",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P01-constant-core-answers-truthy",
+      "priority": "P1",
+      "level": "L1",
+      "status": "GAP",
+      "command": "pytest tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service",
+      "expected": "knowledge-grounded answer",
+      "actual": "PASSED: only asserts response.answer is truthy and requires_human is False",
+      "evidence_files": ["fail.log"]
+    }
+  ]
+}

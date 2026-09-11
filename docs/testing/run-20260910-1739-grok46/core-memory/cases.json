@@ -1,0 +1,293 @@
+{
+  "run_id": "run-20260910-1739-grok46",
+  "suite": "core-memory",
+  "executor": "cursor-grok-4.6",
+  "not_luna": true,
+  "candidate_root": "/tmp/yunpai-test-candidate-grok46-pZG5r3",
+  "python": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python",
+  "level": "L0/L1",
+  "pytest": {
+    "tests": 62,
+    "passed": 62,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit": 0,
+    "duration_s": 51.32
+  },
+  "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/core-memory/pytest-junit.xml tests/test_customer_service_module.py tests/test_customer_service_module_memory.py tests/test_vision.py tests/test_demo_chat.py tests/test_domain_profiles.py",
+  "cases": [
+    {
+      "id": "A01",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_customer_service_module.py::test_stream_branch_follows_plan_generation_on_the_no_evidence_branch tests/test_customer_service_module.py::test_stream_branch_follows_plan_generation_on_the_approved_branch tests/test_customer_service_module.py::test_stream_model_branch_consumes_the_planned_prompt_including_scene",
+      "expected": "Sync and stream share the same generated answer; stream generation_deltas follow plan_generation branches (no_evidence / approved_direct / model).",
+      "actual": "4 tests passed. Sync answer equals streamed answer and sources. no_evidence/approved/model branches match plan.branch, plan.text, and trace_step.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 TableDrivenModel / plan_generation identity only. This suite did not wrap registered generate/verify graph nodes with sentinels."
+    },
+    {
+      "id": "K01",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module.py::test_sync_and_stream_share_the_generated_answer tests/test_demo_chat.py::test_demo_sync_and_stream_share_simulation_session_scope",
+      "expected": "Core sync/stream share answer; Demo sync then stream keep one simulation session scope.",
+      "actual": "Both tests passed. Core answers match. Demo session source_type=simulation source_reference=local-demo after mixed sync+stream.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Host /v1/chat vs /v1/chat/stream not in this suite. L1 in-process TestClient/core only, not independent HTTP."
+    },
+    {
+      "id": "I09",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module.py::test_core_refuses_prompt_injection_before_generation",
+      "expected": "User message '??????????????' is refused before generation: reason=prompt_injection_detected, risk_level=blocked, answer contains ??.",
+      "actual": "Test passed with those assertions.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 user-message injection only. PDF/retrieval/image/memory/tool injection sources were not executed in this suite."
+    },
+    {
+      "id": "K04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module.py::test_idempotent_invocation_replays_the_stored_response tests/test_vision.py::test_idempotent_image_response_preserves_full_response_contract",
+      "expected": "Same idempotency_key replays stored response in-process; one assistant message; image replay preserves full contract.",
+      "actual": "Both tests passed. message_id/trace_id/answer match; assistant_count==1; first.model_dump()==replay.model_dump().",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "In-process replay only. Not crash recovery, not process restart, not concurrent keys, not sync/SSE cross-replay."
+    },
+    {
+      "id": "B12",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_customer_service_module.py::test_stream_model_failure_returns_and_persists_retry_response",
+      "expected": "Model timeout/429/5xx/empty/broken JSON/illegal mode degrade safely without executing writes by default.",
+      "actual": "Partial pass: stream ModelUnavailableError mid-delta persists completed retry response, strips unsafe '?????????', reason=model_temporarily_unavailable, model_fallback=true.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Only stream ModelUnavailableError covered. 429/5xx/empty/JSON/illegal mode-or-tool-name not in this suite."
+    },
+    {
+      "id": "M01",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_customer_service_module.py::test_stream_model_failure_returns_and_persists_retry_response",
+      "expected": "Connection failure/429/5xx/slow/half JSON classified, limited retry, failure reported.",
+      "actual": "Same partial evidence as B12: unavailable stream persists classified fallback and does not emit the failed delta as the user answer.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Does not prove 429/5xx/slow/half-JSON or retry budget. Partial L1 only."
+    },
+    {
+      "id": "C02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_history_does_not_leak_between_sessions",
+      "expected": "History from session A does not appear in session B generation prompt.",
+      "actual": "Test passed. Same principal, session-b prompt contains SECOND_TURN and not FIRST_TURN ????.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 different external_session_id isolation. Manual C02 also requires two customers sharing the same session_id plus checkpoint/image/preference/tool isolation; those were not executed."
+    },
+    {
+      "id": "C04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_small_context_budget_drops_the_oldest_turn",
+      "expected": "When history exceeds context budget, early authorization/amount constraints are kept; oldest non-constraint turns may drop.",
+      "actual": "test_small_context_budget_drops_the_oldest_turn passed: tight budget drops ????, keeps ????, history_meta.dropped>=1. No test inserts an early authorization constraint and asserts it survives truncation.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Drops-oldest is proven. C04 authorization-not-dropped is NOT proven. No keep-early-auth test in this suite."
+    },
+    {
+      "id": "H01",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_buyer_preference_memory_is_scoped_to_the_authenticated_subject tests/test_customer_service_module_memory.py::test_subject_scoped_memory_survives_refined_retrieval_in_chat",
+      "expected": "buyer_preference requires subject_hash; U-A2 cannot recall U-A1 preference; chat sources stay scoped.",
+      "actual": "Both tests passed. Missing subject_hash raises; buyer-b recall excludes preference_id; other_response sources omit memory:{id}.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Same-tenant two subjects. Cross-tenant identical subject_id collision was not executed."
+    },
+    {
+      "id": "H04",
+      "priority": "P0",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_memory_is_redacted_before_storage_and_prompt_use",
+      "expected": "Phone number in preference fact is redacted in stored knowledge and generation prompt.",
+      "actual": "Test passed. 13812345678 absent from knowledge.answer and latest generation prompt; memory source still attached.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 phone redaction in memory layer. OTP, privacy photos, vector dump, logs, and export were not checked."
+    },
+    {
+      "id": "H05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_standard_knowledge_retrieval_does_not_mix_in_long_term_memory",
+      "expected": "Ordinary RAG retrieve does not return memory-layer knowledge_key.",
+      "actual": "Test passed. memory_id not in retrieve() knowledge_key set.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Direct KnowledgeBase.retrieve isolation. Chat-path mixing beyond this retrieve call was not separately asserted."
+    },
+    {
+      "id": "H06",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_customer_service_module_memory.py::test_recording_an_expired_memory_renews_its_ttl",
+      "expected": "Expired memory must not keep influencing recall/decision; duplicate facts renew rather than conflict.",
+      "actual": "Renewal test passed: expired row re-record keeps same memory_id and is recalled after renewal.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "No assertion that recall is empty while effective_to is in the past, before renewal. Code has effective_to filter, but C04-style 'expired does not affect decision' is not proven. Timezone-boundary not tested."
+    },
+    {
+      "id": "J03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_vision.py::test_follow_up_turn_receives_previous_image_observation",
+      "expected": "Follow-up without a new image still receives previous observation, marked as ?????, and does not write observation into user message content.",
+      "actual": "Test passed.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 wiring for previous-image observation. Did not swap to a second image B to prove old image is not substituted."
+    },
+    {
+      "id": "J04",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_vision.py::test_vision_gateway_passes_unverified_order_candidate_to_deepseek tests/test_vision.py::test_order_candidate_reaches_deepseek_without_becoming_trusted_context",
+      "expected": "Screenshot order/refund claims are unverified clues, not trusted identity or execution authority.",
+      "actual": "Both tests passed. order_identity_verified=false, business_execution_authority=false, order_candidate reaches model prompts, current_subject has no order_id, requires_human true.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Partial L1 with stubbed vision/model. Does not prove a live model will refuse to treat a forged screenshot as authorization."
+    },
+    {
+      "id": "J05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_vision.py::test_chat_image_contract_requires_supported_matching_image",
+      "expected": "Unsupported MIME, MIME/bytes mismatch, invalid base64, and 5 MiB N-1/N/N+1 are rejected.",
+      "actual": "MIME subset passed: GIF rejected; JPEG mime with PNG bytes rejected; empty ChatRequest without message/image rejected.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "No 5 MiB size-boundary test, no invalid-base64 test, no magic-ok-but-corrupt decode test in this suite. Header/magic match is tested; size is not."
+    },
+    {
+      "id": "J07",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "pytest tests/test_vision.py::test_customer_session_history_hides_internal_media_details tests/test_demo_chat.py::test_demo_session_history_serves_public_image_media",
+      "expected": "Other users cannot read media by guessing path/message id; responses hide disk paths and internal media fields.",
+      "actual": "Same-principal history JSON omits storage_ref, chat-media, vision_description; owner can GET public media URL.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Internal-field hiding passed. Other-user / guessed-path / expired-URL denial was not executed."
+    },
+    {
+      "id": "J08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "pytest tests/test_vision.py::test_vision_audit_failure_removes_unpersisted_image tests/test_vision.py::test_failed_unpersisted_media_cleanup_is_queued_without_masking_error tests/test_vision.py::test_successful_idempotent_retry_reclaims_media_from_deletion_queue",
+      "expected": "Audit failure deletes unpersisted image; failed delete is queued without masking the original error; successful idempotent retry reclaims the file.",
+      "actual": "All three tests passed (audit-failure includes sync and stream params). media_files empty after audit fail; queue then purge; retry clears queue and file survives purge_expired.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "L1 injected audit/OSError failures. Persistence-failure and model-failure cleanup paths beyond audit were not separately asserted."
+    },
+    {
+      "id": "L05",
+      "priority": "P2",
+      "level": "L0/L1",
+      "status": "PASS",
+      "command": "pytest tests/test_demo_chat.py::test_demo_page_and_health tests/test_demo_chat.py::test_demo_health_includes_demo_context tests/test_demo_chat.py::test_demo_page_has_release_notes_bell_and_feature_log tests/test_domain_profiles.py::test_demo_health_exposes_selected_hr_profile",
+      "expected": "Demo / and /api/health exist; health reports mock/ecommerce labels; HR profile label appears when business_domain=hr; bell/release notes markup present.",
+      "actual": "Tests passed. health.ok true, model_mode=mock, business_domain ecommerce/???? labels as configured, store_id in context, releaseBell markup present.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "TestClient HTML/JSON only. NOT a browser PASS. Does not prove live vs mock copy against a running live process. /admin existence not asserted in this suite."
+    },
+    {
+      "id": "L07",
+      "priority": "P2",
+      "level": "L0/L1",
+      "status": "PASS",
+      "command": "pytest tests/test_demo_chat.py::test_demo_page_has_diagnostic_ui_and_ime_safe_enter",
+      "expected": "index.html keydown handler contains isComposing / keyCode 229 guard.",
+      "actual": "Test passed: page text contains isComposing. L0 read of index.html line 640: if (event.isComposing || event.keyCode === 229) return;",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Markup/static HTML only. NOT a browser PASS. Chinese IME composition Enter was not exercised in a real browser."
+    },
+    {
+      "id": "O01",
+      "priority": "P1",
+      "level": "L0/L1",
+      "status": "PASS",
+      "command": "pytest tests/test_domain_profiles.py::test_hr_profile_maps_the_same_control_buckets_without_keyword_routing tests/test_domain_profiles.py::test_demo_health_exposes_selected_hr_profile tests/test_domain_profiles.py::test_unknown_domain_fails_before_demo_startup",
+      "expected": "HR profile reuses the same four intent buckets with HR labels; health exposes ????; unknown domain fails closed.",
+      "actual": "3 tests passed. intents == {product_inquiry, after_sales, complaint, chitchat}; after_sales label ????????????; health business_domain=hr label ????.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml"],
+      "notes": "Labels/config ONLY. Not HR prompts, SOP, knowledge, or live leave/onboarding/reimbursement. Do not treat as HR delivered."
+    },
+    {
+      "id": "O01-business",
+      "priority": "P1",
+      "level": "L2/L4",
+      "status": "N/A",
+      "command": null,
+      "expected": "HR environment questions on leave/onboarding/reimbursement use HR prompt/SOP/retrieval, not ecommerce refund scripts.",
+      "actual": "Not a delivered HR product in this candidate. README and domain-reuse-contract state HR model prompts, knowledge scope, and SOP are not business-accepted.",
+      "evidence_files": ["pytest.stdout"],
+      "notes": "Scope confirmation: HR is profile tags. Real HR business is N/A this run. Not BLOCKED on missing credentials; the capability is not claimed delivered."
+    },
+    {
+      "id": "A06",
+      "priority": "P1",
+      "level": "L0",
+      "status": "NOT_RUN",
+      "command": null,
+      "expected": "Install the frozen build from a clean directory with repo src off PYTHONPATH; JSON/templates/static resources start.",
+      "actual": "Not executed. This suite used PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src editable-style import.",
+      "evidence_files": ["commands.log"],
+      "notes": "Packaging-from-clean-dir not run."
+    },
+    {
+      "id": "A07",
+      "priority": "P1",
+      "level": "L0",
+      "status": "INCOMPLETE",
+      "command": "L0 read README.md, demo /api/health handlers, config app_db_path; pytest health tests",
+      "expected": "Current components match claims: SQLite not labeled PostgreSQL; model config not labeled as measured; HR tags not labeled as HR product.",
+      "actual": "README: '???? LangGraph + SQLite'; capability table says HR ???? and HR SOP ????????. config.py uses agent.sqlite3 and checkpoints.sqlite3. demo health returns business_domain_label from profile_for_domain, no postgres field. pytest health tests passed under mock.",
+      "evidence_files": ["pytest.stdout", "pytest-junit.xml", "commands.log"],
+      "notes": "L0 claim check only. Did not inspect a running process/DB connection string beyond tests. A06 clean-dir install not run, so packaging consistency is INCOMPLETE. Target architecture docs mention PostgreSQL as a target diagram, not as the current engine."
+    },
+    {
+      "id": "N01",
+      "priority": "P1",
+      "level": "L0",
+      "status": "INCOMPLETE",
+      "command": null,
+      "expected": "Clean-env install of frozen package/image, extras and real model files, smoke start.",
+      "actual": "Not executed. Suite imported candidate via PYTHONPATH src, sharing original-repo .venv.",
+      "evidence_files": ["commands.log"],
+      "notes": "Packaging-from-clean-dir (A06) not run. N01 cannot PASS from editable PYTHONPATH pytest."
+    }
+  ],
+  "counts": {
+    "PASS": 13,
+    "FAIL": 0,
+    "INCOMPLETE": 9,
+    "BLOCKED": 0,
+    "NOT_RUN": 1,
+    "N/A": 1
+  }
+}

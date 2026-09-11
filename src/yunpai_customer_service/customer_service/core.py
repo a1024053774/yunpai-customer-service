@@ -18,6 +18,7 @@ from ..auth import Principal
 from ..config import Settings
 from ..context_builder import ContextBuilder
 from ..database import Database, SessionScopeError, utc_now
+from ..embeddings import build_embedding_provider
 from ..evolution import EvolutionService
 from ..handoff import HandoffService
 from ..llm import ModelError, ModelGateway
@@ -36,10 +37,9 @@ from ..text_utils import redact_sensitive
 from ..tools import ToolRegistry
 from ..vision import VisionGateway, VisionResult
 from .generation import (
-    BRANCH_MODEL,
     GenerationPlan,
     plan_generation,
-    recover_model_failure,
+    generation_deltas as planned_generation_deltas,
 )
 
 if TYPE_CHECKING:
@@ -124,7 +124,13 @@ class CustomerServiceCore:
         if tools is None:
             tools = ToolRegistry()
             owned.append(tools.close)
-        knowledge = knowledge or KnowledgeBase(db)
+        knowledge = knowledge or KnowledgeBase(
+            db,
+            embedding_provider=build_embedding_provider(
+                settings.rag_embedding_provider,
+                settings.rag_embedding_model,
+            ),
+        )
         contexts = contexts or ContextBuilder(db)
         handoffs = handoffs or HandoffService(db)
         sops = sops or SopService(db, tools)
@@ -257,6 +263,7 @@ class CustomerServiceCore:
                         input_redacted=input_redacted,
                         trusted_context=trusted_context,
                     ),
+                    "stream_response": False,
                     "trace_id": trace_id,
                     "user_message_id": user_message_id,
                     "message_media": message_media,
@@ -338,8 +345,6 @@ class CustomerServiceCore:
         image: ChatImageInput | None = None,
     ) -> Iterator[dict[str, Any]]:
         # 延迟导入：见 _compile_graph
-        from ..graph import verify_response
-
         internal_session_id = self.db.resolve_session(
             tenant_id=principal.tenant_id,
             client_id=principal.client_id,
@@ -416,6 +421,7 @@ class CustomerServiceCore:
                         input_redacted=input_redacted,
                         trusted_context=trusted_context,
                     ),
+                    "stream_response": True,
                     "trace_id": trace_id,
                     "user_message_id": user_message_id,
                     "message_media": message_media,
@@ -435,41 +441,9 @@ class CustomerServiceCore:
             }
 
             if "generate" in self.graph.get_state(config).next:
-                plan = self.plan_generation(state)
-                parts: list[str] = []
-                retry_advised = False
-                try:
-                    deltas, model_fallback, trace_step = self.generation_deltas(state)
-                    for delta in deltas:
-                        parts.append(delta)
-                    draft = "".join(parts).strip()
-                except ModelError as exc:
-                    recovery = recover_model_failure(state, exc, db=self.db)
-                    draft = recovery.draft
-                    model_fallback = recovery.model_fallback
-                    retry_advised = recovery.retry_advised
-                    trace_step = recovery.trace_step
-                generation_trace = [*state["trace"]]
-                if plan.budget_trace:
-                    generation_trace.append(plan.budget_trace)
-                generation_trace.append(trace_step)
-                generation_update = {
-                    "draft": draft,
-                    "model_fallback": model_fallback,
-                    "model_retry_advised": retry_advised,
-                    "trace": generation_trace,
-                }
-                if retry_advised:
-                    self.graph.update_state(config, generation_update, as_node="generate")
-                    state = self.graph.invoke(None, config=config)
-                else:
-                    verified = verify_response({**state, **generation_update})
-                    self.graph.update_state(
-                        config,
-                        {**generation_update, **verified},
-                        as_node="verify",
-                    )
-                    state = self.graph.invoke(None, config=config)
+                # Resume the compiled graph. Generation and verification must execute
+                # their registered nodes in both transports; the API only emits events.
+                state = self.graph.invoke(None, config=config)
             yield {"event": "delta", "text": state["answer"]}
         except BaseException:
             self._cleanup_unpersisted_message_media(user_message_id, message_media)
@@ -498,10 +472,9 @@ class CustomerServiceCore:
         self,
         state: dict[str, Any],
     ) -> tuple[Iterator[str], bool, str]:
-        plan = self.plan_generation(state)
-        if plan.branch != BRANCH_MODEL:
-            return iter((plan.text or "",)), plan.model_fallback, str(plan.trace_step)
-        return self.model.stream_generate(plan.messages or []), False, "generate:stream"
+        return planned_generation_deltas(
+            self.plan_generation(state), model=self.model, stream=True
+        )
 
     def _trusted_context(
         self,
@@ -698,6 +671,8 @@ class CustomerServiceCore:
             f"yunpai:{principal.tenant_id}:{principal.client_id}:{idempotency_key}",
         ).hex
         now = utc_now()
+        created = False
+        reclaimed_failed = False
         with self.db._write_lock, self.db.connect() as conn:
             row = conn.execute(
                 """
@@ -707,6 +682,7 @@ class CustomerServiceCore:
                 (principal.tenant_id, principal.client_id, idempotency_key),
             ).fetchone()
             if row is None:
+                created = True
                 invocation_id = f"invocation-{stable}"
                 conn.execute(
                     """
@@ -744,20 +720,40 @@ class CustomerServiceCore:
                         "agent idempotency key is already bound to another request",
                         code="idempotency_key_conflict",
                     )
-                if row["status"] == "running":
-                    conn.execute(
+                if row["status"] == "running" and row["last_error"]:
+                    claim = conn.execute(
                         """
                         UPDATE agent_invocations
                         SET attempt_count=attempt_count+1, last_error=NULL, updated_at=?
-                        WHERE id=? AND status='running'
+                        WHERE id=? AND status='running' AND last_error IS NOT NULL
                         """,
                         (now, row["id"]),
                     )
                     row = conn.execute(
                         "SELECT * FROM agent_invocations WHERE id=?", (row["id"],)
                     ).fetchone()
+                    reclaimed_failed = claim.rowcount == 1
         if row is None:
             raise RuntimeError("agent invocation was not persisted")
+        if not created and not reclaimed_failed and row["status"] == "running":
+            # A duplicate observes the owner instead of executing the graph again.
+            # No automatic takeover is safe when a crashed owner's effects are unknown.
+            deadline = time.monotonic() + 30.0
+            while time.monotonic() < deadline:
+                time.sleep(0.01)
+                with self.db.connect() as conn:
+                    refreshed = conn.execute(
+                        "SELECT * FROM agent_invocations WHERE id=? AND tenant_id=?",
+                        (row["id"], principal.tenant_id),
+                    ).fetchone()
+                if refreshed is None:
+                    raise RuntimeError("agent invocation disappeared while waiting")
+                if refreshed["status"] == "completed":
+                    return dict(refreshed)
+            raise SessionScopeError(
+                "agent invocation is still running; retry after the owner finishes",
+                code="idempotency_in_progress",
+            )
         return dict(row)
 
     @staticmethod

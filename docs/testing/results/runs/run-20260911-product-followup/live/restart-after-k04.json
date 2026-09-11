@@ -1,0 +1,12 @@
+{
+  "saved_utc": "2026-09-11T09:37:21.246939+00:00",
+  "event": "restart-after-k04-graph-fix",
+  "pid_before": 11189,
+  "pid_after": 37044,
+  "demo_listen": "127.0.0.1:55722",
+  "host_listen": "127.0.0.1:55723",
+  "data_dir": "/private/tmp/yunpai-followup-20260911",
+  "client_key_restored_from": "DATA_DIR/.host-api-creds.json (value omitted)",
+  "health_demo": 200,
+  "health_host": 200
+}

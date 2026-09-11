@@ -1,0 +1,33 @@
+{
+  "id": "E04",
+  "priority": "P1",
+  "level": "L1",
+  "status": "INCOMPLETE",
+  "expected": "cross-page table keeps SKU-param mapping; AAA 5L rice-white; BBB 7L black",
+  "actual": {
+    "imported_pages": [
+      {
+        "page": 1,
+        "chars": 284,
+        "tables": 1,
+        "id": "kb-af40a3b4d10940df9aabad3e98df61e3"
+      },
+      {
+        "page": 2,
+        "chars": 222,
+        "tables": 1,
+        "id": "kb-a1be08567e8e4afc8c5e61a11bf13c8b"
+      }
+    ],
+    "page_count": 2,
+    "a_text": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-AAA | 5L | rice-white | warranty 12 months | ## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no micr",
+    "b_text": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave | ## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-AAA | 5L | rice-white | warranty 12 m",
+    "parsed_two": true,
+    "inverted": false
+  },
+  "saved_utc": "2026-09-11T02:35:29.321263+00:00",
+  "notes": [
+    "pages parsed separately with tables; retrieve at min_score=0.01 returns both SKU pages",
+    "not proof that generation keeps AAA/BBB columns unmixed"
+  ]
+}

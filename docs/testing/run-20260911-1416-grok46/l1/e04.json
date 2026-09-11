@@ -1,0 +1,68 @@
+{
+  "id": "E04",
+  "priority": "P1",
+  "level": "L1",
+  "status": "PASS",
+  "expected": "cross-page table keeps SKU-param mapping at production rag_min_score; AAA 5L; BBB 7L",
+  "actual": {
+    "imported_pages": [
+      {
+        "page": 1,
+        "chars": 284,
+        "tables": 1,
+        "id": "kb-b223d737125b4580b6787a44c0b893ce"
+      },
+      {
+        "page": 2,
+        "chars": 222,
+        "tables": 1,
+        "id": "kb-163323e6a3c5435c90ebcdad557b7bb2"
+      }
+    ],
+    "rag_min_score": 0.08,
+    "hits_a": [
+      {
+        "id": "kb-b223d737125b4580b6787a44c0b893ce",
+        "score": 0.8349,
+        "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+      },
+      {
+        "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+        "score": 0.6244,
+        "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+      }
+    ],
+    "hits_b": [
+      {
+        "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+        "score": 0.8244,
+        "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+      },
+      {
+        "id": "kb-b223d737125b4580b6787a44c0b893ce",
+        "score": 0.6349,
+        "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+      }
+    ],
+    "low_min_score_hits_a": [
+      {
+        "id": "kb-b223d737125b4580b6787a44c0b893ce",
+        "score": 0.8349,
+        "answer": "## E04 cross-page SKU table\n\nPage 1 is AAA only. Page 2 is BBB only.\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|------------|-----------------------|\n| QA-E04-AAA | 5L | rice-white | AAA only; not for BBB |\n| QA-E04-"
+      },
+      {
+        "id": "kb-163323e6a3c5435c90ebcdad557b7bb2",
+        "score": 0.6244,
+        "answer": "## Continued table page 2\n\n| SKU | Capacity | Color | Condition |\n|------------|------------|---------|-----------------------|\n| QA-E04-BBB | 7L | black | BBB only; not for AAA |\n| QA-E04-BBB | 7L | black | no microwave |"
+      }
+    ],
+    "a_top_ok": true,
+    "b_top_ok": true,
+    "parsed_two": true,
+    "inverted": false
+  },
+  "notes": [
+    "1024 used min_score=0.01 and mixed pages; this run uses settings.rag_min_score",
+    "table model; generation column-binding not live-judged"
+  ]
+}

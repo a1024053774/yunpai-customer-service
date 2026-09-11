@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-1024-grok46/l1/probe_remaining.py", line 900, in main
+    probe_i10_i13(Path(raw))
+  File "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-1024-grok46/l1/probe_remaining.py", line 687, in probe_i10_i13
+    for r in conn.execute(
+             ^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: action

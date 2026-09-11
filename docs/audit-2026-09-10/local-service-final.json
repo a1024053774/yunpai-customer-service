@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-09-10T05:32:34.714674+00:00",
+  "health_status": 200,
+  "health": {
+    "ok": true,
+    "model_mode": "live",
+    "model_name": "deepseek-v4-flash",
+    "model_provider": "deepseek",
+    "vision_enabled": true,
+    "vision_model": "deepseek-v4-flash-vision-exp",
+    "embedding_provider": "fastembed",
+    "embedding_model": "BAAI/bge-small-zh-v1.5",
+    "store_name": "晴川小家电（模拟店）",
+    "tenant_id": "anonymous-local",
+    "business_domain": "ecommerce",
+    "business_domain_label": "电商销售",
+    "context": {
+      "store_id": "demo-qingchuan-shop",
+      "platform": "demo"
+    }
+  },
+  "cross_origin_status": 403,
+  "own_original_count": 3
+}

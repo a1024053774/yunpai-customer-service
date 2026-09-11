@@ -1,0 +1,875 @@
+{
+  "run_id": "run-20260911-real-user",
+  "nonce": "REAL-USER-20260911-C01",
+  "configured_model": "deepseek-v4-flash",
+  "configured_vision_model": "deepseek-v4-flash-vision-exp",
+  "data_dir": "/private/tmp/yunpai-real-user-20260911-v2",
+  "model_key_present": true,
+  "vision_key_present": true,
+  "flows": {
+    "preflight": {
+      "home": {
+        "status_code": 200,
+        "body": {
+          "raw": "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>云派智能客服</title>\n  <style>\n    :root {\n      --canvas: #f5f6f8;\n      --paper: #ffffff;\n      --ink: #1a1f24;\n      --muted: #66737c;\n      --line: #e6e9ee;\n      --nav: #ffffff;\n      --teal: #0f6e68;\n      --teal-soft: #eaf6f4;\n      --amber: #9a6700;\n      --amber-soft: #fff7e6;\n      --red: #b42318;\n      --red-soft: #fef3f2;\n      --blue: #175cd3;\n      --blue-soft: #eff6ff;\n      font-family: \"PingFang SC\", \"Hiragino Sans GB\", \"Noto Sans SC\", \"Segoe UI\", sans-serif;\n    }\n    * { box-sizing: border-box; }\n    body { margin: 0; min-width: 320px; color: var(--ink); background: var(--canvas); }\n    button, textarea { font: inherit; letter-spacing: 0; }\n    button { cursor: pointer; }\n    .page { width: 100%; min-width: 0; min-height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); }\n    .topbar {\n      min-height: 64px; padding: 10px clamp(16px, 3vw, 32px); background: var(--nav); color: var(--ink);\n      position: relative; min-width: 0; display: flex; gap: 16px; align-items: center; justify-content: space-between;\n      border-bottom: 1px solid var(--line);\n    }\n    .title { min-width: 0; flex: 1 1 320px; display: flex; gap: 12px; align-items: center; }\n    .brand-mark {\n      width: 36px; height: 36px; border-radius: 10px; flex: 0 0 auto;\n      display: grid; place-items: center; background: var(--teal); color: #fff; font-size: 14px; font-weight: 700;\n    }\n    .title strong { display: block; font-size: 16px; letter-spacing: -0.02em; }\n    .title span { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }\n    .topbar-actions { min-width: 0; display: flex; align-items: center; gap: 10px; margin-left: auto; }\n    .status {\n      display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 4px 10px; border-radius: 999px;\n      font-size: 12px; font-weight: 600; back"
+        }
+      },
+      "admin": {
+        "status_code": 200,
+        "body": {
+          "raw": "<!doctype html>\n<html lang=\"zh-CN\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>知识工作台 · 云派智能客服</title>\n  <style>\n    :root {\n      font-family: \"PingFang SC\", \"Hiragino Sans GB\", \"Noto Sans SC\", \"Segoe UI\", sans-serif;\n      color: #1a1f24;\n      background: #f5f6f8;\n      --ink: #1a1f24;\n      --muted: #66737c;\n      --line: #e6e9ee;\n      --teal: #0f6e68;\n      --soft: #eaf6f4;\n    }\n    * { box-sizing: border-box; }\n    body { margin: 0; }\n    .shell { min-height: 100vh; }\n    .top {\n      height: 64px; padding: 0 clamp(16px, 4vw, 48px);\n      display: flex; align-items: center; justify-content: space-between;\n      background: #fff; color: var(--ink); border-bottom: 1px solid var(--line);\n    }\n    .brand { display: flex; gap: 12px; align-items: center; }\n    .mark {\n      width: 36px; height: 36px; border-radius: 10px; background: var(--teal); color: #fff;\n      display: grid; place-items: center; font-weight: 700;\n    }\n    .brand strong { display: block; font-size: 16px; }\n    .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }\n    .back {\n      color: var(--ink); text-decoration: none; border: 1px solid var(--line);\n      border-radius: 10px; padding: 8px 12px; font-size: 13px; font-weight: 600; background: #fff;\n    }\n    .main { width: min(1120px, 100%); margin: auto; padding: 32px 20px 60px; }\n    .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }\n    .hero h1 { margin: 0; font-size: 26px; letter-spacing: -.03em; }\n    .hero p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }\n    .scope { font-size: 12px; color: #475467; background: #fff; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; }\n    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }\n    .card {\n      background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px;\n "
+        }
+      },
+      "health": {
+        "status_code": 200,
+        "body": {
+          "ok": true,
+          "model_mode": "live",
+          "model_name": "deepseek-v4-flash",
+          "model_provider": "deepseek",
+          "vision_enabled": true,
+          "vision_model": "deepseek-v4-flash-vision-exp",
+          "embedding_provider": "fastembed",
+          "embedding_model": "BAAI/bge-small-zh-v1.5",
+          "store_name": "晴川小家电（模拟店）",
+          "tenant_id": "anonymous-local",
+          "business_domain": "ecommerce",
+          "business_domain_label": "电商销售",
+          "context": {
+            "store_id": "demo-qingchuan-shop",
+            "platform": "demo"
+          }
+        }
+      }
+    },
+    "import": [
+      {
+        "file": "REAL-USER-20260911-C01.txt",
+        "sha256": "b3d497bb67a1f0c1438046620862d83c3afa607b545cea46e4aa21cc5a81af67",
+        "response": {
+          "status_code": 200,
+          "body": {
+            "filename": "REAL-USER-20260911-C01.txt",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-01088ef64bcc492b86ed986992861ec3",
+                "filename": "REAL-USER-20260911-C01.txt",
+                "page": 1,
+                "characters": 67,
+                "tables": 0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "file": "REAL-USER-20260911-C01.md",
+        "sha256": "fe837647fc70a485cdd5f9d387cfccba47e32272734623749c2317af1434387d",
+        "response": {
+          "status_code": 200,
+          "body": {
+            "filename": "REAL-USER-20260911-C01.md",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-d30b8ed6664b41b284f7da7c0137b26d",
+                "filename": "REAL-USER-20260911-C01.md",
+                "page": 1,
+                "characters": 64,
+                "tables": 0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "file": "REAL-USER-20260911-C01.pdf",
+        "sha256": "1d2a6f3b9d80bc678f81750acdd52ae5eb037808035531b67f52a33ed504657c",
+        "response": {
+          "status_code": 200,
+          "body": {
+            "filename": "REAL-USER-20260911-C01.pdf",
+            "count": 1,
+            "items": [
+              {
+                "id": "kb-fec100eeb8a542d7b914156cc7a87638",
+                "filename": "REAL-USER-20260911-C01.pdf",
+                "page": 1,
+                "characters": 63,
+                "tables": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "c01": {
+      "first": {
+        "status_code": 200,
+        "body": {
+          "message_id": "msg-e04f32694f5d4b498ab27fa4fbf85779",
+          "trace_id": "trace-abc9c6c05f1d4397899085f06cccea87",
+          "session_id": "real-user-c01",
+          "answer": "REAL-USER-20260911-C01 的颜色是**海盐白**，容量为 **6L**。\n\n如果您还想了解这款的其他信息，可以告诉我，我再帮您确认～",
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "intent_confidence": 0.95,
+          "intent_method": "model",
+          "intent_error": null,
+          "risk_level": "low",
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "sources": [
+            {
+              "id": "kb-d30b8ed6664b41b284f7da7c0137b26d",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.md?sha256=fe837647fc70a485#page=1&chunk=1",
+              "version": 1,
+              "score": 1.1441
+            },
+            {
+              "id": "kb-fec100eeb8a542d7b914156cc7a87638",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.pdf?sha256=1d2a6f3b9d80bc67#page=1&chunk=1",
+              "version": 1,
+              "score": 1.0859
+            },
+            {
+              "id": "kb-01088ef64bcc492b86ed986992861ec3",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.txt?sha256=b3d497bb67a1f0c1#page=1&chunk=1",
+              "version": 1,
+              "score": 1.0749
+            }
+          ],
+          "model_fallback": false,
+          "vision_status": "not_applicable",
+          "vision_model": null,
+          "vision_latency_ms": null,
+          "vision_image_count": 0,
+          "handoff_id": null,
+          "handoff_status": null,
+          "sop_id": null,
+          "sop_version": null,
+          "context_snapshot_id": "ctx-25296267522141d3a4bd7c00f0a0698b",
+          "context_readiness": "ready",
+          "evidence_ids": [
+            "ev-b5db8951f9385eb14098db51",
+            "ev-7c1962482d7e431287a19ea5",
+            "ev-9473e1e305b6ee47f0993a00",
+            "ev-b0fbdfc89728ccb21288e9f7",
+            "ev-d23f7294c150a2442ced722f",
+            "ev-03fc9a0d9613d9adebdafd51",
+            "ev-6670dd8d224cef4070e1114a",
+            "ev-515e3180d4c8b267293afe73",
+            "ev-afd0f373b77dc4c82fd8640d"
+          ],
+          "trace": [
+            "intake",
+            "intent:model:product_inquiry",
+            "precheck:deliberate",
+            "retrieve:initial:3",
+            "guard:blocked:0",
+            "memory:recalled:0",
+            "context:budget:kept0/dropped0",
+            "context:decision:ready",
+            "context:budget:kept0/dropped0",
+            "deliberate:model:answer",
+            "decision_gate:answer",
+            "retrieve:refined:3",
+            "guard:blocked:0",
+            "context:budget:kept0/dropped0",
+            "context:generation:ready",
+            "context:budget:kept0/dropped0",
+            "generate:model",
+            "verify:passed",
+            "postcondition:answer",
+            "persist"
+          ],
+          "decision_mode": "answer",
+          "decision_tool": null
+        }
+      },
+      "second": {
+        "status_code": 200,
+        "body": {
+          "message_id": "msg-86b0447e3c6a42cfb28762b4ebfbe1c5",
+          "trace_id": "trace-b5f6147f2203420cb83b63a30bcd0bfc",
+          "session_id": "real-user-c01",
+          "answer": "这款的颜色是**海盐白**，容量为 **6L**。\n\n如果您还想了解其他信息，随时告诉我～",
+          "intent": "product",
+          "customer_intent": "product_inquiry",
+          "intent_confidence": 0.95,
+          "intent_method": "model",
+          "intent_error": null,
+          "risk_level": "low",
+          "requires_human": false,
+          "reason": "knowledge_answer_allowed",
+          "sources": [
+            {
+              "id": "kb-d30b8ed6664b41b284f7da7c0137b26d",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.md?sha256=fe837647fc70a485#page=1&chunk=1",
+              "version": 1,
+              "score": 1.1443
+            },
+            {
+              "id": "kb-fec100eeb8a542d7b914156cc7a87638",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.pdf?sha256=1d2a6f3b9d80bc67#page=1&chunk=1",
+              "version": 1,
+              "score": 1.0855
+            },
+            {
+              "id": "kb-01088ef64bcc492b86ed986992861ec3",
+              "category": "uploaded_document",
+              "source": "upload://REAL-USER-20260911-C01.txt?sha256=b3d497bb67a1f0c1#page=1&chunk=1",
+              "version": 1,
+              "score": 1.0746
+            }
+          ],
+          "model_fallback": false,
+          "vision_status": "not_applicable",
+          "vision_model": null,
+          "vision_latency_ms": null,
+          "vision_image_count": 0,
+          "handoff_id": null,
+          "handoff_status": null,
+          "sop_id": null,
+          "sop_version": null,
+          "context_snapshot_id": "ctx-b9be7e612c414e87a464f0dd9f3eded8",
+          "context_readiness": "ready",
+          "evidence_ids": [
+            "ev-4f15ae117a2710cd440b0d66",
+            "ev-252d7fa7cd1703b6470fc73f",
+            "ev-9473e1e305b6ee47f0993a00",
+            "ev-a9f29358a455622ae4ee1a88",
+            "ev-d41a45d8f9ecf258af7d2d0a",
+            "ev-67062841392349805b6253d2",
+            "ev-dfd01a3c93cee3267f74f3c3",
+            "ev-c897c6c398a30735623490f6",
+            "ev-afd0f373b77dc4c82fd8640d"
+          ],
+          "trace": [
+            "intake",
+            "intent:model:product_inquiry",
+            "precheck:deliberate",
+            "retrieve:contextual",
+            "retrieve:initial:3",
+            "guard:blocked:0",
+            "memory:recalled:0",
+            "context:budget:kept2/dropped0",
+            "context:decision:ready",
+            "context:budget:kept2/dropped0",
+            "deliberate:model:answer",
+            "decision_gate:answer",
+            "retrieve:refined:3",
+            "guard:blocked:0",
+            "context:budget:kept2/dropped0",
+            "context:generation:ready",
+            "context:budget:kept2/dropped0",
+            "generate:model",
+            "verify:passed",
+            "postcondition:answer",
+            "persist"
+          ],
+          "decision_mode": "answer",
+          "decision_tool": null
+        }
+      }
+    },
+    "vision": {
+      "status_code": 200,
+      "body": {
+        "message_id": "msg-79f0fa71172f4c35b6d5914cd8e76d1e",
+        "trace_id": "trace-bca9cceb8ad041b09c2c69656ff9fda8",
+        "session_id": "real-user-vision",
+        "answer": "您好，我这边暂时没有收到可查看的图片内容。麻烦您重新上传图片，或直接描述一下图片里的商品/订单问题，我来帮您处理。",
+        "intent": "chitchat",
+        "customer_intent": "chitchat",
+        "intent_confidence": 0.95,
+        "intent_method": "model",
+        "intent_error": null,
+        "risk_level": "low",
+        "requires_human": false,
+        "reason": "llm_clarification_required",
+        "sources": [
+          {
+            "id": "seed-0014",
+            "category": "商品",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6284
+          },
+          {
+            "id": "seed-0119",
+            "category": "售后",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.6049
+          },
+          {
+            "id": "seed-0001",
+            "category": "接待",
+            "source": "builtin:ecommerce-sop-v1",
+            "version": 1,
+            "score": 0.3143
+          }
+        ],
+        "model_fallback": false,
+        "vision_status": "error",
+        "vision_model": "deepseek-v4-flash-vision-exp",
+        "vision_latency_ms": 3378,
+        "vision_image_count": 1,
+        "handoff_id": null,
+        "handoff_status": null,
+        "sop_id": null,
+        "sop_version": null,
+        "context_snapshot_id": "ctx-2eb5073eaa6641fb9506f5d076484925",
+        "context_readiness": "ready",
+        "evidence_ids": [
+          "ev-5176fd43320fc5e195b8cce0",
+          "ev-1eca7e8d0d68274cfcbfc907",
+          "ev-9473e1e305b6ee47f0993a00",
+          "ev-2bd3a75112f6316425a5a04e",
+          "ev-1d31cf51f14c790b636da405",
+          "ev-65e75b3cf47270fbe56ed401",
+          "ev-afd0f373b77dc4c82fd8640d"
+        ],
+        "trace": [
+          "intake",
+          "intent:model:chitchat",
+          "precheck:deliberate",
+          "retrieve:initial:3",
+          "guard:blocked:0",
+          "memory:recalled:0",
+          "context:budget:kept0/dropped0",
+          "context:decision:ready",
+          "context:budget:kept0/dropped0",
+          "deliberate:model:clarify",
+          "decision_gate:clarify",
+          "terminal_output:passed",
+          "clarify",
+          "postcondition:input_required",
+          "persist"
+        ],
+        "decision_mode": "clarify",
+        "decision_tool": null
+      }
+    },
+    "l04": {
+      "feedback": {
+        "status_code": 200,
+        "body": {
+          "feedback_id": "feedback-41f3d2a009c44b36adc84506937e9584",
+          "candidate_id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+          "status": "candidate_pending"
+        }
+      },
+      "candidates_before": {
+        "status_code": 200,
+        "body": {
+          "items": [
+            {
+              "id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+              "question": "REAL-USER-20260911-C01 是什么颜色和容量？",
+              "proposed_answer": "REAL-USER-20260911-C01 的容量是 6L，颜色是海盐白。",
+              "evidence_source": "local:REAL-USER-20260911-C01.txt",
+              "intent": "product",
+              "status": "pending",
+              "gate_passed": null,
+              "gate_report": null,
+              "created_at": "2026-09-11T13:38:56.089795+00:00"
+            }
+          ]
+        }
+      },
+      "candidate_id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+      "evaluate": {
+        "status_code": 200,
+        "body": {
+          "id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+          "question": "REAL-USER-20260911-C01 是什么颜色和容量？",
+          "proposed_answer": "REAL-USER-20260911-C01 的容量是 6L，颜色是海盐白。",
+          "evidence_source": "local:REAL-USER-20260911-C01.txt",
+          "intent": "product",
+          "status": "evaluated",
+          "gate_passed": true,
+          "gate_report": {
+            "passed": true,
+            "checks": {
+              "length": true,
+              "no_sensitive_numbers": true,
+              "source_traceable": true,
+              "candidate_retrievable": true,
+              "candidate_retrieval_score": 1.1968,
+              "retrieval_fit": true,
+              "nearest_documents": [
+                "kb-d30b8ed6664b41b284f7da7c0137b26d",
+                "kb-fec100eeb8a542d7b914156cc7a87638",
+                "kb-01088ef64bcc492b86ed986992861ec3"
+              ],
+              "output_policy": true,
+              "output_policy_reason": "output_policy_passed",
+              "high_risk_handoff_preserved": true,
+              "semantic_alignment": true,
+              "semantic_alignment_score": 0.7823,
+              "lexical_evidence_overlap": 0.7143,
+              "no_contradiction_markers": true,
+              "retrieval_collision_free": true,
+              "retrieval_collision_failures": [],
+              "baseline_regression": true
+            },
+            "baseline": {
+              "total": 20,
+              "passed": 20,
+              "failed": 0
+            },
+            "bound_content": "fb88c39b18ee706e064e880d3f2931750414d717c6a5a585f431fbc7e6bd47db"
+          },
+          "created_at": "2026-09-11T13:38:56.089795+00:00"
+        }
+      },
+      "approve": {
+        "status_code": 200,
+        "body": {
+          "id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+          "question": "REAL-USER-20260911-C01 是什么颜色和容量？",
+          "proposed_answer": "REAL-USER-20260911-C01 的容量是 6L，颜色是海盐白。",
+          "evidence_source": "local:REAL-USER-20260911-C01.txt",
+          "intent": "product",
+          "status": "approved",
+          "gate_passed": true,
+          "gate_report": {
+            "passed": true,
+            "checks": {
+              "length": true,
+              "no_sensitive_numbers": true,
+              "source_traceable": true,
+              "candidate_retrievable": true,
+              "candidate_retrieval_score": 1.1968,
+              "retrieval_fit": true,
+              "nearest_documents": [
+                "kb-d30b8ed6664b41b284f7da7c0137b26d",
+                "kb-fec100eeb8a542d7b914156cc7a87638",
+                "kb-01088ef64bcc492b86ed986992861ec3"
+              ],
+              "output_policy": true,
+              "output_policy_reason": "output_policy_passed",
+              "high_risk_handoff_preserved": true,
+              "semantic_alignment": true,
+              "semantic_alignment_score": 0.7823,
+              "lexical_evidence_overlap": 0.7143,
+              "no_contradiction_markers": true,
+              "retrieval_collision_free": true,
+              "retrieval_collision_failures": [],
+              "baseline_regression": true
+            },
+            "baseline": {
+              "total": 20,
+              "passed": 20,
+              "failed": 0
+            },
+            "bound_content": "fb88c39b18ee706e064e880d3f2931750414d717c6a5a585f431fbc7e6bd47db"
+          },
+          "created_at": "2026-09-11T13:38:56.089795+00:00"
+        }
+      },
+      "knowledge_after_approve": {
+        "status_code": 200,
+        "body": {
+          "items": [
+            {
+              "id": "kb-cec17e83c24047ce87039f5e29a213de",
+              "knowledge_key": "<redacted>",
+              "category": "进化话术",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01 是什么颜色和容量？",
+              "source": "evolution:candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+              "version": 2,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:56.434332+00:00",
+              "updated_at": "2026-09-11T13:38:56.434332+00:00"
+            },
+            {
+              "id": "kb-fec100eeb8a542d7b914156cc7a87638",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.pdf 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.pdf?sha256=1d2a6f3b9d80bc67#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:42.346938+00:00",
+              "updated_at": "2026-09-11T13:38:42.346938+00:00"
+            },
+            {
+              "id": "kb-d30b8ed6664b41b284f7da7c0137b26d",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.md 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.md?sha256=fe837647fc70a485#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.605570+00:00",
+              "updated_at": "2026-09-11T13:38:33.605570+00:00"
+            },
+            {
+              "id": "kb-01088ef64bcc492b86ed986992861ec3",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.txt 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.txt?sha256=b3d497bb67a1f0c1#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.594743+00:00",
+              "updated_at": "2026-09-11T13:38:33.594743+00:00"
+            },
+            {
+              "id": "demo:qingchuan-refund-boundary:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "退款",
+              "intent": "refund",
+              "question": "请马上给我退款",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.578517+00:00",
+              "updated_at": "2026-09-11T13:38:33.578517+00:00"
+            },
+            {
+              "id": "demo:qingchuan-return:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "售后",
+              "intent": "return_exchange",
+              "question": "支持七天无理由吗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.569922+00:00",
+              "updated_at": "2026-09-11T13:38:33.569922+00:00"
+            },
+            {
+              "id": "demo:qingchuan-shipping:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "发货",
+              "intent": "shipping",
+              "question": "什么时候发货",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.559402+00:00",
+              "updated_at": "2026-09-11T13:38:33.559402+00:00"
+            },
+            {
+              "id": "demo:qingchuan-warranty:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "保修多久",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.551083+00:00",
+              "updated_at": "2026-09-11T13:38:33.551083+00:00"
+            },
+            {
+              "id": "demo:qingchuan-steamer:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "挂烫机预热要多久",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.543437+00:00",
+              "updated_at": "2026-09-11T13:38:33.543437+00:00"
+            },
+            {
+              "id": "demo:qingchuan-humidifier-filter:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "加湿器滤芯怎么换",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.535801+00:00",
+              "updated_at": "2026-09-11T13:38:33.535801+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-clean:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "空气炸锅怎么清洗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.527301+00:00",
+              "updated_at": "2026-09-11T13:38:33.527301+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-install:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "安装",
+              "intent": "product",
+              "question": "空气炸锅包安装吗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.518509+00:00",
+              "updated_at": "2026-09-11T13:38:33.518509+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-35-capacity:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "3.5L 空气炸锅适合几个人",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.508567+00:00",
+              "updated_at": "2026-09-11T13:38:33.508567+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-5l-capacity:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "晴川空气炸锅 5L 容量是多少",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.500014+00:00",
+              "updated_at": "2026-09-11T13:38:33.500014+00:00"
+            }
+          ]
+        }
+      },
+      "rollback": {
+        "status_code": 200,
+        "body": {
+          "candidate_id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+          "rolled_back": true
+        }
+      },
+      "knowledge_after_rollback": {
+        "status_code": 200,
+        "body": {
+          "items": [
+            {
+              "id": "kb-fec100eeb8a542d7b914156cc7a87638",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.pdf 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.pdf?sha256=1d2a6f3b9d80bc67#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:42.346938+00:00",
+              "updated_at": "2026-09-11T13:38:42.346938+00:00"
+            },
+            {
+              "id": "kb-d30b8ed6664b41b284f7da7c0137b26d",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.md 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.md?sha256=fe837647fc70a485#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.605570+00:00",
+              "updated_at": "2026-09-11T13:38:33.605570+00:00"
+            },
+            {
+              "id": "kb-01088ef64bcc492b86ed986992861ec3",
+              "knowledge_key": "<redacted>",
+              "category": "uploaded_document",
+              "intent": "product",
+              "question": "REAL-USER-20260911-C01.txt 第 1 页",
+              "source": "upload://REAL-USER-20260911-C01.txt?sha256=b3d497bb67a1f0c1#page=1&chunk=1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.594743+00:00",
+              "updated_at": "2026-09-11T13:38:33.594743+00:00"
+            },
+            {
+              "id": "demo:qingchuan-refund-boundary:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "退款",
+              "intent": "refund",
+              "question": "请马上给我退款",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.578517+00:00",
+              "updated_at": "2026-09-11T13:38:33.578517+00:00"
+            },
+            {
+              "id": "demo:qingchuan-return:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "售后",
+              "intent": "return_exchange",
+              "question": "支持七天无理由吗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.569922+00:00",
+              "updated_at": "2026-09-11T13:38:33.569922+00:00"
+            },
+            {
+              "id": "demo:qingchuan-shipping:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "发货",
+              "intent": "shipping",
+              "question": "什么时候发货",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.559402+00:00",
+              "updated_at": "2026-09-11T13:38:33.559402+00:00"
+            },
+            {
+              "id": "demo:qingchuan-warranty:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "保修多久",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.551083+00:00",
+              "updated_at": "2026-09-11T13:38:33.551083+00:00"
+            },
+            {
+              "id": "demo:qingchuan-steamer:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "挂烫机预热要多久",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.543437+00:00",
+              "updated_at": "2026-09-11T13:38:33.543437+00:00"
+            },
+            {
+              "id": "demo:qingchuan-humidifier-filter:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "加湿器滤芯怎么换",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.535801+00:00",
+              "updated_at": "2026-09-11T13:38:33.535801+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-clean:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "空气炸锅怎么清洗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.527301+00:00",
+              "updated_at": "2026-09-11T13:38:33.527301+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-install:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "安装",
+              "intent": "product",
+              "question": "空气炸锅包安装吗",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.518509+00:00",
+              "updated_at": "2026-09-11T13:38:33.518509+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-35-capacity:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "3.5L 空气炸锅适合几个人",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.508567+00:00",
+              "updated_at": "2026-09-11T13:38:33.508567+00:00"
+            },
+            {
+              "id": "demo:qingchuan-airfryer-5l-capacity:e24a17ed",
+              "knowledge_key": "<redacted>",
+              "category": "商品",
+              "intent": "product",
+              "question": "晴川空气炸锅 5L 容量是多少",
+              "source": "demo:qingchuan-catalog-v1",
+              "version": 1,
+              "review_status": "approved",
+              "created_at": "2026-09-11T13:38:33.500014+00:00",
+              "updated_at": "2026-09-11T13:38:33.500014+00:00"
+            }
+          ]
+        }
+      },
+      "candidates_after_rollback": {
+        "status_code": 200,
+        "body": {
+          "items": [
+            {
+              "id": "candidate-d7c8a2794a1b4109a6e6c2fc7ab4e58f",
+              "question": "REAL-USER-20260911-C01 是什么颜色和容量？",
+              "proposed_answer": "REAL-USER-20260911-C01 的容量是 6L，颜色是海盐白。",
+              "evidence_source": "local:REAL-USER-20260911-C01.txt",
+              "intent": "product",
+              "status": "rolled_back",
+              "gate_passed": true,
+              "gate_report": {
+                "passed": true,
+                "checks": {
+                  "length": true,
+                  "no_sensitive_numbers": true,
+                  "source_traceable": true,
+                  "candidate_retrievable": true,
+                  "candidate_retrieval_score": 1.1968,
+                  "retrieval_fit": true,
+                  "nearest_documents": [
+                    "kb-d30b8ed6664b41b284f7da7c0137b26d",
+                    "kb-fec100eeb8a542d7b914156cc7a87638",
+                    "kb-01088ef64bcc492b86ed986992861ec3"
+                  ],
+                  "output_policy": true,
+                  "output_policy_reason": "output_policy_passed",
+                  "high_risk_handoff_preserved": true,
+                  "semantic_alignment": true,
+                  "semantic_alignment_score": 0.7823,
+                  "lexical_evidence_overlap": 0.7143,
+                  "no_contradiction_markers": true,
+                  "retrieval_collision_free": true,
+                  "retrieval_collision_failures": [],
+                  "baseline_regression": true
+                },
+                "baseline": {
+                  "total": 20,
+                  "passed": 20,
+                  "failed": 0
+                },
+                "bound_content": "fb88c39b18ee706e064e880d3f2931750414d717c6a5a585f431fbc7e6bd47db"
+              },
+              "created_at": "2026-09-11T13:38:56.089795+00:00"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

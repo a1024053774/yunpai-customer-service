@@ -1,0 +1,61 @@
+{
+  "id": "F05",
+  "gate_passed": true,
+  "checks": {
+    "length": true,
+    "no_sensitive_numbers": true,
+    "source_traceable": true,
+    "candidate_retrievable": true,
+    "candidate_retrieval_score": 0.8969,
+    "retrieval_fit": true,
+    "nearest_documents": [
+      "seed-0013",
+      "seed-0004",
+      "seed-0007"
+    ],
+    "output_policy": true,
+    "output_policy_reason": "output_policy_passed",
+    "high_risk_handoff_preserved": true,
+    "semantic_alignment": true,
+    "semantic_alignment_score": 0.1693,
+    "lexical_evidence_overlap": 0.0,
+    "no_contradiction_markers": true,
+    "retrieval_collision_free": true,
+    "retrieval_collision_failures": [],
+    "baseline_regression": true
+  },
+  "report": {
+    "passed": true,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": true,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.8969,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0013",
+        "seed-0004",
+        "seed-0007"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": true,
+      "semantic_alignment_score": 0.1693,
+      "lexical_evidence_overlap": 0.0,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    },
+    "baseline": {
+      "total": 20,
+      "passed": 20,
+      "failed": 0
+    },
+    "bound_content": "e29b0a53b995a5223f8617e461a25476c0136ac6b8917834722db2a47600d4ac"
+  },
+  "candidate_id": "candidate-a29c94b5b2004227b3be6b6aa8697906",
+  "evidence_source": "https://totally-real.example/manual-page-99"
+}

@@ -1,0 +1,29 @@
+<!doctype html><meta charset=utf-8><title>F09 after</title><pre>{
+  "id": "F09",
+  "priority": "P1",
+  "level": "L1",
+  "status": "PASS",
+  "expected": "concurrent approve is exclusive; no duplicate active knowledge",
+  "actual": {
+    "evaluate_passed": true,
+    "successes": [
+      "op-a"
+    ],
+    "errors": [
+      "op-b:EvolutionError:candidate must pass evaluation before approval"
+    ],
+    "knowledge": [
+      {
+        "id": "kb-897b01427e0f4b92a9ef9b8b80b3dfcf",
+        "status": "active",
+        "source": "evolution:candidate-35c0cfaf75074fd49a81db629e674cc6",
+        "answer": "建议用毛球修剪器轻柔处理，避免用力拉扯；如果面料异常破损，请保留照片并联系人工核对。"
+      }
+    ],
+    "candidate": {
+      "status": "approved",
+      "resulting_knowledge_id": "kb-897b01427e0f4b92a9ef9b8b80b3dfcf"
+    },
+    "duplicate": false
+  }
+}</pre>

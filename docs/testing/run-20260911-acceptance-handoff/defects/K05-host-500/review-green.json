@@ -1,0 +1,25 @@
+{
+  "saved_utc": "2026-09-11T08:22:25.862499+00:00",
+  "id": "K05",
+  "phase": "independent-review",
+  "reviewer": "cursor-grok-4.6-xhigh-fast-fresh",
+  "command": "TestClient POST /v1/chat same Idempotency-Key; replay identical then different message",
+  "first_status": 200,
+  "first_message_id": "msg-ca8ab2b6a6de52a59ea72aafd843d198",
+  "first_answer_preview": "表驱动替身模型的固定回复，仅用于验收。",
+  "replay_status": 200,
+  "replay_message_id": "msg-ca8ab2b6a6de52a59ea72aafd843d198",
+  "same_message_id": true,
+  "second_status": 409,
+  "second_body": {
+    "detail": {
+      "code": "idempotency_key_conflict",
+      "message": "agent idempotency key is already bound to another request"
+    }
+  },
+  "second_looks_like_success": false,
+  "reused_previous_answer": false,
+  "stream_status": 409,
+  "stream_preview": "{\"detail\":{\"code\":\"idempotency_key_conflict\",\"message\":\"agent idempotency key is already bound to another request\"}}",
+  "ok": true
+}

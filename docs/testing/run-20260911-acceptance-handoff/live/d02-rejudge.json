@@ -1,0 +1,10 @@
+{
+  "id": "D02",
+  "original_probe_status": "FAIL",
+  "rejudge_status": "PASS",
+  "reason": "STOCK_RE matched warranty '12 个月' as if it were stock count; answer explicitly said no stock/sales/ETA in the document",
+  "invented_stock": false,
+  "missing_fields_disclosed": true,
+  "used_synthetic": true,
+  "saved_utc": "2026-09-11T08:21:04.087559+00:00"
+}

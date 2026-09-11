@@ -1,0 +1,10 @@
+{
+  "saved_utc": "2026-09-11T08:10:38.300152+00:00",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "skill_sha256_before": "6ec9c4f5aa274d8ec4791b55d4ce6ce0bd8a29ed06e7ea4ea4724d3593751427",
+  "skill_sha256_after": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "product_candidate_digest": "0016c55d33fe645d01843de11fe56e451f4569e06f9df54e3b7c63db01bc8156",
+  "note": "Skill version frozen separately from product candidate digest",
+  "red": "docs/testing/run-20260911-acceptance-handoff/skill-fix/red.json",
+  "green": "docs/testing/run-20260911-acceptance-handoff/skill-fix/green.json"
+}

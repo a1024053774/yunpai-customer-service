@@ -1,0 +1,1 @@
+{"model_identity_persisted": false, "same_dimension_mix_rejected": false, "d07_from_this_probe": "FAIL", "reason": "Same-dimension different-model vectors were retrieved without rejection or controlled migration. Model identity is not persisted on knowledge rows."}

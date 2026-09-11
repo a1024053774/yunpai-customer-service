@@ -1,0 +1,16 @@
+{"case_id": "LIVE-01", "status_code": null, "duration_ms": 2, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-02", "status_code": null, "duration_ms": 1, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-03", "status_code": null, "duration_ms": 0, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-04", "status_code": null, "duration_ms": 0, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-05", "status_code": null, "duration_ms": 0, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-06", "status_code": null, "duration_ms": 0, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-07", "status_code": null, "duration_ms": 1, "error_type": "ConnectError", "persisted_matches_response": null}
+{}
+{"case_id": "LIVE-08", "status_code": null, "duration_ms": 1, "error_type": "ConnectError", "persisted_matches_response": null}
+{}

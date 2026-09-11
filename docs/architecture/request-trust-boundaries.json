@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "主请求路径与信任边界 · 目标示意",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1320,
+      540
+    ]
+  },
+  "components": [
+    {
+      "id": "client-browser",
+      "type": "frontend",
+      "label": "Browser",
+      "sublabel": "用户输入与会话凭据",
+      "pos": [
+        65,
+        220
+      ],
+      "size": [
+        210,
+        110
+      ]
+    },
+    {
+      "id": "edge-gateway",
+      "type": "backend",
+      "label": "API Gateway",
+      "sublabel": "HTTPS 入口与请求约束",
+      "pos": [
+        395,
+        220
+      ],
+      "size": [
+        210,
+        110
+      ]
+    },
+    {
+      "id": "identity-service",
+      "type": "security",
+      "label": "Auth Service",
+      "sublabel": "验证凭据与租户权限",
+      "pos": [
+        725,
+        220
+      ],
+      "size": [
+        210,
+        110
+      ]
+    },
+    {
+      "id": "identity-store",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "身份记录与授权状态",
+      "pos": [
+        1055,
+        220
+      ],
+      "size": [
+        210,
+        110
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "不可信客户端",
+      "wraps": [
+        "client-browser"
+      ],
+      "pad": 24
+    },
+    {
+      "kind": "security-group",
+      "label": "公网入口",
+      "wraps": [
+        "edge-gateway"
+      ],
+      "pad": 24
+    },
+    {
+      "kind": "security-group",
+      "label": "应用信任域",
+      "wraps": [
+        "identity-service"
+      ],
+      "pad": 24
+    },
+    {
+      "kind": "security-group",
+      "label": "私有数据域",
+      "wraps": [
+        "identity-store"
+      ],
+      "pad": 24
+    }
+  ],
+  "connections": [
+    {
+      "id": "browser-request",
+      "from": "client-browser",
+      "to": "edge-gateway",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "verify-request",
+      "from": "edge-gateway",
+      "to": "identity-service",
+      "label": "认证请求",
+      "variant": "security"
+    },
+    {
+      "id": "identity-query",
+      "from": "identity-service",
+      "to": "identity-store",
+      "label": "受限查询",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "信任逐层建立",
+      "items": [
+        "客户端字段不能授予身份或租户权限。",
+        "数据库只接受服务端受限账号访问。"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "箭头代表主请求",
+      "items": [
+        "认证结果沿调用链返回；失败时拒绝业务处理。",
+        "真实网关、认证部署与数据库连接仍需按环境配置。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "与当前仓库的区别",
+      "items": [
+        "按你指定的 PostgreSQL 路径绘制。",
+        "当前客服实际用 SQLite，认证在 FastAPI 进程内。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "run_id": "run-20260911-1416-grok46",
+  "saved_utc": "2026-09-11T06:27:57.852161+00:00",
+  "evolution_py_sha256": "0973a53a8453518bd4dcfc212cc97120940d1f6a5ab3aace6acbd11f4b3c1137",
+  "policy_py_sha256": "7d05f60604b3121d4b360f0e14e07499450f1405ae8a13b1b427bfd892628014",
+  "previous_evolution_sha256": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+  "note": "new freeze after F05/F10/7.2 minimal fixes; F09/F11 reviews stay on 7589cda0"
+}

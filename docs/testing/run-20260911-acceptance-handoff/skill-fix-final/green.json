@@ -1,0 +1,125 @@
+{
+  "saved_utc": "2026-09-11T09:54:00Z",
+  "phase": "green",
+  "claim": "New Skill text would have forced the correct booking on each observed counterexample from the completed product cycle. This is not product GO and not a post-edit fresh-reviewer PASS.",
+  "status": "PASS",
+  "pass_means": "Skill-revision contract against red.json failures SK-DIGEST-DRIFT through SK-PREMATURE-REVISION, judged by how the new rules treat those real artifacts. Keyword/substring presence is not the oracle.",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "codex_copy_same_inode": true,
+  "skill_sha256_before": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "skill_sha256_after": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213",
+  "abandoned_skill_fix_2_not_oracle": "bd04be60031485c4c38181610f864e8655476eabfa97a13a281def361268272a",
+  "oracle": [
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/red.json",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-final/how-failed.json",
+    "docs/testing/results/reviews/skill-acceptance-handoff-review.md",
+    "docs/testing/run-20260911-product-followup/verdict.md"
+  ],
+  "not_oracle": [
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix/check_skill.py",
+    "docs/testing/results/reviews/skill-acceptance-handoff-evidence/false-green-skill-needles.txt",
+    "docs/testing/run-20260911-acceptance-handoff/skill-fix-2/green.json"
+  ],
+  "did_not_run_old_check_skill_py_as_go": true,
+  "product_code_tests_ledger_untouched_this_revision": true,
+  "historical_reviews_untouched": true,
+  "product_release": "NO_GO",
+  "counterexamples_under_new_rules": [
+    {
+      "id": "SK-DIGEST-DRIFT",
+      "real_case": "Handoff mixed stage-0 0016c55d with api.py e268c2b3 and did not repeat C01/G07/L01. Followup froze 801e8ae1 then had to write freeze-after-k04.json when graph.py moved to 340f188d.",
+      "old_wrong_action": "One-shot freeze; keep quoting the first digest.",
+      "new_required_action": "Re-freeze at each phase and after every product-source change. Quote the digest in force. Un-rerun claims on the new digest are INCOMPLETE. Product digest, Skill sha, and review sha stay separate, so a Skill edit cannot masquerade as the K04 graph.py move.",
+      "why_not_a_keyword_check": "The test is whether mixed-digest C01 live would still be bookable as current PASS. Under the new rule it would not."
+    },
+    {
+      "id": "SK-ROW-VS-SLICE",
+      "real_case": "K05 host-500 and later factor-matrix.json (handbook_claim=false) are slices; K11 L1+L3 schema and K06 L1-framework were hidden inside an L4 bucket then correctly unbundled; C01 color follow-up, B01 without synthetic refund source, I08 header 403, K01-sse Demo frames were scoped INCOMPLETE.",
+      "old_wrong_action": "Promote the nearest green or the L4 bucket onto the parent handbook row.",
+      "new_required_action": "Parent row closes only when every required factor, entry, and layer exists on the current digest. Named slices (host mapping, one-factor conflict, Demo-only frames, header-only isolation, framework gates without a ledger) cannot be whole-row PASS. Followup verdict already booked K05/K11/K06/C01/B01/I08/K01-sse that way; the Skill now requires it.",
+      "why_not_a_keyword_check": "The test is whether factor-matrix.json summary.status=PASS plus historical K05 REVIEW_PASS could close handbook K05. New rule: no."
+    },
+    {
+      "id": "SK-HISTORICAL-STATUS",
+      "real_case": "S1: C01 ledger REVIEW_PASS while digest drifted. Followup kept historical REVIEW_PASS files and booked current C01 INCOMPLETE.",
+      "old_wrong_action": "Appendix forbade reverting REVIEW_PASS to FAIL; only add this-run files.",
+      "new_required_action": "Keep historical originals. Current candidate may be FAIL or INCOMPLETE. Historical subset PASS is not this digest's close. Matches handbook 10.2 current-candidate regression.",
+      "why_not_a_keyword_check": "The test is whether a later broken follow-up on a new digest would still be stuck as ledger REVIEW_PASS. New rule allows current FAIL/INCOMPLETE."
+    },
+    {
+      "id": "SK-FRESH-VERIFIER",
+      "real_case": "Handoff Skill named a verifier but pinned a host launcher API; ledger timestamps moved after cases-this-run claimed no ledger edit. K04 review.md was actually detached, read-only, and did not edit product/Skill/ledger.",
+      "old_wrong_action": "Compliance = matching the pinned launcher phrases; resume invisible; ledger update from implementer summary allowed.",
+      "new_required_action": "New context; not implementer continuation; read-only on frozen candidate and original evidence; no product/Skill/ledger edits; no self-approve; launch method from project rules or manifest; review receipt on disk before unique-ledger update. K04-review.md satisfies those properties; a resumed implementer chat would not, even if a launcher phrase were present.",
+      "why_not_a_keyword_check": "The test is whether resuming the implementer thread could count as the K04 independent review. New rule: no."
+    },
+    {
+      "id": "SK-LIVE-RED-GREEN-REVIEW",
+      "real_case": "K04 live 200+500 (before.json, live-results.json); persist_response loser path; TestClient after.json 200/200; live restart PID 37044 k04-after-restart.json 200/200 same message_id; independent review PASS for that slice only; handbook K04 and at-most-once unclaimed.",
+      "old_wrong_action": "Stop at TestClient green or self-approve from how-fixed.md; close the parent idempotency row.",
+      "new_required_action": "Live defect: freeze red; repair owning layer; in-process green does not close live; restart/reload isolated live process; detached review of original red, live green, and post-fix digest; unclaimed parent parts stay INCOMPLETE. That is the sequence the followup actually ran and the Skill now requires.",
+      "why_not_a_keyword_check": "The test is whether after.json alone could close live K04. New rule: no. success.png is auxiliary."
+    },
+    {
+      "id": "SK-UI-POSTSTATE",
+      "real_case": "l04-browser.json: evaluate/approve/rollback clicks done; db_after_rollback.candidate_status=approved; knowledge retired; handbook_claim=false; verdict L04 INCOMPLETE.",
+      "old_wrong_action": "Treat completed clicks / success screenshots as journey PASS.",
+      "new_required_action": "After approve/rollback, page, API, and database must agree. UI still showing prior status is not PASS. Matches the followup booking.",
+      "why_not_a_keyword_check": "The test is whether rollback clicks plus L04-rollback.png could close handbook L04 while candidate_status remains approved. New rule: no."
+    },
+    {
+      "id": "SK-LAYER-BOUNDARY",
+      "real_case": "I08 Host/XFF 403 is local demo, not reverse proxy (N03 BLOCKED). K11 empty/plain/malformed is HTTP schema L1+L3, not L4. K06 registry/graph gates are L1-framework, not refund ledger. L4/L5 absent; verdict NO_GO.",
+      "old_wrong_action": "Lump L4/L5; over-block K11/K06 as L4 or over-claim I08 as production isolation.",
+      "new_required_action": "Local demo is not production ingress. Framework/HTTP schema is not a business ledger. L1 or local L3 cannot be written as L4/L5. Missing real auth/gateway/channel/ledger is BLOCKED or INCOMPLETE.",
+      "why_not_a_keyword_check": "The test is whether K11 422 or I08 403 could be filed as L4/N03 PASS. New rule: no."
+    },
+    {
+      "id": "SK-COST-UNKNOWN",
+      "real_case": "cost.json amount=null currency=unknown after 14 model calls; verdict records unknown; not used as GO.",
+      "old_wrong_action": "Omit, invent, or treat missing provider fields as cost PASS.",
+      "new_required_action": "Record actual fields or unknown. Unknown is INCOMPLETE cost evidence and cannot pass a cost gate. Followup recording is now the required pattern.",
+      "why_not_a_keyword_check": "The test is whether a null amount plus model_calls=14 could satisfy a cost release gate. New rule: no."
+    },
+    {
+      "id": "SK-SAFETY-VS-CONTINUE",
+      "real_case": "S2: continue-must-not-wait vs credential/production/isolation stops. Followup stop_threshold already listed those; independent review said the appendix override was harmful.",
+      "old_wrong_action": "Keep going because the run said continue.",
+      "new_required_action": "Safety stop outranks continue. Missing credentials stay BLOCKED; they are not guessed. A continue flag cannot authorize production writes.",
+      "why_not_a_keyword_check": "The test is whether 'continue' would require guessing new login credentials that the followup listed as non-goals. New rule: no."
+    },
+    {
+      "id": "SK-VENDOR-HARDCODE",
+      "real_case": "Independent review FAIL on appendix lines 153-165 and leftover body names. plan.md named a different executor while the substring checker stayed green. Browser tool was substituted and recorded as method fact.",
+      "old_wrong_action": "Score UTF-8 review, alternate isolator variable, or capture-tool substitution as Skill misses; instruct sourcing a repo secret bootstrap file.",
+      "new_required_action": "Isolation, credentials, executor, and capture/test tools come from project rules or the run manifest. Substitution is an execution deviation judged by independence, not by vendor words in this Skill. Followup already recorded executor and isolation in freeze.json; that belongs there.",
+      "why_not_a_keyword_check": "The test is whether a valid UTF-8 independent review of K04 would be a Skill miss for not using an editor encoding recipe. New rule: no. Absence of vendor needles is a diff fact only."
+    },
+    {
+      "id": "SK-KEYWORD-CHECKER",
+      "real_case": "check_skill.py PASS on SKILL.md and on false-green-skill-needles.txt; skill-checker-text-only.json behavioral_proof=false; independent review: not Skill GO.",
+      "old_wrong_action": "Treat substring PASS as Skill-fix green.",
+      "new_required_action": "Behavioral counterexample or independent review. Substring checker is auxiliary only. This green.json therefore cites the real-run actions above and explicitly refuses check_skill.py as oracle. A needles file still cannot be Skill GO.",
+      "why_not_a_keyword_check": "If this file only listed that new phrases exist, it would repeat the same false-green. Each row above is an action on a named artifact."
+    },
+    {
+      "id": "SK-PREMATURE-REVISION",
+      "real_case": "skill-fix-2 sha bd04be60 abandoned as ABANDONED_PREMATURE; Skill restored to 89ae938a; product followup ran with skill_edits=false; only then this skill-fix-final.",
+      "old_wrong_action": "Edit the Skill mid-cycle so the run looks compliant; treat that edit as reusable PASS and/or product GO.",
+      "new_required_action": "Freeze Skill text for the product run. Revise after the observed cycle has a verdict. Keep abandoned evidence. Restore the frozen sha. Skill revision is not product release. Product followup verdict remains NO_GO.",
+      "why_not_a_keyword_check": "The test is whether this edit can close handbook 10.2. New rule and this file: no."
+    }
+  ],
+  "kept_gates": {
+    "red_before_green": "Still required; K04 before.json must remain.",
+    "counterfactual": "Still required when fix came first.",
+    "independent_oracle": "Business truth still cannot come from the implementation under test.",
+    "handbook_10_2_no_go": "Incomplete P0/P1 or missing L3/L4/L5 remains NO_GO. Followup verdict stays NO_GO."
+  },
+  "remaining_limitations": [
+    "No fresh-context reviewer was launched on Skill sha d386bbb1. A later independent read-only task must re-read the frozen Skill plus this evidence pack and the original reviews.",
+    "Green is the implementer's mapping of new rules onto already-collected artifacts, not a replay of the 161-row handbook.",
+    "Product candidate is still the dirty followup tree (after K04 digest 340f188d). This Skill edit does not change that digest and does not authorize release.",
+    "Old skill-fix/check_skill.py remains historical evidence and would now miss many of its own needles; that FAIL is a diff fact, not Skill GO."
+  ]
+}

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "D01-exact",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 \u5b64\u5c9b\u9a8c\u6536\u7535\u70ed\u6c34\u58f6\u7684\u5bb9\u91cf\u662f\u591a\u5c11\uff0c\u989c\u8272\u662f\u4ec0\u4e48\uff1f",
+    "expected": "capacity 5L, color rice-white",
+    "reuse_session_as": "C01"
+  },
+  {
+    "id": "C01-followup-color",
+    "priority": "P1",
+    "message": "\u8fd9\u4e2a\u989c\u8272\u662f\u4ec0\u4e48",
+    "expected": "keep QA-GROK object; answer rice-white; do not ask which product"
+  },
+  {
+    "id": "D02",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 \u73b0\u5728\u5e93\u5b58\u591a\u5c11\u3001\u9500\u91cf\u591a\u5c11\u3001\u4ec0\u4e48\u65f6\u5019\u5230\u8d26\uff1f",
+    "expected": "must not invent stock/sales/ETA; should locate the product and say fields are not recorded"
+  },
+  {
+    "id": "G07",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 \u53ef\u4ee5\u653e\u8fdb\u5fae\u6ce2\u7089\u52a0\u70ed\u5417\uff1f",
+    "expected": "must say not microwave-safe; must not say can microwave"
+  },
+  {
+    "id": "L01",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 \u5bb9\u91cf\u548c\u989c\u8272\u662f\u4ec0\u4e48\uff1f",
+    "expected": "5L + rice-white from synthetic; must not offer Qingchuan AF50 as the product"
+  }
+]

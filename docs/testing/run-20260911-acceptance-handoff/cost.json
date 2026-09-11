@@ -1,0 +1,89 @@
+{
+  "run_id": "run-20260911-acceptance-handoff",
+  "currency": "CNY-unknown",
+  "model_calls": 14,
+  "http_ms_total": 88174,
+  "note": "provider did not return token/cost fields; duration recorded only; restart probe added extra live calls; still no currency amount",
+  "items": [
+    {
+      "id": "B01",
+      "ms": 5876,
+      "kind": "model"
+    },
+    {
+      "id": "B02",
+      "ms": 2689,
+      "kind": "model"
+    },
+    {
+      "id": "B03",
+      "ms": 7046,
+      "kind": "model"
+    },
+    {
+      "id": "B04",
+      "ms": 6972,
+      "kind": "model"
+    },
+    {
+      "id": "D01",
+      "ms": 4621,
+      "kind": "model"
+    },
+    {
+      "id": "D02",
+      "ms": 6493,
+      "kind": "model"
+    },
+    {
+      "id": "G07",
+      "ms": 3138,
+      "kind": "model"
+    },
+    {
+      "id": "L01",
+      "ms": 9639,
+      "kind": "model"
+    },
+    {
+      "id": "B08-typo",
+      "ms": 5028,
+      "kind": "model"
+    },
+    {
+      "id": "C01-turn1",
+      "ms": 4776,
+      "kind": "model"
+    },
+    {
+      "id": "C01-turn2",
+      "ms": 9275,
+      "kind": "model"
+    },
+    {
+      "id": "K-sse",
+      "ms": 7147,
+      "kind": "model"
+    },
+    {
+      "id": "F01-chat",
+      "ms": 8378,
+      "kind": "model"
+    },
+    {
+      "id": "J01",
+      "ms": 7096,
+      "kind": "model"
+    }
+  ],
+  "updated_utc": "2026-09-11T08:27:16.815098+00:00",
+  "model_calls_stage_live_round": 14,
+  "extra_after_restart": {
+    "C08_demo_chat": "yes",
+    "K05_host_first": "yes_live_200",
+    "K05_host_conflict": "409_no_model",
+    "wall_s_probe_restart": 13,
+    "provider_token_cost": null
+  },
+  "reviewer_k05": "TestClient TableDrivenModel; not billed as live tokens"
+}

@@ -3,24 +3,28 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import asdict
 import json
 from collections.abc import Iterator
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..config import Settings
+from ..domain_profiles import profile_for_domain
+from ..knowledge_ingest import DocumentIngestError, ingest_document
 from ..message_media import public_message_media
-from ..schemas import ChatImageInput
+from ..schemas import ChatImageInput, FeedbackRequest
 from .runtime import DemoRuntime, build_demo_runtime
 
 STATIC_DIR = Path(__file__).with_name("static")
 INDEX_HTML = STATIC_DIR / "index.html"
+ADMIN_HTML = STATIC_DIR / "admin.html"
 LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost", "testclient"})
 
 
@@ -40,8 +44,19 @@ class DemoChatRequest(BaseModel):
 
 def _require_loopback(request: Request) -> None:
     host = (request.client.host if request.client else "") or ""
-    if host not in LOOPBACK_HOSTS:
-        raise HTTPException(status_code=403, detail="demo UI is limited to loopback clients")
+    request_host = request.url.hostname or ""
+    test_host = host == "testclient" and request_host == "testserver"
+    forwarded = any(name in request.headers for name in (
+        "Forwarded", "X-Forwarded-For", "X-Forwarded-Host", "X-Real-IP"
+    ))
+    origin = request.headers.get("Origin")
+    try:
+        local_origin = not origin or urlsplit(origin).hostname in LOOPBACK_HOSTS
+    except ValueError:
+        local_origin = False
+    if (host not in LOOPBACK_HOSTS or forwarded or not local_origin
+            or (request_host not in LOOPBACK_HOSTS and not test_host)):
+        raise HTTPException(status_code=403, detail="demo UI is limited to direct loopback clients")
 
 
 def _demo_internal_session(runtime: DemoRuntime, session_id: str) -> str | None:
@@ -93,9 +108,190 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "model_provider": runtime.settings.model_provider,
             "vision_enabled": runtime.settings.vision_enabled,
             "vision_model": runtime.settings.vision_model_name,
+            "embedding_provider": runtime.core.knowledge.embedding_provider.name,
+            "embedding_model": runtime.settings.rag_embedding_model,
             "store_name": runtime.store_name,
+            "tenant_id": runtime.principal.tenant_id,
+            "business_domain": runtime.settings.business_domain,
+            "business_domain_label": profile_for_domain(runtime.settings.business_domain)["label"],
             "context": runtime.chat_context,
         }
+
+    @app.get("/admin", include_in_schema=False)
+    def admin(request: Request) -> FileResponse:
+        _require_loopback(request)
+        if not ADMIN_HTML.is_file():
+            raise HTTPException(status_code=404, detail="admin page is missing")
+        return FileResponse(ADMIN_HTML, media_type="text/html; charset=utf-8")
+
+    def owns_original(runtime: DemoRuntime, stored_name: str) -> bool:
+        digest, separator, filename = stored_name.partition("-")
+        if not separator or len(digest) != 16 or any(ch not in "0123456789abcdef" for ch in digest):
+            return False
+        prefix = f"upload://{filename}?sha256={digest}#"
+        with runtime.db.connect() as conn:
+            row = conn.execute(
+                "SELECT 1 FROM knowledge WHERE tenant_id=? AND category='uploaded_document' "
+                "AND substr(source, 1, ?)=? LIMIT 1",
+                (runtime.principal.tenant_id, len(prefix), prefix),
+            ).fetchone()
+        return row is not None
+
+    @app.get("/api/knowledge/files")
+    def knowledge_files(request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        root = runtime.settings.data_dir / "knowledge_uploads"
+        if not root.is_dir():
+            return {"items": []}
+        items = []
+        for path in sorted(root.iterdir(), key=lambda item: item.stat().st_mtime, reverse=True):
+            if path.is_file() and not path.is_symlink() and owns_original(runtime, path.name):
+                stat = path.stat()
+                items.append({"name": path.name, "size_bytes": stat.st_size, "modified_at": stat.st_mtime})
+        return {"items": items[:100]}
+
+    @app.get("/api/knowledge/files/{stored_name}")
+    def knowledge_file(stored_name: str, request: Request) -> FileResponse:
+        runtime = runtime_of(request)
+        root = (runtime.settings.data_dir / "knowledge_uploads").resolve()
+        path = (root / stored_name).resolve()
+        if path.parent != root or not path.is_file() or not owns_original(runtime, stored_name):
+            raise HTTPException(status_code=404, detail="knowledge file not found")
+        return FileResponse(path, filename=path.name, media_type="application/octet-stream")
+
+    @app.get("/api/knowledge")
+    def knowledge_list(request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        with runtime.db.connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT id, knowledge_key, category, intent, question, source, version,
+                       review_status, created_at, updated_at
+                FROM knowledge
+                WHERE tenant_id=? AND layer <> 'memory' AND status='active'
+                ORDER BY updated_at DESC, created_at DESC
+                LIMIT 200
+                """,
+                (runtime.principal.tenant_id,),
+            ).fetchall()
+        return {"items": [dict(row) for row in rows]}
+
+    @app.post("/api/knowledge/reindex")
+    def knowledge_reindex(request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        updated = runtime.core.knowledge.rebuild_embeddings(
+            tenant_id=runtime.principal.tenant_id
+        )
+        return {
+            "updated": updated,
+            "embedding_provider": runtime.core.knowledge.embedding_provider.name,
+        }
+
+    @app.get("/api/evolution/candidates")
+    def evolution_candidates(request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        candidates = runtime.core.evolution.list_candidates(tenant_id=runtime.principal.tenant_id)
+        return {"items": [item.model_dump() for item in candidates]}
+
+    @app.post("/api/knowledge/import")
+    async def knowledge_import(
+        request: Request,
+        file: UploadFile = File(...),
+        intent: str = Form("product_inquiry"),
+    ) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        if intent not in {"product_inquiry", "after_sales", "complaint", "chitchat"}:
+            raise HTTPException(status_code=422, detail="不支持的意图分类")
+        content = await file.read()
+        try:
+            imported = ingest_document(
+                runtime.core.knowledge,
+                filename=file.filename or "",
+                content=content,
+                tenant_id=runtime.principal.tenant_id,
+                intent=intent,
+                source_prefix="upload",
+                storage_dir=runtime.settings.data_dir / "knowledge_uploads",
+            )
+        except DocumentIngestError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return {
+            "filename": file.filename,
+            "count": len(imported),
+            "items": [asdict(item) for item in imported],
+        }
+
+    @app.post("/api/evolution/candidates/{candidate_id}/evaluate")
+    def evaluate_candidate(candidate_id: str, request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        try:
+            result = runtime.core.evolution.evaluate(candidate_id, tenant_id=runtime.principal.tenant_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return result.model_dump()
+
+    @app.post("/api/evolution/candidates/{candidate_id}/approve")
+    async def approve_candidate(candidate_id: str, request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        payload = await request.json()
+        try:
+            result = runtime.core.evolution.approve(
+                candidate_id,
+                operator=runtime.principal.client_id,
+                note=str(payload.get("note") or "demo 管理员批准"),
+                tenant_id=runtime.principal.tenant_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return result.model_dump()
+
+    @app.post("/api/evolution/candidates/{candidate_id}/rollback")
+    def rollback_candidate(candidate_id: str, request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        with runtime.db.connect() as conn:
+            row = conn.execute(
+                "SELECT resulting_knowledge_id FROM evolution_candidates WHERE id=? AND tenant_id=?",
+                (candidate_id, runtime.principal.tenant_id),
+            ).fetchone()
+        if row is None or not row["resulting_knowledge_id"]:
+            raise HTTPException(status_code=422, detail="候选尚未生成可回滚的知识版本")
+        try:
+            changed = runtime.core.evolution.rollback(
+                str(row["resulting_knowledge_id"]),
+                operator=runtime.principal.client_id,
+                note="demo 管理员回滚",
+                tenant_id=runtime.principal.tenant_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return {"candidate_id": candidate_id, "rolled_back": changed}
+
+    @app.post("/api/evolution/candidates/{candidate_id}/reject")
+    async def reject_candidate(candidate_id: str, request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        payload = await request.json()
+        try:
+            result = runtime.core.evolution.reject(
+                candidate_id,
+                operator=runtime.principal.client_id,
+                note=str(payload.get("note") or "demo 管理员驳回"),
+                tenant_id=runtime.principal.tenant_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return result.model_dump()
+
+    @app.post("/api/feedback")
+    def feedback(payload: FeedbackRequest, request: Request) -> dict[str, Any]:
+        runtime = runtime_of(request)
+        try:
+            result = runtime.core.evolution.submit_feedback(
+                payload,
+                tenant_id=runtime.principal.tenant_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        return result.model_dump()
 
     @app.post("/api/chat")
     def chat(payload: DemoChatRequest, request: Request) -> dict[str, Any]:
@@ -220,14 +416,14 @@ def main(argv: list[str] | None = None) -> None:
             "缺少示例依赖。请先执行：pip install 'yunpai-customer-service[demo]'"
         ) from exc
 
-    parser = argparse.ArgumentParser(description="启动智能客服示例聊天页")
+    parser = argparse.ArgumentParser(description="启动云派智能客服本机演示")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
     if args.host not in {"127.0.0.1", "localhost", "::1"}:
         raise SystemExit("示例服务只允许绑定回环地址（127.0.0.1 / localhost / ::1）")
 
-    print(f"智能客服示例：http://{args.host}:{args.port}/")
+    print(f"云派智能客服：http://{args.host}:{args.port}/")
     uvicorn.run(create_app(), host=args.host, port=args.port, log_level="info")
 
 

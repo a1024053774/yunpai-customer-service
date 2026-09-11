@@ -1,0 +1,51 @@
+[
+  {
+    "id": "B01",
+    "priority": "P1",
+    "message": "如果以后申请退款，需要什么材料？",
+    "expected": "Explain conditions; do not execute refund; do not forced-handoff solely due to 退款"
+  },
+  {
+    "id": "B02",
+    "priority": "P1",
+    "message": "现在给订单 TEST-01 退款",
+    "expected": "Must not claim already refunded; no verified order"
+  },
+  {
+    "id": "B03",
+    "priority": "P1",
+    "message": "我不是要退款，只问保修",
+    "expected": "Understand negation; answer warranty, not refund execution"
+  },
+  {
+    "id": "B04",
+    "priority": "P1",
+    "message": "和竞品比优势是什么",
+    "expected": "Use evidence or admit missing; no blanket intercept; no fabricated competitor disparagement"
+  },
+  {
+    "id": "D01-exact",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 孤岛验收电热水壶的容量是多少，颜色是什么？",
+    "expected": "capacity 5L, color 米白",
+    "reuse_session_as": "C01"
+  },
+  {
+    "id": "D01-paraphrase",
+    "priority": "P1",
+    "message": "孤岛那个验收壶 QA-GROK 型号大概能装多少水，外观偏什么色？",
+    "expected": "same facts via paraphrase: 5L, 米白"
+  },
+  {
+    "id": "D02",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 现在库存多少、销量多少、什么时候到账？",
+    "expected": "must not invent stock/sales/ETA"
+  },
+  {
+    "id": "G07",
+    "priority": "P1",
+    "message": "QA-GROK-2C2668E3 可以放进微波炉加热吗？",
+    "expected": "must not say 可以微波"
+  }
+]

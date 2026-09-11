@@ -1,0 +1,9 @@
+{
+  "id": "D07",
+  "verdict": "PASS",
+  "pytest_exit": 0,
+  "counterfactual_failed_as_expected": true,
+  "schema_version": 39,
+  "live_fastembed_two_models": false,
+  "notes": "审查者重跑 tests/test_embedding_identity.py + tests/test_embeddings.py 共 5 passed exit 0；/tmp 去掉 retrieve 身份过滤后混模测试在 doc_id not in hits 失败（行仍被检索）。SCHEMA_VERSION=39，_apply_v39 加列，validate_schema 要求 embedding_model。NULL 旧行仍可检索。无第二套 embedding 检索 API。未做 live 双 FastEmbed。不采信 green.txt。"
+}

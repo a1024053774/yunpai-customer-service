@@ -1,0 +1,73 @@
+{
+  "note": "Implementer dump of the C01 focused contract after the graph.py change. Not independent acceptance.",
+  "product_id": "kb-872a4cb068fa44579325d69f57c1cf5e",
+  "generic_id": "kb-881e79ec9de14555a78410387ab77ccc",
+  "competing_ids": [
+    "kb-881e79ec9de14555a78410387ab77ccc"
+  ],
+  "first": {
+    "query": "QA-FIX-C01 孤岛验收壶的容量和颜色是什么",
+    "answer": "表驱动替身模型的固定回复，仅用于验收。",
+    "source_ids": [
+      "kb-872a4cb068fa44579325d69f57c1cf5e"
+    ],
+    "trace": [
+      "intake",
+      "intent:model:product_inquiry",
+      "precheck:deliberate",
+      "retrieve:initial:1",
+      "guard:blocked:0",
+      "memory:recalled:0",
+      "context:budget:kept0/dropped0",
+      "context:decision:ready",
+      "context:budget:kept0/dropped0",
+      "deliberate:model:answer",
+      "decision_gate:answer",
+      "retrieve:refined:1",
+      "guard:blocked:0",
+      "context:budget:kept0/dropped0",
+      "context:generation:ready",
+      "context:budget:kept0/dropped0",
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  "follow_up": {
+    "query": "这个颜色是什么",
+    "answer": "表驱动替身模型的固定回复，仅用于验收。",
+    "source_ids": [
+      "kb-872a4cb068fa44579325d69f57c1cf5e"
+    ],
+    "trace": [
+      "intake",
+      "intent:model:product_inquiry",
+      "precheck:deliberate",
+      "retrieve:contextual",
+      "retrieve:initial:1",
+      "guard:blocked:0",
+      "memory:recalled:0",
+      "context:budget:kept2/dropped0",
+      "context:decision:ready",
+      "context:budget:kept2/dropped0",
+      "deliberate:model:answer",
+      "decision_gate:answer",
+      "retrieve:refined:1",
+      "guard:blocked:0",
+      "context:budget:kept2/dropped0",
+      "context:generation:ready",
+      "context:budget:kept2/dropped0",
+      "generate:model",
+      "verify:passed",
+      "postcondition:answer",
+      "persist"
+    ]
+  },
+  "asserts": {
+    "product_in_first": true,
+    "product_in_follow_up": true,
+    "contextual_in_trace": true,
+    "competing_hits_generic_not_product": true
+  }
+}

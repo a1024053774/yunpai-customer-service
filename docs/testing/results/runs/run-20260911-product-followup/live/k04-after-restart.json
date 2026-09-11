@@ -1,0 +1,32 @@
+{
+  "saved_utc": "2026-09-11T09:37:21.184538+00:00",
+  "id": "K04",
+  "phase": "live-green-after-restart",
+  "host": "127.0.0.1:55723",
+  "runtime_pid": 37044,
+  "status_codes": [
+    200,
+    200
+  ],
+  "message_ids": [
+    "msg-83d415062a7e5db9aa4a20cb317d6081",
+    "msg-83d415062a7e5db9aa4a20cb317d6081"
+  ],
+  "same_message_id": true,
+  "has_500": false,
+  "status": "PASS",
+  "rows": [
+    {
+      "status": 200,
+      "message_id": "msg-83d415062a7e5db9aa4a20cb317d6081"
+    },
+    {
+      "status": 200,
+      "message_id": "msg-83d415062a7e5db9aa4a20cb317d6081"
+    }
+  ],
+  "notes": [
+    "same DATA_DIR; process restarted to load graph.py persist_response fix",
+    "does not close crash-recovery or at-most-once graph execution"
+  ]
+}

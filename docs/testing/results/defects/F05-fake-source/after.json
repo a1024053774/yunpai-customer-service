@@ -1,0 +1,39 @@
+{
+  "id": "F05",
+  "priority": "P1",
+  "level": "L1",
+  "status": "PASS",
+  "expected": "non-empty fake https source is not sufficient to pass evaluate",
+  "actual": {
+    "status": "PASS",
+    "gate_passed": false,
+    "checks": {
+      "length": true,
+      "no_sensitive_numbers": true,
+      "source_traceable": false,
+      "candidate_retrievable": true,
+      "candidate_retrieval_score": 0.8969,
+      "retrieval_fit": true,
+      "nearest_documents": [
+        "seed-0013",
+        "seed-0004",
+        "seed-0007"
+      ],
+      "output_policy": true,
+      "output_policy_reason": "output_policy_passed",
+      "high_risk_handoff_preserved": true,
+      "semantic_alignment": true,
+      "semantic_alignment_score": 0.1693,
+      "lexical_evidence_overlap": 0.0,
+      "no_contradiction_markers": true,
+      "retrieval_collision_free": true,
+      "retrieval_collision_failures": [],
+      "baseline_regression": true
+    }
+  },
+  "notes": [
+    "same signal as l1/f05-full.json",
+    "source_traceable=false for URL; gate_passed=false",
+    "free-text manual:wool-care still gate_passed=true"
+  ]
+}

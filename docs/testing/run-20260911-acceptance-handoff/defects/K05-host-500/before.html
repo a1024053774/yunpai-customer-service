@@ -1,0 +1,12 @@
+<!doctype html><meta charset=utf-8><title>K05 red</title><pre>{
+  "saved_utc": "2026-09-11T08:19:00.742001+00:00",
+  "id": "K05",
+  "phase": "red",
+  "command": "TestClient POST /v1/chat twice, same Idempotency-Key, different message",
+  "first_status": 200,
+  "second_status": 500,
+  "second_body_preview": "Internal Server Error",
+  "expected": "409/422 with idempotency_key_conflict, not 500",
+  "observed": 500,
+  "status": "FAIL"
+}</pre>

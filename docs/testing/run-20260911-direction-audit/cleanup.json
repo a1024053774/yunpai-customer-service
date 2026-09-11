@@ -1,0 +1,19 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "cleanup_recorded_utc": "2026-09-11T11:21:30.102596+00:00",
+  "service_pid": 51538,
+  "demo": "127.0.0.1:58722",
+  "host_api": "127.0.0.1:58723",
+  "ports_after_stop": {
+    "58722": "closed",
+    "58723": "closed"
+  },
+  "stopped_by": "SIGINT via persistent PTY",
+  "isolated_data_dir": "/private/tmp/yunpai-direction-audit-20260911-rerun1",
+  "workspace_data_written": false,
+  "production_written": false,
+  "new_login": false,
+  "credentials": "ephemeral isolated credential file remained outside evidence; values not copied",
+  "first_attempt": "background launcher exited; connection refused; retained as execution note",
+  "second_attempt": "completed probe and clean shutdown"
+}

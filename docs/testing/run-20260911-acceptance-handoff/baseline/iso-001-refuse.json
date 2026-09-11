@@ -1,0 +1,8 @@
+{
+  "id": "ISO-001-refuse",
+  "data_dir_requested": "WORKSPACE/data",
+  "exit_code": 1,
+  "stdout_preview": "",
+  "stderr_preview": "ISO-001: refusing workspace data/; set DATA_DIR under /tmp\n",
+  "status": "PASS"
+}

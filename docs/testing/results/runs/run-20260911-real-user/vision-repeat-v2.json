@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "attempts": [
+    {
+      "attempt": 1,
+      "status_code": 200,
+      "vision_status": "applied",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "这张截图看起来是客服系统的演示界面，没有显示订单信息、商品实物、包装或售后凭证，所以暂时没法确认您具体要处理的是哪一笔订单或什么问题。\n\n如果您要咨询售后，麻烦提供订单编号、问题部位的清晰照片或视频、外包装和物流面单；请只发必要信息，并遮盖无关的个人隐私。\n\n如果是要了解商品，可以发商品名称、链接或规格，我帮您核对商品详情里的功能和参数。"
+    },
+    {
+      "attempt": 2,
+      "status_code": 200,
+      "vision_status": "applied",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "我看了这张图片，它是一张客服系统界面的截图，暂时没有看到商品、包装、标签、故障部位或订单相关的内容，所以还需要和您确认一下具体想咨询的问题。\n\n如果是售后问题，通常需要您提供：订单编号、问题部位的照片或视频、外包装和物流面单。请只提交必要信息，并把无关的个人隐私遮盖一下。\n\n如果是想了解商品，比如颜色或功能，可以发我商品名称、链接或规格，我帮您对照商品详情确认。商品图片会尽量还原实物，但受拍摄光线和屏幕显示影响，可能会有轻微色差，最终以收到的实物和商品页说明为准。"
+    },
+    {
+      "attempt": 3,
+      "status_code": 200,
+      "vision_status": "applied",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "您好，我看了您发的图片，这是一张客服工作台界面截图，没有看到订单信息、商品实物或包装凭证，所以暂时无法确认您具体想反馈的问题。\n\n为了帮您核对，麻烦补充这几项必要信息：订单编号、问题部位的照片或视频、外包装和物流面单。请只提供必要内容，无关的个人隐私记得遮盖。\n\n如果您是想咨询商品本身，也可以把商品名称、链接或规格发我，我按当前商品详情为您说明。"
+    }
+  ],
+  "image_sha256": "d7cb9285d4621fce077aa28466dfef097c741a7062baf77d3f21b359943f5cdd",
+  "configured_model": "deepseek-v4-flash-vision-exp",
+  "note": "Three real-model attempts; an error is not treated as a product PASS."
+}

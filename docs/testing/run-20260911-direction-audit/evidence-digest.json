@@ -1,0 +1,130 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "computed_utc": "2026-09-11T11:22:33.092196+00:00",
+  "algorithm": "sha256(path\\0bytes\\0 per sorted file)",
+  "file_count": 24,
+  "evidence_digest": "d8f9e1b3b7ccab15bbf86e656672ea01052a57a4e481f91a65d65e253bd16399",
+  "files": [
+    {
+      "path": "cleanup.json",
+      "bytes": 735,
+      "sha256": "6680fa62cffea6db48cc529062f120b7b0dfede015b01f60ef2b8e30e325e663"
+    },
+    {
+      "path": "direction-matrix.json",
+      "bytes": 5042,
+      "sha256": "5259457bc5170731e7fa156f264df116e3a2bdb8c25d5e1805c4fe29a075c66d"
+    },
+    {
+      "path": "launch.log",
+      "bytes": 1645,
+      "sha256": "c71e6cd5c9492278d876e87a140cf20d6c7f37d47804ecfd5eabfd7fcbd60c44"
+    },
+    {
+      "path": "launcher.pid",
+      "bytes": 6,
+      "sha256": "11ff3966bf8623503a7f58cf749ba6b6eb4ebc2b66938774cb939a019f2124d9"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 4772,
+      "sha256": "8f636c1f81b6c4da8507a2bdbb77882b37b6d14cd52a6ea5b68b513524e8dce9"
+    },
+    {
+      "path": "plan.md",
+      "bytes": 783,
+      "sha256": "0fe333f1bf7dc9dcaa10ace66da2280de5962eacffb3f0e2f6b238a063e4f08d"
+    },
+    {
+      "path": "probe.py",
+      "bytes": 15422,
+      "sha256": "7bf738cae622b198e2a4763bc124fd5695ee099859b98a669df1f4be2a94dade"
+    },
+    {
+      "path": "pytest-related.txt",
+      "bytes": 2205,
+      "sha256": "52181a56136aeb21938d3701ad15bf92b075ec166ffb25e82ac4a346d8a97d0c"
+    },
+    {
+      "path": "raw/10.2-remaining.json",
+      "bytes": 1460,
+      "sha256": "9b589fb42c26fd8df5bdb7aba0c55e30af919bcbab73b67d330285ff6d0f3019"
+    },
+    {
+      "path": "raw/DIR-AUDIT-20260911-ALPHA.md",
+      "bytes": 137,
+      "sha256": "c77f3da0511926e34a773df5f68bfde8f74d1e922301cb60150b68c3bedb6525"
+    },
+    {
+      "path": "raw/DIR-AUDIT-20260911-ALPHA.pdf",
+      "bytes": 1540,
+      "sha256": "b29f630ce19fd8291dbf0b0fbeea7b23924107ab70f0fb84e42b525080ace249"
+    },
+    {
+      "path": "raw/DIR-AUDIT-20260911-ALPHA.txt",
+      "bytes": 151,
+      "sha256": "9980e909c78a359bd53a6b856da70ab68d4eb0932aeea537acb2f6de2218614a"
+    },
+    {
+      "path": "raw/cost-and-boundary.json",
+      "bytes": 531,
+      "sha256": "37fc5398f1485652b7a3edb7bb3da4c44201e280b3a580040eba019c97c7075f"
+    },
+    {
+      "path": "raw/dependencies.json",
+      "bytes": 802,
+      "sha256": "a6a13bf831436375dbdf068bafeeeac9cf40c05cf573dfae816c179aa32d2355"
+    },
+    {
+      "path": "raw/execution-incidents.json",
+      "bytes": 800,
+      "sha256": "b853d38d480e1dc85af0d3d38990f64eb84a3c4a8014026a7c3ae38f5f5dcc0f"
+    },
+    {
+      "path": "raw/fixture-digests.json",
+      "bytes": 482,
+      "sha256": "da1b7087e12c48ad540f5a99bba87d74ab0dbc6c838ba3f85642c1ba78b61034"
+    },
+    {
+      "path": "raw/probe-results.json",
+      "bytes": 30245,
+      "sha256": "0b339afd700af2ff5f05bc156f8cc71f96edc5f17fbcd1426a8c65dd5b248f35"
+    },
+    {
+      "path": "raw/static-path-facts.json",
+      "bytes": 3105,
+      "sha256": "64d878a35db7f498528eff3732ff82207d6992b06dd774c009adf1c41f97fe77"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 1317,
+      "sha256": "f30187f50afcf5f677152f2f6a858f175ef6004a817140a015b86cace91cdb16"
+    },
+    {
+      "path": "start_servers.py",
+      "bytes": 7809,
+      "sha256": "a4abafb6d3a42a5a52136737583df760e9c22b6fb43bb3720183b8f816a69b09"
+    },
+    {
+      "path": "states/evolution-after.json",
+      "bytes": 7007,
+      "sha256": "15016750f63d6b7dfbf78ebb6e69c56fcb32be0b5a2e48d616fb323824fcca4f"
+    },
+    {
+      "path": "states/knowledge-after-import.json",
+      "bytes": 7640,
+      "sha256": "7c9d9ec330f10b57b3bdf439ad8de02e58a7d1f4dc04afa34c7c56a30d84fe03"
+    },
+    {
+      "path": "states/messages-after.json",
+      "bytes": 2449,
+      "sha256": "af6fabc6219b86670f5d9ac759a7c59492f9da853a6d70ad9cd8d7542da308cb"
+    },
+    {
+      "path": "verdict.md",
+      "bytes": 2215,
+      "sha256": "32f58f92c3da9e00f37c0ea88674fe7ee827497418b04ee540e55c51a48783ba"
+    }
+  ],
+  "note": "Computed after probe outputs, final verdict, and cleanup were written. Do not modify this directory after this record."
+}

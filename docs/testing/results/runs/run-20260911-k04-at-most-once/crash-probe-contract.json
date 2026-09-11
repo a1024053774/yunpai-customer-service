@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": {
+    "no_broad_exception_handler": true,
+    "catches_session_scope_error": true,
+    "checks_expected_error_code": true,
+    "checks_running_without_last_error": true,
+    "non_target_errors_are_not_swallowed": true
+  },
+  "broad_handler_lines": []
+}

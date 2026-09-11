@@ -1,0 +1,40 @@
+{
+  "mutation": "mut-E",
+  "claim": "P02 keyword router",
+  "wrong_implementation": "mock agent_decision inspects ??/??; decision_gate restores business_action handoff; precheck intercepts ??/?? before deliberate",
+  "exit_code": 1,
+  "result": "3 failed, 19 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "P02-keyword-mock-decision",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_mock_agent_decision_does_not_parse_customer_keywords",
+      "expected": "decision('???????') == decision('??????')",
+      "actual": "intent refund/mode act vs intent general/mode answer",
+      "evidence_files": ["fail.log", "diff.txt"]
+    },
+    {
+      "id": "P02-keyword-refund-materials",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing",
+      "expected": "requires_human False, decision_mode answer",
+      "actual": "AssertionError: business_action_requires_verified_execution",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P02-keyword-competitor-before-decision",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing",
+      "expected": "agent_decision in model.json_tasks",
+      "actual": "assert 'agent_decision' in ['intent_classification']",
+      "evidence_files": ["fail.log"]
+    }
+  ]
+}

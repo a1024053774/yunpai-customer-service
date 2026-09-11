@@ -1,0 +1,34 @@
+{
+  "saved_utc": "2026-09-11T06:35:10.615717+00:00",
+  "vision_enabled": true,
+  "vision_model": "deepseek-v4-flash-vision-exp",
+  "cases": [
+    {
+      "id": "J01",
+      "status": "PASS",
+      "level": "L2",
+      "actual": {
+        "answer": "图片中可见一行黑色印刷文字：**QA-1416-VISION**。\n\n需要说明的是，这只能确认图片上印有这串字符，无法确认它是否为商品型号或编号。如果您需要核实它对应的商品信息，请提供商品名称或商品链接，我帮您进一步核对。",
+        "saw_marker": true,
+        "invented_sku": false,
+        "vision_status": "applied"
+      },
+      "notes": [
+        "one synthetic PNG with printed marker; JPEG/WebP not run"
+      ]
+    },
+    {
+      "id": "J02",
+      "status": "INCOMPLETE",
+      "level": "L2",
+      "actual": {
+        "answer": "为了继续处理，请补充：可见的损坏情况或商品照片。",
+        "unclear": false,
+        "invented_sku": false
+      },
+      "notes": [
+        "2x2 PNG stand-in for blur; vision service failure not injected"
+      ]
+    }
+  ]
+}

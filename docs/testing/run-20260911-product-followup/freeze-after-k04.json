@@ -1,0 +1,23 @@
+{
+  "saved_utc": "2026-09-11T09:37:55.593740+00:00",
+  "note": "product dirty tree drifted after K04 graph.py persist_response fix; freeze.json kept",
+  "stage0_candidate_sha256": "801e8ae123c86f1fd4222eb38d97723e0bd7f94eec618d8311b06e750e74a3b7",
+  "candidate_sha256_after_k04": "340f188defc77ff56c6a5d31974aad2a7c7f6ed432a5f3199ec4e54816ab944e",
+  "api_py_sha256_stage0": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+  "api_py_sha256_after_k04": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+  "graph_py_sha256_stage0": "5667a637e4b7c2e91998d8034be6a104aa067302331bb49f466e2347e60a950e",
+  "graph_py_sha256_after_k04": "165f8f4ab7dc600a22c0e081ed86842c9bba9e1f053e0e2be0a0d64705c926e0",
+  "api_unchanged_since_stage0": true,
+  "graph_changed": true,
+  "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+  "head_matches": true,
+  "dirty_diff_sha256": "f724096387857662530373438ac49d7b009882bd0d2a422f7db03bc97c3dff75",
+  "file_count": 69,
+  "skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "skill_unchanged": true,
+  "pid_start": 11189,
+  "pid_after_restart": 37044,
+  "demo_listen": "127.0.0.1:55722",
+  "host_listen": "127.0.0.1:55723",
+  "data_dir": "/private/tmp/yunpai-followup-20260911"
+}

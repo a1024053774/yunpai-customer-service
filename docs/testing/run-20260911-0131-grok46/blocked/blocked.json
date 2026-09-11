@@ -1,0 +1,100 @@
+{
+  "saved_utc": "2026-09-10T17:38:43.440907+00:00",
+  "run_id": "run-20260911-0131-grok46",
+  "cases": [
+    {
+      "id": "N03",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "reason": "no authorized reverse-proxy / TLS / public ingress in this environment",
+      "actual": {
+        "nginx": null,
+        "caddy": null,
+        "listen_80": false,
+        "listen_443": false,
+        "listen_8080": false
+      },
+      "unblock": "authorized pre-prod gateway with real Host/TLS and Demo not exposed"
+    },
+    {
+      "id": "N04",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "reason": "no independent-site login A/B accounts",
+      "actual": {
+        "independent_site_url": null,
+        "user_a_credentials": false,
+        "user_b_credentials": false,
+        "note": "no authorized independent-site login pair in this workspace"
+      },
+      "unblock": "two real website users plus host backend that binds X-Subject-Id"
+    },
+    {
+      "id": "O02-O06",
+      "priority": "P0/P1",
+      "status": "BLOCKED",
+      "reason": "HR is profile tags only; no authorized HR policy/SOP/roles",
+      "actual": {
+        "profile_files": [
+          "docs/domain-reuse-contract.md",
+          "src/yunpai_customer_service/domain_profiles.py"
+        ],
+        "hr_business_delivered": false
+      },
+      "unblock": "business-accepted HR corpus, roles, and region rules"
+    },
+    {
+      "id": "K06-K13-L4",
+      "priority": "P0/P1",
+      "status": "BLOCKED",
+      "reason": "no sandbox business ledger / real write tools",
+      "actual": {
+        "tool_registry_has_external_ledger": false
+      },
+      "unblock": "authorized sandbox order/refund/notify ledger with independent readback"
+    },
+    {
+      "id": "M08",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "8h soak not scheduled; no load contract / budget / dedicated env",
+      "actual": {
+        "soak_hours": 0,
+        "load_contract": null
+      },
+      "unblock": "dedicated env, frozen load contract, 8h window, stop thresholds"
+    },
+    {
+      "id": "A06",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "no frozen clean-dir wheel/image install off repo src",
+      "actual": {
+        "dist_wheels": [],
+        "editable_src_used": true
+      },
+      "unblock": "build wheel/image, install in clean venv with repo src off PYTHONPATH"
+    },
+    {
+      "id": "E03",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "no real scanned PDF with independent human page truth",
+      "actual": {
+        "scan_pdf_matches": [],
+        "docling_importable": true
+      },
+      "unblock": "authorized Chinese scan PDF plus page-level human transcript"
+    },
+    {
+      "id": "N01",
+      "priority": "P1",
+      "status": "BLOCKED",
+      "reason": "same as A06: clean-env frozen package not installed",
+      "actual": {
+        "dist_wheels": []
+      },
+      "unblock": "same as A06 plus extras/model files smoke"
+    }
+  ]
+}

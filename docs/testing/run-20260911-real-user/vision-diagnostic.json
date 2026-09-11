@@ -1,0 +1,11 @@
+{
+  "status_code": 200,
+  "configured_model": "deepseek-v4-flash-vision-exp",
+  "upstream_model_reported": "deepseek-flash",
+  "image_sha256": "d7cb9285d4621fce077aa28466dfef097c741a7062baf77d3f21b359943f5cdd",
+  "message_content_empty": true,
+  "reasoning_content_present": true,
+  "finish_reason": "length",
+  "usage_total_tokens": 1159,
+  "diagnosis": "DeepSeek vision request inherited thinking; reasoning consumed the output budget and left message.content empty."
+}

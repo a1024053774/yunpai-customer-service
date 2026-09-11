@@ -1,0 +1,91 @@
+{
+  "docling": {
+    "importable": true,
+    "version": "2.126.0",
+    "module_file": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/lib/python3.11/site-packages/docling/__init__.py",
+    "DocumentConverter_importable": true
+  },
+  "pdf_path": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/fixture-catalog.pdf",
+  "extracted_text_path": "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260910-1739-grok46/knowledge-pdf/fixture-catalog.extracted.txt",
+  "pdf_bytes": 2936,
+  "pdf_magic": "255044462d312e33",
+  "independent_pdfplumber": [
+    {
+      "page": 1,
+      "extractor": "pdfplumber",
+      "text": "空气炸锅容量 5L\n适合 3-4 人家庭\n容量 5L",
+      "chars": 26,
+      "cjk_count": 13,
+      "cjk_sample": "空气炸锅容量适合人家庭容量",
+      "nnnn_runs": [],
+      "has_real_chinese": true,
+      "looks_like_nnnn_corruption": false
+    },
+    {
+      "page": 2,
+      "extractor": "pdfplumber",
+      "text": "售后保修一年",
+      "chars": 6,
+      "cjk_count": 6,
+      "cjk_sample": "售后保修一年",
+      "nnnn_runs": [],
+      "has_real_chinese": true,
+      "looks_like_nnnn_corruption": false
+    }
+  ],
+  "independent_pypdf": {
+    "available": false
+  },
+  "ingest": {
+    "imported_count": 2,
+    "pages": [
+      1,
+      2
+    ],
+    "tables_by_page": {
+      "1": 1,
+      "2": 0
+    },
+    "extracted_text": {
+      "1": "空气炸锅容量 5L 适合 3-4 人家庭\n\n| 容量 | 5L |\n|------|------|",
+      "2": "售后保修一年"
+    },
+    "stats": {
+      "1": {
+        "chars": 49,
+        "cjk_count": 13,
+        "cjk_sample": "空气炸锅容量适合人家庭容量",
+        "nnnn_runs": [],
+        "has_real_chinese": true,
+        "looks_like_nnnn_corruption": false
+      },
+      "2": {
+        "chars": 6,
+        "cjk_count": 6,
+        "cjk_sample": "售后保修一年",
+        "nnnn_runs": [],
+        "has_real_chinese": true,
+        "looks_like_nnnn_corruption": false
+      }
+    },
+    "parser_path": "knowledge_ingest.ingest_document"
+  },
+  "truth_check": {
+    "page1_phrases_in_ingest": {
+      "空气炸锅容量 5L": true,
+      "适合 3-4 人家庭": true,
+      "容量": true,
+      "5L": true
+    },
+    "page2_phrases_in_ingest": {
+      "售后保修一年": true
+    },
+    "independent_pdfplumber_has_cjk": true,
+    "ingest_has_cjk": true,
+    "nnnn_in_independent": false,
+    "nnnn_in_ingest": false,
+    "fixture_valid_chinese": true,
+    "nfkc_independent_sample": "空气炸锅容量 5L\n适合 3-4 人家庭\n容量 5L\n售后保修一年",
+    "nfkc_ingest_sample": "空气炸锅容量 5L 适合 3-4 人家庭\n\n| 容量 | 5L |\n|------|------|\n售后保修一年"
+  }
+}

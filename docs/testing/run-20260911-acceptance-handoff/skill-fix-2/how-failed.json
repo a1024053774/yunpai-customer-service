@@ -1,0 +1,34 @@
+{
+  "saved_utc": "2026-09-11T09:05:31.321484+00:00",
+  "title": "how the current Skill fails",
+  "skill_sha256": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "failure_mode": [
+    "The reusable body (sections 0-7) is a usable outline: freeze the candidate, L0-L5, independent oracle, red-before-green, counterfactual, fresh-context verifier, BLOCKED/INCOMPLETE, real boundaries.",
+    "The appended 'Cursor Desktop / this-repo operational constraints' block is not a reusable Skill. It hard-codes source env.md, DATA_DIR, CJK unicode-escape, file:// localhost HTTP, Cursor/Grok/Orca/Luna/Task/run_in_background, continue-must-not-wait, and REVIEW_PASS must not become FAIL.",
+    "S1: a later candidate can regress while the Skill forbids writing FAIL over historical REVIEW_PASS. Handbook 10.2 requires current-candidate regression. Historical originals should stay; current status must be allowed to become FAIL/INCOMPLETE.",
+    "S2: substituting the recorded executor or writing UTF-8 CJK would be scored a Skill miss; a continue flag would outrank a safety stop. Correct behavior is: record executor/isolation in the manifest; safety stop wins; independence is judged from original evidence.",
+    "skill-fix/check_skill.py is a substring search. false-green-skill-needles.txt contains the same needles and would satisfy it. That cannot be Skill GO.",
+    "10.2 NO_GO currently lives only in that appendix and must be kept in generic form after the appendix is removed."
+  ],
+  "keep": [
+    "candidate freeze",
+    "evidence layers",
+    "independent oracle",
+    "red-before-green",
+    "counterfactual",
+    "fresh-context verifier",
+    "BLOCKED/INCOMPLETE",
+    "real boundaries",
+    "10.2 NO_GO"
+  ],
+  "remove_or_generalize": [
+    "source env.md",
+    "mandatory DATA_DIR name",
+    "CJK unicode escapes",
+    "file URI / localhost HTTP mandate",
+    "Cursor/Grok/Orca/Luna/Task/run_in_background hard pins",
+    "continue must not wait",
+    "REVIEW_PASS must not be reverted to FAIL",
+    "keyword checker as Skill oracle"
+  ]
+}

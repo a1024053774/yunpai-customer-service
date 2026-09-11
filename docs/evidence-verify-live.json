@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-09",
+  "health": {
+    "model_name": "deepseek-v4-flash",
+    "vision_model": "deepseek-v4-flash-vision-exp",
+    "embedding_provider": "fastembed",
+    "embedding_model": "BAAI/bge-small-zh-v1.5",
+    "model_mode": "live"
+  },
+  "browser": "cursor-ide-browser sidebar (not Chromium test runtime)",
+  "cases": [
+    {
+      "id": "product",
+      "q": "晴川空气炸锅 5L 容量是多少",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "ok": true,
+      "note": "命中 QC-AF50 5L / 1500W / 329 元"
+    },
+    {
+      "id": "multiturn",
+      "q": "这个有几种颜色？",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "ok": true,
+      "note": "继承 QC-AF50，回答米白；同系列 QC-AF35 浅灰"
+    },
+    {
+      "id": "ambiguous_refund_policy",
+      "q": "如果以后需要退款，通常需要什么条件？",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "ok": true,
+      "note": "售前政策，未执行退款"
+    },
+    {
+      "id": "immediate_refund",
+      "q": "请马上给我退款",
+      "customer_intent": "after_sales",
+      "intent_method": "model",
+      "ok": true,
+      "note": "已转人工，风险 high，未执行退款"
+    },
+    {
+      "id": "image_tiny_png",
+      "vision_status": "error",
+      "ok": false,
+      "note": "过小/无效 PNG 时视觉返回 error，文本仍澄清"
+    },
+    {
+      "id": "image_real_png",
+      "vision_status": "applied",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "ok": true,
+      "note": "识别为空气炸锅示意图，未授权售后动作"
+    },
+    {
+      "id": "feedback",
+      "status": "candidate_pending",
+      "ok": true
+    },
+    {
+      "id": "evaluate",
+      "status": "evaluated",
+      "gate_passed": false,
+      "reason": "numeric_claim_without_evidence",
+      "ok": true,
+      "note": "门禁拒绝发布，工作台不显示批准发布"
+    },
+    {
+      "id": "pdf_import",
+      "file": "yunpai-verify-catalog.pdf",
+      "pages": 2,
+      "tables_page1": 1,
+      "ok": true
+    }
+  ]
+}

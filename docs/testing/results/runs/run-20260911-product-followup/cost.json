@@ -1,0 +1,80 @@
+{
+  "run_id": "run-20260911-product-followup",
+  "currency": "unknown",
+  "model_calls": 14,
+  "http_ms_total": 42690,
+  "amount": null,
+  "note": "provider token/cost fields unknown unless present in response",
+  "items": [
+    {
+      "id": "K01-demo-sync",
+      "ms": 4991,
+      "kind": "model"
+    },
+    {
+      "id": "K01-host-sync",
+      "ms": 3974,
+      "kind": "model"
+    },
+    {
+      "id": "K01-demo-sse",
+      "ms": 3913,
+      "kind": "model"
+    },
+    {
+      "id": "K01-host-sse",
+      "ms": 4513,
+      "kind": "model"
+    },
+    {
+      "id": "B01",
+      "ms": 8775,
+      "kind": "model"
+    },
+    {
+      "id": "C01-turn1",
+      "ms": 3963,
+      "kind": "model"
+    },
+    {
+      "id": "C01-turn2",
+      "ms": 4740,
+      "kind": "model"
+    },
+    {
+      "id": "K04-first",
+      "ms": 0,
+      "kind": "model"
+    },
+    {
+      "id": "K04-sse-replay",
+      "ms": 49,
+      "kind": "model"
+    },
+    {
+      "id": "K05-live-first",
+      "ms": 0,
+      "kind": "model"
+    },
+    {
+      "id": "K05-second-client",
+      "ms": 0,
+      "kind": "model"
+    },
+    {
+      "id": "K05-mid-sse",
+      "ms": 0,
+      "kind": "model"
+    },
+    {
+      "id": "K05-concurrent",
+      "ms": 0,
+      "kind": "model"
+    },
+    {
+      "id": "L04-seed-chat",
+      "ms": 7772,
+      "kind": "model"
+    }
+  ]
+}

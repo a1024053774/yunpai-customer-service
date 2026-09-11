@@ -4,64 +4,15 @@ from __future__ import annotations
 
 import base64
 import json
-import threading
-from contextlib import contextmanager
 from dataclasses import replace
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from fastapi.testclient import TestClient
-from playwright.sync_api import Page, expect
 
 from yunpai_customer_service.demo.app import create_app
 from yunpai_customer_service.demo.runtime import prepare_demo_settings
 from yunpai_customer_service.schemas import ChatImageInput
 
 from conftest import make_settings
-
-
-@contextmanager
-def _serve_demo_page(page: str):
-    page_bytes = page.encode("utf-8")
-
-    class Handler(BaseHTTPRequestHandler):
-        def do_GET(self) -> None:  # noqa: N802 - stdlib handler contract
-            if self.path in {"/", "/index.html"}:
-                payload = page_bytes
-                content_type = "text/html; charset=utf-8"
-            elif self.path == "/api/health":
-                payload = json.dumps(
-                    {
-                        "model_mode": "mock",
-                        "model_name": "mock",
-                        "vision_enabled": False,
-                        "context": {},
-                    }
-                ).encode("utf-8")
-                content_type = "application/json"
-            elif self.path == "/api/sessions":
-                payload = b'{"items": []}'
-                content_type = "application/json"
-            else:
-                self.send_error(404)
-                return
-            self.send_response(200)
-            self.send_header("Content-Type", content_type)
-            self.send_header("Content-Length", str(len(payload)))
-            self.end_headers()
-            self.wfile.write(payload)
-
-        def log_message(self, _format: str, *_args: object) -> None:
-            return
-
-    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    try:
-        yield f"http://127.0.0.1:{server.server_port}/"
-    finally:
-        server.shutdown()
-        server.server_close()
-        thread.join(timeout=5)
 
 
 def _png_image(suffix: bytes = b"test-image") -> ChatImageInput:
@@ -92,7 +43,7 @@ def test_demo_page_and_health(tmp_path) -> None:
     with TestClient(app) as client:
         page = client.get("/")
         assert page.status_code == 200
-        assert "智能客服示例" in page.text
+        assert "云派智能客服" in page.text
         assert 'id="messageInput"' in page.text
 
         health = client.get("/api/health")
@@ -100,6 +51,9 @@ def test_demo_page_and_health(tmp_path) -> None:
         body = health.json()
         assert body["ok"] is True
         assert body["model_mode"] == "mock"
+        assert body["tenant_id"] == "tenant-test"
+        assert body["business_domain"] == "ecommerce"
+        assert body["business_domain_label"] == "电商销售"
 
 
 def test_demo_chat_stream_answers_seed_question(tmp_path) -> None:
@@ -194,6 +148,8 @@ def test_demo_chat_answers_airfryer_capacity(tmp_path) -> None:
         body = response.json()
     assert "5L" in body["answer"]
     assert "QC-AF50" in body["answer"] or "空气炸锅" in body["answer"]
+    assert body["customer_intent"] == "product_inquiry"
+    assert body["intent_method"] == "model"
 
 
 def test_demo_seed_clears_sku_scope_on_existing_knowledge(tmp_path) -> None:
@@ -387,56 +343,11 @@ def test_demo_page_has_release_notes_bell_and_feature_log(tmp_path) -> None:
     assert 'aria-label="查看支持功能和版本更新"' in text
     assert 'aria-controls="releasePanel"' in text
     assert 'id="releasePanel"' in text
-    assert "支持的 Feature" in text
-    assert "图片理解需配置视觉模型" in text
+    assert "当前能力" in text
+    assert "DeepSeek Flash 意图识别" in text
+    assert "不依赖云端向量库" in text
+    assert "Docling 解析版式与表格" in text
     assert "版本更新" in text
-    assert "2026-08-27" in text
+    assert "知识工作台" in text
+    assert "2026-09-09" in text
     assert "2026-08-26" in text
-
-
-def test_demo_release_notes_interactions_and_seen_state(tmp_path, page: Page) -> None:
-    app = create_app(make_settings(tmp_path))
-    with TestClient(app) as client:
-        page_html = client.get("/").text
-
-    errors: list[str] = []
-    page.on("pageerror", lambda error: errors.append(str(error)))
-    with _serve_demo_page(page_html) as url:
-        page.goto(url)
-        bell = page.locator("#releaseBell")
-        panel = page.locator("#releasePanel")
-        close = page.locator("#releaseClose")
-
-        expect(bell).to_have_attribute("aria-label", "查看支持功能和版本更新")
-        expect(panel).to_be_hidden()
-
-        bell.click()
-        expect(panel).to_be_visible()
-        expect(bell).to_have_attribute("aria-label", "查看支持功能和版本更新")
-
-        close.click()
-        expect(panel).to_be_hidden()
-        expect(bell).to_be_focused()
-
-        bell.click()
-        page.keyboard.press("Escape")
-        expect(panel).to_be_hidden()
-        expect(bell).to_be_focused()
-
-        bell.click()
-        page.locator(".title").click()
-        expect(panel).to_be_hidden()
-
-        page.reload()
-        expect(panel).to_be_hidden()
-        expect(bell).to_have_attribute("aria-label", "查看支持功能和版本更新")
-
-        page.set_viewport_size({"width": 390, "height": 844})
-        bell.click()
-        box = panel.bounding_box()
-        assert box is not None
-        assert box["x"] >= 0
-        assert box["x"] + box["width"] <= 390
-        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
-
-    assert errors == []

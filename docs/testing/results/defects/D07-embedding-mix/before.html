@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>D07 before</title>
+<style>
+body { font-family: ui-sans-serif, sans-serif; margin: 24px; background:#f6f7f8; color:#111; }
+.card { background:#fff; border:1px solid #c0392b; border-radius:12px; padding:16px; }
+h1 { font-size:20px; }
+span { font-size:12px; padding:2px 8px; border-radius:99px; background:#fde8e8; color:#8b1e1e; }
+</style>
+<h1>D07 before · Grok 4.6 probe</h1>
+<p>同维不同模型向量仍可检索。FastEmbedProvider.name 只是家族名 fastembed。知识行只有 embedding BLOB。</p>
+<section class="card">
+  <h2>same-dimension mix <span>FAIL</span></h2>
+  <p>stored (1,0,0,0) model-a；query (0,1,0,0) model-b；retrieve 仍命中原行。</p>
+  <p>document_still_retrievable: true</p>
+  <p>mix_rejected_or_migrated: false</p>
+</section>

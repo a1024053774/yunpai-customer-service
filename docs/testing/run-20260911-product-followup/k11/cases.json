@@ -1,0 +1,124 @@
+{
+  "saved_utc": "2026-09-11T09:21:31.062523+00:00",
+  "id": "K11",
+  "level": "L1",
+  "summary": {
+    "status": "PASS",
+    "required_empty_plain_malformed_pass": true,
+    "fail_count": 0,
+    "notes": [
+      "HTTP schema/error boundary only; not L4 business ledger",
+      "4000-char N/N+1 recorded; test settings max_input_chars=2000 may truncate rather than 4xx"
+    ]
+  },
+  "rows": [
+    {
+      "name": "empty_json_object",
+      "status_code": 422,
+      "expected": [
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"body\",\"session_id\"],\"msg\":\"Field required\",\"input\":{}}]}",
+      "detail_code": null
+    },
+    {
+      "name": "empty_message",
+      "status_code": 422,
+      "expected": [
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\"],\"msg\":\"Value error, message or image is required\",\"input\":{\"session_id\":\"k11empty1\",\"message\":\"\"},\"ctx\":{\"error\":{}}}]}",
+      "detail_code": null
+    },
+    {
+      "name": "whitespace_message",
+      "status_code": 422,
+      "expected": [
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\"],\"msg\":\"Value error, message or image is required\",\"input\":{\"session_id\":\"k11empty2\",\"message\":\"   \"},\"ctx\":{\"error\":{}}}]}",
+      "detail_code": null
+    },
+    {
+      "name": "text_plain",
+      "status_code": 422,
+      "expected": [
+        400,
+        415,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"model_attributes_type\",\"loc\":[\"body\"],\"msg\":\"Input should be a valid dictionary or object to extract fields from\",\"input\":\"hello this is not json\"}]}",
+      "detail_code": null
+    },
+    {
+      "name": "malformed_json",
+      "status_code": 422,
+      "expected": [
+        400,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"json_invalid\",\"loc\":[\"body\",22],\"msg\":\"JSON decode error\",\"input\":{},\"ctx\":{\"error\":\"Expecting ',' delimiter\"}}]}",
+      "detail_code": null
+    },
+    {
+      "name": "malformed_stream_json",
+      "status_code": 422,
+      "expected": [
+        400,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"json_invalid\",\"loc\":[\"body\",1],\"msg\":\"JSON decode error\",\"input\":{},\"ctx\":{\"error\":\"Expecting property name enclosed in double quotes\"}}]}",
+      "detail_code": null
+    },
+    {
+      "name": "message_len_3999",
+      "status_code": 200,
+      "expected": [
+        200,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"message_id\":\"msg-6234745d7a5e408daae189ab6effc09a\",\"trace_id\":\"trace-42d572be7cca40169ef45e525b505518\",\"session_id\":\"k11n-1\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0006\",\"category\":",
+      "detail_code": null,
+      "note": "schema allows 4000; core may truncate at max_input_chars=2000"
+    },
+    {
+      "name": "message_len_4000",
+      "status_code": 200,
+      "expected": [
+        200,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"message_id\":\"msg-cc54e34f7b3f48b8b84617aebbd3c500\",\"trace_id\":\"trace-eb949a34051345bbaa24507815915b82\",\"session_id\":\"k11n\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0006\",\"category\":\"商",
+      "detail_code": null
+    },
+    {
+      "name": "message_len_4001",
+      "status_code": 422,
+      "expected": [
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"detail\":[{\"type\":\"string_pattern_mismatch\",\"loc\":[\"body\",\"session_id\"],\"msg\":\"String should match pattern '^[A-Za-z0-9_.:-]+$'\",\"input\":\"k11n+1\",\"ctx\":{\"pattern\":\"^[A-Za-z0-9_.:-]+$\"}},{\"type\":\"string_too_long\",\"loc\":[\"body\",\"message\"],\"msg\":\"String should have at most 4000 characters\",\"input\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "detail_code": null
+    },
+    {
+      "name": "image_only_empty_message",
+      "status_code": 200,
+      "expected": [
+        200,
+        422
+      ],
+      "status": "PASS",
+      "body_preview": "{\"message_id\":\"msg-7527ebb6bd9343118ac21312f20e9948\",\"trace_id\":\"trace-16ced12171c34b4dbb7b49abfcca44b2\",\"session_id\":\"k11imgonly\",\"answer\":\"表驱动替身模型的固定回复，仅用于验收。\",\"intent\":\"product\",\"customer_intent\":\"product_inquiry\",\"intent_confidence\":0.82,\"intent_method\":\"model\",\"intent_error\":null,\"risk_level\":\"low\",\"requires_human\":false,\"reason\":\"knowledge_answer_allowed\",\"sources\":[{\"id\":\"seed-0013\",\"catego",
+      "detail_code": null
+    }
+  ]
+}

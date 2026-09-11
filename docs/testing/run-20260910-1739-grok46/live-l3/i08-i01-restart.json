@@ -1,0 +1,31 @@
+{
+  "i08": [
+    {
+      "label": "host_example_com",
+      "headers": {
+        "Host": "example.com"
+      },
+      "status_code": 403
+    },
+    {
+      "label": "x_forwarded_for_public",
+      "headers": {
+        "X-Forwarded-For": "203.0.113.10"
+      },
+      "status_code": 403
+    },
+    {
+      "label": "local_host",
+      "headers": {
+        "Host": "127.0.0.1"
+      },
+      "status_code": 200
+    }
+  ],
+  "i01": {
+    "status_code": 401,
+    "detail": {
+      "detail": "X-Client-Id, X-Client-Key and X-Subject-Id are required"
+    }
+  }
+}

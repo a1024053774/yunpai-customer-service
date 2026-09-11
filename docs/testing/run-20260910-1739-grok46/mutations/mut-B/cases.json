@@ -1,0 +1,40 @@
+{
+  "mutation": "mut-B",
+  "claim": "P01 always-handoff",
+  "wrong_implementation": "decision_gate always returns route=handoff / decision_mode=handoff",
+  "exit_code": 1,
+  "result": "7 failed, 15 passed",
+  "verdict_for_tests": "CAUGHT",
+  "cases": [
+    {
+      "id": "P01-always-handoff-policy-answer",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_framework_audit.py::test_model_policy_answer_is_not_overridden_by_lexical_routing",
+      "expected": "requires_human is False and decision_mode == answer",
+      "actual": "AssertionError: mutation_always_handoff; requires_human True",
+      "evidence_files": ["fail.log", "diff.txt"]
+    },
+    {
+      "id": "P01-always-handoff-core-complete",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_customer_service_module.py::test_core_answers_a_knowledge_question_without_agent_service",
+      "expected": "completion-oriented: requires_human is False",
+      "actual": "AssertionError: assert True is False",
+      "evidence_files": ["fail.log"]
+    },
+    {
+      "id": "P01-always-handoff-knowledge-5L",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "pytest tests/test_demo_chat.py::test_demo_chat_answers_airfryer_capacity",
+      "expected": "5L in answer",
+      "actual": "generic handoff prose, no 5L",
+      "evidence_files": ["fail.log"]
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "saved_utc": "2026-09-11T09:24:58.593047+00:00",
+  "id": "K06",
+  "level": "L1-framework",
+  "l4_business_ledger": false,
+  "summary": {
+    "status": "PASS",
+    "fail_count": 0,
+    "notes": [
+      "registry authorizes tools; graph observe hits the same errors",
+      "graph act without SOP handoff; write tool does not execute",
+      "not a real refund sandbox ledger; K07-K13 remain L4 BLOCKED"
+    ]
+  },
+  "rows": [
+    {
+      "name": "registry_unregistered",
+      "status": "PASS",
+      "error": "tool_not_registered",
+      "executed": []
+    },
+    {
+      "name": "registry_observe_write",
+      "status": "PASS",
+      "error": "observe_cannot_call_write_tool",
+      "executed": []
+    },
+    {
+      "name": "registry_fake_params",
+      "status": "PASS",
+      "error": "tool_arguments_invalid:invalid",
+      "executed": []
+    },
+    {
+      "name": "registry_missing_store",
+      "status": "PASS",
+      "error": "trusted_context_missing:store_id",
+      "executed": []
+    },
+    {
+      "name": "registry_positive_execute",
+      "status": "PASS",
+      "executed": [
+        "ORD-OK"
+      ],
+      "tool_status": "success"
+    },
+    {
+      "name": "graph_unregistered_observe",
+      "status": "PASS",
+      "executed": [],
+      "reason": "tool_not_registered",
+      "requires_human": true,
+      "trace_tail": [
+        "tool_gate:handoff:tool_not_registered",
+        "terminal_output:passed",
+        "human_handoff",
+        "postcondition:handoff_proposed",
+        "persist"
+      ],
+      "answer_preview": "我已经理解您要办理的业务，但当前环境尚未接入对应的执行工具，我会转人工继续处理。"
+    },
+    {
+      "name": "graph_observe_write",
+      "status": "PASS",
+      "executed": [],
+      "reason": "observe_cannot_call_write_tool",
+      "requires_human": true,
+      "trace_tail": [
+        "tool_gate:handoff:observe_cannot_call_write_tool",
+        "terminal_output:passed",
+        "human_handoff",
+        "postcondition:handoff_proposed",
+        "persist"
+      ],
+      "answer_preview": "当前问题存在无法自动消除的不确定性，我会为您转接人工客服。"
+    },
+    {
+      "name": "graph_observe_fake_params",
+      "status": "PASS",
+      "executed": [],
+      "reason": "tool_arguments_invalid:invalid",
+      "requires_human": false,
+      "trace_tail": [
+        "tool_gate:clarify:tool_arguments_invalid:invalid",
+        "terminal_output:passed",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "answer_preview": "为了继续处理，请补充：invalid。"
+    },
+    {
+      "name": "graph_observe_missing_store",
+      "status": "PASS",
+      "executed": [],
+      "reason": "trusted_context_missing:store_id",
+      "requires_human": false,
+      "trace_tail": [
+        "tool_gate:clarify:trusted_context_missing:store_id",
+        "terminal_output:passed",
+        "clarify",
+        "postcondition:input_required",
+        "persist"
+      ],
+      "answer_preview": "为了继续处理，请补充：store_id。"
+    },
+    {
+      "name": "graph_act_without_sop_does_not_execute",
+      "status": "PASS",
+      "executed": [],
+      "reason": "active_sop_required_for_action",
+      "requires_human": true,
+      "trace_tail": [
+        "decision_gate:handoff",
+        "terminal_output:passed",
+        "human_handoff",
+        "postcondition:handoff_proposed",
+        "persist"
+      ],
+      "answer_preview": "当前问题存在无法自动消除的不确定性，我会为您转接人工客服。"
+    }
+  ]
+}

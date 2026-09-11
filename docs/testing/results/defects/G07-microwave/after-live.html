@@ -1,0 +1,50 @@
+<!doctype html><meta charset=utf-8><title>G07</title><pre>{
+  "id": "G07",
+  "status": "PASS",
+  "answer": "您好，**孤岛验收电热水壶（型号 QA-GROK-2C2668E3）不能放进微波炉**。\n\n根据产品说明书的加热与使用限制：本产品不可微波，壶体、内胆及任何配件均禁止放入微波炉，说明书也未授权任何微波加热方式。\n\n如果您原本是想用微波炉加热壶里的水或饮品，建议改用其他合适的容器；水壶本身请按说明书的方式使用。还有其他想了解的，随时告诉我。",
+  "sources": [
+    {
+      "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+      "category": "uploaded_document",
+      "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+      "version": 1,
+      "score": 1.052
+    },
+    {
+      "id": "demo:qingchuan-humidifier-filter:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.7733
+    },
+    {
+      "id": "demo:qingchuan-airfryer-clean:e7525724",
+      "category": "商品",
+      "source": "demo:qingchuan-catalog-v1",
+      "version": 1,
+      "score": 0.7701
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept0/dropped0",
+    "context:decision:ready",
+    "context:budget:kept0/dropped0",
+    "deliberate:model:answer",
+    "decision_gate:answer",
+    "retrieve:refined:3",
+    "guard:blocked:0",
+    "context:budget:kept0/dropped0",
+    "context:generation:ready",
+    "context:budget:kept0/dropped0",
+    "generate:model",
+    "verify:passed",
+    "postcondition:answer",
+    "persist"
+  ]
+}</pre>

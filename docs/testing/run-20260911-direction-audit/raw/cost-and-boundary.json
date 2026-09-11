@@ -1,0 +1,16 @@
+{
+  "model_calls_possible": true,
+  "cost_amount": null,
+  "cost_currency": "unknown",
+  "cost_evidence": "provider response fields absent; do not infer amount",
+  "provider": "deepseek",
+  "configured_model": "deepseek-v4-flash",
+  "vision_model": "deepseek-v4-flash-vision-exp",
+  "retrieval": {
+    "runtime_provider": "fastembed",
+    "identity": "fastembed:BAAI/bge-small-zh-v1.5",
+    "model": "BAAI/bge-small-zh-v1.5",
+    "local_storage": "/private/tmp/yunpai-direction-audit-20260911-rerun1"
+  },
+  "trials_written": 12
+}

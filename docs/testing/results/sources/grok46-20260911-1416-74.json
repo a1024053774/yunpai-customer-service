@@ -1,0 +1,19 @@
+{
+  "id": "7.4",
+  "status": "PASS",
+  "level": "L2",
+  "actual": {
+    "v1": "kb-e55673c6f28f4911b7e51a26fb116ed0",
+    "before": "您好，QA-1416-74 的官方授权颜色是 **rice-white（米白色）**，容量为 **4L**。\n\n目前查询到的商品信息中暂未包含价格，若您需要了解价格或其他细节，我可以帮您进一步核实。",
+    "after_new": "QA-1416-74 的颜色是**黑色**，容量为 4L。\n\n如果您想进一步了解这款商品的材质、适用场景或其他信息，可以告诉我，我再帮您确认。",
+    "after_old_session": "您好，抱歉刚才的信息有误，以最新授权结果为准：**QA-1416-74 的授权颜色是黑色（black）**，容量为 **4L**。\n\n目前查询到的信息中暂未包含价格等更多细节，如您需要，我可以再帮您核实。",
+    "rewrite": "您好，QA-1416-74 的授权颜色为**黑色**，容量为 **4L**。\n\n如需了解价格、库存或发货等信息，我可以帮您进一步查询，或转接人工为您确认。",
+    "before_white": true,
+    "after_black": true,
+    "still_white": false
+  },
+  "notes": [
+    "retire+add as authorized update stand-in; no UI publish workflow"
+  ],
+  "saved_utc": "2026-09-11T06:36:07.962335+00:00"
+}

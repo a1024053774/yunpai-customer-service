@@ -1,0 +1,53 @@
+{
+  "id": "F11",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "luna": false,
+  "status": "PASS",
+  "target": "frozen F11 candidate evolution.py sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+  "contract": "after evaluate passes, changing candidate text/source/scope must not approve/publish on the old gate_passed; evaluate must bind concrete candidate content; a change requires re-eval",
+  "evidence": [
+    "handbook F11 in docs/agent-testing-manual.md",
+    "implementer after.json/how-fixed.md inspected only; not accepted",
+    "freeze match at start, after probes, and before write: evolution.py sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "independent /tmp probes: /tmp/f11-review-20260911-epoch3/probe_f11.py; DATA_DIR /tmp/f11-review-20260911-epoch3/data; TableDrivenModel + LEARNED_QUESTION/LEARNED_ANSWER",
+    "probe hash_start=hash_end=7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "control evaluate+approve without mutate succeeded",
+    "mutate proposed_answer after evaluate: EvolutionError candidate changed after evaluation; knowledge has no MUTATED-AFTER-EVALUATE / 99999",
+    "mutate evidence_source after evaluate: same reject; candidate stayed evaluated",
+    "mutate question and intent after evaluate: rejected; re-eval after benign change wrote a new bound_content",
+    "F09 leftover preseed + mutate answer: bind still rejects; leftover reuse does not skip bind",
+    "strip bound_content then mutate: still rejected; mutated text not published"
+  ],
+  "findings": [
+    {
+      "severity": "P3",
+      "file": "src/yunpai_customer_service/evolution.py",
+      "lines": "20-26, 296-298",
+      "issue": "_candidate_content_bind omits tenant_id and knowledge/dependency versions; SQL-mutate tenant_id then approve with the new tenant published the originally evaluated answer under other-tenant-f11 on the old gate_passed; does not publish mutated unevaluated text"
+    }
+  ],
+  "counterexample": [
+    "known-bad approve(status+gate_passed only) is rejected: mutated answer and source raise; knowledge has no MUTATED-AFTER-EVALUATE 99999",
+    "before.json historical red: mutate proposed_answer after evaluate, approve published mutated text (pre-bind)",
+    "strip bound_content then mutate also rejected by missing-bind check"
+  ],
+  "limitations": [
+    "no live HTTP/UI",
+    "implementer after.json PASS ignored",
+    "knowledge-version mutation after evaluate not separately executed",
+    "prior INCOMPLETE epoch2 verdict not copied",
+    "F09 lock/leftover/reject CAS judged only vs F11 bind"
+  ],
+  "hashes": {
+    "required_frozen": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "start_and_probe": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "at_review_write": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310"
+  },
+  "probes": {
+    "mutate_answer": "PASS",
+    "mutate_source": "PASS",
+    "leftover_does_not_bypass_bind": "PASS",
+    "tenant_scope_residual": "approve with new tenant succeeded on old gate; P3"
+  }
+}

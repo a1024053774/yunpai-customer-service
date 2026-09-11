@@ -1,0 +1,72 @@
+{
+  "saved_utc": "2026-09-11T08:14:24.258223+00:00",
+  "run_id": "run-20260911-acceptance-handoff",
+  "cases": [
+    {
+      "id": "D07-identity",
+      "level": "L1",
+      "status": "PASS",
+      "schema_version": 39,
+      "embedding_identity": "hash",
+      "notes": [
+        "this-run identity/schema re-probe; REVIEW_PASS kept",
+        "no live dual FastEmbed two-model mix in this process"
+      ]
+    },
+    {
+      "id": "D07-other-identity-object",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "hash_identity": "hash",
+      "live_identity": "hash",
+      "notes": [
+        "hash vs current identity differ; no second FastEmbed download",
+        "not a live dual-index mix"
+      ]
+    },
+    {
+      "id": "F01-l1",
+      "level": "L1",
+      "status": "PASS",
+      "candidate_id": "candidate-59d250bc921e4e9e99e6dec92fae3025"
+    },
+    {
+      "id": "F03",
+      "level": "L1",
+      "status": "PASS",
+      "notes": [
+        "EvolutionError",
+        "bypass evaluate must be rejected"
+      ]
+    },
+    {
+      "id": "K04-core",
+      "level": "L1",
+      "status": "PASS",
+      "message_id": "msg-5d659b0935015aaeaa7896a5f5880003"
+    },
+    {
+      "id": "K05-core",
+      "level": "L1",
+      "status": "PASS",
+      "error_type": "SessionScopeError"
+    },
+    {
+      "id": "C08-reopen",
+      "level": "L1",
+      "status": "PASS",
+      "reopened_message_count": 4,
+      "same_db": "/tmp/yunpai-handoff-l1-l851huvo/agent.sqlite3",
+      "notes": [
+        "same DATA_DIR reopen; not crash-mid-write"
+      ]
+    },
+    {
+      "id": "A08-two-tmp",
+      "level": "L1",
+      "status": "PASS",
+      "dir_a": "/tmp/yunpai-handoff-l1-l851huvo",
+      "dir_b": "/private/tmp/yunpai-handoff-l1b-tymdgkmz"
+    }
+  ]
+}

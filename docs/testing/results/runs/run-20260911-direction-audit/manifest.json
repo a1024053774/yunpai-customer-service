@@ -1,0 +1,38 @@
+{
+  "run_id": "run-20260911-direction-audit",
+  "created_utc": "2026-09-11T11:08:08.078216+00:00",
+  "executor": "Codex local follow-up (no Cursor Desktop)",
+  "purpose": "reconcile original product direction with current implementation and run local executable evidence",
+  "original_target_source": "codex thread 01a08146-10bc-72d2-b5e5-43eea3a8eb0e plus acceptance handoff",
+  "candidate": {
+    "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99",
+    "branch": "main",
+    "dirty_diff_sha256": "f724096387857662530373438ac49d7b009882bd0d2a422f7db03bc97c3dff75",
+    "api_sha256": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+    "graph_sha256": "165f8f4ab7dc600a22c0e081ed86842c9bba9e1f053e0e2be0a0d64705c926e0",
+    "skill_sha256": "d386bbb116937d74caa241229210e26e6c935f19a8c18cf382c164fbda275213"
+  },
+  "runtime": {
+    "python": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python",
+    "venv_fastapi_importable": true,
+    "isolated_server_started": false,
+    "production_write": false,
+    "new_login": false
+  },
+  "packages": {
+    "fastapi": "0.141.1",
+    "fastembed": "0.8.0",
+    "docling": "2.126.0",
+    "pdfplumber": "0.11.10",
+    "langgraph": "1.2.11",
+    "langchain": null,
+    "llama-index": null,
+    "chromadb": null,
+    "qdrant-client": null,
+    "weaviate-client": null,
+    "pymilvus": null,
+    "pinecone": null
+  },
+  "cost_boundary": "DeepSeek text/vision may incur cloud-model cost; this local test does not expose secrets or invent a cost amount.",
+  "evidence_policy": "pytest is supporting evidence only; local test green does not close L3/L4/L5 or handbook 10.2."
+}

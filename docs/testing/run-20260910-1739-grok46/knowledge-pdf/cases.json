@@ -1,0 +1,366 @@
+{
+  "run_id": "run-20260910-1739-grok46",
+  "agent": "knowledge-pdf",
+  "executor": "cursor-grok-4.6",
+  "not_luna": true,
+  "candidate": "/tmp/yunpai-test-candidate-grok46-pZG5r3",
+  "python": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python",
+  "pytest": {
+    "exit": 0,
+    "tests": 15,
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "duration_s": 112.83
+  },
+  "counts": {
+    "INCOMPLETE": 15,
+    "PASS": 7,
+    "FAIL": 2
+  },
+  "fail_ids": [
+    "D07",
+    "7.6"
+  ],
+  "cases": [
+    {
+      "id": "D03",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Same-named goods stay in authorized tenant/store; missing or forged store_id refused or clarified.",
+      "actual": "test_retrieval_hits_the_tenant_document_and_keeps_other_tenants_out passed: other-tenant retrieve does not return T-A document. store_id missing/forged and cross-store S-A1/S-A2 were not executed in this suite.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Tenant isolation L1 assertion passed. Full D03 still requires missing/forged store_id and same-name cross-store."
+    },
+    {
+      "id": "D05",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Exact approved question reuses the audited answer; approximate/high-score near-miss does not take the approved-direct branch.",
+      "actual": "test_approved_reuse_requires_an_exact_question_match: exact match BRANCH_APPROVED_DIRECT with LEARNED_ANSWER; near-miss (+'ne') BRANCH_MODEL. Evolution cycle also kept near-miss on the table-driven model answer.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Mapped claim (exact reuse / approximate not exact) passed. Negation and SKU-swap variants in the full D05 row were not run."
+    },
+    {
+      "id": "D06",
+      "priority": "P1",
+      "level": "L0/L1",
+      "status": "INCOMPLETE",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_embedding_identity.py",
+      "expected": "FastEmbed index survives restart; provider and vectors stay FastEmbed, not silently rewritten as hash; read persisted model identity, not only health.",
+      "actual": "Assigned pytest files do not run FastEmbed restart. Import reindex only reports embedding_provider=hash. embeddings.py FastEmbedProvider.name is the family string 'fastembed'; knowledge rows store embedding BLOB only, no model id/version/dimension columns.",
+      "evidence_files": [
+        "probe_embedding_identity.json",
+        "pytest-junit.xml"
+      ],
+      "notes": "L1 fake-encoder restart lives in tests/test_framework_audit.py (not this agent pytest set). No FastEmbed L2 restart this run. Do not treat hash reindex as D06 PASS."
+    },
+    {
+      "id": "D07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_embedding_identity.py",
+      "expected": "Same-dimension different embedding models are rejected or undergo a controlled full migration. Matching dimension is not identity.",
+      "actual": "L1 probe stored vector (1,0,0,0) under model-a, switched to model-b (0,1,0,0) same dim. retrieve() returned the document (id kb-96e1606c63094976b63ce03dd7505e7d) with no error. rebuild_embeddings() also succeeded with no identity check. Static: no embedding_model/provider/dim columns; score uses len equality then cosine.",
+      "evidence_files": [
+        "probe_embedding_identity.json",
+        "probe_embedding_identity.stdout"
+      ],
+      "notes": "Observed product behavior, not an environment miss. No fix implemented (test-only)."
+    },
+    {
+      "id": "D08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Partial rebuild failure, concurrent query, two-process start, and recovery do not treat mixed old/new index as complete.",
+      "actual": "No assigned test or extra probe covered mid-rebuild failure, concurrency, or two-process rebuild.",
+      "evidence_files": [
+        "pytest-junit.xml"
+      ],
+      "notes": "Partial coverage = INCOMPLETE. Not a FAIL: scenario not executed."
+    },
+    {
+      "id": "E01",
+      "priority": "P1",
+      "level": "L2-parser",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py ; /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_docling_chinese_pdf.py ; pdftotext -layout fixture-catalog.pdf",
+      "expected": "Chinese specs/table import keeps real characters, numbers, units; page sources remain; not page-count-only.",
+      "actual": "Ingest tests used real Docling 2.126.0 (RapidOCR deprecation warnings). Independent pdfplumber + pdftotext of generated PDF show 空气炸锅容量 5L / 适合 3-4 人家庭 / 售后保修一年, not nnnn. ingest_document extracted the same phrases plus a markdown table '| 容量 | 5L |'. Pytest import assertions passed (2 pages, page=1 source, tenant scope).",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml",
+        "fixture-catalog.pdf",
+        "fixture-catalog.extracted.txt",
+        "fixture-catalog.pdftotext.txt",
+        "probe_docling_chinese_pdf.json"
+      ],
+      "notes": "L2 parser PASS for electronic PDF only. Q&A against live chat model was not run (no paid models). ISSUE-13 fixture is valid Chinese."
+    },
+    {
+      "id": "E02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Short/blank/rotated/native/scanned mixed pages keep reading order; each page reports actual parse status.",
+      "actual": "test_mixed_native_and_scanned_pdf_pages_keep_reading_order passed by monkeypatching Docling=(scan p1, structured p2) and pdfplumber=(native p2); merged order [1,2] with scan text on page 1. No real mixed/rotated/blank PDF. Not L2 parser for mixed pages.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "ISSUE-12 merge-order logic L1 PASS. Full E02 remains INCOMPLETE. Do not mark as scanned-OCR acceptance."
+    },
+    {
+      "id": "E03",
+      "priority": "P1",
+      "level": "L2-parser",
+      "status": "INCOMPLETE",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_docling_chinese_pdf.py",
+      "expected": "Pure scanned PDF through real OCR/Docling with human page truth.",
+      "actual": "Docling 2.126.0 is importable and electronic ingest used it. This run has no real scan PDF with independent human truth. Monkeypatched '扫描页内容' is not OCR acceptance.",
+      "evidence_files": [
+        "probe_docling_chinese_pdf.json"
+      ],
+      "notes": "E03 remains INCOMPLETE as specified."
+    },
+    {
+      "id": "E07",
+      "priority": "P1",
+      "level": "L2-parser",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Identical file sequential re-import is idempotent; same-name content change is traceable; rename policy frozen.",
+      "actual": "test_knowledge_import_endpoint_lists_imported_pdf: second identical catalog.pdf import left item count unchanged (PASS for sequential duplicate). Same-name different content and same-content rename were not run.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Partial E07. Concurrent retry is E09 and was not in this suite."
+    },
+    {
+      "id": "E08",
+      "priority": "P0",
+      "level": "L2-parser",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "List/download/errors do not leak other-tenant originals; own files still download; path traversal fails.",
+      "actual": "Import TestClient: own file listed with digest-prefixed name, download bytes equal upload, tmp_path not in files.text, '..%2Fagent.sqlite3' -> 404. Cross-tenant enumerate/guess-digest is tests/test_framework_audit.py::test_demo_does_not_list_or_serve_other_tenants_original_files, not in this pytest set.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Own-file download and traversal L2/TestClient passed. Full P0 cross-tenant original isolation not evidenced here."
+    },
+    {
+      "id": "E10",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Malicious instructions in documents cannot become system commands; upload success is not fact approval.",
+      "actual": "test_guard_drops_knowledge_entries_carrying_embedded_instructions passed: poisoned knowledge row excluded from chat sources, clean row kept. PDF-embedded injection and unreviewed-upload-then-ask were not run. Ingest still writes review_status='approved' on import (governance gap, not asserted this run).",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Mapped knowledge-guard claim passed. E10/I09 remain partial."
+    },
+    {
+      "id": "I09",
+      "priority": "P0",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "User, PDF, retrieved chunk, image text, memory, and tool returns each carrying ignore-rules/leak/approve do not escalate.",
+      "actual": "Only knowledge-entry instruction drop was tested. Other untrusted channels not in this suite.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Partial I09. Not FAIL: other channels not executed."
+    },
+    {
+      "id": "F01",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Like/dislike/empty vs full correction distinguished; unapproved feedback does not change answers.",
+      "actual": "test_feedback_endpoint_creates_experience_candidate: rating -1 with correction -> candidate_pending. Evolution cycle before-approve still TABLE_MODEL_ANSWER. Empty correction and like/dislike-only not covered.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Pending-candidate path exists. Full F01 matrix not run."
+    },
+    {
+      "id": "F02",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Repeated correction in the same scope reuses one candidate; different facts are not merged.",
+      "actual": "test_repeated_correction_reuses_the_existing_evolution_candidate: same candidate_id, COUNT(*)=1. test_repeated_correction_reports_an_existing_approved_candidate: status candidate_approved. Concurrent submit and cross-tenant resubmit not run.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Mapped sequential idempotent claim passed at L1."
+    },
+    {
+      "id": "F03",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "gate=false cannot be approved via service API; no new active knowledge.",
+      "actual": "test_candidate_failing_the_gate_cannot_be_approved: evaluate gate_passed False; evolution.approve raises EvolutionError. Direct service call, not UI-only.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "L1 service-layer gate. Demo HTTP approve bypass not in this pytest set."
+    },
+    {
+      "id": "F07",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "After approve, original question reuses learned answer; rewrite/other product/tenant stay unpolluted.",
+      "actual": "test_evolution_cycle_learns_reuses_and_rolls_back: after approve, exact question returns LEARNED_ANSWER with evolution source; near-miss still TABLE_MODEL_ANSWER though source may retrieve. Other tenant/product not executed.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Mapped learn/reuse cycle passed. Cross-tenant pollution not in this run."
+    },
+    {
+      "id": "F08",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Publish v2 then rollback then refresh/restart: old version or safe no-answer; cache/index/exact-reuse consistent; new audit record.",
+      "actual": "Same evolution test rolls back in-process: original question returns TABLE_MODEL_ANSWER and evolution source disappears. Process restart/refresh after rollback not executed.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "In-process rollback passed. Full F08 restart clause not evidenced."
+    },
+    {
+      "id": "A04",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Switching text model, injected model, embedding, parser, timeout changes actual callee; unknown embedding fails closed; no silent old backend.",
+      "actual": "test_hash_provider_is_reproducible_and_explicit and test_unknown_embedding_provider_fails_at_configuration_boundary passed. Text-model/timeout/parser switches not in this suite. FastEmbed model id is not part of provider.name.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml",
+        "probe_embedding_identity.json"
+      ],
+      "notes": "Partial A04/D07. Unknown provider fail is PASS; model-identity persistence is FAIL under D07."
+    },
+    {
+      "id": "ISSUE-12",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Mixed native+scanned merge keeps page order.",
+      "actual": "Monkeypatched merge returned pages [1, 2] with scanned text on page 1. Pytest passed.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Logic regression only. Not real scanned PDF."
+    },
+    {
+      "id": "ISSUE-13",
+      "priority": "P1",
+      "level": "L2-parser",
+      "status": "PASS",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_docling_chinese_pdf.py ; pdftotext -layout fixture-catalog.pdf",
+      "expected": "Generated/imported Chinese PDF contains real CJK, not nnnn; page/table asserts are not the only check.",
+      "actual": "Opened fixture-catalog.pdf via pdfplumber and pdftotext; extracted text is 空气炸锅容量 5L / 适合 3-4 人家庭 / 容量 5L / 售后保修一年. ingest_document text matches. CJK counts 13+6; nnnn false.",
+      "evidence_files": [
+        "fixture-catalog.pdf",
+        "fixture-catalog.extracted.txt",
+        "fixture-catalog.pdftotext.txt",
+        "probe_docling_chinese_pdf.json"
+      ],
+      "notes": "Fixture is valid Chinese. E01 L2-parser electronic PASS rests on this."
+    },
+    {
+      "id": "7.4",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Nonce product facts change answers after authorized update; no-answer after delete.",
+      "actual": "Not executed. Ranking test is not a document-update experiment.",
+      "evidence_files": [
+        "pytest-junit.xml"
+      ],
+      "notes": "knowledge-pdf plan listed 7.4 L1; this run did not construct DOC-A nonce updates."
+    },
+    {
+      "id": "7.5",
+      "priority": "P1",
+      "level": "L2-parser",
+      "status": "INCOMPLETE",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_docling_chinese_pdf.py",
+      "expected": "Open PDF, parse, import, compare to independent fact table; real mixed scan and cross-page tables.",
+      "actual": "Electronic two-page Chinese PDF opened and compared. Mixed scan, rotation, cross-page table not in this run.",
+      "evidence_files": [
+        "fixture-catalog.pdf",
+        "probe_docling_chinese_pdf.json"
+      ],
+      "notes": "Electronic subset evidenced under E01/ISSUE-13. Full 7.5 INCOMPLETE."
+    },
+    {
+      "id": "7.6",
+      "priority": "P1",
+      "level": "L1",
+      "status": "FAIL",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python $EVIDENCE/probe_embedding_identity.py",
+      "expected": "Restart keeps vectors; same-dim different model rejected or migrated; broken rebuild not treated complete.",
+      "actual": "Step 3 same-dim mix is not rejected (D07 FAIL). FastEmbed restart and mid-rebuild (D06/D08) not run.",
+      "evidence_files": [
+        "probe_embedding_identity.json"
+      ],
+      "notes": "FAIL is the mix-acceptance observation. Restart/rebuild gaps remain INCOMPLETE, not additional FAILs."
+    },
+    {
+      "id": "7.7",
+      "priority": "P1",
+      "level": "L1",
+      "status": "INCOMPLETE",
+      "command": "cd /tmp/yunpai-test-candidate-grok46-pZG5r3 && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src ALL_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost /Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short --junitxml=$EVIDENCE/pytest-junit.xml tests/test_customer_service_module_knowledge.py tests/test_embeddings.py tests/test_knowledge_ingest.py",
+      "expected": "Correct correction pending then approve; gate false blocked; false non-empty source rejected; rollback consistent.",
+      "actual": "Pending/approve/reuse/rollback and gate-false reject passed. Non-empty fake source (F05) and expired-policy flips not run.",
+      "evidence_files": [
+        "pytest.stdout",
+        "pytest-junit.xml"
+      ],
+      "notes": "Executed F02/F03/F07/in-process F08. Full 7.7 INCOMPLETE."
+    }
+  ]
+}

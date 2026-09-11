@@ -1,0 +1,40 @@
+{
+  "mutation": "mut-F",
+  "claim": "P06 0 tests collected is not product PASS",
+  "wrong_implementation": "none; collector/reporter probe only",
+  "verdict_for_tests": "CAUGHT (process)",
+  "cases": [
+    {
+      "id": "P06-wrong-path",
+      "priority": "P1",
+      "level": "L0",
+      "status": "FAIL",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest --collect-only -q tests/this_path_does_not_exist_p06",
+      "expected": "must not be reported as product PASS",
+      "actual": "ERROR: file or directory not found; 'no tests collected'; exit=4",
+      "evidence_files": ["fail.log", "collect-missing-path.exit"],
+      "notes": "pytest exit 4 is usage/path error. Exit 4 is not 0. Cannot claim 0 tests as PASS."
+    },
+    {
+      "id": "P06-collect-zero-keyword",
+      "priority": "P1",
+      "level": "L0",
+      "status": "FAIL",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest --collect-only -q -k p06_zero_collection_sentinel_no_such_test",
+      "expected": "0 collected != pass",
+      "actual": "no tests collected (109 deselected); exit=5",
+      "evidence_files": ["fail.log", "collect-zero-keyword.exit"],
+      "notes": "pytest exit 5 means no tests collected. Manual P06: this must never be written as product PASS."
+    },
+    {
+      "id": "P06-run-zero-keyword",
+      "priority": "P1",
+      "level": "L0",
+      "status": "FAIL",
+      "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q -k p06_zero_collection_sentinel_no_such_test",
+      "expected": "running 0 tests is not a green suite",
+      "actual": "109 deselected, 1 warning; exit=5; no 'passed' line",
+      "evidence_files": ["fail.log", "run-zero-keyword.exit"]
+    }
+  ]
+}

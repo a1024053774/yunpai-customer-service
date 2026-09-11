@@ -1,0 +1,111 @@
+{
+  "saved_utc": "2026-09-11T08:10:11.502110+00:00",
+  "skill": "/Users/luckye/Documents/SKILLS/agent-acceptance-testing/SKILL.md",
+  "skill_sha256_note": "compare freeze.json skill_sha256",
+  "status": "FAIL",
+  "missing": 10,
+  "cases": [
+    {
+      "id": "SK-ISO-001",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "source env.md then export DATA_DIR",
+        "refuse workspace data/"
+      ],
+      "why": "env.md can clobber DATA_DIR onto repo data/; ISO-001 already happened"
+    },
+    {
+      "id": "SK-EXECUTOR-PIN",
+      "status": "FAIL",
+      "present": [
+        "Codex"
+      ],
+      "absent": [
+        "do not substitute Orca",
+        "Luna"
+      ],
+      "why": "user-frozen executor; plan.md already drifted to Orca"
+    },
+    {
+      "id": "SK-FRESH-REVIEWER",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "Task tool",
+        "run_in_background",
+        "forbid resume"
+      ],
+      "why": "fresh-context verifier is named but not operationalized"
+    },
+    {
+      "id": "SK-CJK",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "unicode escapes",
+        "Path.write_text"
+      ],
+      "why": "this repo forbids Write/StrReplace CJK in docs"
+    },
+    {
+      "id": "SK-FILE-URI",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "file://",
+        "localhost HTTP"
+      ],
+      "why": "sidebar browser blocks file:// screenshots"
+    },
+    {
+      "id": "SK-REVIEW-PASS-FREEZE",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "REVIEW_PASS",
+        "must not be reverted to FAIL"
+      ],
+      "why": "ledger already has REVIEW_PASS defects"
+    },
+    {
+      "id": "SK-LEDGER-PHASE",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "do not edit CASES.json during freeze"
+      ],
+      "why": "skill currently pushes unique ledger writes too early"
+    },
+    {
+      "id": "SK-SEPARATE-DIGEST",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "skill_sha256",
+        "product candidate digest"
+      ],
+      "why": "skill edits must not be confused with product freeze"
+    },
+    {
+      "id": "SK-NO-WAIT",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "do not stop to wait for the user when instructed to continue"
+      ],
+      "why": "grilling wait conflicts with continue-to-completion runs"
+    },
+    {
+      "id": "SK-10-2-NO-GO",
+      "status": "FAIL",
+      "present": [],
+      "absent": [
+        "incomplete 10.2",
+        "NO_GO"
+      ],
+      "why": "green pytest must not become product GO"
+    }
+  ],
+  "note": "FAIL here is a Skill-contract red state, not a product defect"
+}

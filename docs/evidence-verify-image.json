@@ -1,0 +1,13 @@
+{
+  "answer": "从图片看，这是一款空气炸锅的示意图（灰色机身、正面有圆形窗/旋钮），外形和晴川 QC-AF50 比较接近。这款是 5L / 1500W，价格 329 元，适合 3–4 人家庭；它的内锅和烤架可拆洗，机身和加热管不要浸水，不用上门安装，到货洗净内锅、接通电源就能用，第一次建议空载预热 3 分钟。\n\n不过仅凭图片还看不出是否需要售后哦——如果收到的实物有破损、不通电或使用异常，麻烦告诉我具体是什么情况，我再帮你核实处理。如果只是想确认容量合不合适：1–2 人用可以选 QC-AF35（3.5L / 1300W，259 元）会更划算。",
+  "customer_intent": "product_inquiry",
+  "intent": "product",
+  "intent_method": "model",
+  "intent_confidence": 0.9,
+  "vision_status": "applied",
+  "vision_model": "deepseek-v4-flash-vision-exp",
+  "vision_latency_ms": 3953,
+  "requires_human": false,
+  "reason": "media_and_knowledge_answer_allowed",
+  "risk_level": "low"
+}

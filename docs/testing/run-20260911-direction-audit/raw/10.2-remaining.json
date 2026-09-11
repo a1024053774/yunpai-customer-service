@@ -1,0 +1,52 @@
+[
+  {
+    "item": "L3 local UI/API",
+    "status": "slice-only",
+    "reason": "loopback service and HTTP page/API evidence; no independent browser automation or production ingress"
+  },
+  {
+    "item": "L4 preproduction",
+    "status": "unproved",
+    "reason": "no real auth gateway/channel/sandbox business ledger"
+  },
+  {
+    "item": "L5 production",
+    "status": "blocked",
+    "reason": "production writes and production traffic explicitly excluded"
+  },
+  {
+    "item": "independent site",
+    "status": "unproved",
+    "reason": "host API is local loopback with ephemeral isolated credentials"
+  },
+  {
+    "item": "HR domain",
+    "status": "unproved",
+    "reason": "business_domain remains ecommerce; no HR source/SOP/eval acceptance"
+  },
+  {
+    "item": "real reverse proxy",
+    "status": "unproved",
+    "reason": "no proxy process or trusted forwarded-header chain"
+  },
+  {
+    "item": "real business ledger",
+    "status": "unproved",
+    "reason": "no order/refund/inventory/payment external ledger readback"
+  },
+  {
+    "item": "clean runtime",
+    "status": "unproved",
+    "reason": "current candidate is dirty; no clean wheel/image install"
+  },
+  {
+    "item": "cost gate",
+    "status": "unknown",
+    "reason": "DeepSeek provider token/cost fields absent; model calls may incur cloud cost"
+  },
+  {
+    "item": "long soak/recovery",
+    "status": "unproved",
+    "reason": "minimal slices only; no 8h soak or crash recovery"
+  }
+]

@@ -1,0 +1,50 @@
+<!doctype html><meta charset=utf-8><title>D02</title><pre>{
+  "id": "D02",
+  "status": "PASS",
+  "answer": "您好，关于“孤岛验收电热水壶（型号 QA-GROK-2C2668E3）”：\n\n- 库存数量：现有资料没有记载具体库存数字。页面可下单通常表示当前系统有可售库存，但大促或并发下单时库存可能变化，最终以订单提交和仓库复核结果为准。\n- 历史销量：现有资料没有记载销量数据，无法提供具体数字。\n- 到账时间：现有资料没有记载到账时间，无法承诺具体时效。\n\n如需进一步确认，建议以商品页面和订单提交后的仓库复核结果为准；若您需要，我也可以帮您转人工进一步核对。",
+  "sources": [
+    {
+      "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+      "category": "uploaded_document",
+      "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+      "version": 1,
+      "score": 0.9733
+    },
+    {
+      "id": "seed-0024",
+      "category": "商品",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.843
+    },
+    {
+      "id": "seed-0033",
+      "category": "库存",
+      "source": "builtin:ecommerce-sop-v1",
+      "version": 1,
+      "score": 0.7683
+    }
+  ],
+  "trace": [
+    "intake",
+    "intent:model:product_inquiry",
+    "precheck:deliberate",
+    "retrieve:initial:3",
+    "guard:blocked:0",
+    "memory:recalled:0",
+    "context:budget:kept0/dropped0",
+    "context:decision:ready",
+    "context:budget:kept0/dropped0",
+    "deliberate:model:answer",
+    "decision_gate:answer",
+    "retrieve:refined:3",
+    "guard:blocked:0",
+    "context:budget:kept0/dropped0",
+    "context:generation:ready",
+    "context:budget:kept0/dropped0",
+    "generate:model",
+    "verify:passed",
+    "postcondition:answer",
+    "persist"
+  ]
+}</pre>

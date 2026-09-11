@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>智能客服示例</title>
+  <title>云派智能客服</title>
   <style>
     :root {
-      --canvas: #f2f5f6;
+      --canvas: #f5f6f8;
       --paper: #ffffff;
-      --ink: #17242a;
-      --muted: #64747b;
-      --line: #d7e0e3;
-      --nav: #17313a;
-      --teal: #087b72;
-      --teal-soft: #e7f4f1;
-      --amber: #a75c00;
-      --amber-soft: #fff3dc;
-      --red: #b12635;
-      --red-soft: #fdecef;
-      --blue: #1b5f8f;
-      --blue-soft: #e8f2f9;
-      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      --ink: #1a1f24;
+      --muted: #66737c;
+      --line: #e6e9ee;
+      --nav: #ffffff;
+      --teal: #0f6e68;
+      --teal-soft: #eaf6f4;
+      --amber: #9a6700;
+      --amber-soft: #fff7e6;
+      --red: #b42318;
+      --red-soft: #fef3f2;
+      --blue: #175cd3;
+      --blue-soft: #eff6ff;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Segoe UI", sans-serif;
     }
     * { box-sizing: border-box; }
     body { margin: 0; min-width: 320px; color: var(--ink); background: var(--canvas); }
@@ -28,143 +28,156 @@
     button { cursor: pointer; }
     .page { width: 100%; min-width: 0; min-height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); }
     .topbar {
-      min-height: 62px; padding: 11px clamp(14px, 3vw, 32px); background: var(--nav); color: #fff;
+      min-height: 64px; padding: 10px clamp(16px, 3vw, 32px); background: var(--nav); color: var(--ink);
       position: relative; min-width: 0; display: flex; gap: 16px; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--line);
     }
-    .title { min-width: 0; flex: 1 1 320px; }
-    .title strong { display: block; font-size: 18px; }
-    .title span { display: block; margin-top: 3px; font-size: 12px; color: #b5c9ce; }
+    .title { min-width: 0; flex: 1 1 320px; display: flex; gap: 12px; align-items: center; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 10px; flex: 0 0 auto;
+      display: grid; place-items: center; background: var(--teal); color: #fff; font-size: 14px; font-weight: 700;
+    }
+    .title strong { display: block; font-size: 16px; letter-spacing: -0.02em; }
+    .title span { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
     .topbar-actions { min-width: 0; display: flex; align-items: center; gap: 10px; margin-left: auto; }
     .status {
-      display: inline-flex; align-items: center; min-height: 25px; padding: 3px 8px; border-radius: 4px;
-      font-size: 12px; font-weight: 700; background: #294a55; color: #d9f2ed; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 4px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; background: var(--teal-soft); color: var(--teal); white-space: nowrap;
     }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #12b76a; }
     .release-center { position: relative; flex: 0 0 auto; }
     .release-bell {
-      position: relative; width: 36px; height: 36px; padding: 0; border: 1px solid rgba(213,238,241,.34);
-      border-radius: 8px; display: grid; place-items: center; background: rgba(255,255,255,.06); color: #e8f4f5;
+      position: relative; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line);
+      border-radius: 10px; display: grid; place-items: center; background: #fff; color: #344054;
     }
-    .release-bell:hover, .release-bell:focus-visible { background: #294a55; border-color: #78aaa9; outline: none; }
-    .release-bell svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .release-bell:hover, .release-bell:focus-visible { background: #f8fafb; border-color: #cdd5dc; outline: none; }
+    .release-bell svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .release-panel[hidden] { display: none; }
     .release-panel {
-      position: absolute; z-index: 80; top: calc(100% + 10px); right: 0; width: min(430px, calc(100vw - 28px));
-      max-height: min(650px, calc(100vh - 90px)); overflow: auto; border: 1px solid #c8d6da; border-radius: 10px;
-      background: #fff; color: var(--ink); box-shadow: 0 18px 45px rgba(19,49,58,.24);
+      position: absolute; z-index: 80; top: calc(100% + 10px); right: 0; width: min(440px, calc(100vw - 28px));
+      max-height: min(650px, calc(100vh - 90px)); overflow: auto; border: 1px solid var(--line); border-radius: 14px;
+      background: #fff; color: var(--ink); box-shadow: 0 18px 50px rgba(16,24,40,.12);
     }
     .release-panel::before {
       content: ""; position: absolute; top: -7px; right: 12px; width: 12px; height: 12px;
-      border-left: 1px solid #c8d6da; border-top: 1px solid #c8d6da; background: #fff; transform: rotate(45deg);
+      border-left: 1px solid var(--line); border-top: 1px solid var(--line); background: #fff; transform: rotate(45deg);
     }
     .release-panel-head {
-      position: sticky; top: 0; z-index: 1; padding: 15px 16px 13px; display: flex; align-items: flex-start;
+      position: sticky; top: 0; z-index: 1; padding: 16px 16px 13px; display: flex; align-items: flex-start;
       justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); background: #fff;
     }
-    .release-panel-head strong { display: block; font-size: 16px; }
+    .release-panel-head strong { display: block; font-size: 15px; }
     .release-panel-head span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
     .release-close {
-      width: 30px; height: 30px; padding: 0; border: 0; border-radius: 6px; background: #eef3f4;
-      color: #53656c; font-size: 20px; line-height: 1;
+      width: 30px; height: 30px; padding: 0; border: 0; border-radius: 8px; background: #f2f4f7;
+      color: #475467; font-size: 20px; line-height: 1;
     }
-    .release-close:hover, .release-close:focus-visible { background: #dfe9eb; outline: 2px solid rgba(8,123,114,.18); }
+    .release-close:hover, .release-close:focus-visible { background: #e4e7ec; outline: 2px solid rgba(15,110,104,.18); }
     .release-section { padding: 14px 16px; }
     .release-section + .release-section { border-top: 1px solid var(--line); }
-    .release-section h2 { margin: 0 0 10px; font-size: 13px; }
+    .release-section h2 { margin: 0 0 10px; font-size: 12px; color: #475467; font-weight: 700; letter-spacing: .04em; }
     .feature-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .feature-item { padding: 9px 10px; border: 1px solid #d4e4e2; border-radius: 6px; background: #f4f9f8; }
-    .feature-item strong { display: block; color: #086c64; font-size: 12px; }
-    .feature-item span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .feature-item { padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: #fbfcfd; }
+    .feature-item strong { display: block; color: var(--ink); font-size: 12px; }
+    .feature-item span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.5; }
     .release-log { display: grid; gap: 13px; }
     .release-entry { position: relative; padding-left: 16px; }
     .release-entry::before { content: ""; position: absolute; top: 6px; left: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
-    .release-entry + .release-entry { padding-top: 13px; border-top: 1px dashed #d8e1e3; }
-    .release-entry + .release-entry::before { top: 19px; background: #91a3a9; }
+    .release-entry + .release-entry { padding-top: 13px; border-top: 1px dashed var(--line); }
+    .release-entry + .release-entry::before { top: 19px; background: #98a2b3; }
     .release-entry-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
     .release-entry time { color: var(--muted); font-size: 11px; }
     .release-entry strong { font-size: 13px; }
-    .release-latest { padding: 2px 6px; border-radius: 999px; background: var(--teal-soft); color: #087269; font-size: 10px; font-weight: 700; }
-    .release-entry ul { margin: 7px 0 0; padding-left: 18px; color: #53656c; font-size: 12px; line-height: 1.6; }
+    .release-latest { padding: 2px 7px; border-radius: 999px; background: var(--teal-soft); color: var(--teal); font-size: 10px; font-weight: 700; }
+    .release-entry ul { margin: 7px 0 0; padding-left: 18px; color: #475467; font-size: 12px; line-height: 1.6; }
     .button {
-      min-height: 34px; padding: 6px 11px; border: 1px solid var(--line); border-radius: 4px;
-      background: #fff; color: var(--ink); font-weight: 700;
+      min-height: 34px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 10px;
+      background: #fff; color: var(--ink); font-weight: 600; text-decoration: none;
     }
-    .button:hover { border-color: #97abb2; background: #f8fbfb; }
+    .button:hover { border-color: #cdd5dc; background: #f8fafb; }
     .button.primary { border-color: var(--teal); background: var(--teal); color: #fff; }
-    .button.primary:hover { background: #06675f; }
+    .button.primary:hover { background: #0b5c57; }
     .button:disabled { opacity: .55; cursor: wait; }
     .layout {
-      width: min(1360px, 100%); min-height: 0; margin: 0 auto; padding: 20px clamp(14px, 3vw, 32px);
-      display: grid; grid-template-columns: minmax(250px, 310px) minmax(0, 1fr); gap: 18px;
+      width: min(1280px, 100%); min-height: 0; margin: 0 auto; padding: 18px clamp(14px, 3vw, 32px);
+      display: grid; grid-template-columns: minmax(240px, 280px) minmax(0, 1fr); gap: 16px;
     }
     .sidebar, .workspace { min-width: 0; }
-    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
     .panel-head { padding: 16px; border-bottom: 1px solid var(--line); }
-    .panel-head h1 { margin: 0; font-size: 16px; }
-    .panel-head p { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-    .hints { padding: 8px; display: grid; gap: 7px; }
+    .panel-head h1 { margin: 0; font-size: 14px; }
+    .panel-head p { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .hints { padding: 8px; display: grid; gap: 6px; }
     .hint {
-      width: 100%; padding: 10px; border: 1px solid transparent; border-radius: 4px;
-      background: transparent; color: var(--ink); text-align: left;
+      width: 100%; padding: 10px 11px; border: 1px solid transparent; border-radius: 10px;
+      background: transparent; color: var(--ink); text-align: left; font-size: 13px;
     }
-    .hint:hover, .hint.active { border-color: #a8d4ce; background: var(--teal-soft); }
+    .hint:hover, .hint.active { border-color: #cfe7e3; background: var(--teal-soft); }
     .hint .when { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.45; }
     .history-head { border-top: 1px solid var(--line); }
     .history-list { max-height: 280px; overflow: auto; }
     .history-empty { margin: 0; padding: 4px 2px; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .workspace { display: grid; grid-template-rows: auto minmax(320px, 1fr) auto auto; overflow: hidden; min-height: calc(100vh - 120px); }
+    .workspace { display: grid; grid-template-rows: auto minmax(320px, 1fr) auto auto; overflow: hidden; min-height: calc(100vh - 108px); }
     .session-row {
       padding: 12px 16px; border-bottom: 1px solid var(--line);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fbfcfc;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fff;
     }
     .session-row .label { min-width: 0; }
     .session-row .label strong, .session-row .label span { display: block; }
     .session-row .label strong { font-size: 14px; }
-    .session-row .label span { margin-top: 3px; color: var(--muted); font: 12px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
-    .messages { min-height: 320px; max-height: calc(100vh - 315px); overflow: auto; padding: 18px; display: grid; align-content: start; gap: 14px; background: #f9fbfb; }
-    .empty { align-self: center; justify-self: center; max-width: 460px; color: var(--muted); font-size: 14px; line-height: 1.65; text-align: center; }
-    .message { max-width: min(760px, 88%); padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; background: #fff; line-height: 1.65; overflow-wrap: anywhere; }
-    .message.customer { justify-self: end; border-color: #9dc3df; background: var(--blue-soft); }
-    .message.agent { justify-self: start; border-color: #abd8d2; }
-    .message.error { justify-self: start; border-color: #e7abb4; background: var(--red-soft); }
+    .session-row .label span { margin-top: 3px; color: var(--muted); font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; }
+    .messages { min-height: 320px; max-height: calc(100vh - 300px); overflow: auto; padding: 20px; display: grid; align-content: start; gap: 14px; background: #f7f8fa; }
+    .empty { align-self: center; justify-self: center; max-width: 420px; color: var(--muted); font-size: 14px; line-height: 1.65; text-align: center; }
+    .message { max-width: min(720px, 86%); padding: 12px 14px; border: 1px solid var(--line); border-radius: 16px 16px 6px 16px; background: #fff; line-height: 1.65; overflow-wrap: anywhere; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+    .message.customer { justify-self: end; border-color: #d7e6fb; background: var(--blue-soft); border-radius: 16px 16px 16px 6px; }
+    .message.agent { justify-self: start; }
+    .message.error { justify-self: start; border-color: #fecdca; background: var(--red-soft); }
     .message-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; font-size: 12px; color: var(--muted); }
     .message-head strong { color: var(--ink); }
     .reply-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .tag { padding: 2px 6px; border-radius: 3px; font-size: 12px; font-weight: 700; background: #edf1f2; color: #43545a; }
-    .tag.ok { color: #06675f; background: var(--teal-soft); }
+    .tag { padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; background: #f2f4f7; color: #475467; }
+    .tag.ok { color: var(--teal); background: var(--teal-soft); }
     .tag.warn { color: var(--amber); background: var(--amber-soft); }
     .tag.danger { color: var(--red); background: var(--red-soft); }
     .tag.info { color: var(--blue); background: var(--blue-soft); }
-    .source-list { margin: 10px 0 0; padding: 10px; border-left: 3px solid #8bc7c0; background: #f3f8f8; color: #405158; font-size: 12px; }
+    .source-list { margin: 10px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fbfcfd; color: #475467; font-size: 12px; }
     .source-list strong { color: var(--ink); }
-    .decision-details { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(23, 33, 43, .12); }
+    .feedback-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 10px; }
+    .feedback-actions button { padding: 5px 9px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--muted); font-size: 11px; }
+    .feedback-actions button:hover { border-color: #cfe7e3; color: var(--teal); background: var(--teal-soft); }
+    .feedback-actions .feedback-sent { color: var(--teal); border-color: #cfe7e3; background: var(--teal-soft); }
+    .decision-details { margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--line); }
     .decision-details summary { cursor: pointer; color: var(--blue); font-size: 12px; }
     .decision-grid { display: grid; gap: 5px; margin-top: 8px; color: var(--muted); font-size: 12px; }
     .decision-trace { overflow-wrap: anywhere; word-break: break-word; }
-    .composer { padding: 14px 16px; border-top: 1px solid var(--line); display: grid; gap: 9px; }
+    .composer { padding: 14px 16px 16px; border-top: 1px solid var(--line); display: grid; gap: 9px; background: #fff; }
     .context { color: var(--muted); font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
-    textarea { width: 100%; min-height: 82px; resize: vertical; padding: 10px 11px; border: 1px solid #b8c8cd; border-radius: 4px; color: var(--ink); background: #fff; outline: none; }
-    textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(8,123,114,.12); }
+    textarea { width: 100%; min-height: 78px; resize: vertical; padding: 11px 12px; border: 1px solid #d0d5dd; border-radius: 12px; color: var(--ink); background: #fff; outline: none; }
+    textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(15,110,104,.12); }
     .composer-actions { display: flex; align-items: center; justify-content: space-between; gap: 9px; }
     .image-actions { display: flex; align-items: center; gap: 9px; }
     .image-actions .button { flex: 0 0 auto; white-space: nowrap; }
     .paste-hint { color: var(--muted); font-size: 12px; }
-    .image-preview { display: flex; align-items: center; gap: 10px; padding: 9px; border: 1px solid #b8d7d3; border-radius: 4px; background: #f3f9f8; }
+    .image-preview { display: flex; align-items: center; gap: 10px; padding: 9px; border: 1px solid #cfe7e3; border-radius: 12px; background: var(--teal-soft); }
     .image-preview.hidden { display: none; }
-    .image-preview img { width: 72px; height: 72px; object-fit: cover; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+    .image-preview img { width: 72px; height: 72px; object-fit: cover; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
     .image-preview-info { min-width: 0; flex: 1; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
-    .message-image { display: block; max-width: min(360px, 100%); max-height: 300px; margin: 0 0 9px; border: 1px solid var(--line); border-radius: 4px; object-fit: contain; background: #fff; }
+    .message-image { display: block; max-width: min(360px, 100%); max-height: 300px; margin: 0 0 9px; border: 1px solid var(--line); border-radius: 10px; object-fit: contain; background: #fff; }
     .evidence { margin: 0 16px 16px; padding: 0 0 14px; border-top: 1px solid var(--line); }
     .evidence summary { padding-top: 12px; color: var(--muted); font-size: 13px; cursor: pointer; }
-    pre { max-height: 260px; margin: 10px 0 0; padding: 12px; overflow: auto; border-radius: 4px; background: #172a31; color: #dce8ea; font: 12px/1.55 ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    pre { max-height: 260px; margin: 10px 0 0; padding: 12px; overflow: auto; border-radius: 10px; background: #101828; color: #e4e7ec; font: 12px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
     @media (max-width: 820px) {
       .layout { grid-template-columns: 1fr; }
       .workspace { min-height: 60vh; }
       .messages { max-height: 46vh; }
+      .topbar-actions .status { display: none; }
+      .topbar-actions > .button { flex: 0 0 auto; min-width: 46px; white-space: nowrap; }
     }
     @media (max-width: 520px) {
       .topbar { align-items: flex-start; flex-wrap: wrap; }
-      .topbar-actions { width: 100%; justify-content: flex-start; }
-      .topbar-actions .status { min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
+      .topbar-actions { width: auto; justify-content: flex-start; }
+      .topbar-actions .status { display: none; }
+      .topbar-actions .button { display: inline-flex; align-items: center; }
       .release-center { position: static; }
       .release-panel { top: 100%; left: 12px; right: 12px; width: auto; max-height: calc(100vh - 130px); }
       .release-panel::before { display: none; }
@@ -179,10 +192,14 @@
   <div class="page">
     <header class="topbar">
       <div class="title">
-        <strong>智能客服示例</strong>
-        <span>本机演示 · 晴川小家电模拟店 · 对话 / 记忆 / 话术匹配 / 图片观察</span>
+        <div class="brand-mark" aria-hidden="true">云</div>
+        <div>
+          <strong>云派智能客服</strong>
+          <span>本机演示 · 晴川小家电 · 对话、知识库与经验沉淀</span>
+        </div>
       </div>
       <div class="topbar-actions">
+        <a class="button" href="/admin">知识库</a>
         <div class="release-center">
           <button
             class="release-bell"
@@ -214,14 +231,16 @@
               <button class="release-close" type="button" id="releaseClose" aria-label="关闭公告">×</button>
             </div>
             <div class="release-section">
-              <h2>支持的 Feature</h2>
+              <h2>当前能力</h2>
               <div class="feature-list">
-                <div class="feature-item"><strong>智能对话</strong><span>同步与流式回复，多轮追问</span></div>
+                <div class="feature-item"><strong>智能对话</strong><span>DeepSeek Flash 意图识别、流式回复、多轮追问</span></div>
                 <div class="feature-item"><strong>会话与长期记忆</strong><span>历史上下文、顾客偏好隔离</span></div>
-                <div class="feature-item"><strong>话术匹配</strong><span>RAG 检索与审核话术复用</span></div>
+                <div class="feature-item"><strong>本地 RAG</strong><span>BM25 + FastEmbed 中文向量，不依赖云端向量库</span></div>
                 <div class="feature-item"><strong>反馈自沉淀</strong><span>评测、审批、复用与回滚</span></div>
-                <div class="feature-item"><strong>图片输入</strong><span>PNG / JPEG / WebP；图片理解需配置视觉模型</span></div>
-                <div class="feature-item"><strong>人工接管</strong><span>低置信度与业务操作升级</span></div>
+                <div class="feature-item"><strong>图片输入</strong><span>PNG / JPEG / WebP，由 DeepSeek 视觉模型观察</span></div>
+                <div class="feature-item"><strong>知识工作台</strong><span>导入 PDF / TXT / Markdown，Docling 解析版式与表格</span></div>
+                <div class="feature-item"><strong>独立站接口</strong><span>/v1/chat 与流式接口，按租户隔离</span></div>
+                <div class="feature-item"><strong>人工接管</strong><span>低置信度与高风险业务操作升级</span></div>
               </div>
             </div>
             <div class="release-section">
@@ -229,15 +248,17 @@
               <div class="release-log">
                 <article class="release-entry">
                   <div class="release-entry-head">
-                    <time datetime="2026-08-27">2026-08-27</time>
-                    <strong>客服核心能力优化</strong>
+                    <time datetime="2026-09-09">2026-09-09</time>
+                    <strong>意图、知识库与本地检索</strong>
                     <span class="release-latest">最新</span>
                   </div>
                   <ul>
-                    <li>多轮指代追问会继承上一轮检索语境。</li>
-                    <li>长期记忆支持相关度召回、顾客隔离和过期续期。</li>
-                    <li>精确话术优先匹配，重复纠错复用已有候选。</li>
-                    <li>新增右上角功能与版本公告入口。</li>
+                    <li>删除独立轻量意图模型接口；意图识别与回答共用 DeepSeek v4 Flash。</li>
+                    <li>多轮指代追问继承上一轮检索语境；歧义问句先澄清，不执行退款等动作。</li>
+                    <li>知识工作台导入 PDF/TXT/Markdown，Docling 解析版式，pdfplumber 补齐缺页。</li>
+                    <li>检索使用本机 FastEmbed（BAAI/bge-small-zh-v1.5），无 Pinecone / Weaviate 等收费库。</li>
+                    <li>反馈闭环：纠正 → 评测 → 批准发布 → 回滚。</li>
+                    <li>独立站可复用 /v1/chat；电商与 HR 共用四个控制桶，不新增关键词路由。</li>
                   </ul>
                 </article>
                 <article class="release-entry">
@@ -261,13 +282,14 @@
     <main class="layout">
       <aside class="sidebar panel">
         <div class="panel-head">
-          <h1>试着问</h1>
-          <p>已预装「晴川小家电」模拟目录：空气炸锅、加湿器、挂烫机。没有模型密钥时走 mock。</p>
+          <h1>常见问题</h1>
+          <p>已预装晴川小家电目录。可点选后发送，也可继续追问「这个有几种颜色」。</p>
         </div>
         <div class="hints">
           <button class="hint" type="button" data-q="晴川空气炸锅 5L 容量是多少">5L 空气炸锅容量</button>
           <button class="hint" type="button" data-q="空气炸锅包安装吗">空气炸锅包安装吗</button>
           <button class="hint" type="button" data-q="加湿器滤芯怎么换">加湿器滤芯怎么换</button>
+          <button class="hint" type="button" data-q="如果以后需要退款，通常需要什么条件？">售前问退款条件</button>
           <button class="hint" type="button" data-q="请马上给我退款">请马上给我退款</button>
         </div>
         <div class="panel-head history-head">
@@ -399,8 +421,14 @@
       const bits = [];
       if (meta.requires_human) {
         bits.push('<span class="tag warn">已转人工</span>');
+      }
+      if (meta.customer_intent) {
+        bits.push(`<span class="tag ok">意图 ${escapeHtml(meta.customer_intent)}</span>`);
       } else if (meta.intent) {
         bits.push(`<span class="tag ok">${escapeHtml(meta.intent)}</span>`);
+      }
+      if (meta.intent_method) {
+        bits.push(`<span class="tag">${escapeHtml(meta.intent_method)}</span>`);
       }
       if (meta.risk_level) {
         bits.push(`<span class="tag ${riskTagClass(meta.risk_level)}">风险 ${escapeHtml(meta.risk_level)}</span>`);
@@ -475,7 +503,7 @@
       $("sessionId").textContent = id;
       clearImage();
       $("outputJson").textContent = "尚未调用接口。";
-      $("messages").innerHTML = '<div class="empty" id="emptyState">这是晴川小家电模拟店。左侧点一个问题，或问空气炸锅 / 加湿器 / 挂烫机，也可以附图。</div>';
+      $("messages").innerHTML = '<div class="empty" id="emptyState">从左侧选择问题，或直接输入。可继续追问「这个有几种颜色」，也可附图。</div>';
     }
 
     function appendMessage(kind, title, content, options = {}) {
@@ -499,6 +527,9 @@
         html += sourceListHtml(options.meta.sources);
         if (options.includeDecision) html += decisionDetailsHtml(options.meta);
       }
+      if (options.feedbackMessageId) {
+        html += `<div class="feedback-actions" data-message-id="${escapeHtml(options.feedbackMessageId)}"><span>这条回答有帮助吗？</span><button type="button" data-rating="1">有帮助</button><button type="button" data-rating="-1">需要纠正</button></div>`;
+      }
       node.innerHTML = html;
       $("messages").appendChild(node);
       $("messages").scrollTop = $("messages").scrollHeight;
@@ -521,6 +552,15 @@
           onEvent(JSON.parse(line.slice(6)));
         }
       }
+    }
+
+    async function sendFeedback(messageId, rating, controls, corrected = "") {
+      const response = await fetch("/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message_id: messageId, rating, corrected_answer: corrected || undefined, note: rating === 1 ? "顾客确认有帮助" : "顾客提交纠正", evidence_source: "demo-user-feedback", submitted_by: "demo-buyer" }) });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || "反馈提交失败");
+      controls.querySelectorAll("button").forEach((button) => { button.disabled = true; });
+      controls.classList.add("feedback-sent");
+      controls.querySelector("span").textContent = data.candidate_id ? `已记录，候选经验：${data.status}` : "已记录，谢谢反馈";
     }
 
     async function send(message) {
@@ -558,6 +598,23 @@
             $("outputJson").textContent = JSON.stringify(result, null, 2);
             body.textContent = result.answer || streamed;
             fillAgentDiagnostics(agent, result);
+            agent.insertAdjacentHTML("beforeend", `<div class="feedback-actions" data-message-id="${escapeHtml(result.message_id || "")}"><span>这条回答有帮助吗？</span><button type="button" data-rating="1">有帮助</button><button type="button" data-rating="-1">需要纠正</button></div>`);
+            agent.querySelectorAll(".feedback-actions button").forEach((button) => button.addEventListener("click", async () => {
+              const controls = button.parentElement;
+              const rating = Number(button.dataset.rating);
+              if (rating === -1 && !controls.querySelector(".feedback-editor")) {
+                controls.insertAdjacentHTML("beforeend", `<textarea class="feedback-editor" rows="2" placeholder="请补充正确答案（可选）"></textarea><button type="button" class="feedback-submit">提交纠正</button>`);
+                controls.querySelector(".feedback-submit").addEventListener("click", async () => {
+                  const editor = controls.querySelector(".feedback-editor");
+                  try { await sendFeedback(result.message_id, -1, controls, editor.value.trim()); } catch (error) { controls.querySelector("span").textContent = error.message || "反馈提交失败"; }
+                });
+                controls.querySelector(".feedback-editor").focus();
+                return;
+              }
+              if (rating !== -1) {
+                try { await sendFeedback(result.message_id, rating, controls); } catch (error) { controls.querySelector("span").textContent = error.message || "反馈提交失败"; }
+              }
+            }));
             $("messages").scrollTop = $("messages").scrollHeight;
           }
         });
@@ -672,8 +729,8 @@
         ? `真实模型 · ${data.model_name}`
         : `mock 模式 · ${data.model_name}`;
       $("modelStatus").textContent = data.vision_enabled
-        ? `${label} · 识图 ${data.vision_model}`
-        : label;
+        ? `${label} · 识图 ${data.vision_model} · 检索 ${data.embedding_provider || "hash"}`
+        : `${label} · 检索 ${data.embedding_provider || "hash"}`;
       renderDemoContext(data.context);
     }).catch(() => {
       $("modelStatus").textContent = "示例服务未就绪";

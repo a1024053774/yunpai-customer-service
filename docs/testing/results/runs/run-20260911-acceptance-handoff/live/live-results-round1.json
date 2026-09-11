@@ -1,0 +1,320 @@
+{
+  "saved_utc": "2026-09-11T08:14:35.360255+00:00",
+  "run_id": "run-20260911-acceptance-handoff",
+  "quota_stop": true,
+  "oracle": {
+    "product_id": "QA-HO-11SEP26",
+    "color": "米白",
+    "capacity": "5L",
+    "microwave_text": "不可微波",
+    "stock": null,
+    "sales": null,
+    "eta": null
+  },
+  "cases": [
+    {
+      "id": "L05-health",
+      "level": "L3",
+      "status": "PASS",
+      "response": {
+        "ok": true,
+        "model_mode": "live",
+        "model_name": "deepseek-v4-flash",
+        "model_provider": "deepseek",
+        "vision_enabled": true,
+        "vision_model": "deepseek-v4-flash-vision-exp",
+        "embedding_provider": "fastembed",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store_name": "晴川小家电（模拟店）",
+        "tenant_id": "handoff-l3-tenant",
+        "business_domain": "ecommerce",
+        "business_domain_label": "电商销售",
+        "context": {
+          "store_id": "demo-qingchuan-shop",
+          "platform": "demo"
+        }
+      },
+      "notes": [
+        "labels vs process; not a full L05 claim"
+      ]
+    },
+    {
+      "id": "E-import-txt",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "response": {
+        "filename": "synthetic-QA-HO-11SEP26.txt",
+        "count": 1,
+        "items": [
+          {
+            "id": "kb-6ea92d95aa18459dad5328f9a9d2ac03",
+            "filename": "synthetic-QA-HO-11SEP26.txt",
+            "page": 1,
+            "characters": 349,
+            "tables": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "E01-pdf-import",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "response": {
+        "filename": "synthetic-QA-HO-11SEP26.pdf",
+        "count": 1,
+        "items": [
+          {
+            "id": "kb-3c014601d621435c91e9a08eae1c859e",
+            "filename": "synthetic-QA-HO-11SEP26.pdf",
+            "page": 1,
+            "characters": 40,
+            "tables": 0
+          }
+        ]
+      },
+      "notes": [
+        "electronic PDF via Demo import; not scan OCR"
+      ]
+    },
+    {
+      "id": "I01",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 401,
+      "body_preview": "{\"detail\":\"X-Client-Id, X-Client-Key and X-Subject-Id are required\"}"
+    },
+    {
+      "id": "I08",
+      "level": "L3",
+      "status": "PASS",
+      "bad_host_status": 403,
+      "local_status": 200,
+      "notes": [
+        "header probe only; not a real reverse proxy. N03 remains BLOCKED."
+      ]
+    },
+    {
+      "id": "B01",
+      "level": "L3",
+      "status": "INCOMPLETE",
+      "status_code": 200,
+      "duration_ms": 5876,
+      "answer": "关于退款所需的材料，目前的售后政策没有列出固定的材料清单，能明确告知您的是以下几点：\n\n- 退款会改变交易和资金状态，智能客服不能代为执行，需要您在平台订单的售后入口提交申请（依据退款申请政策）。\n- 如果需要协助，我可以帮您转人工，届时只需提供必要的订单编号即可，不用提供其他内部编号（依据退款协助政策）。\n- 退款通过平台审核后通常按原支付路径退回，到账时间由平台、银行或支付机构决定，具体进度可在售后详情查看，异常时转人工核验（依据退款到账政策）。\n\n由于政策中没有明确具体材料要求，如果您想提前确认需要准备什么，我可以帮您转人工核实。",
+      "intent": "refund",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "seed-0109",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.9027
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:3210257e",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8801
+        },
+        {
+          "id": "seed-0107",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8619
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "message_id": "msg-a681e73444084534befcc2eb64f7d005",
+      "used_synthetic": false,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "B02",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "duration_ms": 2689,
+      "answer": "退款会改变交易和资金状态，智能客服不能代为执行。请在平台订单的售后入口提交申请；如需协助，我可以为您转接人工处理。",
+      "intent": "refund",
+      "customer_intent": "after_sales",
+      "intent_method": "model",
+      "reason": "退款属资金类写操作，当前无可用写工具且授权不足，按规则转人工。",
+      "sources": [
+        {
+          "id": "seed-0113",
+          "category": "售后",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8752
+        },
+        {
+          "id": "seed-0111",
+          "category": "退款",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8135
+        },
+        {
+          "id": "demo:qingchuan-refund-boundary:3210257e",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8125
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:after_sales",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:handoff",
+        "decision_gate:handoff",
+        "terminal_output:passed",
+        "human_handoff",
+        "postcondition:handoff_proposed",
+        "persist"
+      ],
+      "message_id": "msg-6720dd298b0b4e91ae54c0b702eeb4fd",
+      "used_synthetic": false,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "B03",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "duration_ms": 7046,
+      "answer": "好的，明白，这次只帮您看保修，不涉及退款～\n\n具体保修要以对应商品页、保修卡和店铺售后政策为准。目前查到两类信息：\n\n- 晴川小家电：机身保修 **12 个月**，以签收次日和保修卡为准。耗材（滤芯、不粘涂层异常磨损）、进水、摔损不在保修范围，是否属于保修情形需要人工依据凭证判定。\n- 孤岛验收电热水壶：整机保修 **12 个月**。\n\n方便告诉我您问的是哪款商品吗？提供商品名称或商品链接就可以，我帮您对应到准确的保修说明。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "demo:qingchuan-warranty:3210257e",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8466
+        },
+        {
+          "id": "seed-0029",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8459
+        },
+        {
+          "id": "kb-6ea92d95aa18459dad5328f9a9d2ac03",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-HO-11SEP26.txt?sha256=d747c0afb54cb102#page=1&chunk=1",
+          "version": 1,
+          "score": 0.8044
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "message_id": "msg-1a6d77857a5748c0908c703a7a22b231",
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "B04",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    },
+    {
+      "id": "D01",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    },
+    {
+      "id": "D02",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    },
+    {
+      "id": "G07",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    },
+    {
+      "id": "L01",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    },
+    {
+      "id": "B08-typo",
+      "status": "BLOCKED",
+      "notes": [
+        "quota/auth stop"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "status": "INCOMPLETE",
+  "attempts": [
+    {
+      "attempt": 1,
+      "status_code": 200,
+      "vision_status": "error",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "您好，我是店铺智能客服。目前我这边没有收到可查看的图片内容，请您重新上传图片，或直接告诉我想咨询的商品、订单或售后问题，我会帮您确认需要提供哪些信息。"
+    },
+    {
+      "attempt": 2,
+      "status_code": 200,
+      "vision_status": "error",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "您好，我这边暂时没有收到可查看的图片内容。请重新上传图片，或直接告诉我想咨询的商品、订单或售后问题，我会帮您确认需要哪些信息。"
+    },
+    {
+      "attempt": 3,
+      "status_code": 200,
+      "vision_status": "error",
+      "vision_model": "deepseek-v4-flash-vision-exp",
+      "vision_image_count": 1,
+      "answer": "您好，我这边暂时没有收到可查看的图片内容。请重新上传图片，或直接告诉我想咨询的商品、订单或售后问题，我来帮您确认需要提供哪些信息。"
+    }
+  ],
+  "image_sha256": "d7cb9285d4621fce077aa28466dfef097c741a7062baf77d3f21b359943f5cdd",
+  "configured_model": "deepseek-v4-flash-vision-exp",
+  "note": "Three real-model attempts; an error is not treated as a product PASS."
+}

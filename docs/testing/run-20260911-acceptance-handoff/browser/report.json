@@ -1,0 +1,31 @@
+{
+  "saved_utc": "2026-09-11T08:21:04.087850+00:00",
+  "cursor_ide_browser": "FAILED_NO_TAB",
+  "used": "plugin-devtools-for-agents-chrome-devtools against http://127.0.0.1:53120/",
+  "cases": [
+    {
+      "id": "L05",
+      "status": "PASS",
+      "evidence": "browser/L05-home.png",
+      "notes": "live/fastembed labels visible"
+    },
+    {
+      "id": "L01",
+      "status": "PASS",
+      "evidence": "browser/L01-chat.png",
+      "notes": "clicked new session, typed QA-HO-11SEP26, send; 5L rice-white; synthetic sources"
+    },
+    {
+      "id": "C01",
+      "status": "PASS",
+      "evidence": "browser/C01-followup.png",
+      "notes": "follow-up 这个颜色确认一下 kept rice-white 5L"
+    },
+    {
+      "id": "L04",
+      "status": "INCOMPLETE",
+      "evidence": "browser/L04-admin.png",
+      "notes": "opened /admin; did not click evaluate/approve/rollback this session"
+    }
+  ]
+}

@@ -1,0 +1,512 @@
+{
+  "saved_utc": "2026-09-10T17:39:45.546591+00:00",
+  "run_id": "run-20260911-0131-grok46",
+  "quota_stop": false,
+  "oracle": {
+    "oracle": "synthetic-only",
+    "product_id": "QA-GROK-2C2668E3",
+    "product_name": "孤岛验收电热水壶",
+    "color": "米白",
+    "capacity": "5L",
+    "price": 329,
+    "warranty_months": 12,
+    "microwave": false,
+    "microwave_text": "不可微波",
+    "stock": null,
+    "sales": null,
+    "eta": null,
+    "refund_may_execute": false,
+    "refund_required_materials": [
+      "订单号",
+      "未拆封外箱照片",
+      "核验码 GROK-RCPT-2C2668E3"
+    ],
+    "refund_conditions": [
+      "未使用",
+      "包装完好",
+      "签收后7日内"
+    ],
+    "competitor_evidence": null,
+    "note": "Demo also seeds Qingchuan; this nonce product is the independent D01/D02/G07/C01 oracle."
+  },
+  "health": {
+    "ok": true,
+    "model_mode": "live",
+    "model_name": "deepseek-v4-flash",
+    "model_provider": "deepseek",
+    "vision_enabled": true,
+    "vision_model": "deepseek-v4-flash-vision-exp",
+    "embedding_provider": "fastembed",
+    "embedding_model": "BAAI/bge-small-zh-v1.5",
+    "store_name": "晴川小家电（模拟店）",
+    "tenant_id": "grok46-l3-tenant",
+    "business_domain": "ecommerce",
+    "business_domain_label": "电商销售",
+    "context": {
+      "store_id": "demo-qingchuan-shop",
+      "platform": "demo"
+    }
+  },
+  "cases": [
+    {
+      "id": "HEALTH-demo",
+      "level": "L3",
+      "status": "PASS",
+      "response": {
+        "ok": true,
+        "model_mode": "live",
+        "model_name": "deepseek-v4-flash",
+        "model_provider": "deepseek",
+        "vision_enabled": true,
+        "vision_model": "deepseek-v4-flash-vision-exp",
+        "embedding_provider": "fastembed",
+        "embedding_model": "BAAI/bge-small-zh-v1.5",
+        "store_name": "晴川小家电（模拟店）",
+        "tenant_id": "grok46-l3-tenant",
+        "business_domain": "ecommerce",
+        "business_domain_label": "电商销售",
+        "context": {
+          "store_id": "demo-qingchuan-shop",
+          "platform": "demo"
+        }
+      }
+    },
+    {
+      "id": "IMPORT-synthetic",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 200,
+      "response": {
+        "filename": "synthetic-QA-GROK-2C2668E3.txt",
+        "count": 1,
+        "items": [
+          {
+            "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+            "filename": "synthetic-QA-GROK-2C2668E3.txt",
+            "page": 1,
+            "characters": 461,
+            "tables": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "I01",
+      "level": "L3",
+      "status": "PASS",
+      "status_code": 401,
+      "body_preview": "{\"detail\":\"X-Client-Id, X-Client-Key and X-Subject-Id are required\"}"
+    },
+    {
+      "id": "I08",
+      "level": "L3",
+      "status": "PASS",
+      "bad_host_status": 403,
+      "local_status": 200,
+      "notes": [
+        "header probe only; not a real reverse proxy. N03 remains BLOCKED."
+      ]
+    },
+    {
+      "id": "D01-exact",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "c01-216ee2db",
+        "message": "QA-GROK-2C2668E3 孤岛验收电热水壶的容量是多少，颜色是什么？"
+      },
+      "expected": "capacity 5L, color rice-white",
+      "status_code": 200,
+      "duration_ms": 8138,
+      "answer": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，可以随时告诉我～",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 1.184
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8164
+        },
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7884
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-7da1e925355e496693b44f78b7240e62",
+      "message_id": "msg-8551584aab5f40db88b80eda8cd97d4c",
+      "persisted": {
+        "id": "msg-8551584aab5f40db88b80eda8cd97d4c",
+        "role": "assistant",
+        "content": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 5L，颜色为米白。如需了解其他信息，可以随时告诉我～",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 1.184}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8164}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7884}]",
+        "trace_id": "trace-7da1e925355e496693b44f78b7240e62",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "C01-followup-color",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "c01-216ee2db",
+        "message": "这个颜色是什么"
+      },
+      "expected": "keep QA-GROK object; answer rice-white; do not ask which product",
+      "status_code": 200,
+      "duration_ms": 9240,
+      "answer": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的颜色是米白。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 1.1888
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8174
+        },
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7961
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:contextual",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept2/dropped0",
+        "context:decision:ready",
+        "context:budget:kept2/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept2/dropped0",
+        "context:generation:ready",
+        "context:budget:kept2/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-07f751b1f5204054a0de6464e282e95f",
+      "message_id": "msg-3c3109b3595c4795b2b3fc56482b6887",
+      "persisted": {
+        "id": "msg-3c3109b3595c4795b2b3fc56482b6887",
+        "role": "assistant",
+        "content": "您好，孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的颜色是米白。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 1.1888}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8174}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7961}]",
+        "trace_id": "trace-07f751b1f5204054a0de6464e282e95f",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "D02",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "d02-323dc115",
+        "message": "QA-GROK-2C2668E3 现在库存多少、销量多少、什么时候到账？"
+      },
+      "expected": "must not invent stock/sales/ETA; should locate the product and say fields are not recorded",
+      "status_code": 200,
+      "duration_ms": 9896,
+      "answer": "您好，关于“孤岛验收电热水壶（型号 QA-GROK-2C2668E3）”：\n\n- 库存数量：现有资料没有记载具体库存数字。页面可下单通常表示当前系统有可售库存，但大促或并发下单时库存可能变化，最终以订单提交和仓库复核结果为准。\n- 历史销量：现有资料没有记载销量数据，无法提供具体数字。\n- 到账时间：现有资料没有记载到账时间，无法承诺具体时效。\n\n如需进一步确认，建议以商品页面和订单提交后的仓库复核结果为准；若您需要，我也可以帮您转人工进一步核对。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 0.9733
+        },
+        {
+          "id": "seed-0024",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.843
+        },
+        {
+          "id": "seed-0033",
+          "category": "库存",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.7683
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-83c4974118b247768a10aaf85fed839a",
+      "message_id": "msg-8692f8ac483c47ac80ae9b3ff6335c33",
+      "persisted": {
+        "id": "msg-8692f8ac483c47ac80ae9b3ff6335c33",
+        "role": "assistant",
+        "content": "您好，关于“孤岛验收电热水壶（型号 QA-GROK-2C2668E3）”：\n\n- 库存数量：现有资料没有记载具体库存数字。页面可下单通常表示当前系统有可售库存，但大促或并发下单时库存可能变化，最终以订单提交和仓库复核结果为准。\n- 历史销量：现有资料没有记载销量数据，无法提供具体数字。\n- 到账时间：现有资料没有记载到账时间，无法承诺具体时效。\n\n如需进一步确认，建议以商品页面和订单提交后的仓库复核结果为准；若您需要，我也可以帮您转人工进一步核对。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.9733}, {\"id\": \"seed-0024\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.843}, {\"id\": \"seed-0033\", \"category\": \"库存\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.7683}]",
+        "trace_id": "trace-83c4974118b247768a10aaf85fed839a",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "G07",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "g07-b3f1d6e6",
+        "message": "QA-GROK-2C2668E3 可以放进微波炉加热吗？"
+      },
+      "expected": "must say not microwave-safe; must not say can microwave",
+      "status_code": 200,
+      "duration_ms": 9391,
+      "answer": "您好，**孤岛验收电热水壶（型号 QA-GROK-2C2668E3）不能放进微波炉**。\n\n根据产品说明书的加热与使用限制：本产品不可微波，壶体、内胆及任何配件均禁止放入微波炉，说明书也未授权任何微波加热方式。\n\n如果您原本是想用微波炉加热壶里的水或饮品，建议改用其他合适的容器；水壶本身请按说明书的方式使用。还有其他想了解的，随时告诉我。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 1.052
+        },
+        {
+          "id": "demo:qingchuan-humidifier-filter:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7733
+        },
+        {
+          "id": "demo:qingchuan-airfryer-clean:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7701
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-bafaf8b9f13c428795f58e1c86304ea4",
+      "message_id": "msg-204a4ef7baf1439e85d8216e030c96af",
+      "persisted": {
+        "id": "msg-204a4ef7baf1439e85d8216e030c96af",
+        "role": "assistant",
+        "content": "您好，**孤岛验收电热水壶（型号 QA-GROK-2C2668E3）不能放进微波炉**。\n\n根据产品说明书的加热与使用限制：本产品不可微波，壶体、内胆及任何配件均禁止放入微波炉，说明书也未授权任何微波加热方式。\n\n如果您原本是想用微波炉加热壶里的水或饮品，建议改用其他合适的容器；水壶本身请按说明书的方式使用。还有其他想了解的，随时告诉我。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 1.052}, {\"id\": \"demo:qingchuan-humidifier-filter:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7733}, {\"id\": \"demo:qingchuan-airfryer-clean:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.7701}]",
+        "trace_id": "trace-bafaf8b9f13c428795f58e1c86304ea4",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    },
+    {
+      "id": "L01",
+      "priority": "P1",
+      "level": "L3",
+      "status": "PASS",
+      "request": {
+        "session_id": "l01-689d3a9a",
+        "message": "QA-GROK-2C2668E3 容量和颜色是什么？"
+      },
+      "expected": "5L + rice-white from synthetic; must not offer Qingchuan AF50 as the product",
+      "status_code": 200,
+      "duration_ms": 8395,
+      "answer": "孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 **5L**，颜色是 **米白**。\n\n如需了解其他信息，可以继续告诉我。",
+      "intent": "product",
+      "customer_intent": "product_inquiry",
+      "decision_mode": "answer",
+      "reason": "knowledge_answer_allowed",
+      "sources": [
+        {
+          "id": "kb-f8970c06850c465c98fbf1f6de41c138",
+          "category": "uploaded_document",
+          "source": "upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1",
+          "version": 1,
+          "score": 0.9696
+        },
+        {
+          "id": "seed-0007",
+          "category": "商品",
+          "source": "builtin:ecommerce-sop-v1",
+          "version": 1,
+          "score": 0.8467
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:e7525724",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8141
+        }
+      ],
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "trace_id": "trace-fe68f095945b42abb9a6dae2a96c1062",
+      "message_id": "msg-6f6f57224566472ea8e8eb787e8e5552",
+      "persisted": {
+        "id": "msg-6f6f57224566472ea8e8eb787e8e5552",
+        "role": "assistant",
+        "content": "孤岛验收电热水壶（型号 QA-GROK-2C2668E3）的容量是 **5L**，颜色是 **米白**。\n\n如需了解其他信息，可以继续告诉我。",
+        "intent": "product",
+        "risk_level": "low",
+        "route_reason": "knowledge_answer_allowed",
+        "sources_json": "[{\"id\": \"kb-f8970c06850c465c98fbf1f6de41c138\", \"category\": \"uploaded_document\", \"source\": \"upload://synthetic-QA-GROK-2C2668E3.txt?sha256=7c7a150bae1d3c14#page=1&chunk=1\", \"version\": 1, \"score\": 0.9696}, {\"id\": \"seed-0007\", \"category\": \"商品\", \"source\": \"builtin:ecommerce-sop-v1\", \"version\": 1, \"score\": 0.8467}, {\"id\": \"demo:qingchuan-airfryer-5l-capacity:e7525724\", \"category\": \"商品\", \"source\": \"demo:qingchuan-catalog-v1\", \"version\": 1, \"score\": 0.8141}]",
+        "trace_id": "trace-fe68f095945b42abb9a6dae2a96c1062",
+        "model_fallback": 0,
+        "content_matches_response": true
+      },
+      "used_synthetic": true,
+      "notes": [],
+      "error": null
+    }
+  ]
+}

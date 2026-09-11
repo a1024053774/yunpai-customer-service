@@ -1,0 +1,31 @@
+{
+  "run_id": "run-20260910-1739-grok46",
+  "executor": "cursor-grok-4.6",
+  "candidate_root": "/tmp/yunpai-test-candidate-grok46-pZG5r3",
+  "data_dir": "/private/tmp/yunpai-live-grok46-PrEG",
+  "demo_url": "http://127.0.0.1:18765",
+  "demo_listen": "127.0.0.1:18765",
+  "host_api": {
+    "started": true,
+    "error": null,
+    "listen": "127.0.0.1:18767",
+    "note": "Host API started with ephemeral isolated credentials; env.md AUTH_REQUIRED was false and had no site client keys. Demo remains loopback-only and is not a public host."
+  },
+  "pid": 36799,
+  "started_utc": "2026-09-10T09:50:46.920345+00:00",
+  "configured_model_name": "deepseek-v4-flash",
+  "configured_model_provider": "deepseek",
+  "model_mode": "live",
+  "embedding_provider": "fastembed",
+  "embedding_model": "BAAI/bge-small-zh-v1.5",
+  "auth_required_in_process": true,
+  "source_file": "/tmp/yunpai-test-candidate-grok46-pZG5r3/src/yunpai_customer_service/demo/app.py",
+  "qingchuan_seed_note": "Demo runtime always seeds the Qingchuan catalog; synthetic QA-GROK document is imported via /api/knowledge/import and is the independent oracle.",
+  "servers_stopped_utc": "2026-09-10T09:59:27.468321+00:00",
+  "stopped": true,
+  "listen": {
+    "demo": "127.0.0.1:18765",
+    "host_api": "127.0.0.1:18767"
+  },
+  "pid_listen_note": "single process pid served both sockets; killed at end; did not touch 8765"
+}

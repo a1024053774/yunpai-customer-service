@@ -1,0 +1,10 @@
+{
+  "saved_utc": "2026-09-11T08:27:16.815098+00:00",
+  "note": "product dirty tree drifted after K05 api.py mapping; stage0 freeze.json kept",
+  "stage0_candidate_sha256": "0016c55d33fe645d01843de11fe56e451f4569e06f9df54e3b7c63db01bc8156",
+  "api_py_sha256_stage0": "29db7335e4cdc3b9d6adc8b54f40752a642299f3dc1ffa15b887dca692476d4f",
+  "api_py_sha256_after_k05": "e268c2b30b3f19e002dba8539894617afd29728855ced4607da1779d2fb0cfee",
+  "skill_sha256_at_eval": "6ec9c4f5aa274d8ec4791b55d4ce6ce0bd8a29ed06e7ea4ea4724d3593751427",
+  "skill_sha256_after_skill_fix": "89ae938a9b3688c7bda9c30f955e795bdf2be89c32ea2a9b776f194b5f287bac",
+  "head": "8ea1329e8fd495cff3887bbed05ab4b5b9da8c99"
+}

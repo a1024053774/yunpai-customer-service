@@ -1,0 +1,192 @@
+{
+  "timestamp": "2026-09-10T04:58:23.607103+00:00",
+  "model": "deepseek-v4-flash",
+  "embedding": "fastembed",
+  "execution": "isolated database; actual ModelGateway; TestClient public endpoints",
+  "cases": [
+    {
+      "answer": "如需申请退款，退款会改变交易和资金状态，我这边不能直接代为操作，请您在平台订单的售后入口提交申请；需要协助时我可以帮您转人工，届时只需提供必要的订单编号即可。（依据退款处理规则）\n\n如果涉及七天无理由退货，请保持**商品、配件、包装和发票完好，不影响二次销售**；已使用、自行拆机或定制刻字的商品不在此列。退货运费由判责结果决定，客服无法预先承诺由谁承担。（依据七天无理由退货规则）\n\n具体是否需要上传图片等材料，以订单售后入口的提示为准；如页面要求不明确，建议转人工进一步核对。",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "intent_confidence": 0.9,
+      "decision_mode": "answer",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "sources": [
+        {
+          "id": "demo:qingchuan-refund-boundary:b3b8914a",
+          "category": "退款",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.8735
+        },
+        {
+          "id": "demo:qingchuan-return:b3b8914a",
+          "category": "售后",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.639
+        },
+        {
+          "id": "demo:qingchuan-shipping:b3b8914a",
+          "category": "发货",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.5131
+        }
+      ],
+      "path": "/v1/chat",
+      "message": "如果要申请退款，需要什么材料？",
+      "status": 200,
+      "observed_graph_nodes": [
+        "generate",
+        "verify"
+      ]
+    },
+    {
+      "answer": "抱歉，我们目前没有掌握竞品的具体参数信息，不方便直接做“谁更好”的对比，也不希望用不确定的说法误导您。这里先把晴川空气炸锅的已知信息给您参考，方便您按自己的需求判断：\n\n- **QC-AF35**：标称容量 3.5L、功率 1300W，更适合 1–2 人使用。\n- **QC-AF50**：标称容量 5L、功率 1500W，颜色米白，标配烤架和接油盘，适合 3–4 人家庭；1–2 人也可以看 3.5L 的 QC-AF35。页面价格 329 元，实际支付以结算页为准。\n- 两款都是**即插即用，无需上门安装**。\n- 保修方面：晴川小家电机身保修 12 个月，以签收次日和保修卡为准；耗材（滤芯、不粘涂层异常磨损）、进水、摔损不在保修范围，需人工凭凭证判定。\n\n如果您愿意告诉我您正在对比的竞品型号，或者更看重容量、功率、配件还是保修，我可以帮您逐项对照晴川这边的配置来看是否合适。",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "intent_confidence": 0.96,
+      "decision_mode": "answer",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:model:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:model",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "sources": [
+        {
+          "id": "demo:qingchuan-airfryer-35-capacity:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.3019
+        },
+        {
+          "id": "demo:qingchuan-warranty:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.2816
+        },
+        {
+          "id": "demo:qingchuan-airfryer-5l-capacity:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.2721
+        }
+      ],
+      "path": "/v1/chat",
+      "message": "你们和竞品相比，有哪些功能优势？",
+      "status": 200,
+      "observed_graph_nodes": [
+        "generate",
+        "verify"
+      ]
+    },
+    {
+      "answer": "晴川加湿器 QC-HM4 的滤芯型号是 QC-HM4-F，建议每 2–3 个月更换一次。\n\n更换时先断电，取出旧滤芯，再按说明书标注的方向装入新滤芯就可以了。顺带提一下，这款机器水箱 4L、冷雾，适用约 20㎡，页面价 189 元（实际支付以结算页为准）。\n\n如果你还想确认滤芯适配或需要下单帮助，随时告诉我～",
+      "customer_intent": "product_inquiry",
+      "intent_method": "model",
+      "intent_confidence": 0.95,
+      "decision_mode": "answer",
+      "requires_human": false,
+      "reason": "knowledge_answer_allowed",
+      "trace": [
+        "intake",
+        "intent:model:product_inquiry",
+        "precheck:deliberate",
+        "retrieve:initial:3",
+        "guard:blocked:0",
+        "memory:recalled:0",
+        "context:budget:kept0/dropped0",
+        "context:decision:ready",
+        "context:budget:kept0/dropped0",
+        "deliberate:bounded_product:answer",
+        "decision_gate:answer",
+        "retrieve:refined:3",
+        "guard:blocked:0",
+        "context:budget:kept0/dropped0",
+        "context:generation:ready",
+        "context:budget:kept0/dropped0",
+        "generate:stream",
+        "verify:passed",
+        "postcondition:answer",
+        "persist"
+      ],
+      "sources": [
+        {
+          "id": "demo:qingchuan-humidifier-filter:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.9453
+        },
+        {
+          "id": "demo:qingchuan-warranty:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.7868
+        },
+        {
+          "id": "demo:qingchuan-steamer:b3b8914a",
+          "category": "商品",
+          "source": "demo:qingchuan-catalog-v1",
+          "version": 1,
+          "score": 0.6626
+        }
+      ],
+      "path": "/v1/chat/stream",
+      "message": "加湿器滤芯多久换一次？",
+      "status": 200,
+      "observed_graph_nodes": [
+        "generate",
+        "verify"
+      ]
+    }
+  ],
+  "missing_credentials_status": 401
+}

@@ -1,0 +1,24 @@
+ README.md                                          |  30 +-
+ env.example.md                                     |   8 +
+ pyproject.toml                                     |  15 +-
+ src/yunpai_customer_service/config.py              |  13 +-
+ .../customer_service/core.py                       |  61 +---
+ .../customer_service/generation.py                 |  12 +
+ src/yunpai_customer_service/database.py            |  15 +-
+ src/yunpai_customer_service/demo/app.py            | 210 +++++++++++-
+ src/yunpai_customer_service/demo/catalog.py        |  13 +-
+ src/yunpai_customer_service/demo/runtime.py        |   2 +
+ src/yunpai_customer_service/demo/static/index.html | 247 ++++++++------
+ src/yunpai_customer_service/evolution.py           | 167 ++++++----
+ src/yunpai_customer_service/graph.py               |  93 ++++--
+ src/yunpai_customer_service/intent.py              | 358 ++-------------------
+ .../knowledge_engine/security_guard.py             |  29 +-
+ src/yunpai_customer_service/llm.py                 | 210 +-----------
+ src/yunpai_customer_service/policy.py              |  61 +++-
+ src/yunpai_customer_service/rag.py                 | 165 ++++++++--
+ src/yunpai_customer_service/schemas.py             |   9 +
+ src/yunpai_customer_service/text_utils.py          |   6 +
+ tests/customer_service_fixtures.py                 |   2 +-
+ tests/test_customer_service_module_memory.py       |  55 ++++
+ tests/test_demo_chat.py                            | 113 +------
+ 23 files changed, 975 insertions(+), 919 deletions(-)

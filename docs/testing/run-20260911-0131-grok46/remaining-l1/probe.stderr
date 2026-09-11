@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-0131-grok46/remaining-l1/probe_remaining.py", line 462, in main
+    probe_i05(tmp / "i05")
+  File "/Users/luckye/Documents/Code/yunpai-customer-service/docs/testing/run-20260911-0131-grok46/remaining-l1/probe_remaining.py", line 265, in probe_i05
+    conn.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: knowledge.search_text

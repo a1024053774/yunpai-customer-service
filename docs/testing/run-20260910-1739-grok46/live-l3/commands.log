@@ -1,0 +1,10 @@
+2026-09-10T09:46:04Z export DATA_DIR=/tmp/yunpai-live-grok46-PrEG
+2026-09-10T09:46:05Z export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/tmp/yunpai-test-candidate-grok46-pZG5r3/src
+2026-09-10T09:46:05Z python start_servers.py  # demo 127.0.0.1:18765 host-api 127.0.0.1:18767
+2026-09-10T09:47:26Z python probe_live.py  # health/import/I08/I01/B01-B04/D01-D02/G07/C01
+2026-09-10T09:50:38Z restart start_servers.py after wiping DATA_DIR (UTF-8 fixture fix)
+2026-09-10T09:50:57Z curl health/I08/I01 after restart
+2026-09-10T09:51:05Z python probe_round2.py  # UTF-8 cases via cases.json
+2026-09-10T09:57:40Z playwright screenshots l05-chat-home.png l04-admin.png
+2026-09-10T09:58:10Z chrome --headless screenshots l05-chat-home.png l04-admin.png
+2026-09-10T09:59:06Z kill pid 36799 (isolated demo+api only; not 8765)

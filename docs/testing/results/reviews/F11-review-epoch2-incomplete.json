@@ -1,0 +1,43 @@
+{
+  "id": "F11",
+  "reviewer": "cursor-grok-4.6-detached",
+  "resumed": false,
+  "luna": false,
+  "status": "INCOMPLETE",
+  "target": "frozen F11 candidate evolution.py sha256 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+  "contract": "after evaluate passes, changing candidate text/source/scope must not approve/publish on the old gate_passed; evaluate must bind concrete candidate content; a change requires re-eval",
+  "evidence": [
+    "handbook F11 in docs/agent-testing-manual.md",
+    "implementer after.json/how-fixed.md inspected only; not accepted",
+    "start freeze match: evolution.py sha256 9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+    "independent /tmp probes while hash stable: probe_f11.py and probe_f11_clean.py; DATA_DIR /tmp/f11-review-20260911-epoch2; TableDrivenModel + LEARNED_QUESTION/LEARNED_ANSWER",
+    "probe scripts recorded hash_start=hash_end=9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+    "before review write, workspace evolution.py moved to sha256 7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310",
+    "later tree not inspected or probed",
+    "before.json historical red leaked_mutated=true; not after-fix evidence"
+  ],
+  "findings": [
+    {
+      "severity": "P1",
+      "file": "src/yunpai_customer_service/evolution.py",
+      "issue": "candidate not frozen; required sha256 9d260930... was current through reviewer probes, then dirty file became 7589cda0... before verdict write; review does not chase"
+    }
+  ],
+  "counterexample": [
+    "not scored on a moving file",
+    "known-bad: approve checks only status and gate_passed after text/source/scope change; cannot certify against current bytes",
+    "before.json: mutate proposed_answer after evaluate, approve published mutated text (pre-bind)"
+  ],
+  "limitations": [
+    "workspace evolution.py moved after probes and before this write",
+    "/tmp probe outputs are not a verdict on the file now on disk",
+    "implementer after.json PASS ignored",
+    "no live HTTP/UI",
+    "prior INCOMPLETE review verdict not copied"
+  ],
+  "hashes": {
+    "required_frozen": "9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+    "start_and_probe": "9d260930c185cd61a4ebca3fb0d1925bbe499a8f3540f3ad32cf9bd2badef5bf",
+    "at_review_write": "7589cda0afc0fae803812037c00602ed269c101ea7e753a60b456f893338e310"
+  }
+}

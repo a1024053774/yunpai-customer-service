@@ -1,0 +1,21 @@
+{
+  "mutation": "baseline",
+  "mutate_copy": "/tmp/yunpai-mutate-grok46-29943",
+  "product_src_mutated": false,
+  "command": "/Users/luckye/Documents/Code/yunpai-customer-service/.venv/bin/python -m pytest -q --tb=short <11 target tests>",
+  "exit_code": 0,
+  "result": "22 passed, 1 warning in 37.31s",
+  "status": "PASS",
+  "notes": "Unmutated candidate copy. No product defect on this target set. Workspace src and /tmp/yunpai-test-candidate-grok46-pZG5r3 were not written.",
+  "cases": [
+    {
+      "id": "P01-P02-7.1-7.2-target-set",
+      "priority": "P1",
+      "level": "L1",
+      "status": "PASS",
+      "expected": "green on clean candidate",
+      "actual": "22 passed exit 0",
+      "evidence_files": ["pytest.stdout", "pytest.exit"]
+    }
+  ]
+}

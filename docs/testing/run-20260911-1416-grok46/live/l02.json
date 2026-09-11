@@ -1,0 +1,26 @@
+{
+  "id": "L02",
+  "status": "PASS",
+  "level": "L3-http",
+  "actual": {
+    "posts": [
+      [
+        200,
+        "msg-7cafcf3dc8ab4ea98ba63753f904f6ab"
+      ],
+      [
+        200,
+        "msg-40e1688633e8480c87ffee007439db1d"
+      ],
+      [
+        200,
+        "msg-4478e0228ebe4f9596138c2652fd28d1"
+      ]
+    ],
+    "sessions": 200
+  },
+  "notes": [
+    "Demo TestClient double POST; browser multi-tab/back/refresh not run"
+  ],
+  "saved_utc": "2026-09-11T06:33:24.757651+00:00"
+}

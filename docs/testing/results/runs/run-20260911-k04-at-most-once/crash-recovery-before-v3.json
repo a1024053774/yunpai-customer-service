@@ -1,0 +1,16 @@
+{
+  "status": "INCOMPLETE",
+  "invocation_created": "invocation-343421244d6a51dd97ba13f5cfc47f8b",
+  "restart_error": {
+    "type": "SessionScopeError",
+    "code": "idempotency_in_progress",
+    "message": "agent invocation is still running; retry after the owner finishes"
+  },
+  "elapsed_seconds": 30.026,
+  "after_state": {
+    "status": "running",
+    "last_error": null
+  },
+  "expected_next_step": "define and test an explicit crash-owner recovery/lease policy",
+  "scope": "isolated L1; no production or external business writes"
+}
