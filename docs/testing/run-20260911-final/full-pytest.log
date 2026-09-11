@@ -24,4 +24,4 @@ tests/test_knowledge_ingest.py::test_knowledge_import_endpoint_lists_imported_pd
     if self.options.rec_font_path is not None:
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-120 passed, 10 warnings in 84.12s (0:01:24)
+120 passed, 10 warnings in 56.60s

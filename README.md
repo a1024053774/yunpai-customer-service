@@ -6,6 +6,10 @@
 
 当前实现结构见 [可交互架构图](docs/architecture/yunpai-customer-service.html)，其可审计规格见 [架构 JSON](docs/architecture/yunpai-customer-service.architecture.json)。图中标出了真实用户、本机 HTTP 工作台、客服图、DeepSeek、本地知识层、SQLite 和知识治理之间的边界。
 
+![云派智能客服真实代码架构图](docs/architecture/yunpai-customer-service.visual-check.1440x900.light.png)
+
+结构图依据当前源码生成，主要技术链是：FastAPI Demo/Host API → `CustomerServiceCore` → LangGraph 状态图 → DeepSeek 文本/视觉网关；本地侧使用 Docling/pdfplumber、FastEmbed、SQLite FTS/BM25、LangGraph checkpoint 和自进化治理服务。图中的技术细节以代码为准，未把尚未证明的生产部署、跨进程恢复或真实业务账本画成已交付能力。
+
 本仓库从 [yunpai-ecommerce-agent](https://github.com/a1024053774/yunpai-ecommerce-agent) 拆出，**两边互不依赖**。原仓库继续自己运转；其他项目用本包即可，不必引入整套电商运营 Agent。
 
 不包含：淘宝渠道、商品/订单经营工具、润色模型。
@@ -139,6 +143,31 @@ NO_PROXY=127.0.0.1,localhost ALL_PROXY=http://127.0.0.1:9 \
 RAG 使用 BM25 与本机 FastEmbed 混合排序；未配置语义向量时回退到可重复的 hash 向量。不要接入 Pinecone、Weaviate Cloud 或其他按调用收费的向量库。切换 embedding 后端后，在知识工作台执行重建索引。
 
 点击验收与截图见 [`docs/acceptance-2026-09-09.md`](docs/acceptance-2026-09-09.md)，工作汇报见 [`docs/work-report-2026-09-09.md`](docs/work-report-2026-09-09.md)。
+
+### 当前代码库目录结构
+
+```text
+yunpai-customer-service/
+├── src/yunpai_customer_service/
+│   ├── api.py                    # 认证 Host API：/v1/health、/v1/chat、/v1/chat/stream
+│   ├── customer_service/core.py  # CustomerServiceCore、同步/流式入口、invocation 幂等
+│   ├── graph.py                  # LangGraph 状态图与 intake/retrieve/generate/verify/persist
+│   ├── intent.py                 # DeepSeek 意图分类与配置化 intent routing
+│   ├── vision.py                 # VisionGateway 与 media_evidence
+│   ├── llm.py                    # 文本模型网关、JSON/stream、重试与可观测降级
+│   ├── rag.py                    # KnowledgeBase、FastEmbed、BM25/FTS、租户/商品范围
+│   ├── knowledge_ingest.py       # PDF/TXT/Markdown 解析、切块、原件摘要存储
+│   ├── evolution.py              # feedback → evaluate → approve → rollback
+│   ├── database.py               # SQLite schema/migrations、messages、knowledge、invocations
+│   └── demo/                     # 本机聊天页、知识工作台和静态资源
+├── tests/                        # 模块、API、视觉、导入、知识治理与幂等回归
+├── docs/architecture/            # Archify 规格、HTML、视觉截图与 receipt
+├── docs/testing/                 # 测试手册、各轮运行记录、缺陷红绿证据和复核
+├── env.example.md                # 可提交的无密钥配置模板
+└── README.md
+```
+
+当前候选的限定交付范围和正式发布待测门禁见 [`docs/testing/results/RELEASE_SCOPE.md`](docs/testing/results/RELEASE_SCOPE.md)。正式发布仍为 **NO_GO / INCOMPLETE**。
 
 ### 当前真实模型验收状态
 

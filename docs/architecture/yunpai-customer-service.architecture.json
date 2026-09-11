@@ -2,42 +2,47 @@
   "schema_version": 1,
   "diagram_type": "architecture",
   "meta": {
-    "title": "云派智能客服 — 本机对话与知识闭环",
+    "title": "云派智能客服 — 真实代码架构与本机交付边界",
     "locale": "zh-CN",
     "output": "docs/architecture/yunpai-customer-service.html",
     "quality_profile": "showcase",
-    "viewBox": [1320, 780]
+    "viewBox": [1360, 760]
   },
   "components": [
-    { "id": "customer", "type": "external", "label": "真实用户", "sublabel": "客服对话 / 图片", "pos": [36, 300], "size": [138, 68] },
-    { "id": "browser", "type": "frontend", "label": "本机 Demo / 工作台", "sublabel": "浏览器 UI · loopback", "pos": [220, 300], "size": [160, 68], "tag": "L3 local" },
-    { "id": "http", "type": "security", "label": "HTTP 入口", "sublabel": "Demo API / Host API", "pos": [430, 300], "size": [150, 68], "tag": "auth boundary" },
-    { "id": "graph", "type": "backend", "label": "客服 Core + Graph", "sublabel": "意图 · 检索 · 生成 · 校验", "pos": [630, 300], "size": [170, 68], "tag": "model-routed" },
-    { "id": "deepseek", "type": "cloud", "label": "DeepSeek", "sublabel": "文本 / 视觉模型", "pos": [880, 130], "size": [150, 68], "tag": "cloud cost" },
-    { "id": "rag", "type": "backend", "label": "本地知识层", "sublabel": "FastEmbed + BM25 + Docling", "pos": [880, 300], "size": [170, 68], "tag": "local RAG" },
-    { "id": "sqlite", "type": "database", "label": "SQLite 数据库", "sublabel": "知识 · 会话 · 反馈 · 候选", "pos": [1080, 300], "size": [150, 68] },
-    { "id": "evolution", "type": "backend", "label": "知识治理闭环", "sublabel": "评测 · 批准 · 回滚", "pos": [880, 500], "size": [170, 68], "tag": "L3 slice" },
-    { "id": "files", "type": "database", "label": "隔离原件存储", "sublabel": "上传文件 · 图片媒体", "pos": [1080, 500], "size": [150, 68] }
+    { "id": "customer", "type": "external", "label": "真实用户", "sublabel": "文字 / 图片", "pos": [20, 260], "size": [150, 76], "tag": "browser actor" },
+    { "id": "ui", "type": "frontend", "label": "本机 Demo 与工作台", "sublabel": "loopback UI · /admin", "pos": [220, 260], "size": [180, 76], "tag": "FastAPI" },
+    { "id": "http", "type": "security", "label": "HTTP 适配层", "sublabel": "auth · tenant · routes", "pos": [430, 260], "size": [180, 76], "tag": "FastAPI" },
+    { "id": "core", "type": "backend", "label": "CustomerServiceCore", "sublabel": "chat · stream · idempotency", "pos": [650, 260], "size": [200, 76], "tag": "core.py" },
+    { "id": "graph", "type": "backend", "label": "LangGraph 执行图", "sublabel": "18 nodes · checkpoint", "pos": [880, 260], "size": [200, 76], "tag": "graph.py" },
+    { "id": "text-model", "type": "cloud", "label": "DeepSeek 文本模型", "sublabel": "intent · generation", "pos": [1120, 70], "size": [180, 76], "tag": "deepseek-v4-flash" },
+    { "id": "vision", "type": "cloud", "label": "VisionGateway", "sublabel": "image observe", "pos": [1120, 260], "size": [180, 76], "tag": "vision model" },
+    { "id": "ingest", "type": "backend", "label": "KnowledgeIngest", "sublabel": "PDF / TXT / MD · chunks", "pos": [650, 500], "size": [200, 76], "tag": "knowledge_ingest.py" },
+    { "id": "rag", "type": "backend", "label": "KnowledgeBase / RAG", "sublabel": "FastEmbed + BM25", "pos": [880, 500], "size": [200, 76], "tag": "rag.py" },
+    { "id": "evolution", "type": "backend", "label": "EvolutionService", "sublabel": "feedback · approve · rollback", "pos": [430, 650], "size": [200, 76], "tag": "evolution.py" },
+    { "id": "sqlite", "type": "database", "label": "SQLite + checkpoint", "sublabel": "messages · knowledge", "pos": [1120, 500], "size": [180, 76], "tag": "schema v39" },
+    { "id": "files", "type": "database", "label": "本机原件与媒体", "sublabel": "DATA_DIR · sha256", "pos": [1120, 650], "size": [180, 76], "tag": "file store" }
   ],
   "boundaries": [
-    { "kind": "region", "label": "本机隔离运行边界", "wraps": ["browser", "http", "graph", "rag", "sqlite", "evolution", "files"], "pad": 24 },
-    { "kind": "security-group", "label": "真实模型云边界", "wraps": ["deepseek"], "pad": 18 }
+    { "kind": "region", "label": "本机内部试用边界（已实现代码）", "wraps": ["ui", "http", "core", "graph", "ingest", "rag", "evolution", "sqlite", "files"], "pad": 28 },
+    { "kind": "security-group", "label": "外部模型 API 边界（DeepSeek）", "wraps": ["text-model", "vision"], "pad": 20 }
   ],
   "connections": [
-    { "id": "user-browser", "from": "customer", "to": "browser", "label": "操作", "variant": "emphasis" },
-    { "id": "browser-http", "from": "browser", "to": "http", "label": "HTTP / SSE", "variant": "emphasis", "labelDy": 58 },
-    { "id": "http-graph", "from": "http", "to": "graph", "label": "认证后请求", "labelDy": 58 },
-    { "id": "graph-text", "from": "graph", "to": "deepseek", "label": "文本意图 / 生成", "variant": "security", "fromSide": "top", "toSide": "bottom", "labelDy": -54 },
-    { "id": "graph-vision", "from": "graph", "to": "deepseek", "label": "图片观察", "variant": "security", "fromSide": "top", "toSide": "bottom", "labelDy": -86 },
-    { "id": "graph-rag", "from": "graph", "to": "rag", "label": "语义检索 / 引用", "variant": "emphasis", "labelDy": 58 },
-    { "id": "rag-sqlite", "from": "rag", "to": "sqlite", "label": "向量 + BM25 + 状态", "labelDy": -79 },
-    { "id": "graph-evolution", "from": "graph", "to": "evolution", "label": "反馈 / 候选", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 58 },
-    { "id": "evolution-sqlite", "from": "evolution", "to": "sqlite", "label": "批准 / 回滚状态", "variant": "dashed", "fromSide": "right", "toSide": "left", "labelDy": 58 },
-    { "id": "http-files", "from": "http", "to": "files", "label": "导入 / 下载", "variant": "dashed", "fromSide": "bottom", "toSide": "bottom", "via": [[505, 650], [1155, 650]], "labelDy": 58 }
+    { "id": "user-ui", "from": "customer", "to": "ui", "label": "浏览器操作", "variant": "emphasis", "labelAt": [195, 350] },
+    { "id": "ui-http", "from": "ui", "to": "http", "label": "HTTP / SSE", "variant": "emphasis", "labelDy": 58 },
+    { "id": "http-core", "from": "http", "to": "core", "label": "认证 · tenant · source", "variant": "security", "labelDy": 58 },
+    { "id": "core-graph", "from": "core", "to": "graph", "label": "invoke / resume · idempotency", "variant": "emphasis", "labelDy": 58 },
+    { "id": "graph-text", "from": "graph", "to": "text-model", "label": "模型意图 / 决策 / 生成", "variant": "security", "fromSide": "top", "toSide": "bottom" },
+    { "id": "graph-vision", "from": "graph", "to": "vision", "label": "图片 -> observe", "variant": "security", "labelAt": [1100, 350] },
+    { "id": "graph-rag", "from": "graph", "to": "rag", "label": "retrieve -> context -> citations", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "http-ingest", "from": "http", "to": "ingest", "label": "POST /api/knowledge/import", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "ingest-rag", "from": "ingest", "to": "rag", "label": "parse -> chunks -> index", "variant": "emphasis", "labelAt": [780, 590] },
+    { "id": "rag-sqlite", "from": "rag", "to": "sqlite", "label": "embedding + FTS + active rows", "variant": "emphasis", "labelAt": [1100, 470] },
+    { "id": "http-evolution", "from": "http", "to": "evolution", "label": "feedback / lifecycle", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelAt": [640, 350] },
+    { "id": "evolution-sqlite", "from": "evolution", "to": "sqlite", "label": "candidate lifecycle + effective_to", "variant": "dashed" }
   ],
   "cards": [
-    { "dot": "cyan", "title": "当前主路径", "items": ["用户经本机 Demo 或 Host API 进入客服 Graph", "意图识别与生成走 DeepSeek，检索和知识状态留在本地"] },
-    { "dot": "emerald", "title": "已验证的闭环切片", "items": ["C01 真实同对象追问保留 contextual retrieval", "L04 回滚后候选显示 rolled_back，active 知识版本移除"] },
-    { "dot": "amber", "title": "明确边界", "items": ["真实视觉现已关闭 thinking 后通过三次重复请求", "K04 崩溃恢复、跨进程/SSE 完整幂等和生产账本仍待办"] }
+    { "dot": "cyan", "title": "客服请求主链（代码事实）", "items": ["CustomerServiceCore 编译 LangGraph：intake → precheck → retrieve → deliberate → tool_gate → generate → verify → persist", "HTTP 适配层只做认证、租户和输入边界；意图由 DeepSeek 模型分类，代码不以关键词替代语义路由"] },
+    { "dot": "emerald", "title": "本地知识与模型技术栈", "items": ["PDF/TXT/Markdown → Docling/pdfplumber → chunks → FastEmbed + SQLite FTS/BM25；检索按 tenant/store/sku/embedding_model 过滤", "VisionGateway 只产生非权威 media_evidence；DeepSeek 视觉关闭 thinking 后三次真实请求 applied，原件按 sha256 写入 DATA_DIR"] },
+    { "dot": "amber", "title": "当前交付与正式发布门禁", "items": ["当前只交付限定范围本机内部试用：普通同步对话、本地知识导入检索、真实视觉请求、同进程幂等切片", "C01 纠正对象切换、L04 页面/API/数据库最终一致、K04 崩溃恢复及跨进程/SSE 交叉幂等仍为 INCOMPLETE；整体 NO_GO"] }
   ]
 }

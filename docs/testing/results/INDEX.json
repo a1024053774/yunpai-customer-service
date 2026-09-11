@@ -481,7 +481,14 @@
     "run_id": "run-20260911-final",
     "verdict": "NO_GO / INCOMPLETE",
     "full_pytest": "120 passed, 10 warnings",
-    "architecture": "Archify validate/deliver/visual-check PASS",
+    "architecture": {
+      "validate": "PASS (9/9 checks, 0 errors, 0 warnings)",
+      "deliver": "PASS",
+      "visual_check": "PASS (1440x900, 1600x1000, 1920x1080, 2048x1320; light/dark where covered)",
+      "spec_sha256": "ccb634cba1b185d28c5f1922df4533681aa4c01674eef95ae35a2ea73dbb70aa",
+      "artifact_sha256": "c024b66343490252043863d743d55db8341d27eef047345c6c30e94082308cab",
+      "path": "docs/architecture/yunpai-customer-service.html"
+    },
     "evidence_path": "docs/testing/results/runs/run-20260911-final",
     "open_boundaries": [
       "C01 纠正对象切换轮",

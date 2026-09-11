@@ -6,6 +6,8 @@
 
 **NO_GO** / 不放行。手册 10.2 未满足。
 
+当前限定交付范围与正式发布待测门禁见 [`RELEASE_SCOPE.md`](RELEASE_SCOPE.md)。这份记录保留本机内部试用版可以交付的能力，以及 C01、L04、K04 四项必须补齐的证据。
+
 ## 手册覆盖（CASES.json）
 
 | 状态 | 条数 | 含义 |
@@ -83,6 +85,7 @@
 
 - 最新候选完整 `.venv/bin/pytest -q`：`120 passed, 10 warnings`；警告为第三方依赖弃用提示。
 - Archify 架构图 validate/deliver/visual-check：PASS；证据与产物见 `runs/run-20260911-final/` 和 `../../architecture/yunpai-customer-service.html`。
+- 最新架构图已按源码补充 FastAPI、CustomerServiceCore、LangGraph 18 节点、VisionGateway、KnowledgeIngest、FastEmbed/BM25、SQLite checkpoint 和 EvolutionService；1440×900 至 2048×1320 明暗视口均通过 visual-check。
 - 这次收口只确认回归和结构图产物，不改变手册 10.2 的 `NO_GO / INCOMPLETE`。
 
 ## 最终收口
